@@ -1,7 +1,7 @@
 # Dungeon
-A roguelike game as a practice of design patterns.
+A roguelike game as a practice of design patterns. For more information, visit [tonys-studio.top](http://tonys-studio.top).
 ## Overview
-Dungeon is a roguelike game which provides various ranom elements. You can act as two characteristic heroes to go through the dagerous dungeon full of monsters. There are two chapters and each chapter includes five levels. Each chapter has its distinctive style and unique monsters, and a Boss at the end of it. You may start off weak, but as you move on, you could find powerful weapons in the misterious crystals.
+Dungeon is a roguelike game developed by New Desire Studios, which provides various ranom elements. You can act as two characteristic heroes to go through the dagerous dungeon full of monsters. There are two chapters and each chapter includes five levels. Each chapter has its distinctive style and unique monsters, and a Boss at the end of it. You may start off weak, but as you move on, you could find powerful weapons in the misterious crystals.
 ## Build Environment
 It is developed with [EasyX](https://easyx.cn/) and [FMOD](https://fmod.com/). To compile it, EasyX library is required. Just build the entire solution, and run.
 - Windows 11 Pro
