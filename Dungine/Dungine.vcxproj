@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{7e93f4f8-8b86-4cba-aca6-f0c146344e64}</ProjectGuid>
+    <RootNamespace>Dungine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Build\lib\$(Configuration)\</OutDir>
+    <TargetName>dungine_b</TargetName>
+    <LibraryPath>$(SolutionDir)Build\;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)Build\lib-int\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Build\lib\$(Configuration)\</OutDir>
+    <TargetName>dungine</TargetName>
+    <LibraryPath>$(SolutionDir);$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)Build\lib-int\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\3rd-party\fmod.h" />
+    <ClInclude Include="inc\3rd-party\fmod.hpp" />
+    <ClInclude Include="inc\3rd-party\fmod_common.h" />
+    <ClInclude Include="inc\3rd-party\fmod_errors.h" />
+    <ClInclude Include="inc\3rd-party\tinyxml2.h" />
+    <ClInclude Include="inc\common\DDefines.h" />
+    <ClInclude Include="inc\common\Common.h" />
+    <ClInclude Include="inc\common\Logger.h" />
+    <ClInclude Include="inc\common\Macros.h" />
+    <ClInclude Include="inc\device\Color.h" />
+    <ClInclude Include="inc\device\Device.h" />
+    <ClInclude Include="inc\device\Explorer.h" />
+    <ClInclude Include="inc\device\Sound.h" />
+    <ClInclude Include="inc\device\Speaker.h" />
+    <ClInclude Include="inc\device\Symbol.h" />
+    <ClInclude Include="inc\device\Timer.h" />
+    <ClInclude Include="inc\dungine.h" />
+    <ClInclude Include="inc\game\AbstractObject.h" />
+    <ClInclude Include="inc\game\Animation.h" />
+    <ClInclude Include="inc\game\Camera.h" />
+    <ClInclude Include="inc\game\Collider.h" />
+    <ClInclude Include="inc\game\AbstractComponent.h" />
+    <ClInclude Include="inc\game\GameObject.h" />
+    <ClInclude Include="inc\game\ImageObject.h" />
+    <ClInclude Include="inc\game\Scene.h" />
+    <ClInclude Include="inc\game\StandardComponent.h" />
+    <ClInclude Include="inc\template\AbstractKit.h" />
+    <ClInclude Include="inc\template\AbstractLibrary.h" />
+    <ClInclude Include="inc\template\Prototype.h" />
+    <ClInclude Include="inc\template\Singleton.h" />
+    <ClInclude Include="inc\ui\AbstractWidget.h" />
+    <ClInclude Include="inc\ui\Application.h" />
+    <ClInclude Include="inc\ui\Buzzer.h" />
+    <ClInclude Include="inc\ui\Cell.h" />
+    <ClInclude Include="inc\ui\Drawer.h" />
+    <ClInclude Include="inc\ui\Event.h" />
+    <ClInclude Include="inc\ui\Transitor.h" />
+    <ClInclude Include="inc\ui\WidgetManger.h" />
+    <ClInclude Include="inc\ui\Transition.h" />
+    <ClInclude Include="inc\ui\AbstractInterface.h" />
+    <ClInclude Include="inc\ui\Trigger.h" />
+    <ClInclude Include="inc\ui\Widget.h" />
+    <ClInclude Include="inc\utility\Auxilliary.h" />
+    <ClInclude Include="inc\utility\DMath.h" />
+    <ClInclude Include="inc\utility\fmodcore.h" />
+    <ClInclude Include="inc\utility\Image.h" />
+    <ClInclude Include="inc\utility\Parser.h" />
+    <ClInclude Include="inc\utility\QuadTree.h" />
+    <ClInclude Include="inc\utility\Straw.h" />
+    <ClInclude Include="inc\utility\tinyxml.h" />
+    <ClInclude Include="inc\utility\xml.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\common\Coordinate.cpp" />
+    <ClCompile Include="src\common\Logger.cpp" />
+    <ClCompile Include="src\common\Vector.cpp" />
+    <ClCompile Include="src\device\Color.cpp" />
+    <ClCompile Include="src\device\Device.cpp" />
+    <ClCompile Include="src\device\Explorer.cpp" />
+    <ClCompile Include="src\device\Sound.cpp" />
+    <ClCompile Include="src\device\Speaker.cpp" />
+    <ClCompile Include="src\device\Symbol.cpp" />
+    <ClCompile Include="src\device\Timer.cpp" />
+    <ClCompile Include="src\game\AbstractObject.cpp" />
+    <ClCompile Include="src\game\Animation.cpp" />
+    <ClCompile Include="src\game\Camera.cpp" />
+    <ClCompile Include="src\game\Collider.cpp" />
+    <ClCompile Include="src\game\AbstractComponent.cpp" />
+    <ClCompile Include="src\game\GameObject.cpp" />
+    <ClCompile Include="src\game\ImageObject.cpp" />
+    <ClCompile Include="src\game\Scene.cpp" />
+    <ClCompile Include="src\game\StandardComponent.cpp" />
+    <ClCompile Include="src\ui\AbstractWidget.cpp" />
+    <ClCompile Include="src\ui\Buzzer.cpp" />
+    <ClCompile Include="src\ui\Cell.cpp" />
+    <ClCompile Include="src\ui\Drawer.cpp" />
+    <ClCompile Include="src\ui\Event.cpp" />
+    <ClCompile Include="src\ui\Application.cpp" />
+    <ClCompile Include="src\ui\Transition.cpp" />
+    <ClCompile Include="src\ui\AbstractInterface.cpp" />
+    <ClCompile Include="src\ui\Transitor.cpp" />
+    <ClCompile Include="src\ui\Trigger.cpp" />
+    <ClCompile Include="src\ui\Widget.cpp" />
+    <ClCompile Include="src\ui\WidgetManager.cpp" />
+    <ClCompile Include="src\utility\Auxilliary.cpp" />
+    <ClCompile Include="src\utility\DMath.cpp" />
+    <ClCompile Include="src\utility\Image.cpp" />
+    <ClCompile Include="src\utility\Parser.cpp" />
+    <ClCompile Include="src\utility\QuadTree.cpp" />
+    <ClCompile Include="src\utility\Straw.cpp" />
+    <ClCompile Include="src\utility\xml.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

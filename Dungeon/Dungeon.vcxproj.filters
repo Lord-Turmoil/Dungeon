@@ -1,0 +1,499 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{6e60f311-b22d-4618-a694-7bbae5708bba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{d180a8cf-961c-41f5-a7b9-d803db5980b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Terrain">
+      <UniqueIdentifier>{5a73deeb-3dfc-42f2-b3b9-1c7cbaec2827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{f041d29b-8398-466b-beab-1871f0a77b15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Terrain">
+      <UniqueIdentifier>{dcf61181-fb1f-420c-b1a4-428ada4fb962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object">
+      <UniqueIdentifier>{e21db97a-a54e-47b5-856e-5381f018ef71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{f7a829a8-315a-4292-8c4a-f8b41ac2d2fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\Figure">
+      <UniqueIdentifier>{ac703305-7b0f-4cc6-8910-ed7f8da71cbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\Brick">
+      <UniqueIdentifier>{770b405d-8d79-4504-89c9-bd2c5b8f036a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\Weapon">
+      <UniqueIdentifier>{c5656dc6-41cd-4bd9-8929-5c6e4299b819}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{6a7152b2-d20f-46e8-964c-156a7b6e4d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\Library">
+      <UniqueIdentifier>{584b967e-d7c8-4900-984b-f675e46148fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\Kit">
+      <UniqueIdentifier>{bd5a7520-165c-4164-97bd-f010e52fb90c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\Bullet">
+      <UniqueIdentifier>{0267fc32-37cc-4d19-941d-fede39a0cd6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{d6ad0b05-1f50-4454-9321-b1cee46df1bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\Component">
+      <UniqueIdentifier>{e2760ec7-6559-40fe-80aa-ba20a81f5468}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\Miscellaneous">
+      <UniqueIdentifier>{01f51aef-7fd7-4544-96d1-a5aea2515c70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\Buff">
+      <UniqueIdentifier>{b189eb44-d421-4b40-a957-e1604d4953d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object">
+      <UniqueIdentifier>{80135bde-a3d0-4743-bde8-c4dea17dc5c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Figure">
+      <UniqueIdentifier>{53d65d32-0177-4b58-8cfc-08a6afb6c5f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Brick">
+      <UniqueIdentifier>{b5792773-f401-449f-ba18-5c6300a52ca4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Weapon">
+      <UniqueIdentifier>{ed9d90ab-7a4a-4d92-a3ec-eab990526752}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Bullet">
+      <UniqueIdentifier>{7208dc1b-3a20-4c74-97ba-727c8225313c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Kit">
+      <UniqueIdentifier>{d731c394-537c-4e5e-b3b7-5754e8b32b8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Component">
+      <UniqueIdentifier>{bb6a4419-9321-4001-bc09-fc3b651dc632}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Miscellaneous">
+      <UniqueIdentifier>{e332d3e4-58b6-406c-85d1-83e500d3a4ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Buff">
+      <UniqueIdentifier>{57420392-afd9-4787-8bd3-1e9416443344}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Library">
+      <UniqueIdentifier>{2c499422-7cf3-4350-a633-84fc918e0159}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\ui\Interface.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\terrain\Prim.h">
+      <Filter>Header Files\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Object.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Figure.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Brick.h">
+      <Filter>Header Files\Object\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\GateBehavior.h">
+      <Filter>Header Files\Object\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\terrain\Terrain.h">
+      <Filter>Header Files\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\terrain\Space.h">
+      <Filter>Header Files\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\Settings.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\Dungeon.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Hero.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\common\Defines.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\BrickKit.h">
+      <Filter>Header Files\Object\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\terrain\Graph.h">
+      <Filter>Header Files\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Enemy.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Weapon.h">
+      <Filter>Header Files\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\EnemyLibrary.h">
+      <Filter>Header Files\Object\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\WeaponLibrary.h">
+      <Filter>Header Files\Object\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Bullet.h">
+      <Filter>Header Files\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\BulletLibrary.h">
+      <Filter>Header Files\Object\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\BulletBehavior.h">
+      <Filter>Header Files\Object\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\WeaponBehavior.h">
+      <Filter>Header Files\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\GunBehavior.h">
+      <Filter>Header Files\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\BowBehavior.h">
+      <Filter>Header Files\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\MeleeBehavior.h">
+      <Filter>Header Files\Object\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\WeaponKit.h">
+      <Filter>Header Files\Object\Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\BulletKit.h">
+      <Filter>Header Files\Object\Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\EnemyKit.h">
+      <Filter>Header Files\Object\Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\HeroBehavior.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\common\Math.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\HeroState.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\ComponentKit.h">
+      <Filter>Header Files\Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\WeaponComponent.h">
+      <Filter>Header Files\Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\EnemyBehavior.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\EnemyState.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\BossBehavior.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\MenuInterface.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\EventCallback.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\Startup.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\ErrorInterface.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\GameInterface.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\HeroKit.h">
+      <Filter>Header Files\Object\Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\HeroLibrary.h">
+      <Filter>Header Files\Object\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Portal.h">
+      <Filter>Header Files\Object\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\PortalBehavior.h">
+      <Filter>Header Files\Object\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\MiscKit.h">
+      <Filter>Header Files\Object\Kit</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\MiscLibrary.h">
+      <Filter>Header Files\Object\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\SoundComponent.h">
+      <Filter>Header Files\Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Component.h">
+      <Filter>Header Files\Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Library.h">
+      <Filter>Header Files\Object\Library</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\Collision.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Buff.h">
+      <Filter>Header Files\Object\Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\CoinBehavior.h">
+      <Filter>Header Files\Object\Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\DrugBehavior.h">
+      <Filter>Header Files\Object\Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\EnergyBehavior.h">
+      <Filter>Header Files\Object\Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Crate.h">
+      <Filter>Header Files\Object\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\CrateBehavior.h">
+      <Filter>Header Files\Object\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\IndicatorComponent.h">
+      <Filter>Header Files\Object\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\CreditsInterface.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\Cursor.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Genie.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\GenieBehavior.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Boss.h">
+      <Filter>Header Files\Object\Figure</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\VersionInterface.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ui\Interface.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\terrain\Prim.cpp">
+      <Filter>Source Files\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Brick.cpp">
+      <Filter>Source Files\Object\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Object.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\GateBehavior.cpp">
+      <Filter>Source Files\Object\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Settings.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\terrain\Space.cpp">
+      <Filter>Source Files\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\terrain\Terrain.cpp">
+      <Filter>Source Files\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Figure.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\BrickKit.cpp">
+      <Filter>Source Files\Object\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="src\terrain\Graph.cpp">
+      <Filter>Source Files\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Bullet.cpp">
+      <Filter>Source Files\Object\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Weapon.cpp">
+      <Filter>Source Files\Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\BulletLibrary.cpp">
+      <Filter>Source Files\Object\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\EnemyLibrary.cpp">
+      <Filter>Source Files\Object\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\WeaponLibrary.cpp">
+      <Filter>Source Files\Object\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\BulletKit.cpp">
+      <Filter>Source Files\Object\Kit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\EnemyKit.cpp">
+      <Filter>Source Files\Object\Kit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\WeaponKit.cpp">
+      <Filter>Source Files\Object\Kit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Hero.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\BulletBehavior.cpp">
+      <Filter>Source Files\Object\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\WeaponBehavior.cpp">
+      <Filter>Source Files\Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\Math.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\BowBehavior.cpp">
+      <Filter>Source Files\Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\GunBehavior.cpp">
+      <Filter>Source Files\Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\MeleeBehavior.cpp">
+      <Filter>Source Files\Object\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\HeroBehavior.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\HeroState.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\ComponentKit.cpp">
+      <Filter>Source Files\Object\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\WeaponComponent.cpp">
+      <Filter>Source Files\Object\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Enemy.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\EnemyState.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\EnemyBehavior.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\RockBehavior.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\MenuInterface.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Startup.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\ErrorInterface.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\GameInterface.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Dungeon.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\HeroKit.cpp">
+      <Filter>Source Files\Object\Kit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\HeroLibrary.cpp">
+      <Filter>Source Files\Object\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Portal.cpp">
+      <Filter>Source Files\Object\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\PortalBehavior.cpp">
+      <Filter>Source Files\Object\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\MiscKit.cpp">
+      <Filter>Source Files\Object\Kit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\MiscLibrary.cpp">
+      <Filter>Source Files\Object\Library</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\SoundComponent.cpp">
+      <Filter>Source Files\Object\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Buff.cpp">
+      <Filter>Source Files\Object\Buff</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Collision.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\CoinBehavior.cpp">
+      <Filter>Source Files\Object\Buff</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\DrugBehavior.cpp">
+      <Filter>Source Files\Object\Buff</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\EnergyBehavior.cpp">
+      <Filter>Source Files\Object\Buff</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Crate.cpp">
+      <Filter>Source Files\Object\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\CrateBehavior.cpp">
+      <Filter>Source Files\Object\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\IndicatorComponent.cpp">
+      <Filter>Source Files\Object\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\CreditsInterface.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\Cursor.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Genie.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\GenieBehavior.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Boss.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\BossBehavior.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\DBKBehavior.cpp">
+      <Filter>Source Files\Object\Figure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\VersionInterface.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Dungeon.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Dungeon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Settings>
+    <Difficulty>0</Difficulty>
+    <Coin>0</Coin>
+    <SoundVolume>1.00</SoundVolume>
+    <MusicVolume>1.00</MusicVolume>
+    <Fullscreen>true</Fullscreen>
+    <ChapterNum>2</ChapterNum>
+    <LevelNum>5</LevelNum>
+    <Hero>
+        <BlackHand available="false" price="500"/>
+    </Hero>
+</Settings>

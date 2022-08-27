@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Config>
+    <!-- UI Image -->
+    <Resource type="image" id="logo-back">
+        <img src="res/images/ui/logo.png" width="640" height="480"></img>
+    </Resource>
+    <Resource type="image" id="widget">
+        <img src="res/images/ui/widget.png" width="512" height="928"></img>
+    </Resource>
+    <Resource type="image" id="cloud-1">
+        <img src="res/images/ui/cloud_1.png" width="128" height="64"></img>
+    </Resource>
+    <Resource type="image" id="cloud-2">
+        <img src="res/images/ui/cloud_2.png" width="128" height="64"></img>
+    </Resource>
+    <Resource type="image" id="cloud-3">
+        <img src="res/images/ui/cloud_3.png" width="128" height="64"></img>
+    </Resource>
+    <Resource type="image" id="title">
+        <img src="res/images/ui/dungeon.png" width="420" height="128"></img>
+    </Resource>
+    <Resource type="image" id="select">
+        <img src="res/images/ui/select.png" width="750" height="720"></img>
+    </Resource>
+    <Resource type="image" id="popup">
+        <img src="res/images/ui/popup.png" width="364" height="240"></img>
+    </Resource>
+    <Resource type="image" id="board">
+        <img src="res/images/ui/board.png" width="128" height="108"></img>
+    </Resource>
+    <Resource type="image" id="alert">
+        <img src="res/images/ui/alert.png" width="16" height="16"></img>
+    </Resource>
+    <Resource type="image" id="help">
+        <img src="res/images/ui/help.png" width="640" height="480"></img>
+    </Resource>
+    <Resource type="image" id="sun">
+        <img src="res/images/ui/sun.png" width="48" height="48"></img>
+    </Resource>
+
+    <!-- UI Sounds -->
+    <Resource type="audio" id="hover">
+        <Mono src="res/sounds/ui/hover.wav"></Mono>
+    </Resource>
+    <Resource type="audio" id="click">
+        <Mono src="res/sounds/ui/click.wav"></Mono>
+    </Resource>
+    <Resource type="audio" id="bk-slt">
+        <Mono src="res/sounds/ui/blackhand.wav"></Mono>
+    </Resource>
+    <Resource type="audio" id="yy-slt">
+        <Mono src="res/sounds/ui/yony.wav"></Mono>
+    </Resource>
+    <Resource type="audio" id="credits">
+        <PlayList loop="true" shuffle="false">
+            <li src="res/sounds/track/Credits.mp3"></li>
+        </PlayList>
+    </Resource>
+    <Resource type="audio" id="menu-track">
+        <PlayList loop="true" shuffle="false">
+            <li src="res/sounds/track/Home (Music Box).mp3"></li>
+        </PlayList>
+    </Resource>
+    <Resource type="audio" id="c0-track">
+        <PlayList loop="true" shuffle="true">
+            <li src="res/sounds/track/Anticipation.mp3"></li>
+        </PlayList>
+    </Resource>
+    <Resource type="audio" id="c1-track">
+        <PlayList loop="true" shuffle="true">
+            <li src="res/sounds/track/Enemy Approaching.mp3"></li>
+        </PlayList>
+    </Resource>
+
+    <!-- Hero (Init - Idle - Move - Dead)-->
+    <Resource type="motion" id="yony">
+        <Animation motion-num="4" frame-width="96" frame-height="96" src="res/images/figure/yony.png">
+            <Motion origin="0 0" frame-num="8" frame-speed="150" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 192" frame-num="4" frame-speed="150" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 384" frame-num="4" frame-speed="150" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 576" frame-num="8" frame-speed="150" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="yy-skill">
+        <Mono share="true" src="res/sounds/effect/yy_skill.wav"></Mono>
+    </Resource>
+    <Resource type="motion" id="blackhand">
+        <Animation motion-num="4" frame-width="96" frame-height="96" src="res/images/figure/blackhand.png">
+            <Motion origin="0 0" frame-num="8" frame-speed="150" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 192" frame-num="4" frame-speed="150" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 384" frame-num="4" frame-speed="150" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 576" frame-num="8" frame-speed="150" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="bk-skill">
+        <Mono share="true" src="res/sounds/effect/bk_skill.wav"></Mono>
+    </Resource>
+
+    <!-- Enemy (Init - Idle - Move - Attack - Dead) -->
+    <Resource type="motion" id="stone">
+        <Animation motion-num="5" frame-width="96" frame-height="96" src="res/images/figure/stone.png">
+            <Motion origin="0 0" frame-num="8" frame-speed="150" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 192" frame-num="2" frame-speed="250" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 384" frame-num="2" frame-speed="175" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 576" frame-num="1" frame-speed="500" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 768" frame-num="8" frame-speed="125" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="genie">
+        <Animation motion-num="5" frame-width="96" frame-height="96" src="res/images/figure/genie.png">
+            <Motion origin="0 0" frame-num="8" frame-speed="125" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 192" frame-num="4" frame-speed="125" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 384" frame-num="4" frame-speed="125" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 576" frame-num="1" frame-speed="250" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 768" frame-num="6" frame-speed="125" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="rock">
+        <Animation motion-num="5" frame-width="192" frame-height="192" src="res/images/figure/rock.png">
+            <Motion origin="0 0" frame-num="8" frame-speed="250" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 384" frame-num="4" frame-speed="250" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 768" frame-num="4" frame-speed="250" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 1152" frame-num="1" frame-speed="1000" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 1536" frame-num="6" frame-speed="250" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="rock-init">
+        <Mono share="true" src="res/sounds/effect/rock_init.wav"></Mono>
+    </Resource>
+    <Resource type="motion" id="dbk">
+        <Animation motion-num="5" frame-width="96" frame-height="96" src="res/images/figure/dblackhand.png">
+            <Motion origin="0 0" frame-num="8" frame-speed="150" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 192" frame-num="4" frame-speed="150" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 384" frame-num="4" frame-speed="150" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 576" frame-num="1" frame-speed="1000" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 768" frame-num="8" frame-speed="150" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="dbk-init">
+        <Mono share="true" src="res/sounds/effect/dbk_init.wav"></Mono>
+    </Resource>
+
+    <!-- Indicator -->
+    <Resource type="image" id="ind-r">
+        <img width="96" height="96" origin="0 0" size="96 96" src="res/images/misc/indicator.png"></img>
+    </Resource>
+    <Resource type="image" id="ind-b">
+        <img width="96" height="96" origin="96 0" size="96 96" src="res/images/misc/indicator.png"></img>
+    </Resource>
+
+    <!-- Weapon -->
+    <!-- Gun (Idle - Ready - Fire - Cooling) -->
+    <Resource type="motion" id="rifle">
+        <Animation motion-num="4" frame-width="96" frame-height="96" src="res/images/weapon/rifle.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 192" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 384" frame-num="2" frame-speed="50" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 576" frame-num="1" frame-speed="0" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="rifle-s">
+        <Mono share="true" src="res/sounds/effect/rifle.wav"></Mono>
+    </Resource>
+    <Resource type="motion" id="shotgun">
+        <Animation motion-num="4" frame-width="128" frame-height="128" src="res/images/weapon/shotgun.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 256" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 512" frame-num="6" frame-speed="50" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 768" frame-num="1" frame-speed="1000" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="shotgun-s">
+        <Mono share="true" src="res/sounds/effect/shotgun.wav"></Mono>
+    </Resource>
+    <Resource type="motion" id="thrower">
+        <Animation motion-num="4" frame-width="128" frame-height="128" src="res/images/weapon/thrower.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 256" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 512" frame-num="1" frame-speed="16" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 768" frame-num="1" frame-speed="0" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="thrower-s">
+        <Mono share="true" src="res/sounds/effect/thrower.wav"></Mono>
+    </Resource>
+    <Resource type="motion" id="ggun">
+        <Animation motion-num="4" frame-width="12" frame-height="12" src="res/images/void.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 0" frame-num="1" frame-speed="16" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 0" frame-num="1" frame-speed="0" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="ggun-s">
+        <Mono src="res/sounds/effect/ggun.wav"></Mono>
+    </Resource>
+
+    <!-- Melee (Idle - Ready - Fire - Cooling) -->
+    <Resource type="motion" id="esword">
+        <Animation motion-num="4" frame-width="192" frame-height="192" src="res/images/weapon/esword.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="192 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 384 " frame-num="7" frame-speed="50" dir-num="2" loop="false"></Motion>
+            <Motion origin="384 0" frame-num="1" frame-speed="0" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="esword-s">
+        <Mono share="true" src="res/sounds/effect/esword.wav"></Mono>
+    </Resource>
+    <Resource type="motion" id="saber">
+        <Animation motion-num="4" frame-width="256" frame-height="256" src="res/images/weapon/saber.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="256 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 512" frame-num="8" frame-speed="32" dir-num="2" loop="false"></Motion>
+            <Motion origin="512 0" frame-num="1" frame-speed="0" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="saber-s">
+        <Mono share="true" src="res/sounds/effect/saber.wav"></Mono>
+    </Resource>
+
+    <Resource type="motion" id="icanon">
+        <Animation motion-num="7" frame-width="256" frame-height="256" src="res/images/weapon/icanon.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="256 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 512" frame-num="8" frame-speed="125" dir-num="2" loop="false"></Motion>
+            <Motion origin="512 0" frame-num="1" frame-speed="0" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 1024" frame-num="8" frame-speed="125" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 1536" frame-num="8" frame-speed="125" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 2048" frame-num="8" frame-speed="125" dir-num="2" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="icanon-s">
+        <Mono share="true" src="res/sounds/effect/icanon.wav"></Mono>
+    </Resource>
+    <Resource type="audio" id="icanon-c">
+        <Mono src="res/sounds/effect/charge.wav"></Mono>
+    </Resource>
+
+    <!-- Bullet (Fly - Explode - Corrupt)-->
+    <Resource type="motion" id="pepper">
+        <Animation motion-num="3" frame-width="16" frame-height="16" src="res/images/bullet/pepper.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 16" frame-num="2" frame-speed="125" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 32" frame-num="2" frame-speed="125" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="flame">
+        <Animation motion-num="3" frame-width="48" frame-height="48" src="res/images/bullet/flame.png">
+            <Motion origin="0 0" frame-num="8" frame-speed="125" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 48" frame-num="8" frame-speed="125" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 96" frame-num="8" frame-speed="125" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wave">
+        <Animation motion-num="3" frame-width="64" frame-height="64" src="res/images/bullet/wave.png">
+            <Motion origin="0 0" frame-num="4" frame-speed="125" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 64" frame-num="8" frame-speed="50" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 128" frame-num="8" frame-speed="50" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="ion">
+        <Animation motion-num="3" frame-width="256" frame-height="256" src="res/images/bullet/ion.png">
+            <Motion origin="0 0" frame-num="6" frame-speed="125" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 256" frame-num="8" frame-speed="125" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 512" frame-num="4" frame-speed="125" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="fireball">
+        <Animation motion-num="3" frame-width="64" frame-height="64" src="res/images/bullet/fireball.png">
+            <Motion origin="0 0" frame-num="6" frame-speed="125" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 64" frame-num="8" frame-speed="125" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 128" frame-num="8" frame-speed="125" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+
+    <!-- Mscellaneous -->
+    <Resource type="motion" id="portal">
+        <Animation motion-num="2" frame-width="300" frame-height="384" src="res/images/misc/portal.png">
+            <Motion origin="0 0" frame-num="8" frame-speed="50" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 384" frame-num="8" frame-speed="50" dir-num="2" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="crate">
+        <Animation motion-num="4" frame-width="96" frame-height="128" src="res/images/misc/crate.png">
+            <Motion origin="0 0" frame-num="8" frame-speed="125" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 128" frame-num="8" frame-speed="75" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 384" frame-num="8" frame-speed="125" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 512" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="hpdrug">
+        <Animation motion-num="2" frame-width="48" frame-height="72" src="res/images/misc/buff.png">
+            <Motion origin="0 0" frame-num="4" frame-speed="75" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 144 " frame-num="8" frame-speed="75" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="mpdrug">
+        <Animation motion-num="2" frame-width="48" frame-height="72" src="res/images/misc/buff.png">
+            <Motion origin="192 0" frame-num="4" frame-speed="75" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 216 " frame-num="8" frame-speed="75" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="energy">
+        <Animation motion-num="2" frame-width="16" frame-height="16" src="res/images/misc/buff.png">
+            <Motion origin="0 288" frame-num="6" frame-speed="75" dir-num="1" loop="true"></Motion>
+            <Motion origin="96 288" frame-num="8" frame-speed="75" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="coin">
+        <Animation motion-num="2" frame-width="16" frame-height="16" src="res/images/misc/buff.png">
+            <Motion origin="0 304" frame-num="8" frame-speed="75" dir-num="1" loop="true"></Motion>
+            <Motion origin="128 304" frame-num="8" frame-speed="75" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+
+    <!-- Terrain -->
+    <!-- Chapter 1 -->
+    <!-- Wall -->
+    <Resource type="motion" id="wall-1-0">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_1.png">
+            <Motion origin="0 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-1-1">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_1.png">
+            <Motion origin="64 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-1-2">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_1.png">
+            <Motion origin="128 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-1-3">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_1.png">
+            <Motion origin="192 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-1-4">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_1.png">
+            <Motion origin="256 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-1-5">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_1.png">
+            <Motion origin="320 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-1-6">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_1.png">
+            <Motion origin="384 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-1-7">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_1.png">
+            <Motion origin="448 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <!-- Floor -->
+    <Resource type="image" id="floor-1-0">
+        <img width="64" height="64" origin="0 32" size="64 64" src="res/images/terrain/terrain_1.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-1-1">
+        <img width="64" height="64" origin="64 32" size="64 64" src="res/images/terrain/terrain_1.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-1-2">
+        <img width="64" height="64" origin="128 32" size="64 64" src="res/images/terrain/terrain_1.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-1-3">
+        <img width="64" height="64" origin="192 32" size="64 64" src="res/images/terrain/terrain_1.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-1-4">
+        <img width="64" height="64" origin="256 32" size="64 64" src="res/images/terrain/terrain_1.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-1-5">
+        <img width="64" height="64" origin="320 32" size="64 64" src="res/images/terrain/terrain_1.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-1-6">
+        <img width="64" height="64" origin="384 32" size="64 64" src="res/images/terrain/terrain_1.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-1-7">
+        <img width="64" height="64" origin="448 32" size="64 64" src="res/images/terrain/terrain_1.png"></img>
+    </Resource>
+    <!-- Gate -->
+    <Resource type="motion" id="gate-1">
+        <Animation motion-num="4" frame-width="64" frame-height="96" src="res/images/terrain/terrain_1.png">
+            <Motion origin="0 192" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 288" frame-num="8" frame-speed="100" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 384" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 480" frame-num="8" frame-speed="100" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+
+    <!-- Chapter 2 -->
+    <!-- Wall -->
+    <Resource type="motion" id="wall-2-0">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_2.png">
+            <Motion origin="0 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-2-1">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_2.png">
+            <Motion origin="64 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-2-2">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_2.png">
+            <Motion origin="128 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-2-3">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_2.png">
+            <Motion origin="192 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-2-4">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_2.png">
+            <Motion origin="256 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-2-5">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_2.png">
+            <Motion origin="320 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-2-6">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_2.png">
+            <Motion origin="384 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-2-7">
+        <Animation motion-num="1" frame-width="64" frame-height="96" src="res/images/terrain/terrain_2.png">
+            <Motion origin="448 96" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <!-- Floor -->
+    <Resource type="image" id="floor-2-0">
+        <img width="64" height="64" origin="0 32" size="64 64" src="res/images/terrain/terrain_2.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-2-1">
+        <img width="64" height="64" origin="64 32" size="64 64" src="res/images/terrain/terrain_2.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-2-2">
+        <img width="64" height="64" origin="128 32" size="64 64" src="res/images/terrain/terrain_2.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-2-3">
+        <img width="64" height="64" origin="192 32" size="64 64" src="res/images/terrain/terrain_2.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-2-4">
+        <img width="64" height="64" origin="256 32" size="64 64" src="res/images/terrain/terrain_2.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-2-5">
+        <img width="64" height="64" origin="320 32" size="64 64" src="res/images/terrain/terrain_2.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-2-6">
+        <img width="64" height="64" origin="384 32" size="64 64" src="res/images/terrain/terrain_2.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-2-7">
+        <img width="64" height="64" origin="448 32" size="64 64" src="res/images/terrain/terrain_2.png"></img>
+    </Resource>
+    <!-- Gate -->
+    <Resource type="motion" id="gate-2">
+        <Animation motion-num="4" frame-width="64" frame-height="96" src="res/images/terrain/terrain_2.png">
+            <Motion origin="0 192" frame-num="8" frame-speed="150" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 288" frame-num="8" frame-speed="150" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 384" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 480" frame-num="8" frame-speed="150" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+</Config>

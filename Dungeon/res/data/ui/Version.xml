@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<UI>
+    <Version name="Version" in-time="250" out-time="250">
+        <Widgets>
+            <!-- Background -->
+            <Static name="bg" layer="-10" float="true" pos="0% 0%">
+                <Drawer>
+                    <Image src="sky"></Image>
+                </Drawer>
+            </Static>
+            <Static name="cloud-1" float="true" pos="40% 25%" layer="-5">
+                <Drawer>
+                    <Image width="256" height="128" focus="128 64" src="cloud-1" size="128 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <CoordTransition duration="9000" delay="0" loop="false" reverse="false" style="linear" float="true" begin="40% 25%" end="120% 25%"></CoordTransition>
+                    <CoordTransition duration="18000" delay="9000" loop="true" reverse="false" style="linear" float="true" begin="-20% 25%" end="120% 25%"></CoordTransition>
+                    <ScaleTransition duration="14000" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.3"></ScaleTransition>
+                    <AlphaTransition duration="8000" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="cloud-2" float="true" pos="20% 50%" layer="-5">
+                <Drawer>
+                    <Image width="256" height="128" focus="128 64" src="cloud-2" size="128 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <CoordTransition duration="18000" delay="0" loop="false" reverse="false" style="linear" float="true" begin="20% 50%" end="120% 50%"></CoordTransition>
+                    <CoordTransition duration="20000" delay="18000" loop="true" reverse="false" style="linear" float="true" begin="-20% 50%" end="120% 50%"></CoordTransition>
+                    <ScaleTransition duration="11000" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.1"></ScaleTransition>
+                    <AlphaTransition duration="9000" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="cloud-3" float="true" top="false" pos="70% 25%" layer="-5">
+                <Drawer>
+                    <Image width="256" height="128" focus="128 64" src="cloud-3" size="128 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <CoordTransition duration="5000" delay="0" loop="false" reverse="false" style="linear" float="true" top="false" begin="70% 25%" end="120% 25%"></CoordTransition>
+                    <CoordTransition duration="21000" delay="5000" loop="true" reverse="false" style="linear" float="true" top="false" begin="-20% 25%" end="120% 25%"></CoordTransition>
+                    <ScaleTransition duration="7000" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.2"></ScaleTransition>
+                    <AlphaTransition duration="1100" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <!-- Back button -->
+            <Button name="back" pos="10 403">
+                <Up>
+                    <Image width="128" height="64" origin="0 128" size="128 64" src="widget"></Image>
+                </Up>
+                <Hover>
+                    <Image width="128" height="64" origin="128 128" size="128 64" src="widget"></Image>
+                </Hover>
+                <Down>
+                    <Image width="128" height="64" origin="256 128" size="128 64" src="widget"></Image>
+                </Down>
+                <Trigger>
+                    <Trigger type="mask" vkey="0x1B" width="128" height="64" origin="384 128" size="128 64" src="widget"></Trigger>
+                </Trigger>
+                <HoverSound>
+                    <Buzzer src="hover"></Buzzer>
+                </HoverSound>
+                <ClickSound>
+                    <Buzzer src="click"></Buzzer>
+                </ClickSound>
+            </Button>
+
+            <!-- Page up -->
+            <Button name="up" float="true" pos="8% 50%">
+                <Up>
+                    <Image width="64" height="64" focus="32 32" origin="0 384" size="64 64" src="widget"></Image>
+                </Up>
+                <Hover>
+                    <Image width="64" height="64" focus="32 32" origin="64 384" size="64 64" src="widget"></Image>
+                </Hover>
+                <Down>
+                    <Image width="64" height="64" focus="32 32" origin="128 384" size="64 64" src="widget"></Image>
+                </Down>
+                <Trigger>
+                    <Trigger type="mask" width="64" height="64" focus="32 32" origin="192 384" size="64 64" src="widget"></Trigger>
+                </Trigger>
+                <HoverSound>
+                    <Buzzer src="hover"></Buzzer>
+                </HoverSound>
+                <ClickSound>
+                    <Buzzer src="click"></Buzzer>
+                </ClickSound>
+            </Button>
+            <!-- Page down -->
+            <Button name="down" float="true" pos="92% 50%">
+                <Up>
+                    <Image width="64" height="64" focus="32 32" origin="256 384" size="64 64" src="widget"></Image>
+                </Up>
+                <Hover>
+                    <Image width="64" height="64" focus="32 32" origin="320 384" size="64 64" src="widget"></Image>
+                </Hover>
+                <Down>
+                    <Image width="64" height="64" focus="32 32" origin="384 384" size="64 64" src="widget"></Image>
+                </Down>
+                <Trigger>
+                    <Trigger type="mask" width="64" height="64" focus="32 32" origin="444 384" size="64 64" src="widget"></Trigger>
+                </Trigger>
+                <HoverSound>
+                    <Buzzer src="hover"></Buzzer>
+                </HoverSound>
+                <ClickSound>
+                    <Buzzer src="click"></Buzzer>
+                </ClickSound>
+            </Button>
+
+            <!-- Credits button -->
+            <Button name="credits" pos="426 403">
+                <Up>
+                    <Image width="204" height="64" origin="0 800" size="204 64" src="widget"></Image>
+                </Up>
+                <Hover>
+                    <Image width="204" height="64" origin="204 800" size="204 64" src="widget"></Image>
+                </Hover>
+                <Down>
+                    <Image width="204" height="64" origin="0 864" size="204 64" src="widget"></Image>
+                </Down>
+                <Trigger>
+                    <Trigger type="mask" width="204" height="64" origin="204 864" size="204 64" src="widget"></Trigger>
+                </Trigger>
+                <HoverSound>
+                    <Buzzer src="hover"></Buzzer>
+                </HoverSound>
+                <ClickSound>
+                    <Buzzer src="click"></Buzzer>
+                </ClickSound>
+            </Button>
+
+            <!-- copyright -->
+            <Static name="copyright" pos="320 340">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Copyright (C) New Desire Studios 2022
+                    </Text>
+                </Drawer>
+            </Static>
+        </Widgets>
+        <Page>
+            <!-- Version 1.0.1 -->
+            <Static name="title" pos="320 40" layer="10">
+                <Drawer>
+                    <Text width="640" height="80" focus="320 0" font-size="60" font="8bitoperator JVE Regular" color="#000000">Version 1.0.1</Text>
+                </Drawer>
+            </Static>
+            <Static name="section-1" pos="320 120">
+                <Drawer>
+                    <Text width="640" height="40" focus="320 0" font-size="40" font="8bitoperator JVE Regular" color="#000000">
+                        - GENERAL -
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-1" pos="320 170">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Added this page (Duh!)
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-2" pos="320 200">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Boss challenge is now online
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-3" pos="320 230">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Visual glitches fixed
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-4" pos="320 260">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Game balance improved
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-5" pos="320 290">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Critical BUGs fixed
+                    </Text>
+                </Drawer>
+            </Static>
+        </Page>
+        <Page>
+            <!-- Version 1.0.0 -->
+            <Static name="title" pos="320 40" layer="10">
+                <Drawer>
+                    <Text width="640" height="80" focus="320 0" font-size="60" font="8bitoperator JVE Regular" color="#000000">Version 1.0.0</Text>
+                </Drawer>
+            </Static>
+            <Static name="section-1" pos="320 160">
+                <Drawer>
+                    <Text width="640" height="40" focus="320 0" font-size="40" font="8bitoperator JVE Regular" color="#000000">
+                        - GENERAL -
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-1" pos="320 220">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Complete refactoring of Dungeon v0.1.0
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-2" pos="320 260">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        First stable version
+                    </Text>
+                </Drawer>
+            </Static>
+        </Page>  
+    </Version>
+</UI>

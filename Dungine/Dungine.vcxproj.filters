@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{d6db2073-a5c0-455d-8093-59077cf32772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{682b28e0-a6f7-43c5-b197-3e2ed2e611c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Device">
+      <UniqueIdentifier>{624e1b74-299a-4dd7-bd4f-69ef29d16fb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utility">
+      <UniqueIdentifier>{662f7521-5272-457b-ab77-b01e1bb2afc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Template">
+      <UniqueIdentifier>{379f0ad9-b3b2-41bd-a2eb-a136ee68dece}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{5b65540b-6a4a-4d74-bf55-82a257b99909}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Device">
+      <UniqueIdentifier>{d26768cd-77cb-4e88-bd3d-c1db5dfcce81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utility">
+      <UniqueIdentifier>{6a80e477-78eb-4eb7-a65e-c068ec5d2f78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{c4c102aa-0161-48e9-a0fa-05256659b200}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{deeae257-a67f-45ee-b900-9df4c0ecb207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\3rd-party">
+      <UniqueIdentifier>{a8b3c3a3-060f-45d3-8270-94ee26225bd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{7611fd7f-5390-46a1-9714-b27b0af9b661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{cea7467b-255d-4598-98e5-7ebff41ca1a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Widget">
+      <UniqueIdentifier>{3bb0177a-4268-4bbb-84ed-23ede444b6ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Widget">
+      <UniqueIdentifier>{82a259eb-d4d4-4844-a72a-ad028f22641d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Component">
+      <UniqueIdentifier>{62f068fb-4436-4b69-b6e2-25e0a656b677}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Component">
+      <UniqueIdentifier>{f35ce775-a774-4563-87f7-e96bc3b3a0bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\Object">
+      <UniqueIdentifier>{32030f88-c3a1-47f3-8084-64a509b177bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\Object">
+      <UniqueIdentifier>{9b09bdf2-99c0-40f2-adfb-9aa0660a90b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\common\DDefines.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\common\Macros.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\device\Color.h">
+      <Filter>Header Files\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\device\Device.h">
+      <Filter>Header Files\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\device\Symbol.h">
+      <Filter>Header Files\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\device\Timer.h">
+      <Filter>Header Files\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\Event.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\utility\Parser.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\utility\Straw.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\utility\tinyxml.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\utility\xml.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\template\Singleton.h">
+      <Filter>Header Files\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\common\Logger.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\dungine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\template\Prototype.h">
+      <Filter>Header Files\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\AbstractInterface.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\utility\Auxilliary.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\3rd-party\tinyxml2.h">
+      <Filter>Header Files\3rd-party</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\utility\QuadTree.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\common\Common.h">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\Animation.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\Scene.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\device\Sound.h">
+      <Filter>Header Files\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\utility\fmodcore.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\device\Explorer.h">
+      <Filter>Header Files\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\3rd-party\fmod.h">
+      <Filter>Header Files\3rd-party</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\3rd-party\fmod.hpp">
+      <Filter>Header Files\3rd-party</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\3rd-party\fmod_common.h">
+      <Filter>Header Files\3rd-party</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\3rd-party\fmod_errors.h">
+      <Filter>Header Files\3rd-party</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\utility\Image.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\device\Speaker.h">
+      <Filter>Header Files\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\Collider.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\Camera.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\Cell.h">
+      <Filter>Header Files\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\Trigger.h">
+      <Filter>Header Files\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\AbstractWidget.h">
+      <Filter>Header Files\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\Drawer.h">
+      <Filter>Header Files\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\Buzzer.h">
+      <Filter>Header Files\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\Widget.h">
+      <Filter>Header Files\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\Transition.h">
+      <Filter>Header Files\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\WidgetManger.h">
+      <Filter>Header Files\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\Application.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ui\Transitor.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\AbstractComponent.h">
+      <Filter>Header Files\Game\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\StandardComponent.h">
+      <Filter>Header Files\Game\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\GameObject.h">
+      <Filter>Header Files\Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\ImageObject.h">
+      <Filter>Header Files\Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\game\AbstractObject.h">
+      <Filter>Header Files\Game\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\utility\DMath.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\template\AbstractKit.h">
+      <Filter>Header Files\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\template\AbstractLibrary.h">
+      <Filter>Header Files\Template</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\common\Coordinate.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\device\Color.cpp">
+      <Filter>Source Files\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\device\Device.cpp">
+      <Filter>Source Files\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\device\Symbol.cpp">
+      <Filter>Source Files\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\device\Timer.cpp">
+      <Filter>Source Files\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\Event.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\Parser.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\xml.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\Logger.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\AbstractInterface.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\Auxilliary.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\QuadTree.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\Straw.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\Image.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\device\Explorer.cpp">
+      <Filter>Source Files\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\device\Speaker.cpp">
+      <Filter>Source Files\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\device\Sound.cpp">
+      <Filter>Source Files\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Animation.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Collider.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Camera.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Scene.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\Cell.cpp">
+      <Filter>Source Files\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\Trigger.cpp">
+      <Filter>Source Files\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\AbstractWidget.cpp">
+      <Filter>Source Files\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\Buzzer.cpp">
+      <Filter>Source Files\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\Drawer.cpp">
+      <Filter>Source Files\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\Transition.cpp">
+      <Filter>Source Files\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\Widget.cpp">
+      <Filter>Source Files\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\WidgetManager.cpp">
+      <Filter>Source Files\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\Application.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\Transitor.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\AbstractComponent.cpp">
+      <Filter>Source Files\Game\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\AbstractObject.cpp">
+      <Filter>Source Files\Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\GameObject.cpp">
+      <Filter>Source Files\Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\ImageObject.cpp">
+      <Filter>Source Files\Game\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\StandardComponent.cpp">
+      <Filter>Source Files\Game\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\DMath.cpp">
+      <Filter>Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\common\Vector.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
