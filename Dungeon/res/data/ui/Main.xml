@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<UI>
+    <!-- Main -->
+    <Main name="Main" in-time="250" out-time="250">
+        <Widgets>
+            <Static name="bg" layer="-10" float="true" pos="0% 0%">
+                <Drawer>
+                    <Image src="sky"></Image>
+                </Drawer>
+            </Static>
+            <Static name="title" pos="320 128" layer="10">
+                <Drawer>
+                    <Image width="420" height="128" focus="210 64" src="title" size="420 128"></Image>
+                </Drawer>
+                <Transitions>
+                    <AlphaTransition duration="10000" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="cloud-1" pos="130 90" layer="5">
+                <Drawer>
+                    <Image width="256" height="128" focus="128 64" src="cloud-1" size="128 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <CoordTransition duration="6000" delay="0" loop="true" reverse="true" style="ease-out" begin="130 90" end="120 80"></CoordTransition>
+                    <ScaleTransition duration="4500" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.05"></ScaleTransition>
+                    <AlphaTransition duration="5300" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="cloud-2" pos="500 130" layer="15">
+                <Drawer>
+                    <Image width="256" height="128" focus="128 64" src="cloud-2" size="128 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <CoordTransition duration="7000" delay="300" loop="true" reverse="true" style="ease-out" begin="500 130" end="530 140"></CoordTransition>
+                    <ScaleTransition duration="8200" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.1"></ScaleTransition>
+                    <AlphaTransition duration="6300" delay="7000" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="cloud-3" float="true" pos="-100% -100%" layer="-2">
+                <Drawer>
+                    <Image width="256" height="128" focus="128 64" src="cloud-3" size="128 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <CoordTransition duration="20000" delay="0" loop="true" reverse="false" style="linear" float="true" top="false" begin="-20% 20%" end="120% 20%"></CoordTransition>
+                    <ScaleTransition duration="11000" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.2"></ScaleTransition>
+                    <AlphaTransition duration="8000" delay="2300" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="cloud-4" float="true" pos="-100% -100%" layer="-3">
+                <Drawer>
+                    <Image width="200" height="100" focus="100 50" src="cloud-1" size="128 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <CoordTransition duration="30000" delay="5000" loop="true" reverse="false" style="linear" float="true" top="false" begin="-20% 40%" end="120% 40%"></CoordTransition>
+                    <ScaleTransition duration="15000" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.3"></ScaleTransition>
+                    <AlphaTransition duration="11000" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <!-- Play Button -->
+            <Button name="play" pos="320 268">
+                <Up>
+                    <Image width="128" height="64" focus="64 32" origin="0 0" size="128 64" src="widget"></Image>
+                </Up>
+                <Hover>
+                    <Image width="128" height="64" focus="64 32" origin="128 0" size="128 64" src="widget"></Image>
+                </Hover>
+                <Down>
+                    <Image width="128" height="64" focus="64 32" origin="256 0" size="128 64" src="widget"></Image>
+                </Down>
+                <Trigger>
+                    <Trigger type="mask" width="128" height="64" focus="64 32" origin="384 0" size="128 64" src="widget"></Trigger>
+                </Trigger>
+                <HoverSound>
+                    <Buzzer src="hover"></Buzzer>
+                </HoverSound>
+                <ClickSound>
+                    <Buzzer src="click"></Buzzer>
+                </ClickSound>
+            </Button>
+            <!-- Help Button -->
+            <Button name="help" pos="320 350">
+                <Up>
+                    <Image width="128" height="64" focus="64 32" origin="0 64" size="128 64" src="widget"></Image>
+                </Up>
+                <Hover>
+                    <Image width="128" height="64" focus="64 32" origin="128 64" size="128 64" src="widget"></Image>
+                </Hover>
+                <Down>
+                    <Image width="128" height="64" focus="64 32" origin="256 64" size="128 64" src="widget"></Image>
+                </Down>
+                <Trigger>
+                    <Trigger type="mask" width="128" height="64" focus="64 32" origin="384 64" size="128 64" src="widget"></Trigger>
+                </Trigger>
+                <HoverSound>
+                    <Buzzer src="hover"></Buzzer>
+                </HoverSound>
+                <ClickSound>
+                    <Buzzer src="click"></Buzzer>
+                </ClickSound>
+            </Button>
+            <!-- Exit Button -->
+            <Button name="exit" pos="80 400">
+                <Up>
+                    <Image width="64" height="64" focus="32 32" origin="0 192" size="64 64" src="widget"></Image>
+                </Up>
+                <Hover>
+                    <Image width="64" height="64" focus="32 32" origin="64 192" size="64 64" src="widget"></Image>
+                </Hover>
+                <Down>
+                    <Image width="64" height="64" focus="32 32" origin="128 192" size="64 64" src="widget"></Image>
+                </Down>
+                <Trigger>
+                    <Trigger type="mask" width="64" height="64" focus="32 32" origin="192 192" size="64 64" src="widget"></Trigger>
+                </Trigger>
+                <HoverSound>
+                    <Buzzer src="hover"></Buzzer>
+                </HoverSound>
+                <ClickSound>
+                    <Buzzer src="click"></Buzzer>
+                </ClickSound>
+            </Button>
+            <!-- Setting Button -->
+            <Button name="setting" pos="560 400">
+                <Up>
+                    <Image width="64" height="64" focus="32 32" origin="0 256" size="64 64" src="widget"></Image>
+                </Up>
+                <Hover>
+                    <Image width="64" height="64" focus="32 32" origin="64 256" size="64 64" src="widget"></Image>
+                </Hover>
+                <Down>
+                    <Image width="64" height="64" focus="32 32" origin="128 256" size="64 64" src="widget"></Image>
+                </Down>
+                <Trigger>
+                    <Trigger type="mask" width="64" height="64" focus="32 32" origin="192 256" size="64 64" src="widget"></Trigger>
+                </Trigger>
+                <HoverSound>
+                    <Buzzer src="hover"></Buzzer>
+                </HoverSound>
+                <ClickSound>
+                    <Buzzer src="click"></Buzzer>
+                </ClickSound>
+            </Button>
+            <!-- About Button -->
+            <Button name="about" pos="560 320">
+                <Up>
+                    <Image width="64" height="64" focus="32 32" origin="0 320" size="64 64" src="widget"></Image>
+                </Up>
+                <Hover>
+                    <Image width="64" height="64" focus="32 32" origin="64 320" size="64 64" src="widget"></Image>
+                </Hover>
+                <Down>
+                    <Image width="64" height="64" focus="32 32" origin="128 320" size="64 64" src="widget"></Image>
+                </Down>
+                <Trigger>
+                    <Trigger type="mask" width="64" height="64" focus="32 32" origin="192 320" size="64 64" src="widget"></Trigger>
+                </Trigger>
+                <HoverSound>
+                    <Buzzer src="hover"></Buzzer>
+                </HoverSound>
+                <ClickSound>
+                    <Buzzer src="click"></Buzzer>
+                </ClickSound>
+            </Button>
+            <!-- Version Button -->
+            <Button name="version" pos="280 150">
+                <Up>
+                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#000000">v1.0.3</Text>
+                </Up>
+                <Hover>
+                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#888888">v1.0.3</Text>
+                </Hover>
+                <Down>
+                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#444444">v1.0.3</Text>
+                </Down>
+                <Trigger>
+                    <Trigger type="rect" width="120" height="35" focus="10 10"></Trigger>
+                </Trigger>
+            </Button>
+            <!-- bgm -->
+            <Audio name="bgm" src="menu-track"></Audio>
+        </Widgets>
+    </Main>
+</UI>

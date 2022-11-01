@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<HeroLibrary>
+    <Yony name="Yony" center="0 -40">
+        <Property hurt-duration="500" skill-duration="1000" skill-cost="100">
+            <HP>5, 0</HP>
+            <MP>200, 5000</MP>
+            <Armor>5, 5000</Armor>
+            <Chi>100, 50</Chi>
+        </Property>
+        <Components>
+            <Behavior order="10"></Behavior>
+            <State order="20"></State>
+            <ColliderBox offset="0 -16" box-size="56 34" border-size="192 192" order="30"></ColliderBox>
+            <RigidBody mass="10" strength="10" max-velocity="12" ratio="0.8" id="7" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <WeaponSlot capacity="2" offset="0 -30" order="60">
+                <Weapon>Rifle</Weapon>
+            </WeaponSlot>
+            <Anim src="yony" offset="-48 -96" order="70"></Anim>
+            <Indicator order="80" offset="-48 -48">
+                <image src="ind-b"></image>
+                <image src="ind-r"></image>
+            </Indicator>
+            <Sound order="90">
+                <li name="skill" src="yy-skill"></li>
+            </Sound>
+        </Components>
+    </Yony>
+    <BlackHand name="BlackHand" center="0 -40">
+        <Property hurt-duration="500" skill-duration="100" skill-cost="100">
+            <HP>2, 0</HP>
+            <MP>300, 5000</MP>
+            <Armor>8, 8000</Armor>
+            <Chi>100, 100</Chi>
+        </Property>
+        <Components>
+            <Behavior order="10"></Behavior>
+            <State order="20"></State>
+            <ColliderBox offset="0 -16" box-size="56 34" border-size="192 192" order="30"></ColliderBox>
+            <RigidBody mass="15" strength="20" max-velocity="10" ratio="0.9" id="7" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <WeaponSlot capacity="2" offset="0 -30" order="60">
+                <Weapon>Thrower</Weapon>
+            </WeaponSlot>
+            <Anim src="blackhand" offset="-48 -96" order="70"></Anim>
+            <Indicator order="80" offset="-48 -48">
+                <image src="ind-b"></image>
+                <image src="ind-r"></image>
+            </Indicator>
+            <Sound order="90">
+                <li name="skill" src="bk-skill"></li>
+            </Sound>
+        </Components>
+    </BlackHand>
+</HeroLibrary>
