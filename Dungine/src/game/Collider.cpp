@@ -117,6 +117,7 @@ bool Collider::_Check(GameObject* objA, GameObject* objB)
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/06/20 Tony : Created.                                               *
+ *   2022/11/20 Tony : Fixed situation when mass of objA is zero.             *
  *============================================================================*/
 bool Collider::_Elastic(GameObject* objA, GameObject* objB)
 {
@@ -127,6 +128,18 @@ bool Collider::_Elastic(GameObject* objA, GameObject* objB)
 
 	if (!boxCmptA || !boxCmptB || !rigidCmptA || !rigidCmptB)
 		return false;
+
+	/*
+	** 2022/11/20 TS:
+	** Mass of A must not be zero. Extra check added.
+	*/
+	if (rigidCmptA->GetMass() == 0.0)
+	{
+		if (rigidCmptB->GetMass() == 0.0)	// Nothing should happen.
+			return false;
+		else
+			return _Elastic(objB, objA);
+	}
 
 	const Rect& boxA = boxCmptA->GetBox();
 	const Rect& boxB = boxCmptB->GetBox();
@@ -153,9 +166,6 @@ bool Collider::_Elastic(GameObject* objA, GameObject* objB)
 
 	objA->Translate(overlap);
 
-	/*
-	** A is the active object, its mass mustn't be zero.
-	*/
 	const double e = 0.8;
 	if (rigidCmptB->GetMass() != 0.0)
 	{
@@ -215,6 +225,7 @@ bool Collider::_Elastic(GameObject* objA, GameObject* objB)
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/06/20 Tony : Created.                                               *
+ *   2022/11/20 Tony : Fixed situation when mass of objA is zero.             *
  *============================================================================*/
 bool Collider::_InElastic(GameObject* objA, GameObject* objB)
 {
@@ -225,6 +236,18 @@ bool Collider::_InElastic(GameObject* objA, GameObject* objB)
 
 	if (!boxCmptA || !boxCmptB || !rigidCmptA || !rigidCmptB)
 		return false;
+
+	/*
+	** 2022/11/20 TS:
+	** Mass of A must not be zero. Extra check added.
+	*/
+	if (rigidCmptA->GetMass() == 0.0)
+	{
+		if (rigidCmptB->GetMass() == 0.0)	// Nothing should happen.
+			return false;
+		else
+			return _InElastic(objB, objA);
+	}
 
 	Rect& boxA = boxCmptA->GetBox();
 	Rect& boxB = boxCmptB->GetBox();
