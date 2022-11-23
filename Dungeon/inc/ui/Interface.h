@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : June 21, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 22, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -91,6 +91,15 @@ public:
 	*/
 	virtual void AddEvents() {}
 	
+	/*
+	** 2022/11/22 TS:
+	** Added control over in and out time.
+	*/
+	void SetInTime(clock_t inTime) { m_inTime = inTime; }
+	void SetOutTime(clock_t outTime) { m_outTime = outTime; }
+	clock_t GetInTime() { return m_inTime; }
+	clock_t GetOutTime() { return m_outTime; }
+
 protected:
 	virtual void _ProcessInput(Event& evnt);
 

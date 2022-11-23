@@ -723,10 +723,16 @@ void Dungeon::_VictoryTransit()
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/08/02 Tony : Created.                                               *
+ *   2022/11/22 Tony : Out time may change when lost.                         *
  *============================================================================*/
 void Dungeon::_LostTransit()
 {
+	PlainInterface* intf = static_cast<PlainInterface*>(Application::GetInstance()->GetInterface("Game"));
+	clock_t oldTime = intf->GetOutTime();
+
+	intf->SetOutTime(oldTime * 10);
 	Application::GetInstance()->GetInterface("Lost")->Launch();
+	intf->SetOutTime(oldTime);
 }
 
 
