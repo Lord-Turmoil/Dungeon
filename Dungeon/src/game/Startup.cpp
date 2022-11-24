@@ -80,8 +80,12 @@ bool _InitDevice()
 	// Explorer
 	if (!Explorer::GetInstance()->Load(RESOURCE_XML))
 		return false;
+
 	IMAGE* pSkyImage = new IMAGE(deviceInfo.clientWidth, deviceInfo.clientHeight);
-	GradiantFill(pSkyImage, SRC_COLOR, DEST_COLOR);
+	GradiantFill(
+		pSkyImage,
+		Settings::GetInstance()->BeginColor(),
+		Settings::GetInstance()->EndColor());
 	Explorer::GetInstance()->AssignInternalResource(
 		ResourceType::RES_IMAGE, "sky", pSkyImage);
 

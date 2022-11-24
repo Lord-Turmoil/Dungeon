@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : June 14, 2022                             *
  *                                                                            *
- *                    Last Update : August 12, 2022                           *
+ *                    Last Update : November 24, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -63,7 +63,8 @@ public:
 	void SetMusicVolume(double volume);
 
 	double GetSoundVolume() const { return m_soundVolume; }
-	double GetMusicVolume() const { return m_soundVolume; }
+	// double GetMusicVolume() const { return m_soundVolume; }
+	double GetMusicVolume() const { return m_musicVolume; }	// Be careful...
 
 	FMOD::System* System() { return m_speaker; }
 

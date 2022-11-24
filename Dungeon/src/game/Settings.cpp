@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 10, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 24, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -69,6 +69,7 @@ bool Settings::Link(const char* filename)
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/10 Tony : Created.                                               *
+ *   2022/11/24 Tony : Added begin color and end color.                       *
  *============================================================================*/
 bool Settings::Load()
 {
@@ -100,6 +101,9 @@ bool Settings::Load()
 		_LoadEntry(file, &CHAPTER_NUM, "ChapterNum");
 		_LoadEntry(file, &LEVEL_NUM, "LevelNum");
 
+		_LoadEntry(file, &m_beginColor, "BeginColor");
+		_LoadEntry(file, &m_endColor, "EndColor");
+
 		_LoadHeroInfo(file);
 	}
 	catch (EntryError)
@@ -124,6 +128,7 @@ bool Settings::Load()
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/10 Tony : Created.                                               *
+ *   2022/11/24 Tony : Added begin color and end color.                       *
  *============================================================================*/
 bool Settings::Save()
 {
@@ -165,6 +170,8 @@ bool Settings::SaveConfig()
 	}
 
 	_SaveEntry(file, m_coin, "Coin");
+	_SaveEntry(file, m_beginColor, "BeginColor");
+	_SaveEntry(file, m_endColor, "EndColor");
 	_SaveHeroInfo(file);
 
 	file.Save();
@@ -275,7 +282,9 @@ Settings::Settings() :
 	m_soundVolume(1.0),
 	m_musicVolume(1.0),
 	m_filename(nullptr),
-	m_isFullscreen(true)
+	m_isFullscreen(true),
+	m_beginColor(RGB(41, 182, 246)),
+	m_endColor(RGB(128, 222, 234))
 {
 }
 
@@ -320,6 +329,7 @@ bool Settings::_IsLinked()
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/10 Tony : Created.                                               *
+ *   2022/11/24 Tony : Added COLORREF support.                                *
  *============================================================================*/
 void Settings::_LoadEntry(XMLFile& file, int* val, const char* tag)
 {
@@ -351,6 +361,17 @@ void Settings::_LoadEntry(XMLFile& file, bool* val, const char* tag)
 
 	const char* str = entry->GetText();
 	if (!(str && ParseAttribute(val, str, true)))
+		throw EntryError(tag);
+}
+
+void Settings::_LoadEntry(XMLFile& file, COLORREF* val, const char* tag)
+{
+	XMLElement* entry = file.GetElementByTagName(tag);
+	if (!entry)
+		throw EntryError(tag);
+
+	const char* str = entry->GetText();
+	if (!(str && ParsePrivateAttribute(val, str, ParseColor)))
 		throw EntryError(tag);
 }
 
@@ -391,6 +412,7 @@ void Settings::_LoadHeroInfo(XMLFile& file)
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/10 Tony : Created.                                               *
+ *   2022/11/24 Tony : Added COLORREF support.                                *
  *============================================================================*/
 void Settings::_SaveEntry(XMLFile& file, int val, const char* tag)
 {
@@ -432,6 +454,22 @@ void Settings::_SaveEntry(XMLFile& file, bool val, const char* tag)
 	char buffer[32];
 
 	sprintf_s(buffer, "%s", val ? "true" : "false");
+
+	if (!entry)
+	{
+		entry = file.Doc().NewElement(tag);
+		file.GetRoot()->InsertEndChild(entry);
+	}
+	entry->SetText(buffer);
+}
+
+void Settings::_SaveEntry(XMLFile& file, COLORREF val, const char* tag)
+{
+	XMLElement* entry = file.GetElementByTagName(tag);
+	char buffer[32];
+
+	// Convert BGR to RGB.
+	sprintf_s(buffer, "#%x", BGRtoRGB(val));
 
 	if (!entry)
 	{

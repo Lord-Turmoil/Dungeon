@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 10, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 24, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -64,6 +64,8 @@ public:
 	bool IsAvailable(const std::string& name) const;
 	bool CanBeAvailable(const std::string& name) const;
 	bool MakeAvailable(const std::string& name);
+	COLORREF BeginColor() const { return m_beginColor; }
+	COLORREF EndColor() const { return m_endColor; }
 
 private:
 	Settings();
@@ -74,11 +76,13 @@ private:
 	void _LoadEntry(XMLFile& file, int* val, const char* tag);
 	void _LoadEntry(XMLFile& file, double* val, const char* tag);
 	void _LoadEntry(XMLFile& file, bool* val, const char* tag);
+	void _LoadEntry(XMLFile& file, COLORREF* val, const char* tag);
 	void _LoadHeroInfo(XMLFile& file);
 
 	void _SaveEntry(XMLFile& file, int val, const char* tag);
 	void _SaveEntry(XMLFile& file, double val, const char* tag);
 	void _SaveEntry(XMLFile& file, bool val, const char* tag);
+	void _SaveEntry(XMLFile& file, COLORREF val, const char* tag);
 	void _SaveHeroInfo(XMLFile& file);
 
 private:
@@ -93,6 +97,8 @@ private:
 	// Config
 	int m_coin;
 	std::string m_heroName;
+	COLORREF m_beginColor;	// Top color of the sky.
+	COLORREF m_endColor;	// Bottom color of the sky.
 
 	std::map<std::string, HeroInfo> m_heroInfo;
 };
