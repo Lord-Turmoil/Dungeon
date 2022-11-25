@@ -515,3 +515,27 @@ void AboutInterface::AddEvents()
 	static_cast<Button*>(m_pWidgetManager->GetWidget("back"))
 		->OnClick(GetDetacher(this));
 }
+
+
+/*
+**+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+** VictoryInterface
+**+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+*/
+bool VictoryInterface::Load(XMLElement* node)
+{
+	const char* name = node->Name();
+
+	_CHECK_TAG("Victory");
+	_RETURN_IF_ERROR();
+
+	TimeInterface::Load(node);
+
+	_RETURN_STATE();
+}
+
+void VictoryInterface::AddEvents()
+{
+	static_cast<KeyboardDetector*>(m_pWidgetManager->GetWidget("skip"))
+		->OnTriggered(std::bind(&VictoryInterface::_SelfTerminate, this));
+}

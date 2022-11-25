@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 17, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -83,6 +83,8 @@ protected:
 
 /********************************************************************
 ** VisualWidget are widgets that can be seen and have interactions.
+** 2022/11/25 TS:
+** Added support for rotation transition.
 */
 class Transition;
 
@@ -105,6 +107,7 @@ public:
 	virtual VisualWidget* Translate(const Coordinate& offset) = 0;
 	virtual VisualWidget* SetAlpha(int alpha) = 0;
 	virtual VisualWidget* SetScale(double scale) = 0;
+	virtual VisualWidget* SetRotationAngle(double angle) = 0;
 
 	virtual VisualWidget* SetLayer(int layer) = 0;
 	int GetLayer() const { return m_layer; }

@@ -51,6 +51,11 @@ public:
 
 protected:
 	virtual void _Slash();
+	/*
+	** 2022/11/25 TS:
+	** If melee can slash bullet during the whole fire progress?
+	*/
+	virtual void _SlashBullet();
 };
 
 class MeleeReady : public MeleeBehavior

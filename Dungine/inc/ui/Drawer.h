@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : March 9, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -31,6 +31,8 @@
 
 /********************************************************************
 ** Drawer is the basic display element.
+** 2022/11/25 TS:
+** Added function for rotation transition.
 */
 class Drawer
 {
@@ -46,6 +48,8 @@ public:
 	Drawer* SetLayer(int layer);
 	Drawer* SetAlpha(int alpha);
 	Drawer* SetScale(double scale);
+	Drawer* SetRotationAngle(double angle);
+	
 
 	/*
 	** Update on every frame.

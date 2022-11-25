@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 17, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -51,6 +51,7 @@ public:
 	virtual Button* Translate(const Coordinate& offset);
 	virtual Button* SetAlpha(int alpha);
 	virtual Button* SetScale(double scale);
+	virtual Button* SetRotationAngle(double angle);
 
 	/*
 	** Button now has four states,
@@ -152,6 +153,7 @@ public:
 	virtual Slider* Translate(const Coordinate& offset);
 	virtual Slider* SetAlpha(int alpha);
 	virtual Slider* SetScale(double scale);
+	virtual Slider* SetRotationAngle(double angle);
 
 	/*
 	** Drag bar consists of a block and a bar. Be aware that the
@@ -233,6 +235,7 @@ public:
 	virtual ProgressBar* Translate(const Coordinate& offset);
 	virtual ProgressBar* SetAlpha(int alpha);
 	virtual ProgressBar* SetScale(double scale);
+	virtual ProgressBar* SetRotationAngle(double angle);
 
 	/*
 	** A progress bar is composed of a bar and a stuff...:?
@@ -294,6 +297,7 @@ public:
 	virtual RadioBox* Translate(const Coordinate& offset);
 	virtual RadioBox* SetAlpha(int alpha);
 	virtual RadioBox* SetScale(double scale);
+	virtual RadioBox* SetRotationAngle(double angle);
 
 	RadioBox* SetParentList(RadioList* parent)
 	{
@@ -369,6 +373,7 @@ public:
 	virtual RadioList* Translate(const Coordinate& offset);
 	virtual RadioList* SetAlpha(int alpha);
 	virtual RadioList* SetScale(double scale);
+	virtual RadioList* SetRotationAngle(double angle);
 
 	RadioBox* AddRadio(const std::string& name, RadioBox* radio);
 	RadioBox* GetRadio(const std::string& name);
@@ -518,6 +523,7 @@ public:
 	virtual StaticWidget* Translate(const Coordinate& offset);
 	virtual StaticWidget* SetAlpha(int alpha);
 	virtual StaticWidget* SetScale(double scale);
+	virtual StaticWidget* SetRotationAngle(double angle);
 
 	StaticWidget* SetDrawer(Drawer* drawer);
 	Drawer* GetDrawer() const { return m_pDrawer; }

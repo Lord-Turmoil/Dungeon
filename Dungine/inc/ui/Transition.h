@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : April 7, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -32,11 +32,16 @@ class VisualWidget;
 class XMLElement;
 
 
+/*
+** 2022/11/25 TS:
+** Added rotation transition.
+*/
 enum class TransitionType
 {
 	TRANS_ALPHA,
 	TRANS_COORD,
 	TRANS_SCALE,
+	TRANS_ROTATION,
 
 	TRANS_NUM
 };
@@ -313,6 +318,47 @@ private:
 	/*
 	** These two are alpha info. :)
 	*/
+	double m_begin;
+	double m_end;
+	double (*m_blender)(double, double, double);
+};
+
+
+/********************************************************************
+** 2022/11/25 TS:
+** This is for widget's rotation transition. Ha, more fancy. :P
+*/
+class RotationTransition : public Transition
+{
+public:
+	RotationTransition() : Transition(TransitionType::TRANS_ROTATION) {}
+	~RotationTransition() {}
+
+	virtual bool Load(XMLElement* node);
+	virtual RotationTransition* SetStyle(TransitionStyle style);
+
+	RotationTransition* SetBeginRotation(double angle)
+	{
+		m_begin = angle;
+		return this;
+	}
+	RotationTransition* SetEndRotation(double angle)
+	{
+		m_end = angle;
+		return this;
+	}
+
+	double GetBeginRotation() const { return m_begin; }
+	double GetEndRotation() const { return m_end; }
+
+private:
+	virtual void _Update();
+	virtual void _Reset();
+	virtual void _Terminate();
+
+	virtual void _Finalize();
+	virtual void _AdjustProperty(XMLElement* node) {}
+
 	double m_begin;
 	double m_end;
 	double (*m_blender)(double, double, double);

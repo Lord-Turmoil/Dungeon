@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 31, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -28,6 +28,7 @@
 
 #include "../../inc/object/Hero.h"
 #include "../../inc/object/Boss.h"
+#include "../../inc/object/Weapon.h"
 
 #include "../../inc/game/Dungeon.h"
 #include "../../inc/game/Settings.h"
@@ -50,6 +51,10 @@ bool GameInterface::Load(XMLElement* node)
 	_RETURN_STATE();
 }
 
+/*
+** 2022/11/25 TS:
+** Added prompt for weapon name and cost.
+*/
 void GameInterface::Update(Event* evnt)
 {
 	if (m_pSubIntf)
@@ -92,6 +97,24 @@ void GameInterface::Update(Event* evnt)
 			static_cast<StaticWidget*>(m_pWidgetManager->GetWidget("chi-tip")),
 			hero->GetChi(),
 			hero->GetMaxChi());
+		
+		Weapon* weapon = hero->GetWeapon();
+		if (weapon)
+		{
+			_UpdateWeapon(
+				static_cast<StaticWidget*>(m_pWidgetManager->GetWidget("weapon-name")),
+				static_cast<StaticWidget*>(m_pWidgetManager->GetWidget("weapon-cost")),
+				hero->GetWeapon()->Name().c_str(),
+				hero->GetWeapon()->GetCost());
+		}
+		else
+		{
+			_UpdateWeapon(
+				static_cast<StaticWidget*>(m_pWidgetManager->GetWidget("weapon-name")),
+				static_cast<StaticWidget*>(m_pWidgetManager->GetWidget("weapon-cost")),
+				nullptr,
+				0);
+		}
 
 		// Boss
 		Boss* boss = m_pDungeon->GetBoss();
@@ -238,6 +261,29 @@ void GameInterface::_UpdateChiStatus(ProgressBar* bar, StaticWidget* text, int c
 {
 	bar->SetValue((double)curVal / (double)maxVal);
 	text->Activate(curVal == maxVal);
+}
+
+/*
+** 2022/11/25 TS:
+** Added prompt for weapon name and cost.
+*/
+void GameInterface::_UpdateWeapon(StaticWidget* nameText, StaticWidget* costText, const char* name, int cost)
+{
+	if (!name)
+	{
+		static_cast<TextDrawer*>(nameText->GetDrawer())->SetText("");
+		static_cast<TextDrawer*>(costText->GetDrawer())->SetText("");
+		return;
+	}
+
+	TextDrawer* nameDrawer = static_cast<TextDrawer*>(nameText->GetDrawer());
+	if (nameDrawer->GetText() == name)	// no need to update
+		return;
+	nameDrawer->SetText(name);
+
+	char buffer[16];
+	sprintf_s(buffer, "%d", cost);
+	static_cast<TextDrawer*>(costText->GetDrawer())->SetText(buffer);
 }
 
 void GameInterface::_OnPause()

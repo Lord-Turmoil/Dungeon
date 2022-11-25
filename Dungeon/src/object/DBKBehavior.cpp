@@ -238,7 +238,7 @@ void DBKRetreat::Update(Event* evnt)
 	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
 	if (m_elapsedTime > DECISION_GAP)
 	{
-		if (dist > black->GetAttackRadius())
+		if (dist > black->GetScareRadius())
 		{
 			m_parent->ChangeBehavior("Idle");
 			return;

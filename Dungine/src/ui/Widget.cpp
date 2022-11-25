@@ -339,6 +339,35 @@ Button* Button::SetScale(double scale)
 
 
 /******************************************************************************
+ * Button::SetRotationAngle -- Set the rotatoin angle of button.              *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   angle                                                             *
+ *                                                                            *
+ * OUTPUT:  Return itself.                                                    *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+Button* Button::SetRotationAngle(double angle)
+{
+	if (m_pUpDrawer)
+		m_pUpDrawer->SetRotationAngle(angle);
+	if (m_pDownDrawer)
+		m_pDownDrawer->SetRotationAngle(angle);
+	if (m_pHoverDrawer)
+		m_pHoverDrawer->SetRotationAngle(angle);
+	if (m_pDisabledDrawer)
+		m_pDisabledDrawer->SetRotationAngle(angle);
+
+	return this;
+}
+
+
+/******************************************************************************
  * Button::Translate -- Translate the button.                                 *
  *                                                                            *
  *    Just the literal meaning.                                               *
@@ -879,6 +908,32 @@ Slider* Slider::SetScale(double scale)
 
 
 /******************************************************************************
+ * Slider::SetRotationAngle -- Set the rotatoin angle of slider.              *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   angle                                                             *
+ *                                                                            *
+ * OUTPUT:  Return itself.                                                    *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+Slider* Slider::SetRotationAngle(double angle)
+{
+	if (m_pBlock)
+		m_pBlock->SetRotationAngle(angle);
+
+	if (m_pBarDrawer)
+		m_pBarDrawer->SetRotationAngle(angle);
+
+	return this;
+}
+
+
+/******************************************************************************
  * Slider::Translate -- Translate the slider.                                 *
  *                                                                            *
  *    Just the literal meaning.                                               *
@@ -1309,6 +1364,31 @@ ProgressBar* ProgressBar::SetScale(double scale)
 
 
 /******************************************************************************
+ * ProgressBar::SetRotationAngle -- Set the rotatoin angle of progressbar.    *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   angle                                                             *
+ *                                                                            *
+ * OUTPUT:  Return itself.                                                    *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+ProgressBar* ProgressBar::SetRotationAngle(double angle)
+{
+	if (m_pBarDrawer)
+		m_pBarDrawer->SetRotationAngle(angle);
+	if (m_pStuffDrawer)
+		m_pStuffDrawer->SetRotationAngle(angle);
+
+	return this;
+}
+
+
+/******************************************************************************
  * ProgressBar::Translate -- Translate progressbar.                           *
  *                                                                            *
  *    Just the literal meaning.                                               *
@@ -1671,6 +1751,31 @@ RadioBox* RadioBox::SetScale(double scale)
 		m_pBox->SetScale(scale);
 	if (m_pMarkDrawer)
 		m_pMarkDrawer->SetScale(scale);
+
+	return this;
+}
+
+
+/******************************************************************************
+ * RadioBox::SetRotationAngle -- Set the rotatoin angle of radio box.         *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   angle                                                             *
+ *                                                                            *
+ * OUTPUT:  Return itself.                                                    *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+RadioBox* RadioBox::SetRotationAngle(double angle)
+{
+	if (m_pBox)
+		m_pBox->SetRotationAngle(angle);
+	if (m_pMarkDrawer)
+		m_pMarkDrawer->SetRotationAngle(angle);
 
 	return this;
 }
@@ -2074,6 +2179,29 @@ RadioList* RadioList::SetScale(double scale)
 
 
 /******************************************************************************
+ * RadioList::SetRotationAngle -- Set the rotatoin angle of radio list.      *
+ *                                                                            *
+ *    Perhaps... It is meaningless...                                         *
+ *                                                                            *
+ * INPUT:   angle                                                             *
+ *                                                                            *
+ * OUTPUT:  Return itself.                                                    *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+RadioList* RadioList::SetRotationAngle(double angle)
+{
+	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+		it->second->SetRotationAngle(angle);
+
+	return this;
+}
+
+
+/******************************************************************************
  * RadioList::Translate -- Translate radio list.                              *
  *                                                                            *
  *    Just the literal meaning.                                               *
@@ -2429,6 +2557,29 @@ StaticWidget* StaticWidget::SetScale(double scale)
 {
 	if (m_pDrawer)
 		m_pDrawer->SetScale(scale);
+
+	return this;
+}
+
+
+/******************************************************************************
+ * StaticWidget::SetRotationAngle -- Set the rotatoin angle of static widget. *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   angle                                                             *
+ *                                                                            *
+ * OUTPUT:  Return itself.                                                    *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+StaticWidget* StaticWidget::SetRotationAngle(double angle)
+{
+	if (m_pDrawer)
+		m_pDrawer->SetRotationAngle(angle);
 
 	return this;
 }

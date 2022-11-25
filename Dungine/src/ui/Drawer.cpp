@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : March 9, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -145,6 +145,31 @@ Drawer* Drawer::SetScale(double scale)
 	m_symbol.GetAttribute()->scale = scale;
 	if (m_pSubDrawer)
 		m_pSubDrawer->SetScale(scale);
+
+	return this;
+}
+
+
+
+/******************************************************************************
+ * Drawer::SetRotationAngle -- Set the rotation angle of the drawer.          *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   angle                                                             *
+ *                                                                            *
+ * OUTPUT:  Return itself.                                                    *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+Drawer* Drawer::SetRotationAngle(double angle)
+{
+	m_symbol.GetAttribute()->rotationAngle = angle;
+	if (m_pSubDrawer)
+		m_pSubDrawer->SetRotationAngle(angle);
 
 	return this;
 }

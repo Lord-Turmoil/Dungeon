@@ -76,9 +76,9 @@ bool Crate::Load(XMLElement* node)
 }
 
 /********************************************************************
-** Energy And Coin -- 60%
-** Drug            -- 20%
-** Weapon          -- 20%
+** Energy And Coin -- 40%
+** Drug            -- 10% (40%, 30%)
+** Weapon          -- 50%
 */
 void Crate::Generate()
 {
@@ -92,7 +92,7 @@ void Crate::Generate()
 	else
 	{
 		int decision = Random(100);
-		if (decision < 20)
+		if (decision < 50)
 		{
 			if (!_GenerateWeapon())
 			{
@@ -102,7 +102,7 @@ void Crate::Generate()
 				_GenerateEnergyAndCoin();
 			}
 		}
-		else if (decision < 40)
+		else if (decision < 60)
 			_GenerateDrug(30);
 		else
 			_GenerateEnergyAndCoin();

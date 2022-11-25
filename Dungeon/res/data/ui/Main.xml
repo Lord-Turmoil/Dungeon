@@ -57,6 +57,34 @@
                     <AlphaTransition duration="11000" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
                 </Transitions>
             </Static>
+            <!-- Christmas Star -->
+            <Static name="star-1" float="true" pos="20% 60%" layer="-5">
+                <Drawer>
+                    <Image width="64" height="64" focus="32 32" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="2200" delay="0" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="2200" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="star-2" float="true" pos="80% 35%" layer="-5">
+                <Drawer>
+                    <Image width="48" height="48" focus="24 24" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="1700" delay="0" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="1700" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="star-3" pos="322 68" layer="11">
+                <Drawer>
+                    <Image width="32" height="32" focus="16 16" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="1300" delay="123" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="1300" delay="123" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
             <!-- Play Button -->
             <Button name="play" pos="320 268">
                 <Up>
@@ -165,13 +193,13 @@
             <!-- Version Button -->
             <Button name="version" pos="280 150">
                 <Up>
-                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#000000">v1.0.3</Text>
+                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#000000">v1.0.3 CE</Text>
                 </Up>
                 <Hover>
-                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#888888">v1.0.3</Text>
+                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#888888">v1.0.3 CE</Text>
                 </Hover>
                 <Down>
-                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#444444">v1.0.3</Text>
+                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#444444">v1.0.3 CE</Text>
                 </Down>
                 <Trigger>
                     <Trigger type="rect" width="120" height="35" focus="10 10"></Trigger>

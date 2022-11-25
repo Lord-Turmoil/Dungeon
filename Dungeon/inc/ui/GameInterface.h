@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 31, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -52,6 +52,11 @@ private:
 	void _UpdateStatus(ProgressBar* bar, double percent);
 	void _UpdateStatus(ProgressBar* bar, StaticWidget* text, StaticWidget* alert, int curVal, int maxVal);
 	void _UpdateChiStatus(ProgressBar* bar, StaticWidget* text, int curVal, int maxVal);
+	
+	/*
+	** Added prompt for weapon name and cost.
+	*/
+	void _UpdateWeapon(StaticWidget* nameText, StaticWidget* costText, const char* name, int cost);
 
 	void _OnPause();
 	void _OnQuit();

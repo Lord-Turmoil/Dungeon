@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <WeaponLibrary>
-    <Gun name="Rifle" exclusive="true" radius="128" bullet="Pepper" offset="0 0" muzzle="40 0" cooling="20" cost="1" burst="1" accuracy="0.9">
+    <Gun name="Rifle" exclusive="true" radius="128" bullet="Pepper" offset="0 0" muzzle="40 0" cooling="20" cost="1" burst="1" accuracy="0.95">
         <Components>
             <Behavior order="10"></Behavior>
             <Anim src="rifle" offset="-47 -45" order="70"></Anim>
@@ -52,6 +52,44 @@
             <Anim src="shotgun" offset="-64 -64" order="70"></Anim>
             <Sound order="80">
                 <li name="fire" src="shotgun-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <!-- Christmas Special -->
+    <Gun name="Blaster" exclusive="true" radius="128" bullet="DLaser" offset="0 -70" muzzle="0 0" cooling="256" cost="0" burst="1" accuracy="0.9">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="blaster" offset="-6 -6" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="blaster-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <!-- Bug Machine cost nothing! :P -->
+    <Gun name="Machine" radius="128" bullet="Laser" offset="0 0" muzzle="48 5" cooling="16" cost="0" burst="1" accuracy="0.85">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="machine" offset="-64 -64" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="machine-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <Gun name="Launcher" radius="128" bullet="Snowball" offset="0 -10" muzzle="70 -5" cooling="500" cost="3" burst="3" accuracy="0.85">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="launcher" offset="-96 -96" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="launcher-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <Gun name="SLauncher" exclusive="true" radius="128" bullet="SSnowball" offset="0 -36" muzzle="36 0" cooling="1000" cost="0" burst="10" accuracy="0.0">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="slauncher" offset="-6 -6" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="slauncher-s"></li>
             </Sound>
         </Components>
     </Gun>

@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 18, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -374,7 +374,11 @@ bool Melee::Load(XMLElement* node)
 	_PARSE("radian", m_radian, name, 0.0);
 	_PARSE("range", m_range, name, 0.0);
 
-	m_radian *= PI;
+	/*
+	** 2022/11/25 TS:
+	** radian read in as degree for convenience.
+	*/
+	m_radian *= DEG_TO_RAD;
 
 	_RETURN_STATE();
 }

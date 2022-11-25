@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 25, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -94,10 +94,6 @@ void MeleeBehavior::_Slash()
 					->ApplyForce(dir / dist * force * ratio);
 			}
 		}
-		else if (target->Type() & ObjectType::OBJ_BULLET)
-		{
-			static_cast<Bullet*>(target)->Corrupt();
-		}
 	}
 
 	if (melee->BulletName() != "")
@@ -106,6 +102,49 @@ void MeleeBehavior::_Slash()
 		{
 			owner->CostMP(melee->GetCost());
 			_Fire();
+		}
+	}
+}
+
+/*
+** 2022/11/25 TS:
+** Hmm... Slash bullet to be seperated.
+*/
+void MeleeBehavior::_SlashBullet()
+{
+	std::vector<GameObject*> candidates;
+	Melee* melee = static_cast<Melee*>(m_parent->GetGameObject());
+	Dungeon* dungeon = static_cast<Dungeon*>(melee->GetScene());
+	QuadTree* tree = dungeon->GetQuadTree();
+	Vector base = GetDirection(melee->GetCoord(), dungeon->GetMouse());
+	Vector dir;
+
+	double range = melee->GetRange();
+	double radian = melee->GetRadian();
+	double force = melee->GetForce();
+	int damage = melee->GetDamage();
+	double dist;
+	Figure* owner = static_cast<Figure*>(melee->GetSlot()->GetGameObject());
+	Object* target;
+	Bullet* victim;
+	Coordinate center = melee->GetCoord();
+
+	tree->Query(melee, candidates);
+	for (auto it = candidates.begin(); it != candidates.end(); it++)
+	{
+		if (*it == owner)
+			continue;
+
+		target = static_cast<Object*>(*it);
+		if (target->Type() & ObjectType::OBJ_BULLET)
+		{
+			victim = static_cast<Bullet*>(target);
+			dir = GetDisplacement(center, victim->GetCenter());
+			dist = Module(dir);
+			if ((dist > range) || (GetAngle(dir, base) > radian))
+				continue;
+
+			victim->Corrupt();
 		}
 	}
 }
@@ -167,6 +206,8 @@ void MeleeFire::Update(Event* evnt)
 	{
 		m_parent->ChangeBehavior("Cooling");
 	}
+
+	_SlashBullet();
 }
 
 void MeleeFire::OnEnter()

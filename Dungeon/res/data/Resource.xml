@@ -17,8 +17,9 @@
     <Resource type="image" id="cloud-3">
         <img src="res/images/ui/cloud_3.png" width="128" height="64"></img>
     </Resource>
+    <!-- Christmas Special Title -->
     <Resource type="image" id="title">
-        <img src="res/images/ui/dungeon.png" width="420" height="128"></img>
+        <img src="res/images/ui/dungeon_ce.png" width="420" height="128"></img>
     </Resource>
     <Resource type="image" id="select">
         <img src="res/images/ui/select.png" width="750" height="720"></img>
@@ -37,6 +38,16 @@
     </Resource>
     <Resource type="image" id="sun">
         <img src="res/images/ui/sun.png" width="48" height="48"></img>
+    </Resource>
+    <!-- Christmas Special Elements -->
+    <Resource type="image" id="wreath">
+        <img src="res/images/ui/wreath.png" width="65" height="80"></img>
+    </Resource>
+    <Resource type="image" id="holl">
+        <img src="res/images/ui/holl.png" width="640" height="320"></img>
+    </Resource>
+    <Resource type="image" id="star">
+        <img src="res/images/ui/star.png" width="64" height="64"></img>
     </Resource>
 
     <!-- UI Sounds -->
@@ -114,6 +125,25 @@
             <Motion origin="0 384" frame-num="4" frame-speed="125" dir-num="2" loop="true"></Motion>
             <Motion origin="0 576" frame-num="1" frame-speed="250" dir-num="2" loop="false"></Motion>
             <Motion origin="0 768" frame-num="6" frame-speed="125" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <!-- Christmas Special -->
+    <Resource type="motion" id="snowman">
+        <Animation motion-num="5" frame-width="256" frame-height="384" src="res/images/figure/snowman.png">
+            <Motion origin="0 0" frame-num="11" frame-speed="150" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 768" frame-num="8" frame-speed="150" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 768" frame-num="8" frame-speed="150" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 1536" frame-num="14" frame-speed="150" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 2304" frame-num="16" frame-speed="150" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="droid">
+        <Animation motion-num="5" frame-width="128" frame-height="192" src="res/images/figure/droid.png">
+            <Motion origin="0 0" frame-num="12" frame-speed="125" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 384" frame-num="6" frame-speed="125" dir-num="2" loop="true"></Motion>
+            <Motion origin="768 384" frame-num="6" frame-speed="125" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 384" frame-num="1" frame-speed="125" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 768" frame-num="16" frame-speed="125" dir-num="2" loop="false"></Motion>
         </Animation>
     </Resource>
     <Resource type="motion" id="rock">
@@ -201,7 +231,52 @@
         </Animation>
     </Resource>
     <Resource type="audio" id="ggun-s">
-        <Mono src="res/sounds/effect/ggun.wav"></Mono>
+        <Mono share="true" src="res/sounds/effect/ggun.wav"></Mono>
+    </Resource>
+    <!-- Christmas Special -->
+    <Resource type="motion" id="blaster">
+        <Animation motion-num="4" frame-width="12" frame-height="12" src="res/images/void.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 0" frame-num="1" frame-speed="16" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 0" frame-num="1" frame-speed="0" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="blaster-s">
+        <Mono share="true" src="res/sounds/effect/laser_weak.wav"></Mono>
+    </Resource>
+    <Resource type="motion" id="machine">
+        <Animation motion-num="4" frame-width="128" frame-height="128" src="res/images/weapon/machine.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="128 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 256" frame-num="1" frame-speed="32" dir-num="2" loop="false"></Motion>
+            <Motion origin="128 0" frame-num="1" frame-speed="0" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="machine-s">
+        <Mono share="true" src="res/sounds/effect/laser.wav"></Mono>
+    </Resource>
+    <Resource type="motion" id="launcher">
+        <Animation motion-num="4" frame-width="192" frame-height="192" src="res/images/weapon/launcher.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="192 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 384" frame-num="3" frame-speed="75" dir-num="2" loop="false"></Motion>
+            <Motion origin="192 0" frame-num="1" frame-speed="16" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="launcher-s">
+        <Mono share="true" src="res/sounds/effect/launcher.wav"></Mono>
+    </Resource>
+    <Resource type="motion" id="slauncher">
+        <Animation motion-num="4" frame-width="12" frame-height="12" src="res/images/void.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 0" frame-num="1" frame-speed="16" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 0" frame-num="1" frame-speed="0" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="slauncher-s">
+        <Mono share="true" src="res/sounds/effect/snow_launch.wav"></Mono>
     </Resource>
 
     <!-- Melee (Idle - Ready - Fire - Cooling) -->
@@ -289,8 +364,30 @@
             <Motion origin="0 128" frame-num="8" frame-speed="125" dir-num="1" loop="false"></Motion>
         </Animation>
     </Resource>
+    <!-- Christmas Special -->
+    <Resource type="motion" id="laser">
+        <Animation motion-num="3" frame-width="36" frame-height="36" src="res/images/bullet/laser.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 36" frame-num="4" frame-speed="50" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 36" frame-num="4" frame-speed="50" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="glaser">
+        <Animation motion-num="3" frame-width="36" frame-height="36" src="res/images/bullet/glaser.png">
+            <Motion origin="0 0" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 36" frame-num="4" frame-speed="50" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 36" frame-num="4" frame-speed="50" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="snowball">
+        <Animation motion-num="3" frame-width="32" frame-height="32" src="res/images/bullet/snowball.png">
+            <Motion origin="0 0" frame-num="4" frame-speed="75" dir-num="1" loop="true"></Motion>
+            <Motion origin="0 32" frame-num="3" frame-speed="75" dir-num="1" loop="false"></Motion>
+            <Motion origin="0 64" frame-num="3" frame-speed="75" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
 
-    <!-- Mscellaneous -->
+    <!-- Miscellaneous -->
     <Resource type="motion" id="portal">
         <Animation motion-num="2" frame-width="300" frame-height="384" src="res/images/misc/portal.png">
             <Motion origin="0 0" frame-num="8" frame-speed="50" dir-num="1" loop="false"></Motion>
@@ -482,6 +579,55 @@
             <Motion origin="0 288" frame-num="8" frame-speed="150" dir-num="1" loop="false"></Motion>
             <Motion origin="0 384" frame-num="1" frame-speed="1000" dir-num="1" loop="true"></Motion>
             <Motion origin="0 480" frame-num="8" frame-speed="150" dir-num="1" loop="false"></Motion>
+        </Animation>
+    </Resource>
+
+    <!-- Christmas Special Terrain -->
+    <!-- Snow floor -->
+    <Resource type="image" id="floor-snow-0">
+        <img width="64" height="64" origin="0 32" size="64 64" src="res/images/terrain/snow_terrain.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-snow-1">
+        <img width="64" height="64" origin="64 32" size="64 64" src="res/images/terrain/snow_terrain.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-snow-2">
+        <img width="64" height="64" origin="128 32" size="64 64" src="res/images/terrain/snow_terrain.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-snow-3">
+        <img width="64" height="64" origin="192 32" size="64 64" src="res/images/terrain/snow_terrain.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-snow-4">
+        <img width="64" height="64" origin="256 32" size="64 64" src="res/images/terrain/snow_terrain.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-snow-5">
+        <img width="64" height="64" origin="320 32" size="64 64" src="res/images/terrain/snow_terrain.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-snow-6">
+        <img width="64" height="64" origin="384 32" size="64 64" src="res/images/terrain/snow_terrain.png"></img>
+    </Resource>
+    <Resource type="image" id="floor-snow-7">
+        <img width="64" height="64" origin="448 32" size="64 64" src="res/images/terrain/snow_terrain.png"></img>
+    </Resource>
+
+    <!-- Snow wall -->
+    <Resource type="motion" id="wall-snow-0">
+        <Animation motion-num="1" frame-width="64" frame-height="192" src="res/images/terrain/snow_terrain.png">
+            <Motion origin="0 96" frame-num="4" frame-speed="150" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-snow-1">
+        <Animation motion-num="1" frame-width="64" frame-height="192" src="res/images/terrain/snow_terrain.png">
+            <Motion origin="256 96" frame-num="4" frame-speed="150" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-snow-2">
+        <Animation motion-num="1" frame-width="64" frame-height="192" src="res/images/terrain/snow_terrain.png">
+            <Motion origin="0 288" frame-num="4" frame-speed="150" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="wall-snow-3">
+        <Animation motion-num="1" frame-width="64" frame-height="192" src="res/images/terrain/snow_terrain.png">
+            <Motion origin="256 288" frame-num="4" frame-speed="150" dir-num="1" loop="true"></Motion>
         </Animation>
     </Resource>
 </Config>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <UI>
-    <Time name="Victory" in-time="250" out-time="250" duration="5000">
+    <Time name="Victory" in-time="250" out-time="250" duration="3000">
         <Widgets>
             <!-- Background -->
             <Static name="bg" layer="-10" float="true" pos="0% 0%">
@@ -40,6 +40,33 @@
                     <CoordTransition duration="21000" delay="5000" loop="true" reverse="false" style="linear" float="true" top="false" begin="-20% 25%" end="120% 25%"></CoordTransition>
                     <ScaleTransition duration="7000" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.2"></ScaleTransition>
                     <AlphaTransition duration="1100" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="star-1" float="true" pos="20% 50%" layer="-10">
+                <Drawer>
+                    <Image width="64" height="64" focus="32 32" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="2200" delay="0" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="2200" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="star-2" float="true" pos="80% 40%" layer="-10">
+                <Drawer>
+                    <Image width="48" height="48" focus="24 24" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="1700" delay="0" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="1700" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
+             <Static name="star-3" float="true" pos="70% 85%" layer="-10">
+                <Drawer>
+                    <Image width="32" height="32" focus="16 16" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="1300" delay="123" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="1300" delay="123" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
                 </Transitions>
             </Static>
             <Static name="sun" pos="580 200" layer="5">
@@ -55,7 +82,8 @@
             </Static>
         </Widgets>
     </Time>
-    <Time name="Lost" in-time="1000" out-time="250" duration="5000">
+    <!-- Lost -->
+    <Time name="Lost" in-time="1000" out-time="250" duration="3000">
         <Widgets>
             <!-- Background -->
             <Static name="bg" layer="-10" float="true" pos="0% 0%">
@@ -94,6 +122,33 @@
                     <CoordTransition duration="21000" delay="5000" loop="true" reverse="false" style="linear" float="true" top="false" begin="-20% 25%" end="120% 25%"></CoordTransition>
                     <ScaleTransition duration="7000" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.2"></ScaleTransition>
                     <AlphaTransition duration="1100" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="star-1" float="true" pos="20% 50%" layer="-10">
+                <Drawer>
+                    <Image width="64" height="64" focus="32 32" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="2200" delay="0" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="2200" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="star-2" float="true" pos="80% 40%" layer="-10">
+                <Drawer>
+                    <Image width="48" height="48" focus="24 24" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="1700" delay="0" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="1700" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
+             <Static name="star-3" float="true" pos="70% 85%" layer="-10">
+                <Drawer>
+                    <Image width="32" height="32" focus="16 16" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="1300" delay="123" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="1300" delay="123" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
                 </Transitions>
             </Static>
             <!-- Title -->

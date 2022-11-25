@@ -765,6 +765,164 @@ void ScaleTransition::_Finalize()
 		m_pWidget->SetScale(m_end);
 }
 
+
+/******************************************************************************
+ * RotationTransition::Load -- Load rotation transition.                      *
+ *                                                                            *
+ *    For convenience, here we read in degree, and then convert it to rad.    *
+ *                                                                            *
+ * INPUT:   node                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+bool RotationTransition::Load(XMLElement* node)
+{
+	const char* name = node->Name();
+	const char* attr;
+
+	Transition::Load(node);
+
+	_PARSE("begin", m_begin, name, 0.0);
+	_PARSE("end", m_end, name, 0.0);
+
+	m_begin *= DEG_TO_RAD;
+	m_end *= DEG_TO_RAD;
+
+	_AdjustProperty(node);
+
+	return !Logger::Error();
+}
+
+
+/******************************************************************************
+ * RotationTransition::SetStyle -- Set transition style.                      *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   style                                                             *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+RotationTransition* RotationTransition::SetStyle(TransitionStyle style)
+{
+	m_style = style;
+
+	switch (m_style)
+	{
+	case TransitionStyle::TRANS_STYLE_EASE_OUT:
+		m_blender = EaseOutBlender<double>;
+		break;
+	case TransitionStyle::TRANS_STYLE_EASE_IN:
+		m_blender = EaseInBlender<double>;
+		break;
+	case TransitionStyle::TRANS_STYLE_LINEAR:
+		m_blender = LinearBlender<double>;
+		break;
+	default:
+		m_blender = LinearBlender<double>;
+		break;
+	}
+
+	return this;
+}
+
+
+/******************************************************************************
+ * RotationTransition::_Update -- Update rotation transition.                 *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+void RotationTransition::_Update()
+{
+	if (m_isReversed)
+		m_pWidget->SetRotationAngle(BlendValue(m_end, m_begin, ((double)m_elapsedTime / (double)m_duration), m_blender));
+	else
+		m_pWidget->SetRotationAngle(BlendValue(m_begin, m_end, ((double)m_elapsedTime / (double)m_duration), m_blender));
+}
+
+
+/******************************************************************************
+ * RotationTransition::_Reset -- Reset rotation transition.                   *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+void RotationTransition::_Reset()
+{
+	m_pWidget->SetRotationAngle(m_begin);
+}
+
+
+/******************************************************************************
+ * RotationTransition::_Terminate -- Terminate rotation transition.           *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+void RotationTransition::_Terminate()
+{
+	m_pWidget->SetRotationAngle(m_end);
+}
+
+
+/******************************************************************************
+ * RotationTransition::_Finalize -- Terminate rotation transition.            *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/25 Tony : Created.                                               *
+ *============================================================================*/
+void RotationTransition::_Finalize()
+{
+	if (m_isReversed)
+		m_pWidget->SetRotationAngle(m_begin);
+	else
+		m_pWidget->SetRotationAngle(m_end);
+}
+
+
 /******************************************************************************
  * LoadTransition -- Load transition from xml node.                           *
  *                                                                            *
@@ -792,6 +950,8 @@ Transition* LoadTransition(XMLElement* node)
 		rv = new AlphaTransition();
 	else if (_STR_SAME(name, "ScaleTransition"))
 		rv = new ScaleTransition();
+	else if (_STR_SAME(name, "RotationTransition"))
+		rv = new RotationTransition();
 
 	if (rv)
 		rv->Load(node);

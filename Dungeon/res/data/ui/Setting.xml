@@ -42,6 +42,34 @@
                     <AlphaTransition duration="1100" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
                 </Transitions>
             </Static>
+            <!-- Christmas Special Star -->
+            <Static name="star-1" float="true" pos="20% 50%" layer="-10">
+                <Drawer>
+                    <Image width="64" height="64" focus="32 32" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="2200" delay="0" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="2200" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="star-2" float="true" pos="80% 40%" layer="-10">
+                <Drawer>
+                    <Image width="48" height="48" focus="24 24" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="1700" delay="0" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="1700" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
+             <Static name="star-3" float="true" pos="70% 85%" layer="-10">
+                <Drawer>
+                    <Image width="32" height="32" focus="16 16" src="star" size="64 64"></Image>
+                </Drawer>
+                <Transitions>
+                    <ScaleTransition duration="1300" delay="123" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
+                    <AlphaTransition duration="1300" delay="123" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
             <!-- Title -->
             <Static name="title" pos="320 40" layer="10">
                 <Drawer>

@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 30, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -165,6 +165,21 @@ class AboutInterface final : public PlainInterface
 public:
 	AboutInterface() {}
 	virtual ~AboutInterface() {}
+
+	virtual bool Load(XMLElement* node);
+
+	virtual void AddEvents();
+};
+
+/*
+** 2022/11/25 TS:
+** Make Victory and Lost interface independent.
+*/
+class VictoryInterface final : public TimeInterface
+{
+public:
+	VictoryInterface() {}
+	virtual ~VictoryInterface() {}
 
 	virtual bool Load(XMLElement* node);
 

@@ -337,6 +337,8 @@ AbstractInterface* LoadInterface(XMLElement* node)
 		intf = new CreditsInterface();
 	else if (_STR_SAME(name, "Version"))
 		intf = new VersionInterface();
+	else if (_STR_SAME(name, "Victory"))
+		intf = new VictoryInterface();
 	else if (_STR_SAME(name, "Time"))
 		intf = new TimeInterface();
 	else
