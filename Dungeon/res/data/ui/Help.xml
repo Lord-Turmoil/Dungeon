@@ -60,7 +60,7 @@
                     <AlphaTransition duration="1700" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
                 </Transitions>
             </Static>
-             <Static name="star-3" float="true" pos="70% 85%" layer="-10">
+            <Static name="star-3" float="true" pos="70% 85%" layer="-10">
                 <Drawer>
                     <Image width="32" height="32" focus="16 16" src="star" size="64 64"></Image>
                 </Drawer>
@@ -94,6 +94,32 @@
             <Static name="help" pos="0 0" layer="5">
                 <Drawer>
                     <Image width="640" height="480" src="help" size="640 480"></Image>
+                </Drawer>
+            </Static>
+            <!-- HUD -->
+            <Static name="hud-1" float="true" pos="100% 100%">
+                <Drawer>
+                    <Text width="256" height="24" focus="320 124" font-size="18" font="8bitoperator JVE Regular" color="#000000">HUD at the corner shows the name of</Text>
+                </Drawer>
+            </Static>
+            <Static name="hud-2" float="true" pos="100% 100%">
+                <Drawer>
+                    <Text width="256" height="24" focus="320 100" font-size="18" font="8bitoperator JVE Regular" color="#000000">the weapon and the energy it costs</Text>
+                </Drawer>
+            </Static>
+            <Static name="weapon-back" float="true" pos="100% 100%" alpha="128" layer="5">
+                <Drawer>
+                    <Circle radius="96" border="2" focus="100 100" fill-color="#efefef" line-color="#000000"></Circle>
+                </Drawer>
+            </Static>
+            <Static name="weapon-name" float="true" pos="100% 100%" layer="10">
+                <Drawer>
+                    <Text width="90" height="50" focus="90 50" font-size="26" font="8bitoperator JVE Regular" color="#111111">Rifle</Text>
+                </Drawer>
+            </Static>
+            <Static name="weapon-cost" float="true" pos="100% 100%" layer="10">
+                <Drawer>
+                    <Text width="50" height="50" focus="50 90" font-size="48" font="8bitoperator JVE Regular" color="#311b92">1</Text>
                 </Drawer>
             </Static>
         </Widgets>

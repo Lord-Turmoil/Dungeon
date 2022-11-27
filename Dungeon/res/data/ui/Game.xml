@@ -363,20 +363,20 @@
             </Static>
 
             <!-- Weapon prompt -->
-            <Static name="weapon-back" float="true" pos="100% 100%" alpha="128">
+            <Static name="weapon-back" float="true" pos="100% 100%" alpha="128" layer="5">
                 <Drawer>
-                    <Circle radius="100" focus="100 100" color="#000000">
+                    <Circle radius="96" border="2" focus="100 100" fill-color="#efefef" line-color="#000000">
                     </Circle>
                 </Drawer>
             </Static>
-            <Static name="weapon-name" float="true" pos="100% 100%" layer="5">
+            <Static name="weapon-name" float="true" pos="100% 100%" layer="10">
                 <Drawer>
-                    <Text width="90" height="50" focus="90 50" font-size="24" font="8bitoperator JVE Regular" color="#333333"></Text>
+                    <Text width="90" height="50" focus="90 50" font-size="26" font="8bitoperator JVE Regular" color="#111111"> </Text>
                 </Drawer>
             </Static>
-            <Static name="weapon-cost" float="true" pos="100% 100%" layer="5">
+            <Static name="weapon-cost" float="true" pos="100% 100%" layer="10">
                 <Drawer>
-                    <Text width="50" height="50" focus="50 100" font-size="24" font="8bitoperator JVE Regular" color="#333333"></Text>
+                    <Text width="50" height="50" focus="50 90" font-size="48" font="8bitoperator JVE Regular" color="#311b92"> </Text>
                 </Drawer>
             </Static>
 

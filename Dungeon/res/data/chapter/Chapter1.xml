@@ -130,7 +130,7 @@
         </Floor>
     </Terrain>
     <EnemyLibrary>
-        <Genie name="Genie-0" center="0 -28" level="1" alert-radius="1500" attack-radius="300" scare-radius="200" rest="1000" coin="3" energy="3">
+        <Genie name="Genie-0" center="0 -28" level="1" alert-radius="1500" attack-radius="300" scare-radius="200" rest="1000" coin="1" energy="3">
             <Property hurt-duration="200">
                 <HP>1, 0</HP>
                 <MP>100, 1</MP>
@@ -149,7 +149,7 @@
                 <Anim src="genie" offset="-48 -96" order="70"></Anim>
             </Components>
         </Genie>
-        <Genie name="Genie-1" center="0 -28" level="1" alert-radius="1000" attack-radius="300" scare-radius="250" rest="800" coin="3" energy="5">
+        <Genie name="Genie-1" center="0 -28" level="1" alert-radius="1000" attack-radius="300" scare-radius="250" rest="800" coin="1" energy="5">
             <Property hurt-duration="200">
                 <HP>2, 0</HP>
                 <MP>100, 1</MP>
@@ -168,7 +168,26 @@
                 <Anim src="genie" offset="-48 -96" order="70"></Anim>
             </Components>
         </Genie>
-        <Genie name="Genie-2" center="0 -28" level="2" alert-radius="2000" attack-radius="500" scare-radius="200" rest="500" coin="4" energy="7">
+        <Genie name="Genie-1-1" center="0 -28" level="1" alert-radius="1000" attack-radius="300" scare-radius="250" rest="800" coin="2" energy="5">
+            <Property hurt-duration="200">
+                <HP>2, 0</HP>
+                <MP>100, 1</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -32" box-size="66 66" border-size="288 288" order="30"></ColliderBox>
+                <RigidBody mass="15" strength="5" max-velocity="6" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>GGun</Weapon>
+                </WeaponSlot>
+                <Anim src="genie" offset="-48 -96" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Genie-2" center="0 -28" level="2" alert-radius="2000" attack-radius="500" scare-radius="200" rest="500" coin="2" energy="7">
             <Property hurt-duration="200">
                 <HP>3, 0</HP>
                 <MP>100, 1</MP>
@@ -187,7 +206,26 @@
                 <Anim src="genie" offset="-48 -96" order="70"></Anim>
             </Components>
         </Genie>
-        <Genie name="Genie-3" center="0 -28" level="3" alert-radius="5000" attack-radius="600" scare-radius="300" rest="500" coin="5" energy="9">
+        <Genie name="Genie-2-1" center="0 -28" level="2" alert-radius="2000" attack-radius="500" scare-radius="200" rest="500" coin="2" energy="7">
+            <Property hurt-duration="200">
+                <HP>5, 0</HP>
+                <MP>100, 1</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -32" box-size="66 66" border-size="288 288" order="30"></ColliderBox>
+                <RigidBody mass="15" strength="5" max-velocity="8" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>GGun</Weapon>
+                </WeaponSlot>
+                <Anim src="genie" offset="-48 -96" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Genie-3" center="0 -28" level="3" alert-radius="5000" attack-radius="600" scare-radius="300" rest="500" coin="3" energy="9">
             <Property hurt-duration="200">
                 <HP>5, 0</HP>
                 <MP>100, 1</MP>
@@ -206,8 +244,27 @@
                 <Anim src="genie" offset="-48 -96" order="70"></Anim>
             </Components>
         </Genie>
+        <Genie name="Genie-3-1" center="0 -28" level="3" alert-radius="5000" attack-radius="600" scare-radius="300" rest="500" coin="3" energy="9">
+            <Property hurt-duration="200">
+                <HP>10, 0</HP>
+                <MP>100, 1</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -32" box-size="66 66" border-size="288 288" order="30"></ColliderBox>
+                <RigidBody mass="15" strength="5" max-velocity="10" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>GGunPro</Weapon>
+                </WeaponSlot>
+                <Anim src="genie" offset="-48 -96" order="70"></Anim>
+            </Components>
+        </Genie>
         <!-- Christmas Special -->
-        <Genie name="Snow-0" center="0 -20" level="1" alert-radius="1000" attack-radius="512" scare-radius="0" rest="3000" coin="5" energy="5">
+        <Genie name="Snow-0" center="0 -20" level="1" alert-radius="1000" attack-radius="512" scare-radius="0" rest="3000" coin="1" energy="3">
             <Property hurt-duration="200">
                 <HP>12, 0</HP>
                 <MP>0, 0</MP>
@@ -217,7 +274,7 @@
             <Components>
                 <Behavior order="10"></Behavior>
                 <State order="20"></State>
-                <ColliderBox offset="0 -30" box-size="150 60" border-size="512 512" order="30"></ColliderBox>
+                <ColliderBox offset="0 -40" box-size="150 80" border-size="512 512" order="30"></ColliderBox>
                 <!-- Stay still. -->
                 <RigidBody id="9" order="40"></RigidBody>
                 <Move order="50"></Move>
@@ -227,7 +284,7 @@
                 <Anim src="snowman" offset="-128 -376" order="70"></Anim>
             </Components>
         </Genie>
-        <Genie name="Snow-1" center="0 -20" level="3" alert-radius="1000" attack-radius="512" scare-radius="0" rest="3000" coin="5" energy="5">
+        <Genie name="Snow-1" center="0 -20" level="3" alert-radius="1000" attack-radius="512" scare-radius="0" rest="3000" coin="2" energy="5">
             <Property hurt-duration="200">
                 <HP>25, 0</HP>
                 <MP>0, 0</MP>
@@ -237,7 +294,7 @@
             <Components>
                 <Behavior order="10"></Behavior>
                 <State order="20"></State>
-                <ColliderBox offset="0 -30" box-size="150 60" border-size="512 512" order="30"></ColliderBox>
+                <ColliderBox offset="0 -40" box-size="150 80" border-size="512 512" order="30"></ColliderBox>
                 <!-- Stay still. -->
                 <RigidBody id="9" order="40"></RigidBody>
                 <Move order="50"></Move>
@@ -247,7 +304,7 @@
                 <Anim src="snowman" offset="-128 -376" order="70"></Anim>
             </Components>
         </Genie>
-        <Genie name="Droid-0" center="0 -10" level="1" alert-radius="50000" attack-radius="800" scare-radius="200" rest="0" coin="5" energy="5">
+        <Genie name="Droid-0" center="0 -10" level="1" alert-radius="2000" attack-radius="600" scare-radius="150" rest="100" coin="3" energy="3">
             <Property hurt-duration="200">
                 <HP>3, 0</HP>
                 <MP>0, 0</MP>
@@ -266,7 +323,7 @@
                 <Anim src="droid" offset="-64 -172" order="70"></Anim>
             </Components>
         </Genie>
-        <Genie name="Droid-1" center="0 -10" level="2" alert-radius="50000" attack-radius="800" scare-radius="200" rest="0" coin="5" energy="5">
+        <Genie name="Droid-1" center="0 -10" level="2" alert-radius="5000" attack-radius="700" scare-radius="200" rest="0" coin="4" energy="5">
             <Property hurt-duration="200">
                 <HP>4, 0</HP>
                 <MP>0, 0</MP>
@@ -287,7 +344,7 @@
         </Genie>
         <Genie name="Droid-3" center="0 -10" level="3" alert-radius="50000" attack-radius="800" scare-radius="200" rest="0" coin="5" energy="5">
             <Property hurt-duration="200">
-                <HP>25, 0</HP>
+                <HP>10, 0</HP>
                 <MP>0, 0</MP>
                 <Armor>0, 0</Armor>
                 <Chi>0, 0</Chi>

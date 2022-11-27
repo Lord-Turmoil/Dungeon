@@ -313,7 +313,7 @@ void GenieRetreat::Update(Event* evnt)
 	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
 	if (m_elapsedTime > DECISION_GAP)
 	{
-		if (dist > genie->GetScareRadius())
+		if (dist > genie->GetScareRadius() * 1.2)
 		{
 			m_parent->ChangeBehavior("Idle");
 			return;

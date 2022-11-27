@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 10, 2022                             *
  *                                                                            *
- *                    Last Update : November 24, 2022                         *
+ *                    Last Update : November 27, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -97,7 +97,7 @@ bool Settings::Load()
 		_LoadEntry(file, &m_isFullscreen, "Fullscreen");
 
 		_LoadEntry(file, &m_coin, "Coin");
-
+		_LoadEntry(file, &m_showCredits, "ShowCredits");
 		_LoadEntry(file, &CHAPTER_NUM, "ChapterNum");
 		_LoadEntry(file, &LEVEL_NUM, "LevelNum");
 
@@ -170,6 +170,7 @@ bool Settings::SaveConfig()
 	}
 
 	_SaveEntry(file, m_coin, "Coin");
+	_SaveEntry(file, m_showCredits, "ShowCredits");
 	_SaveEntry(file, m_beginColor, "BeginColor");
 	_SaveEntry(file, m_endColor, "EndColor");
 	_SaveHeroInfo(file);
@@ -279,6 +280,7 @@ bool Settings::MakeAvailable(const std::string& name)
 Settings::Settings() :
 	m_difficulty(0),
 	m_coin(0),
+	m_showCredits(false),
 	m_soundVolume(1.0),
 	m_musicVolume(1.0),
 	m_filename(nullptr),

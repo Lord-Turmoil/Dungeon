@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <UI>
-    <Time name="Victory" in-time="250" out-time="250" duration="3000">
+    <Victory name="Victory" in-time="250" out-time="250" duration="5000">
         <Widgets>
             <!-- Background -->
             <Static name="bg" layer="-10" float="true" pos="0% 0%">
@@ -42,7 +42,7 @@
                     <AlphaTransition duration="1100" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
                 </Transitions>
             </Static>
-            <Static name="star-1" float="true" pos="20% 50%" layer="-10">
+            <Static name="star-1" float="true" pos="20% 30%" layer="-10">
                 <Drawer>
                     <Image width="64" height="64" focus="32 32" src="star" size="64 64"></Image>
                 </Drawer>
@@ -73,17 +73,25 @@
                 <Drawer>
                     <Image width="128" height="128" focus="64 64" src="sun" size="48 48"></Image>
                 </Drawer>
+                <Transitions>
+                    <RotationTransition duration="5000" delay="0" loop="true" reverse="false" style="linear" begin="0" end="360"></RotationTransition>
+                </Transitions>
             </Static>
             <!-- Title -->
             <Static name="title" pos="320 240" layer="10">
                 <Drawer>
-                    <Text width="640" height="80" focus="320 40" font-size="80" font="8bitoperator JVE Regular" color="#000000">You Have Escaped</Text>
+                    <!-- <Text width="640" height="80" focus="320 40" font-size="80" font="8bitoperator JVE Regular" color="#000000">You Have Escaped</Text> -->
+                    <Text width="640" height="80" focus="320 40" font-size="80" font="8bitoperator JVE Regular" color="#000000">To Be Continued...</Text>
                 </Drawer>
             </Static>
+            <!-- Skip -->
+            <Detector name="skip">
+                <Trigger type="key" vkey="0x1B"></Trigger>
+            </Detector>
         </Widgets>
-    </Time>
+    </Victory>
     <!-- Lost -->
-    <Time name="Lost" in-time="1000" out-time="250" duration="3000">
+    <Victory name="Lost" in-time="1000" out-time="250" duration="3000">
         <Widgets>
             <!-- Background -->
             <Static name="bg" layer="-10" float="true" pos="0% 0%">
@@ -124,7 +132,7 @@
                     <AlphaTransition duration="1100" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
                 </Transitions>
             </Static>
-            <Static name="star-1" float="true" pos="20% 50%" layer="-10">
+            <Static name="star-1" float="true" pos="20% 30%" layer="-10">
                 <Drawer>
                     <Image width="64" height="64" focus="32 32" src="star" size="64 64"></Image>
                 </Drawer>
@@ -157,6 +165,10 @@
                     <Text width="640" height="80" focus="320 40" font-size="80" font="8bitoperator JVE Regular" color="#000000">You Have Lost</Text>
                 </Drawer>
             </Static>
+            <!-- Skip -->
+            <Detector name="skip">
+                <Trigger type="key" vkey="0x1B"></Trigger>
+            </Detector>
         </Widgets>
-    </Time>
+    </Victory>
 </UI>

@@ -129,8 +129,15 @@
             <Static name="copyright" pos="320 340">
                 <Drawer>
                     <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
-                        Copyright (C) New Desire Studios 2022
+                        Copyright (C) New Desire Studios 2022 - 2023
                     </Text>
+                </Drawer>
+            </Static>
+
+            <!-- Special Banner -->
+            <Static name="mayhem" pos="640 440" layer="-5">
+                <Drawer>
+                    <Text width="320" height="40" focus="320 40" font-size="24" color="#000000" font="8bitoperator JVE Regular">- For Mayhem</Text>
                 </Drawer>
             </Static>
         </Widgets>

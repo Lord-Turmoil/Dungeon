@@ -27,14 +27,15 @@
                     <AlphaTransition duration="5300" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
                 </Transitions>
             </Static>
-            <Static name="cloud-2" pos="500 130" layer="15">
+            <Static name="cloud-2" pos="510 135" layer="15">
                 <Drawer>
-                    <Image width="256" height="128" focus="128 64" src="cloud-2" size="128 64"></Image>
+                    <Image width="256" height="256" focus="128 128" src="christmas" size="256 256"></Image>
                 </Drawer>
                 <Transitions>
-                    <CoordTransition duration="7000" delay="300" loop="true" reverse="true" style="ease-out" begin="500 130" end="530 140"></CoordTransition>
-                    <ScaleTransition duration="8200" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.1"></ScaleTransition>
-                    <AlphaTransition duration="6300" delay="7000" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                    <!-- <CoordTransition duration="7000" delay="300" loop="true" reverse="true" style="ease-out" begin="500 130" end="530 140"></CoordTransition> -->
+                    <!-- <ScaleTransition duration="8200" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.1"></ScaleTransition> -->
+                    <AlphaTransition duration="6300" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                    <RotationTransition duration="1400" delay="0" loop="true" reverse="true" style="ease-out" begin="10" end="30"></RotationTransition>
                 </Transitions>
             </Static>
             <Static name="cloud-3" float="true" pos="-100% -100%" layer="-2">
@@ -193,13 +194,13 @@
             <!-- Version Button -->
             <Button name="version" pos="280 150">
                 <Up>
-                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#000000">v1.0.3 CE</Text>
+                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#000000">v1.0.3 Xmas</Text>
                 </Up>
                 <Hover>
-                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#888888">v1.0.3 CE</Text>
+                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#555555">v1.0.3 Xmas</Text>
                 </Hover>
                 <Down>
-                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#444444">v1.0.3 CE</Text>
+                    <Text width="100" height="15" font-size="24" font="8bitoperator JVE Regular" color="#444444">v1.0.3 Xmas</Text>
                 </Down>
                 <Trigger>
                     <Trigger type="rect" width="120" height="35" focus="10 10"></Trigger>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Settings>
-    <Difficulty>3</Difficulty>
-    <Coin>4071</Coin>
-    <SoundVolume>0.30</SoundVolume>
-    <MusicVolume>0.07</MusicVolume>
+    <Difficulty>0</Difficulty>
+    <SoundVolume>0.50</SoundVolume>
+    <MusicVolume>0.00</MusicVolume>
     <Fullscreen>false</Fullscreen>
-    <ChapterNum>2</ChapterNum>
+    <Coin>1325</Coin>
+    <ShowCredits>true</ShowCredits>
+    <ChapterNum>1</ChapterNum>
     <LevelNum>1</LevelNum>
     <BeginColor>#3f51b5</BeginColor>
     <EndColor>#2195f3</EndColor>

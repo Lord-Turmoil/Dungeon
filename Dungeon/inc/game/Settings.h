@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 10, 2022                             *
  *                                                                            *
- *                    Last Update : November 24, 2022                         *
+ *                    Last Update : November 27, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -59,11 +59,16 @@ public:
 	int Coin() const { return m_coin; }
 	void Coin(int coin) { m_coin = coin; }
 	void AddCoin(int coin) { m_coin += coin; }
+
+	bool ShowCredits() const { return m_showCredits; }
+	void ShowCredits(bool showCredits) { m_showCredits = showCredits; }
+
 	void HeroName(const std::string& name) { m_heroName = name; }
 	const std::string& HeroName() const { return m_heroName; }
 	bool IsAvailable(const std::string& name) const;
 	bool CanBeAvailable(const std::string& name) const;
 	bool MakeAvailable(const std::string& name);
+	
 	COLORREF BeginColor() const { return m_beginColor; }
 	COLORREF EndColor() const { return m_endColor; }
 
@@ -96,6 +101,7 @@ private:
 
 	// Config
 	int m_coin;
+	bool m_showCredits;		// Show credits when game ends.
 	std::string m_heroName;
 	COLORREF m_beginColor;	// Top color of the sky.
 	COLORREF m_endColor;	// Bottom color of the sky.

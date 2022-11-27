@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 30, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 27, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -525,11 +525,14 @@ void AboutInterface::AddEvents()
 bool VictoryInterface::Load(XMLElement* node)
 {
 	const char* name = node->Name();
+	const char* attr;
 
 	_CHECK_TAG("Victory");
 	_RETURN_IF_ERROR();
 
 	TimeInterface::Load(node);
+
+	_PARSE("victory", m_isVictory, name, false);
 
 	_RETURN_STATE();
 }
@@ -538,4 +541,28 @@ void VictoryInterface::AddEvents()
 {
 	static_cast<KeyboardDetector*>(m_pWidgetManager->GetWidget("skip"))
 		->OnTriggered(std::bind(&VictoryInterface::_SelfTerminate, this));
+}
+
+/*
+** 2022/11/27 TS:
+** Special behavior for victory interface.
+*/
+void VictoryInterface::_SelfTerminate()
+{
+	// Non-victory interface behavior.
+	if (!m_isVictory)
+	{
+		Detach();
+		return;
+	}
+
+	// Victory interface behavior.
+	if (Settings::GetInstance()->ShowCredits())
+	{
+		Application::GetInstance()->GetInterface("Credits")->Launch();
+		Settings::GetInstance()->ShowCredits(false);
+		Settings::GetInstance()->SaveConfig();
+	}
+	else
+		Detach();
 }

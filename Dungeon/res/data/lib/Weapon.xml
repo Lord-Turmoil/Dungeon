@@ -65,8 +65,8 @@
             </Sound>
         </Components>
     </Gun>
-    <!-- Bug Machine cost nothing! :P -->
-    <Gun name="Machine" radius="128" bullet="Laser" offset="0 0" muzzle="48 5" cooling="16" cost="0" burst="1" accuracy="0.85">
+    <!-- Bug Machine(Mini) cost nothing! :P -->
+    <Gun name="Mini" radius="128" bullet="Laser" offset="0 0" muzzle="48 5" cooling="16" cost="0" burst="1" accuracy="0.85">
         <Components>
             <Behavior order="10"></Behavior>
             <Anim src="machine" offset="-64 -64" order="70"></Anim>
@@ -75,7 +75,7 @@
             </Sound>
         </Components>
     </Gun>
-    <Gun name="Launcher" radius="128" bullet="Snowball" offset="0 -10" muzzle="70 -5" cooling="500" cost="3" burst="3" accuracy="0.85">
+    <Gun name="SnowGun" radius="128" bullet="Snowball" offset="0 -10" muzzle="70 -5" cooling="500" cost="3" burst="3" accuracy="0.85">
         <Components>
             <Behavior order="10"></Behavior>
             <Anim src="launcher" offset="-96 -96" order="70"></Anim>
@@ -84,7 +84,7 @@
             </Sound>
         </Components>
     </Gun>
-    <Gun name="SLauncher" exclusive="true" radius="128" bullet="SSnowball" offset="0 -36" muzzle="36 0" cooling="1000" cost="0" burst="10" accuracy="0.0">
+    <Gun name="SLauncher" exclusive="true" radius="128" bullet="SSnowball" offset="0 -36" muzzle="72 0" cooling="1000" cost="0" burst="10" accuracy="0.0">
         <Components>
             <Behavior order="10"></Behavior>
             <Anim src="slauncher" offset="-6 -6" order="70"></Anim>
@@ -93,13 +93,24 @@
             </Sound>
         </Components>
     </Gun>
-    <Melee name="Saber" radius="128" offset="0 -10" cooling="0" cost="0" damage="64" force="100" radian="0.4" range="192">
+    <Melee name="Saber" radius="128" offset="0 -10" cooling="0" cost="0" damage="4" force="100" radian="72" range="128">
         <Components>
             <Behavior order="10"></Behavior>
             <ColliderBox offset="0 0" box-size="128 128" border-size="384 384" order="30"></ColliderBox>
             <Anim src="saber" offset="-128 -128" order="70"></Anim>
             <Sound order="80">
                 <li name="fire" src="saber-s"></li>
+            </Sound>
+        </Components>
+    </Melee>
+    <!-- I LOOOOVE MAUL'S DOUBLE-BLADE!!! -->
+    <Melee name="Pike" radius="128" offset="0 0" cooling="0" cost="0" damage="8" force="100" radian="180" range="156">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="128 128" border-size="384 384" order="30"></ColliderBox>
+            <Anim src="pike" offset="-128 -128" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="pike-s"></li>
             </Sound>
         </Components>
     </Melee>

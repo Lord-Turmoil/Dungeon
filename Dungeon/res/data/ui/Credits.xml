@@ -39,7 +39,7 @@
                     <CoordTransition duration="5000" delay="0" loop="false" reverse="false" style="linear" float="true" top="false" begin="70% 25%" end="120% 25%"></CoordTransition>
                     <CoordTransition duration="21000" delay="5000" loop="true" reverse="false" style="linear" float="true" top="false" begin="-20% 25%" end="120% 25%"></CoordTransition>
                     <ScaleTransition duration="7000" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.2"></ScaleTransition>
-                    <AlphaTransition duration="1100" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
+                    <AlphaTransition duration="4100" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
                 </Transitions>
             </Static>
             <!-- Christmas Star -->

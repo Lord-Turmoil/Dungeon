@@ -49,6 +49,9 @@
     <Resource type="image" id="star">
         <img src="res/images/ui/star.png" width="64" height="64"></img>
     </Resource>
+    <Resource type="image" id="christmas">
+        <img src="res/images/ui/christmas.png" width="256" height="256"></img>
+    </Resource>
 
     <!-- UI Sounds -->
     <Resource type="audio" id="hover">
@@ -139,7 +142,7 @@
     </Resource>
     <Resource type="motion" id="droid">
         <Animation motion-num="5" frame-width="128" frame-height="192" src="res/images/figure/droid.png">
-            <Motion origin="0 0" frame-num="12" frame-speed="125" dir-num="2" loop="false"></Motion>
+            <Motion origin="0 0" frame-num="10" frame-speed="125" dir-num="2" loop="false"></Motion>
             <Motion origin="0 384" frame-num="6" frame-speed="125" dir-num="2" loop="true"></Motion>
             <Motion origin="768 384" frame-num="6" frame-speed="125" dir-num="2" loop="true"></Motion>
             <Motion origin="0 384" frame-num="1" frame-speed="125" dir-num="2" loop="false"></Motion>
@@ -301,6 +304,17 @@
     </Resource>
     <Resource type="audio" id="saber-s">
         <Mono share="true" src="res/sounds/effect/saber.wav"></Mono>
+    </Resource>
+    <Resource type="motion" id="pike">
+        <Animation motion-num="4" frame-width="256" frame-height="256" src="res/images/weapon/pike.png">
+            <Motion origin="0 0" frame-num="4" frame-speed="128" dir-num="2" loop="true"></Motion>
+            <Motion origin="1024 0" frame-num="1" frame-speed="1000" dir-num="2" loop="true"></Motion>
+            <Motion origin="0 512" frame-num="11" frame-speed="16" dir-num="2" loop="false"></Motion>
+            <Motion origin="1024 0" frame-num="1" frame-speed="0" dir-num="2" loop="false"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="audio" id="pike-s">
+        <Mono share="true" src="res/sounds/effect/pike.wav"></Mono>
     </Resource>
 
     <Resource type="motion" id="icanon">

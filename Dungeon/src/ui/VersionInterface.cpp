@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : August 26, 2022                           *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 26, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -58,8 +58,8 @@ bool VersionInterface::Load(XMLElement* node)
 
 		page = page->NextSiblingElement();
 	}
-	m_curPage = m_pages.begin();
-	_UpdateControl();
+	
+	_OnRewind();
 
 	_RETURN_STATE();
 }
@@ -142,7 +142,6 @@ void VersionInterface::_UpdateControl()
 		static_cast<Button*>(m_pWidgetManager->GetWidget("down"))->Activate(true);
 }
 	
-
 void VersionInterface::AddEvents()
 {
 	static_cast<Button*>(m_pWidgetManager->GetWidget("back"))
@@ -153,6 +152,17 @@ void VersionInterface::AddEvents()
 		->OnClick(std::bind(&VersionInterface::_PageUp, this));
 	static_cast<Button*>(m_pWidgetManager->GetWidget("down"))
 		->OnClick(std::bind(&VersionInterface::_PageDown, this));
+}
+
+void VersionInterface::_Initialize()
+{
+	_OnRewind();
+}
+
+void VersionInterface::_OnRewind()
+{
+	m_curPage = m_pages.begin();
+	_UpdateControl();
 }
 
 void VersionInterface::_OnCredits()

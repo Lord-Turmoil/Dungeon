@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : August 26, 2022                           *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 26, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -45,6 +45,9 @@ public:
 
 	virtual void AddEvents();
 
+protected:
+	virtual void _Initialize();
+
 private:
 	void _UpdatePage(Event* evnt);
 	void _DrawPage();
@@ -52,6 +55,11 @@ private:
 	void _PageDown();
 	void _UpdateControl();
 
+	/*
+	** 2022/11/26 TS:
+	** Show latest version when opened.
+	*/
+	void _OnRewind();
 	static void _OnCredits();
 
 	std::vector<WidgetManager*> m_pages;

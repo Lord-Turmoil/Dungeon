@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 30, 2022                             *
  *                                                                            *
- *                    Last Update : November 25, 2022                         *
+ *                    Last Update : November 27, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -178,12 +178,27 @@ public:
 class VictoryInterface final : public TimeInterface
 {
 public:
-	VictoryInterface() {}
+	VictoryInterface() : m_isVictory(false) {}
 	virtual ~VictoryInterface() {}
 
 	virtual bool Load(XMLElement* node);
 
 	virtual void AddEvents();
+
+private:
+	/*
+	** 2022/11/27 TS:
+	** If it is the first time to complete the game,
+	** it will jump to credits interface.
+	*/
+	virtual void _SelfTerminate();
+
+	/*
+	** 2022/11/27 TS:
+	** Since both victory and lost interface use this class,
+	** a flag is needed to tell them apart.
+	*/
+	bool m_isVictory;
 };
 
 #endif
