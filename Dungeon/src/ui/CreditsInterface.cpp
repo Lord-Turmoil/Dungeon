@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : August 17, 2022                           *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 29, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -50,6 +50,8 @@ void CreditsInterface::AddEvents()
 
 /********************************************************************
 ** This is a little clumsy... :(
+** 2022/11/29 TS:
+** Oh... Added Mega... :(
 */
 void CreditsInterface::_Initialize()
 {
@@ -57,6 +59,8 @@ void CreditsInterface::_Initialize()
 	static_cast<StaticWidget*>(m_pWidgetManager->GetWidget("credits"))
 		->ResetTransition();
 	static_cast<StaticWidget*>(m_pWidgetManager->GetWidget("prompt"))
+		->ResetTransition();
+	static_cast<StaticWidget*>(m_pWidgetManager->GetWidget("mega"))
 		->ResetTransition();
 	Update(nullptr);	// Make sure coordinate reset is applied.
 
