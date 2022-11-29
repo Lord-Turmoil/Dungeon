@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : March 9, 2022                             *
  *                                                                            *
- *                    Last Update : November 25, 2022                         *
+ *                    Last Update : November 29, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -28,6 +28,7 @@
 #include "../../inc/device/Explorer.h"
 
 #include "../../inc/utility/Auxilliary.h"
+#include "../../inc/utility/DMath.h"
 #include "../../inc/utility/tinyxml.h"
 #include "../../inc/utility/Parser.h"
 #include "../../inc/utility/Straw.h"
@@ -294,10 +295,7 @@ void RawDrawer::_ApplyAttribute()
 void RectDrawer::Update()
 {
 	if (m_cellChanged || m_drawerChanged)
-	{
 		_Render();
-		m_cellChanged = m_drawerChanged = false;
-	}
 
 	m_symbol.SetCoord(m_coord - m_focus);
 
@@ -377,6 +375,8 @@ void RectDrawer::_Render()
 	else if (m_attribute.lineStyle.thickness > 0)
 		rectangle(origin.x, origin.y, origin.x + m_width, origin.y + m_height);
 
+	m_cellChanged = m_drawerChanged = false;
+
 	Device::GetInstance()->SetTargetImage(NULL);
 }
 
@@ -398,10 +398,7 @@ void RectDrawer::_Render()
 void RoundRectDrawer::Update()
 {
 	if (m_cellChanged || m_drawerChanged)
-	{
 		_Render();
-		m_cellChanged = m_drawerChanged = false;
-	}
 
 	m_symbol.SetCoord(m_coord - m_focus);
 
@@ -481,6 +478,8 @@ void RoundRectDrawer::_Render()
 	else if (m_attribute.lineStyle.thickness > 0)
 		roundrect(origin.x, origin.y, origin.x + m_width, origin.y + m_height, m_radius, m_radius);
 
+	m_cellChanged = m_drawerChanged = false;
+
 	Device::GetInstance()->SetTargetImage(NULL);
 }
 
@@ -502,10 +501,7 @@ void RoundRectDrawer::_Render()
 void CircleDrawer::Update()
 {
 	if (m_cellChanged || m_drawerChanged)
-	{
 		_Render();
-		m_cellChanged = m_drawerChanged = false;
-	}
 
 	m_symbol.SetCoord(m_coord - m_focus);
 
@@ -585,6 +581,8 @@ void CircleDrawer::_Render()
 	else if (m_attribute.lineStyle.thickness > 0)
 		circle(origin.x, origin.y, m_radius);
 
+	m_cellChanged = m_drawerChanged = false;
+
 	Device::GetInstance()->SetTargetImage(NULL);
 }
 
@@ -606,10 +604,7 @@ void CircleDrawer::_Render()
 void TextDrawer::Update()
 {
 	if (m_cellChanged || m_drawerChanged)
-	{
 		_Render();
-		m_cellChanged = m_drawerChanged = false;
-	}
 
 	m_symbol.SetCoord(m_coord - m_focus);
 
@@ -723,6 +718,8 @@ void TextDrawer::_Render()
 	else
 		outtextxy(0, 0, widen(m_text.c_str()));
 
+	m_cellChanged = m_drawerChanged = false;
+
 	Device::GetInstance()->SetTargetImage(NULL);
 }
 
@@ -829,9 +826,157 @@ bool ImageDrawer::Load(XMLElement* node)
  *============================================================================*/
 void ImageDrawer::_Render()
 {
-	// On hold.
+	m_cellChanged = m_drawerChanged = false;
 }
 
+
+/******************************************************************************
+ * AnimDrawer::AnimDrawer -- Constructor of the object.                       *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  Symbol must be set to static, since the image is not newed.     *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/29 Tony : Created.                                               *
+ *============================================================================*/
+AnimDrawer::AnimDrawer() : m_pResource(nullptr)
+{
+	m_symbol.SetStatic(true);
+}
+
+AnimDrawer::AnimDrawer(int width, int height) : RectCell(width, height),
+	m_pResource(nullptr)
+{
+	m_symbol.SetStatic(true);
+}
+
+
+/******************************************************************************
+ * AnimDrawer::~AnimDrawer -- Destructor of the object.                       *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/29 Tony : Created.                                               *
+ *============================================================================*/
+AnimDrawer::~AnimDrawer()
+{
+	if (m_pResource)
+		m_pResource->Release();
+}
+
+
+/******************************************************************************
+ * AnimDrawer::Update -- Update animation drawer.                             *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/29 Tony : Created.                                               *
+ *============================================================================*/
+void AnimDrawer::Update()
+{
+	if (m_cellChanged || m_drawerChanged)
+		_Render();
+
+	m_anim.Update();
+
+	m_symbol.SetImage(m_anim.GetFrame());
+	m_symbol.SetCoord(m_coord - m_focus);
+
+	if (m_pSubDrawer)
+		m_pSubDrawer->Update();
+}
+
+
+/******************************************************************************
+ * AnimDrawer::Load -- Load animation drawer.                                 *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  Return load status.                                               *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/29 Tony : Created.                                               *
+ *============================================================================*/
+bool AnimDrawer::Load(XMLElement* node)
+{
+	const char* name = node->Name();
+	const char* attr;
+
+	_CHECK_TAG("Animation");
+	_RETURN_IF_ERROR();
+
+	LoadProperty(node);
+
+	const char* src = node->Attribute("src");
+	if (!src)
+	{
+		LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
+		return false;
+	}
+
+	m_pResource = LoadResource<MotionResource>(src);
+	if (!m_pResource)
+	{
+		LOG_ERROR(INVALID_RESOURCE_ID, src);
+		return false;
+	}
+	m_anim.Initialize(m_pResource->GetResource());
+
+	float aspectRatio = dmin(1.0f * m_width / m_anim.GetFrameWidth(), 1.0f * m_height / m_anim.GetFrameHeight());
+	float k = (aspectRatio - 1.0f) / 2.0f;
+	// Compensate the effect of symbol scale.
+	m_symbol.GetAttribute()->SetScale(aspectRatio);
+	m_symbol.SetOffset(Coordinate(
+		(int)(m_anim.GetFrameWidth() * k),
+		(int)(m_anim.GetFrameHeight() * k)));
+
+	_LoadSubDrawer(node);
+
+	_RETURN_STATE();
+}
+
+
+/******************************************************************************
+ * AnimDrawer::_Render -- Render animation drawer.                            *
+ *                                                                            *
+ *    Hmm... No thing.                                                        *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/29 Tony : Created.                                               *
+ *============================================================================*/
+void AnimDrawer::_Render()
+{
+	m_cellChanged = m_drawerChanged = false;
+}
 
 
 /******************************************************************************
@@ -857,16 +1002,18 @@ Drawer* LoadDrawer(XMLElement* node)
 	const char* name = node->Name();
 	Drawer* rv = nullptr;
 
-	if (_STR_SAME(name, "Rectangle"))
+	if (_STR_SAME(name, "Image"))
+		rv = new ImageDrawer();
+	else if (_STR_SAME(name, "Animation"))
+		rv = new AnimDrawer();
+	else if (_STR_SAME(name, "Text"))
+		rv = new TextDrawer();
+	else if (_STR_SAME(name, "Rectangle"))
 		rv = new RectDrawer();
 	else if (_STR_SAME(name, "Roundrect"))
 		rv = new RoundRectDrawer();
 	else if (_STR_SAME(name, "Circle"))
 		rv = new CircleDrawer();
-	else if (_STR_SAME(name, "Text"))
-		rv = new TextDrawer();
-	else if (_STR_SAME(name, "Image"))
-		rv = new ImageDrawer();
 
 	if (rv)
 		rv->Load(node);

@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : June 9, 2022                              *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 29, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -27,7 +27,7 @@
 #include <vector>
 
 #include "../common/Common.h"
-#include "../utility/tinyxml.h"
+#include "tinyxml.h"
 
 
 /********************************************************************
@@ -124,19 +124,29 @@ private:
 };
 
 
+/********************************************************************
+** 2022/11/29 TS:
+** Added frame width and height.
+*/
 class MotionSet
 {
 	friend class Animation;
 public:
-	MotionSet() : m_motionNum(0) {}
+	MotionSet() : m_motionNum(0), m_frameWidth(0), m_frameHeight(0) {}
 	~MotionSet();
 
 	bool Load(XMLElement* node);
 	Motion* GetMotion(int motion);
 
+public:
+	int GetFrameWidth() const { return m_frameWidth; }
+	int GetFrameHeight() const { return m_frameHeight; }
+
 private:
 	std::vector<Motion*> m_pMotion;
 	int m_motionNum;
+	int m_frameWidth;
+	int m_frameHeight;
 };
 
 
@@ -162,6 +172,8 @@ public:
 	void SetDir(AnimDirection dir) { m_curDir = dir; }
 
 public:
+	int GetFrameWidth() const;
+	int GetFrameHeight() const;
 	int GetCurrentFrameID() const { return m_curFrame; }
 	int GetTotalFrameNum() const { return m_frameNum; }
 	clock_t GetDuration() const { return m_frameSpeed * m_frameNum; }

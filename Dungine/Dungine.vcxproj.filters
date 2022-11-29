@@ -124,9 +124,6 @@
     <ClInclude Include="inc\common\Common.h">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
-    <ClInclude Include="inc\game\Animation.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="inc\game\Scene.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
@@ -217,6 +214,9 @@
     <ClInclude Include="inc\template\AbstractLibrary.h">
       <Filter>Header Files\Template</Filter>
     </ClInclude>
+    <ClInclude Include="inc\utility\Animation.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\common\Coordinate.cpp">
@@ -269,9 +269,6 @@
     </ClCompile>
     <ClCompile Include="src\device\Sound.cpp">
       <Filter>Source Files\Device</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\Animation.cpp">
-      <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\game\Collider.cpp">
       <Filter>Source Files\Game</Filter>
@@ -332,6 +329,9 @@
     </ClCompile>
     <ClCompile Include="src\common\Vector.cpp">
       <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\Animation.cpp">
+      <Filter>Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -69,6 +69,23 @@
                     <AlphaTransition duration="1300" delay="123" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
                 </Transitions>
             </Static>
+            <Static name="yony" pos="128 15" layer="4">
+                <Drawer>
+                    <Animation width="96" height="96" focus="48 48" src="anim-yony-l"></Animation>
+                </Drawer>
+                <Transitions>
+                    <RotationTransition duration="1" delay="0" loop="false" reverse="false" style="linear" begin="180" end="180"></RotationTransition>
+                </Transitions>
+            </Static>
+            <Static name="bk" float="true" pos="100% 10%" layer="4">
+                <Drawer>
+                    <Animation width="96" height="96" focus="58 48" src="anim-bk-l"></Animation>
+                </Drawer>
+                <Transitions>
+                    <RotationTransition duration="1" delay="0" loop="false" reverse="false" style="linear" begin="90" end="90"></RotationTransition>
+                </Transitions>
+            </Static>
+
             <!-- Back button -->
             <Button name="back" pos="10 403">
                 <Up>

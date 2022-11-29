@@ -110,7 +110,6 @@ xcopy /y  "lib\fmod_vc.lib"  "$(SolutionDir)Build\lib\"</Command>
     <ClInclude Include="inc\device\Timer.h" />
     <ClInclude Include="inc\dungine.h" />
     <ClInclude Include="inc\game\AbstractObject.h" />
-    <ClInclude Include="inc\game\Animation.h" />
     <ClInclude Include="inc\game\Camera.h" />
     <ClInclude Include="inc\game\Collider.h" />
     <ClInclude Include="inc\game\AbstractComponent.h" />
@@ -134,6 +133,7 @@ xcopy /y  "lib\fmod_vc.lib"  "$(SolutionDir)Build\lib\"</Command>
     <ClInclude Include="inc\ui\AbstractInterface.h" />
     <ClInclude Include="inc\ui\Trigger.h" />
     <ClInclude Include="inc\ui\Widget.h" />
+    <ClInclude Include="inc\utility\Animation.h" />
     <ClInclude Include="inc\utility\Auxilliary.h" />
     <ClInclude Include="inc\utility\DMath.h" />
     <ClInclude Include="inc\utility\fmodcore.h" />
@@ -156,7 +156,6 @@ xcopy /y  "lib\fmod_vc.lib"  "$(SolutionDir)Build\lib\"</Command>
     <ClCompile Include="src\device\Symbol.cpp" />
     <ClCompile Include="src\device\Timer.cpp" />
     <ClCompile Include="src\game\AbstractObject.cpp" />
-    <ClCompile Include="src\game\Animation.cpp" />
     <ClCompile Include="src\game\Camera.cpp" />
     <ClCompile Include="src\game\Collider.cpp" />
     <ClCompile Include="src\game\AbstractComponent.cpp" />
@@ -176,6 +175,7 @@ xcopy /y  "lib\fmod_vc.lib"  "$(SolutionDir)Build\lib\"</Command>
     <ClCompile Include="src\ui\Trigger.cpp" />
     <ClCompile Include="src\ui\Widget.cpp" />
     <ClCompile Include="src\ui\WidgetManager.cpp" />
+    <ClCompile Include="src\utility\Animation.cpp" />
     <ClCompile Include="src\utility\Auxilliary.cpp" />
     <ClCompile Include="src\utility\DMath.cpp" />
     <ClCompile Include="src\utility\Image.cpp" />

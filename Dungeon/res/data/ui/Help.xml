@@ -42,7 +42,7 @@
                     <AlphaTransition duration="1100" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
                 </Transitions>
             </Static>
-            <Static name="star-1" float="true" pos="20% 50%" layer="-10">
+            <Static name="star-1" float="true" pos="20% 45%" layer="-10">
                 <Drawer>
                     <Image width="64" height="64" focus="32 32" src="star" size="64 64"></Image>
                 </Drawer>
@@ -51,7 +51,7 @@
                     <AlphaTransition duration="2200" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
                 </Transitions>
             </Static>
-            <Static name="star-2" float="true" pos="80% 40%" layer="-10">
+            <Static name="star-2" float="true" pos="80% 30%" layer="-10">
                 <Drawer>
                     <Image width="48" height="48" focus="24 24" src="star" size="64 64"></Image>
                 </Drawer>
@@ -67,6 +67,22 @@
                 <Transitions>
                     <ScaleTransition duration="1300" delay="123" loop="true" reverse="true" style="ease-out" begin="1.0" end="0.8"></ScaleTransition>
                     <AlphaTransition duration="1300" delay="123" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
+                </Transitions>
+            </Static>
+            <Static name="droid-l" pos="340 480" layer="4">
+                <Drawer>
+                    <Animation width="128" height="192" focus="64 0" src="anim-droid-l"></Animation>
+                </Drawer>
+                <Transitions>
+                    <CoordTransition duration="4000" delay="0" loop="true" reverse="true" style="ease-out" begin="340 640" end="340 340"></CoordTransition>
+                </Transitions>
+            </Static>
+            <Static name="droid-r" pos="340 480" layer="4">
+                <Drawer>
+                    <Animation width="128" height="192" focus="64 0" src="anim-droid-r"></Animation>
+                </Drawer>
+                <Transitions>
+                    <CoordTransition duration="4000" delay="4000" loop="true" reverse="true" style="ease-out" begin="340 640" end="340 340"></CoordTransition>
                 </Transitions>
             </Static>
             <!-- Back button -->
@@ -120,6 +136,27 @@
             <Static name="weapon-cost" float="true" pos="100% 100%" layer="10">
                 <Drawer>
                     <Text width="50" height="50" focus="50 90" font-size="48" font="8bitoperator JVE Regular" color="#311b92">1</Text>
+                </Drawer>
+            </Static>
+            <!-- Animations -->
+            <Static name="portal" pos="348 8" layer="10">
+                <Drawer>
+                    <Animation width="96" height="128" src="anim-portal"></Animation>
+                </Drawer>
+            </Static>
+            <Static name="crate" pos="20 210" layer="10">
+                <Drawer>
+                    <Animation width="48" height="64" src="anim-crate"></Animation>
+                </Drawer>
+            </Static>
+            <Static name="energy" pos="204 286" layer="10">
+                <Drawer>
+                    <Animation width="16" height="16" src="anim-energy"></Animation>
+                </Drawer>
+            </Static>
+            <Static name="coin" pos="226 340" layer="10">
+                <Drawer>
+                    <Animation width="16" height="16" src="anim-coin"></Animation>
                 </Drawer>
             </Static>
         </Widgets>

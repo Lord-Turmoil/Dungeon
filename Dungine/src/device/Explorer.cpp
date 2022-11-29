@@ -24,7 +24,7 @@
 #include "../../inc/device/Explorer.h"
 #include "../../inc/device/Sound.h"
 
-#include "../../inc/game/Animation.h"
+#include "../../inc/utility/Animation.h"
 
 #include "../../inc/utility/Auxilliary.h"
 #include "../../inc/utility/Parser.h"

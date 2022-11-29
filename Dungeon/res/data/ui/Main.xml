@@ -24,7 +24,6 @@
                 <Transitions>
                     <CoordTransition duration="6000" delay="0" loop="true" reverse="true" style="ease-out" begin="130 90" end="120 80"></CoordTransition>
                     <ScaleTransition duration="4500" delay="0" loop="true" reverse="true" style="linear" begin="1.0" end="1.05"></ScaleTransition>
-                    <AlphaTransition duration="5300" delay="0" loop="true" reverse="true" style="linear" begin="255" end="200"></AlphaTransition>
                 </Transitions>
             </Static>
             <Static name="cloud-2" pos="510 135" layer="15">
@@ -86,6 +85,20 @@
                     <AlphaTransition duration="1300" delay="123" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
                 </Transitions>
             </Static>
+            <Static name="yony" pos="80 60" layer="4">
+                <Drawer>
+                    <Animation width="96" height="96" focus="48 48" src="anim-yony-r"></Animation>
+                </Drawer>
+                <Transitions>
+                    <RotationTransition duration="5700" delay="0" loop="true" reverse="true" style="linear" begin="30" end="15"></RotationTransition>
+                </Transitions>
+            </Static>
+            <Static name="bk" pos="480 470" layer="4">
+                <Drawer>
+                    <Animation width="96" height="96" focus="48 48" src="anim-bk-l"></Animation>
+                </Drawer>
+            </Static>
+            
             <!-- Play Button -->
             <Button name="play" pos="320 268">
                 <Up>

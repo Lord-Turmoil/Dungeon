@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : March 9, 2022                             *
  *                                                                            *
- *                    Last Update : November 25, 2022                         *
+ *                    Last Update : November 29, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -27,6 +27,7 @@
 #include "Cell.h"
 
 #include "../../inc/device/Symbol.h"
+#include "../../inc/utility/Animation.h"
 
 
 /********************************************************************
@@ -276,6 +277,29 @@ private:
 	virtual void _Render();
 };
 
+
+/********************************************************************
+** 2022/11/29 TS:
+** Added AnimDrawer to display animation.
+*/
+class MotionResource;
+
+class AnimDrawer : public RectCell, public Drawer
+{
+public:
+	AnimDrawer();
+	AnimDrawer(int width, int height);
+	virtual ~AnimDrawer();
+
+	virtual void Update();
+	virtual bool Load(XMLElement* node);
+
+private:
+	virtual void _Render();
+
+	Animation m_anim;
+	MotionResource* m_pResource;
+};
 
 Drawer* LoadDrawer(XMLElement* node);
 

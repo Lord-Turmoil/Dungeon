@@ -26,8 +26,7 @@
 #include "../../inc/device/Device.h"
 #include "../../inc/device/Timer.h"
 
-#include "../../inc/game/Animation.h"
-
+#include "../../inc/utility/Animation.h"
 #include "../../inc/utility/Straw.h"
 #include "../../inc/utility/Parser.h"
 #include "../../inc/utility/tinyxml.h"
@@ -285,12 +284,10 @@ bool MotionSet::Load(XMLElement* node)
 	_CHECK_TAG("Animation");
 	_RETURN_IF_ERROR();
 
-	int frameWidth = 0;
-	int frameHeight = 0;
 	const char* src = nullptr;
 	_PARSE_ESSENTIAL("motion-num", m_motionNum, name, 0);
-	_PARSE_ESSENTIAL("frame-width", frameWidth, name, 0);
-	_PARSE_ESSENTIAL("frame-height", frameHeight, name, 0);
+	_PARSE_ESSENTIAL("frame-width", m_frameWidth, name, 0);
+	_PARSE_ESSENTIAL("frame-height", m_frameHeight, name, 0);
 	_PARSE_ESSENTIAL("src", src, name, nullptr);
 	_RETURN_IF_ERROR();
 
@@ -309,7 +306,7 @@ bool MotionSet::Load(XMLElement* node)
 			LOG_ERROR(MISSING_CHILD_ELEMENT, name);
 			return false;
 		}
-		m_pMotion.push_back(new Motion(tag, &image, frameWidth, frameHeight));
+		m_pMotion.push_back(new Motion(tag, &image, m_frameWidth, m_frameHeight));
 
 		tag = tag->NextSiblingElement();
 	}
@@ -499,6 +496,50 @@ void Animation::Update()
 IMAGE* Animation::GetFrame()
 {
 	return m_pCurMotion->GetFrame(m_curFrame, m_curDir);
+}
+
+
+/******************************************************************************
+ * Animation::GetFrameWidth -- Get frame width.                               *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  Return frame                                                      *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/29 Tony : Created.                                               *
+ *============================================================================*/
+int Animation::GetFrameWidth() const
+{
+	if (m_pMotionSet)
+		return m_pMotionSet->GetFrameWidth();
+	return 0;
+}
+
+
+/******************************************************************************
+ * Animation::GetFrameHeight -- Get frame height.                             *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  Return frame                                                      *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/11/29 Tony : Created.                                               *
+ *============================================================================*/
+int Animation::GetFrameHeight() const
+{
+	if (m_pMotionSet)
+		return m_pMotionSet->GetFrameHeight();
+	return 0;
 }
 
 

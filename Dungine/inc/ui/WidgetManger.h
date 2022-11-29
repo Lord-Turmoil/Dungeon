@@ -44,7 +44,7 @@ public:
 
 	void Update(Event* evnt = nullptr);
 	void Draw();
-	bool Load(XMLElement* node);
+	virtual bool Load(XMLElement* node);
 
 	/*
 	** Here, we use a map to store all widgets. So we should

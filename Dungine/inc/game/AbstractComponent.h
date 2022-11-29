@@ -30,7 +30,7 @@
 #include "../common/Common.h"
 
 #include "GameObject.h"
-#include "Animation.h"
+#include "../utility/Animation.h"
 
 
 class Event;

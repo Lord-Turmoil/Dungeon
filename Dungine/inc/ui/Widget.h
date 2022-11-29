@@ -595,7 +595,7 @@ public:
 	StandardWidgetKit() {}
 	virtual ~StandardWidgetKit() {}
 
-	AbstractWidget* LoadWidget(XMLElement* node);
+	virtual AbstractWidget* LoadWidget(XMLElement* node);
 };
 
 

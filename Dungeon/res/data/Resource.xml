@@ -52,6 +52,57 @@
     <Resource type="image" id="christmas">
         <img src="res/images/ui/christmas.png" width="256" height="256"></img>
     </Resource>
+    <!-- Animation UI -->
+    <Resource type="motion" id="anim-yony-l">
+        <Animation motion-num="1" frame-width="96" frame-height="96" src="res/images/figure/yony.png">
+            <Motion origin="0 192" frame-num="4" frame-speed="150" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-yony-r">
+        <Animation motion-num="1" frame-width="96" frame-height="96" src="res/images/figure/yony.png">
+            <Motion origin="0 288" frame-num="4" frame-speed="150" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-bk-l">
+        <Animation motion-num="1" frame-width="96" frame-height="96" src="res/images/figure/blackhand.png">
+            <Motion origin="0 192" frame-num="4" frame-speed="150" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-bk-r">
+        <Animation motion-num="1" frame-width="96" frame-height="96" src="res/images/figure/blackhand.png">
+            <Motion origin="0 288" frame-num="4" frame-speed="150" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-droid-l">
+        <Animation motion-num="1" frame-width="128" frame-height="192" src="res/images/figure/droid.png">
+            <Motion origin="0 384" frame-num="6" frame-speed="125" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-droid-r">
+        <Animation motion-num="1" frame-width="128" frame-height="192" src="res/images/figure/droid.png">
+            <Motion origin="0 576" frame-num="6" frame-speed="125" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-portal">
+        <Animation motion-num="1" frame-width="300" frame-height="384" src="res/images/misc/portal.png">
+            <Motion origin="0 768" frame-num="8" frame-speed="50" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-crate">
+        <Animation motion-num="1" frame-width="96" frame-height="128" src="res/images/misc/crate.png">
+            <Motion origin="0 256" frame-num="8" frame-speed="75" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-energy">
+        <Animation motion-num="1" frame-width="16" frame-height="16" src="res/images/misc/buff.png">
+            <Motion origin="0 288" frame-num="6" frame-speed="75" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-coin">
+        <Animation motion-num="1" frame-width="16" frame-height="16" src="res/images/misc/buff.png">
+            <Motion origin="0 304" frame-num="8" frame-speed="75" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
 
     <!-- UI Sounds -->
     <Resource type="audio" id="hover">
