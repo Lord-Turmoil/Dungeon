@@ -169,7 +169,11 @@ public:
 	virtual bool Load(XMLElement* node);
 
 	virtual void AddEvents();
+
+private:
+	static void _OnOpenUrl(std::string url);
 };
+
 
 /*
 ** 2022/11/25 TS:

@@ -26,6 +26,8 @@
 #include "../../inc/ui/MenuInterface.h"
 #include "../../inc/ui/Cursor.h"
 
+#include <cstdlib>	// system()
+
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ** LogoInterface
@@ -514,6 +516,17 @@ void AboutInterface::AddEvents()
 {
 	static_cast<Button*>(m_pWidgetManager->GetWidget("back"))
 		->OnClick(GetDetacher(this));
+	static_cast<Button*>(m_pWidgetManager->GetWidget("url-studio"))
+		->OnClick(std::bind(AboutInterface::_OnOpenUrl, "http://www.tonys-studio.top/project/dungeon.html"));
+	static_cast<Button*>(m_pWidgetManager->GetWidget("url-gitee"))
+		->OnClick(std::bind(AboutInterface::_OnOpenUrl, "https://gitee.com/tonys-studio/dungeon"));
+}
+
+void AboutInterface::_OnOpenUrl(std::string url)
+{
+	url = "start " + url;
+	
+	std::system(url.c_str());
 }
 
 

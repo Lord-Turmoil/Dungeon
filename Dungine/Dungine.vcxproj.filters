@@ -17,9 +17,6 @@
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{662f7521-5272-457b-ab77-b01e1bb2afc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Template">
-      <UniqueIdentifier>{379f0ad9-b3b2-41bd-a2eb-a136ee68dece}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Common">
       <UniqueIdentifier>{5b65540b-6a4a-4d74-bf55-82a257b99909}</UniqueIdentifier>
     </Filter>
@@ -62,6 +59,9 @@
     <Filter Include="Header Files\Game\Object">
       <UniqueIdentifier>{9b09bdf2-99c0-40f2-adfb-9aa0660a90b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI\Template">
+      <UniqueIdentifier>{379f0ad9-b3b2-41bd-a2eb-a136ee68dece}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\common\DDefines.h">
@@ -98,7 +98,7 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="inc\template\Singleton.h">
-      <Filter>Header Files\Template</Filter>
+      <Filter>Header Files\UI\Template</Filter>
     </ClInclude>
     <ClInclude Include="inc\common\Logger.h">
       <Filter>Header Files\Common</Filter>
@@ -107,7 +107,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\template\Prototype.h">
-      <Filter>Header Files\Template</Filter>
+      <Filter>Header Files\UI\Template</Filter>
     </ClInclude>
     <ClInclude Include="inc\ui\AbstractInterface.h">
       <Filter>Header Files\UI</Filter>
@@ -209,10 +209,10 @@
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="inc\template\AbstractKit.h">
-      <Filter>Header Files\Template</Filter>
+      <Filter>Header Files\UI\Template</Filter>
     </ClInclude>
     <ClInclude Include="inc\template\AbstractLibrary.h">
-      <Filter>Header Files\Template</Filter>
+      <Filter>Header Files\UI\Template</Filter>
     </ClInclude>
     <ClInclude Include="inc\utility\Animation.h">
       <Filter>Header Files\Utility</Filter>
