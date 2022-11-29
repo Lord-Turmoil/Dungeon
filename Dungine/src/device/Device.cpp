@@ -291,7 +291,7 @@ void Device::Create(bool fullscreen)
 		m_width = DEVICE_WIDTH;
 		m_height = DEVICE_HEIGHT;
 	}
-	
+
 	HWND hWnd;
 
 	if (fullscreen)
@@ -302,9 +302,17 @@ void Device::Create(bool fullscreen)
 	else
 	{
 #ifdef DGE_SHOW_CONSOLE
-		hWnd = initgraph(m_width, m_height, EW_SHOWCONSOLE);
+#	ifdef DGE_NO_CLOSE
+		hWnd = initgraph(m_width, m_height, EX_SHOWCONSOLE | EX_NOCLOSE);
+#	else
+		hWnd = initgraph(m_width, m_height, EX_SHOWCONSOLE);
+#	endif
 #else
+#	ifdef DGE_NO_CLOSE
+		hWnd = initgraph(m_width, m_height, EX_NOCLOSE);
+#	else
 		hWnd = initgraph(m_width, m_height);
+#	endif
 #endif
 	}
 

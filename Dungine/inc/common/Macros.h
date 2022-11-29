@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : May 3, 2022                               *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : November 29, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -51,6 +51,12 @@
 #ifdef DGE_SHOW_CONSOLE
 #define DGE_ENABLE_CONSOLE_LOG
 #endif
+
+/********************************************************************
+** If this is defined, the game won't be closed by close button of
+** Windows frame.
+*/
+#define DGE_NO_CLOSE
 
 
 /********************************************************************
