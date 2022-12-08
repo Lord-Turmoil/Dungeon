@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : August 4, 2022                            *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 8, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -113,6 +113,10 @@ PortalReady* PortalReady::Clone() const
 	return clone;
 }
 
+/********************************************************************
+** 2022/12/08 TS:
+**   Portal can also go to flashback point.
+*/
 void PortalReady::Update(Event* evnt)
 {
 	Portal* portal = static_cast<Portal*>(m_parent->GetGameObject());
@@ -122,12 +126,14 @@ void PortalReady::Update(Event* evnt)
 
 	if (dist < portal->GetRadius())
 	{
-
 		m_parent->GetGameObject()->GetComponent<AnimComponent>()
 			->GetAnim()->SetDir(ANIM_RIGHT);
 		if (evnt->Sluggish(CMD_ACTIVATE))
 		{
-			dungeon->SetLevelUp();
+			if (portal->GetFlashback())
+				dungeon->SetFlashback(portal->GetFlashback());
+			else
+				dungeon->SetLevelUp();
 			m_parent->ChangeBehavior("Idle");
 		}
 	}

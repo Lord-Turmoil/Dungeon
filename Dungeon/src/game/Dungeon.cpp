@@ -23,6 +23,7 @@
 
 #include "../../inc/game/Dungeon.h"
 #include "../../inc/game/Settings.h"
+#include "../../inc/game/Flashback.h"
 
 #include "../../inc/object/Hero.h"
 #include "../../inc/object/Portal.h"
@@ -62,6 +63,7 @@ Dungeon::Dungeon() :
 	m_pPortal(nullptr),
 	m_pGameInterface(nullptr),
 	m_isToLevelUp(false),
+	m_isToLoadChapter(false),
 	m_enemyCount(0),
 	m_chapter(0),
 	m_level(0)
@@ -211,6 +213,8 @@ void Dungeon::Update()
 
 	if (m_isToLevelUp)
 		_LevelUp();
+	else if (m_pFlashback)
+		_LevelFlashback();
 }
 
 
@@ -271,6 +275,7 @@ bool Dungeon::Initialize()
 	m_pPortal = MiscLibrary::GetInstance()->
 		GetMiscObject<Portal>("Portal")->Clone();
 
+	m_isToLoadChapter = true;
 	_Launch();
 
 	Update();
@@ -396,10 +401,10 @@ void Dungeon::KillAllEnemy()
  *============================================================================*/
 void Dungeon::_Launch()
 {
-	if (m_level == 0)
+	if (m_isToLoadChapter)
 		_LoadChapter();
-
 	_InitLevel();
+	m_isToLoadChapter = false;	// This is bad... _InitLevel uses this flag.
 
 	m_pHero->SetCoord(m_pSpace->GetCoord());
 	m_pHero->Initialize();
@@ -437,11 +442,61 @@ void Dungeon::_LevelUp()
 			_VictoryTransit();
 			return;
 		}
+		m_isToLoadChapter = true;
 	}
 
 	_Launch();
 
 	// _LevelUpTransit();
+}
+
+
+/******************************************************************************
+ * Dungeon::_LevelFlashback -- Perform level flashback.                       *
+ *                                                                            *
+ *    This will... actually start a new game... And works like this.          *
+ *    1. Reset hero status.                                                   *
+ *    2. Reload resources if needed.                                          *
+ *    3. Reset chapter and level.                                             *
+ *    4. Then, just _Launch.                                                  *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/08 Tony : Created.                                               *
+ *============================================================================*/
+void Dungeon::_LevelFlashback()
+{
+	// Reset Hero.
+	const std::string& heroName = m_pFlashback->GetHeroName();
+	if (heroName != m_pHero->Name())
+	{
+		m_gameObjects.DeleteObject(m_pHero);
+		Settings::GetInstance()->HeroName(heroName);
+		m_pHero = HeroLibrary::GetInstance()->GetHeroByName(heroName)->Clone();
+	}
+
+	m_pHero->CostHP(m_pHero->GetMaxHP() - m_pFlashback->GetHP());
+	m_pHero->CostMP(m_pHero->GetMaxMP() - m_pFlashback->GetMP());
+	m_pHero->CostArmor(m_pHero->GetMaxArmor() - m_pFlashback->GetArmor());
+	m_pHero->CostChi(m_pHero->GetMaxChi() - m_pFlashback->GetChi());
+
+	m_pHero->GetComponent<WeaponComponent>()->Clear();
+	auto& weaponList = m_pFlashback->GetWeaponList();
+	for (auto it = weaponList.begin(); it != weaponList.end(); it++)
+		m_pHero->PickUpWeapon(WeaponLibrary::GetInstance()->GetWeaponByName(*it));
+
+	// Reset level.
+	if (m_chapter != m_pFlashback->GetChapter())
+		m_isToLoadChapter = true;
+	m_chapter = m_pFlashback->GetChapter();
+	m_level = m_pFlashback->GetLevel();
+
+	_Launch();
 }
 
 
@@ -784,7 +839,7 @@ void Dungeon::_OnLevelChange()
 	static_cast<TextDrawer*>(widget->GetDrawer())->SetText(buffer);
 	widget->ResetTransition();
 
-	if (m_level == 0)
+	if (m_isToLoadChapter)
 		m_pGameInterface->PlayTrack(m_chapter);
 }
 	

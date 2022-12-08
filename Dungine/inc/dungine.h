@@ -65,6 +65,7 @@
 #include "utility/Auxilliary.h"
 #include "utility/DMath.h"
 #include "utility/Parser.h"
+#include "utility/Pipe.h"
 #include "utility/QuadTree.h"
 #include "utility/tinyxml.h"
 #include "utility/xml.h"

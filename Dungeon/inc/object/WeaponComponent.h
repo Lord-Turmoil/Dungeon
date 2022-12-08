@@ -74,6 +74,12 @@ public:
 
 	Weapon* GetCurrentWeapon();
 
+	/*
+	** 2022/12/08 TS:
+	** Clear the weapon slot.
+	*/
+	void Clear();
+
 private:
 	std::vector<Weapon*> m_weapons;
 	std::vector<Weapon*>::iterator m_current;

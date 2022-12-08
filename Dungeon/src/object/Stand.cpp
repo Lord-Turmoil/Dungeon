@@ -3,17 +3,17 @@
  ******************************************************************************
  *                   Project Name : Dungeon                                   *
  *                                                                            *
- *                      File Name : Portal.cpp                                *
+ *                      File Name : Stand.h                                   *
  *                                                                            *
  *                     Programmer : Tony Skywalker                            *
  *                                                                            *
- *                     Start Date : August 4, 2022                            *
+ *                     Start Date : December 8, 2022                          *
  *                                                                            *
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
- *   Portal.                                                                  *
+ *   The stand...                                                             *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
  *   Windows 11 Pro                                                           *
@@ -21,45 +21,54 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Portal.h"
-#include "../../inc/object/PortalBehavior.h"
+#include "../../inc/game/Flashback.h"
+
+#include "../../inc/object/Stand.h"
+#include "../../inc/object/StandBehavior.h"
 
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-** Portal
+** Stand
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
-Portal::Portal(Scene* scene) : Object(ObjectType::OBJ_PORTAL, scene),
-	m_radius(0.0), m_pFlashback(nullptr)
+Stand::Stand(Scene* scene) : Object(ObjectType::OBJ_STAND, scene),
+	m_isActive(false), m_radius(0.0)
 {
 	m_symbol.SetLayer(LAYER_FIGURE);
 }
 
-Portal* Portal::Clone() const
+Stand::~Stand()
 {
-	Portal* clone = new Portal(m_pScene);
+	if (m_pFlashback)
+		delete m_pFlashback;
+}
+
+Stand* Stand::Clone() const
+{
+	Stand* clone = new Stand(m_pScene);
 	clone->_MakePrototype(false);
 
 	Object::Clone(clone);
 
+	clone->m_isActive = m_isActive;
 	clone->m_radius = m_radius;
 
 	return clone;
 }
 
-bool Portal::Load(XMLElement* node)
+bool Stand::Load(XMLElement* node)
 {
 	/*
-	**	<Portal	radius="">
+	**	<Stand radius="">
 	**		<Components>
 	**		</Components>
-	**	</Portal>
+	**	</Stand>
 	*/
 	const char* name = node->Name();
 	const char* attr;
 
-	_CHECK_TAG("Portal");
+	_CHECK_TAG("Stand");
 	_RETURN_IF_ERROR();
 
 	Object::Load(node);
@@ -71,18 +80,26 @@ bool Portal::Load(XMLElement* node)
 	_RETURN_STATE();
 }
 
-void Portal::Initialize()
+Flashback* Stand::GetFlashback()
 {
-	GetComponent<BehaviorComponent>()->ChangeBehavior("Init");
+	if (!m_pFlashback)
+		m_pFlashback = new Flashback();
+	return m_pFlashback;
 }
 
-void Portal::_InitBehavior(XMLElement* node)
+void Stand::_InitBehavior(XMLElement* node)
 {
 	auto parent = GetComponent<BehaviorComponent>();
 
-	parent->AddBehavior(new PortalIdle());
-	parent->AddBehavior(new PortalInit());
-	parent->AddBehavior(new PortalReady());
+	parent->AddBehavior(new StandIdle());
+	parent->AddBehavior(new StandChoose());
+	parent->AddBehavior(new StandGreet());
+	parent->AddBehavior(new StandSave());
+	parent->AddBehavior(new StandFlash());
+	parent->AddBehavior(new StandSaved());
+	parent->AddBehavior(new StandFlashed());
+	parent->AddBehavior(new StandInsufficient());
+	parent->AddBehavior(new StandComplete());
 
 	parent->ChangeBehavior("Idle");
 }

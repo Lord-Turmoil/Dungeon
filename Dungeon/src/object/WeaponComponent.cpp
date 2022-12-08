@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 27, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 8, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -62,16 +62,11 @@ WeaponComponent::WeaponComponent(int updateOrder) :
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/27 Tony : Created.                                               *
+ *   2022/12/08 Tony : Moved all things to Clear().                           *
  *============================================================================*/
 WeaponComponent::~WeaponComponent()
 {
-	/*
-	** 2022/08/02: TS
-	** Huh??
-	*/
-	UnEquip();
-	for (auto it = m_weapons.begin(); it != m_weapons.end(); it++)
-		delete (*it);
+	Clear();
 }
 
 
@@ -409,4 +404,26 @@ Weapon* WeaponComponent::GetCurrentWeapon()
 		return nullptr;
 	else
 		return *m_current;
+}
+
+
+/******************************************************************************
+ * WeaponComponent::Clear -- Clear all weapons in the slot.                   *
+ *                                                                            *
+ *    This will not put weapons down, just clear them.                        *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/08 Tony : Created.                                               *
+ *============================================================================*/
+void WeaponComponent::Clear()
+{
+	UnEquip();
+	for (auto it = m_weapons.begin(); it != m_weapons.end(); it++)
+		delete (*it);
 }

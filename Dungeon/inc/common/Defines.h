@@ -118,20 +118,22 @@ const char* const YES_NO_TEXT[2] = {
 *             Misc.xml      -- Miscellaneous objects.                         *
 *         Settings.xml      -- Game settings.                                 *
 *         Resource.xml      -- Resource configuration.                        *
+*         Flashback.xml     -- Store the flashback point.                     *
 * screenshot\               -- Screenshots.                                   *
 * log.txt                   -- Dungine's log info.                            *
 *******************************************************************************/
 const char HERO_XML[]			= R"(res\data\lib\Hero.xml)";
 const char WEAPON_XML[]			= R"(res\data\lib\Weapon.xml)";
 const char BULLET_XML[]			= R"(res\data\lib\Bullet.xml)";
-const char MISC_XML[]			= R"(res\data\lib\Misc.xml)";		// miscellaneous
+const char MISC_XML[]			= R"(res\data\lib\Misc.xml)";	// miscellaneous
 const char SETTINGS_XML[]		= R"(res\data\Settings.xml)";
 const char RESOURCE_XML[]		= R"(res\data\Resource.xml)";
+const char FLASHBACK_XML[]		= R"(res\data\Flashback.xml)";
 
 const char CHAPTER_DIRECTORY[]	= R"(res\data\chapter\)";
 const char UI_DIRECTORY[]		= R"(res\data\ui\)";
 
-const wchar_t FONT_PATH[] = LR"(res\fonts\8bitoperator_jve.ttf)";
-const wchar_t FONT_NAME[] = L"8bitoperator JVE Regular";
+const wchar_t INTERNAL_FONT_PATH[] = LR"(res\fonts\8bitoperator_jve.ttf)";
+const wchar_t INTERNAL_FONT_NAME[] = L"8bitoperator JVE Regular";
 
 #endif

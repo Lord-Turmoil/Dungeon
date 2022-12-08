@@ -48,6 +48,9 @@ class Portal;
 
 class GameInterface;
 
+// For saved games.
+class Flashback;
+
 class Dungeon : public Scene
 {
 public:
@@ -65,6 +68,7 @@ public:
 	Coordinate GetMouse() { return m_target; }
 
 	void SetLevelUp() { m_isToLevelUp = true; }
+	void SetFlashback(Flashback* flashback) { m_pFlashback = flashback; }
 
 public:
 	bool AddEnemy(Enemy* enemy);
@@ -84,6 +88,7 @@ public:
 protected:
 	void _Launch();
 	void _LevelUp();
+	void _LevelFlashback();
 	
 	void _LoadChapter();
 	void _UnLoadChapter();
@@ -123,7 +128,10 @@ protected:
 	int m_chapter;
 	int m_level;
 
+	bool m_isToLoadChapter;	// Denotes whether to load chapter resource.
 	bool m_isToLevelUp;
+	
+	Flashback* m_pFlashback;
 
 	GameInterface* m_pGameInterface;
 };

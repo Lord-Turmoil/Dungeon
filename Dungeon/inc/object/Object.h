@@ -40,6 +40,7 @@ enum ObjectType : unsigned
 	OBJ_HERO	= BIT(7),
 	OBJ_WEAPON	= BIT(8),
 	OBJ_PORTAL	= BIT(9),
+	OBJ_STAND	= BIT(10),
 
 	OBJ_FIGURE	= OBJ_ENEMY | OBJ_HERO,
 };

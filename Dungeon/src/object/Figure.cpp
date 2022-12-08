@@ -304,7 +304,7 @@ void Figure::CostMP(int val)
 	m_mpGap[0] = 0;
 }
 
-void Figure::CostAmor(int val)
+void Figure::CostArmor(int val)
 {
 	m_armor[0] -= min(m_armor[0], val);
 	m_armorGap[0] = 0;

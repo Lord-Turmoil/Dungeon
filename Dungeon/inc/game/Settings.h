@@ -32,67 +32,54 @@ struct HeroInfo
 	bool isAvailable;
 };
 
-class Settings : public Singleton<Settings>
+class Settings : public Pipe, public Singleton<Settings>
 {
 	friend class Singleton<Settings>;
 public:
-	bool Link(const char* filename);
-	bool Load();
-	bool Save();
+	virtual bool Load();
+	virtual bool Save();
+
 	bool SaveSettings();
 	bool SaveConfig();
 
 public:
 	// Settings
-	void IsFullscreen(bool isFullscreen) { m_isFullscreen = isFullscreen; }
-	bool IsFullscreen() const { return m_isFullscreen; }
+	void	IsFullscreen(bool isFullscreen) { m_isFullscreen = isFullscreen; }
+	bool	IsFullscreen() const		{ return m_isFullscreen; }
 	
-	void Difficulty(int difficulty) { m_difficulty = difficulty; }
-	int Difficulty() const { return m_difficulty; }
+	void	Difficulty(int difficulty)	{ m_difficulty = difficulty; }
+	int		Difficulty() const			{ return m_difficulty; }
 	
-	void SoundVolume(double volume) { m_soundVolume = volume; }
-	double SoundVolume() const { return m_soundVolume; }
-	void MusicVolume(double volume) { m_musicVolume = volume; }
-	double MusicVolume() const { return m_musicVolume; }
+	void	SoundVolume(double volume)	{ m_soundVolume = volume; }
+	double	SoundVolume() const			{ return m_soundVolume; }
+	void	MusicVolume(double volume)	{ m_musicVolume = volume; }
+	double	MusicVolume() const			{ return m_musicVolume; }
 
 	// Config
-	int Coin() const { return m_coin; }
-	void Coin(int coin) { m_coin = coin; }
-	void AddCoin(int coin) { m_coin += coin; }
+	int		Coin() const		{ return m_coin; }
+	void	Coin(int coin)		{ m_coin = coin; }
+	void	AddCoin(int coin)	{ m_coin += coin; }
 
-	bool ShowCredits() const { return m_showCredits; }
-	void ShowCredits(bool showCredits) { m_showCredits = showCredits; }
+	bool ShowCredits() const			{ return m_showCredits; }
+	void ShowCredits(bool showCredits)	{ m_showCredits = showCredits; }
 
-	void HeroName(const std::string& name) { m_heroName = name; }
-	const std::string& HeroName() const { return m_heroName; }
+	void HeroName(const std::string& name)	{ m_heroName = name; }
+	const std::string& HeroName() const		{ return m_heroName; }
 	bool IsAvailable(const std::string& name) const;
 	bool CanBeAvailable(const std::string& name) const;
 	bool MakeAvailable(const std::string& name);
 	
-	COLORREF BeginColor() const { return m_beginColor; }
-	COLORREF EndColor() const { return m_endColor; }
+	COLORREF BeginColor()	const	{ return m_beginColor; }
+	COLORREF EndColor()		const	{ return m_endColor; }
 
 private:
 	Settings();
-	~Settings() {}
-	
-	bool _IsLinked();
+	virtual ~Settings() {}
 
-	void _LoadEntry(XMLFile& file, int* val, const char* tag);
-	void _LoadEntry(XMLFile& file, double* val, const char* tag);
-	void _LoadEntry(XMLFile& file, bool* val, const char* tag);
-	void _LoadEntry(XMLFile& file, COLORREF* val, const char* tag);
 	void _LoadHeroInfo(XMLFile& file);
-
-	void _SaveEntry(XMLFile& file, int val, const char* tag);
-	void _SaveEntry(XMLFile& file, double val, const char* tag);
-	void _SaveEntry(XMLFile& file, bool val, const char* tag);
-	void _SaveEntry(XMLFile& file, COLORREF val, const char* tag);
 	void _SaveHeroInfo(XMLFile& file);
 
 private:
-	const char* m_filename;
-
 	// Settings
 	int m_difficulty;
 	double m_soundVolume;
@@ -107,22 +94,6 @@ private:
 	COLORREF m_endColor;	// Bottom color of the sky.
 
 	std::map<std::string, HeroInfo> m_heroInfo;
-};
-
-
-/********************************************************************
-** I'm not very familiar with try-cath machanism, so... give it a
-** try? :)
-*/
-class EntryError
-{
-public:
-	EntryError(const char* entry) : m_entry(entry) {}
-
-	const char* what() const { return m_entry; }
-
-private:
-	const char* m_entry;
 };
 
 #endif

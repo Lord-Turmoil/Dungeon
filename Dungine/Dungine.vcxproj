@@ -139,6 +139,7 @@ xcopy /y  "lib\fmod_vc.lib"  "$(SolutionDir)Build\lib\"</Command>
     <ClInclude Include="inc\utility\fmodcore.h" />
     <ClInclude Include="inc\utility\Image.h" />
     <ClInclude Include="inc\utility\Parser.h" />
+    <ClInclude Include="inc\utility\Pipe.h" />
     <ClInclude Include="inc\utility\QuadTree.h" />
     <ClInclude Include="inc\utility\Straw.h" />
     <ClInclude Include="inc\utility\tinyxml.h" />
@@ -180,6 +181,7 @@ xcopy /y  "lib\fmod_vc.lib"  "$(SolutionDir)Build\lib\"</Command>
     <ClCompile Include="src\utility\DMath.cpp" />
     <ClCompile Include="src\utility\Image.cpp" />
     <ClCompile Include="src\utility\Parser.cpp" />
+    <ClCompile Include="src\utility\Pipe.cpp" />
     <ClCompile Include="src\utility\QuadTree.cpp" />
     <ClCompile Include="src\utility\Straw.cpp" />
     <ClCompile Include="src\utility\xml.cpp" />

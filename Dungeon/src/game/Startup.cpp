@@ -90,9 +90,9 @@ bool _InitDevice()
 		ResourceType::RES_IMAGE, "sky", pSkyImage);
 
 	// Additional font
-	if (AddFontResourceEx(FONT_PATH, FR_PRIVATE, NULL) == 0)
+	if (AddFontResourceEx(INTERNAL_FONT_PATH, FR_PRIVATE, NULL) == 0)
 	{
-		LOG_ERROR(R"(Missing essential font "%s")", narrow(FONT_NAME));
+		LOG_ERROR(R"(Missing essential font "%s")", narrow(INTERNAL_FONT_NAME));
 		return false;
 	}
 
@@ -198,7 +198,7 @@ void ClearUp()
 {
 	Application::GetInstance()->UnLoad();
 	Explorer::GetInstance()->UnLoad();
-	RemoveFontResourceEx(FONT_PATH, FR_PRIVATE, NULL);
+	RemoveFontResourceEx(INTERNAL_FONT_PATH, FR_PRIVATE, NULL);
 }
 
 

@@ -294,6 +294,15 @@
     <ClInclude Include="inc\object\HeroLibrary.h">
       <Filter>Header Files\Object\Library</Filter>
     </ClInclude>
+    <ClInclude Include="inc\game\Flashback.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\Stand.h">
+      <Filter>Header Files\Object\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\object\StandBehavior.h">
+      <Filter>Header Files\Object\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\common\Math.cpp">
@@ -484,6 +493,15 @@
     </ClCompile>
     <ClCompile Include="src\object\EnemyKit.cpp">
       <Filter>Source Files\Object\Kit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\Flashback.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\Stand.cpp">
+      <Filter>Source Files\Object\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\StandBehavior.cpp">
+      <Filter>Source Files\Object\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

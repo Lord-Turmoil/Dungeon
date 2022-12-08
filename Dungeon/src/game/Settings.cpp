@@ -3,7 +3,7 @@
  ******************************************************************************
  *                   Project Name : Dungeon                                   *
  *                                                                            *
- *                      File Name : Settings.h                                *
+ *                      File Name : Settings.cpp                              *
  *                                                                            *
  *                     Programmer : Tony Skywalker                            *
  *                                                                            *
@@ -31,32 +31,6 @@ int LEVEL_NUM;
 
 
 /******************************************************************************
- * Settings::Link -- Link settings to the file.                               *
- *                                                                            *
- *    Just the literal meaning.                                               *
- *                                                                            *
- * INPUT:   filename -- The file of settings.                                 *
- *                                                                            *
- * OUTPUT:  Return true if the file is valid.                                 *
- *                                                                            *
- * WARNINGS:  It won't check the content yet.                                 *
- *                                                                            *
- * HISTORY:                                                                   *
- *   2022/07/10 Tony : Created.                                               *
- *============================================================================*/
-bool Settings::Link(const char* filename)
-{
-	if (IsValidDirectory(filename))
-	{
-		m_filename = filename;
-		return true;
-	}
-
-	return false;
-}
-
-
-/******************************************************************************
  * Settings::Load -- Load settings from the linked file.                      *
  *                                                                            *
  *    Just the literal meaning.                                               *
@@ -73,11 +47,8 @@ bool Settings::Link(const char* filename)
  *============================================================================*/
 bool Settings::Load()
 {
-	if (!_IsLinked())
-		return false;
-
 	XMLFile file;
-	if (!file.Load(m_filename))
+	if (!_LoadFile(file))
 	{
 		LOG_ERROR(FAILED_TO_LOAD, "Settings");
 		return false;
@@ -137,11 +108,8 @@ bool Settings::Save()
 
 bool Settings::SaveSettings()
 {
-	if (!_IsLinked())
-		return false;
-
 	XMLFile file;
-	if (!file.Load(m_filename))
+	if (!_LoadFile(file))
 	{
 		LOG_ERROR(FAILED_TO_LOAD, "Settings");
 		return false;
@@ -159,11 +127,8 @@ bool Settings::SaveSettings()
 
 bool Settings::SaveConfig()
 {
-	if (!_IsLinked())
-		return false;
-
 	XMLFile file;
-	if (!file.Load(m_filename))
+	if (!_LoadFile(file))
 	{
 		LOG_ERROR(FAILED_TO_LOAD, "Settings");
 		return false;
@@ -283,7 +248,6 @@ Settings::Settings() :
 	m_showCredits(false),
 	m_soundVolume(1.0),
 	m_musicVolume(1.0),
-	m_filename(nullptr),
 	m_isFullscreen(true),
 	m_beginColor(RGB(41, 182, 246)),
 	m_endColor(RGB(128, 222, 234))
@@ -292,32 +256,7 @@ Settings::Settings() :
 
 
 /******************************************************************************
- * Settings::_IsLinked -- Check if file linked.                               *
- *                                                                            *
- *    Just the literal meaning.                                               *
- *                                                                            *
- * INPUT:   none                                                              *
- *                                                                            *
- * OUTPUT:  Return the result. :?                                             *
- *                                                                            *
- * WARNINGS:  none                                                            *
- *                                                                            *
- * HISTORY:                                                                   *
- *   2022/07/10 Tony : Created.                                               *
- *============================================================================*/
-bool Settings::_IsLinked()
-{
-	if (m_filename)
-		return true;
-
-	LOG_ERROR("No file linked to Settings");
-
-	return false;
-}
-
-
-/******************************************************************************
- * Settings::LoadEntry -- Load a setting entry.                               *
+ * Settings::_LoadHeroInfo -- Load hero info.                                 *
  *                                                                            *
  *    Just the literal meaning.                                               *
  *                                                                            *
@@ -331,52 +270,7 @@ bool Settings::_IsLinked()
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/10 Tony : Created.                                               *
- *   2022/11/24 Tony : Added COLORREF support.                                *
  *============================================================================*/
-void Settings::_LoadEntry(XMLFile& file, int* val, const char* tag)
-{
-	XMLElement* entry = file.GetElementByTagName(tag);
-	if (!entry)
-		throw EntryError(tag);
-
-	const char* str = entry->GetText();
-	if (!(str && ParseAttribute(val, str, 0)))
-		throw EntryError(tag);
-}
-
-void Settings::_LoadEntry(XMLFile& file, double* val, const char* tag)
-{
-	XMLElement* entry = file.GetElementByTagName(tag);
-	if (!entry)
-		throw EntryError(tag);
-
-	const char* str = entry->GetText();
-	if (!(str && ParseAttribute(val, str, 1.0)))
-		throw EntryError(tag);
-}
-
-void Settings::_LoadEntry(XMLFile& file, bool* val, const char* tag)
-{
-	XMLElement* entry = file.GetElementByTagName(tag);
-	if (!entry)
-		throw EntryError(tag);
-
-	const char* str = entry->GetText();
-	if (!(str && ParseAttribute(val, str, true)))
-		throw EntryError(tag);
-}
-
-void Settings::_LoadEntry(XMLFile& file, COLORREF* val, const char* tag)
-{
-	XMLElement* entry = file.GetElementByTagName(tag);
-	if (!entry)
-		throw EntryError(tag);
-
-	const char* str = entry->GetText();
-	if (!(str && ParsePrivateAttribute(val, str, ParseColor)))
-		throw EntryError(tag);
-}
-
 void Settings::_LoadHeroInfo(XMLFile& file)
 {
 	XMLElement* entry = file.GetElementByTagName("Hero");
@@ -400,13 +294,11 @@ void Settings::_LoadHeroInfo(XMLFile& file)
 
 
 /******************************************************************************
- * Settings::_SaveEntry -- Save a setting entry.                              *
+ * Settings::_SaveHeroInfo -- Save hero info.                                 *
  *                                                                            *
  *    Just the literal meaning.                                               *
  *                                                                            *
- * INPUT:   node -- The parent node.                                          *
- *          val                                                               *
- *          tag  -- Tag name.                                                 *
+ * INPUT:   file -- The XMLFile to save.                                      *
  *                                                                            *
  * OUTPUT:  none                                                              *
  *                                                                            *
@@ -414,73 +306,7 @@ void Settings::_LoadHeroInfo(XMLFile& file)
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/10 Tony : Created.                                               *
- *   2022/11/24 Tony : Added COLORREF support.                                *
  *============================================================================*/
-void Settings::_SaveEntry(XMLFile& file, int val, const char* tag)
-{
-	XMLElement* entry = file.GetElementByTagName(tag);
-	char buffer[32];
-
-	sprintf_s(buffer, "%d", val);
-
-	if (!entry)
-	{
-		entry = file.Doc().NewElement(tag);
-		entry->SetText(buffer);
-		file.GetRoot()->InsertEndChild(entry);
-	}
-	else
-		entry->SetText(buffer);
-}
-
-void Settings::_SaveEntry(XMLFile& file, double val, const char* tag)
-{
-	XMLElement* entry = file.GetElementByTagName(tag);
-	char buffer[32];
-
-	sprintf_s(buffer, "%.2f", val);
-
-	if (!entry)
-	{
-		entry = file.Doc().NewElement(tag);
-		entry->SetText(buffer);
-		file.GetRoot()->InsertEndChild(entry);
-	}
-	else
-		entry->SetText(buffer);
-}
-
-void Settings::_SaveEntry(XMLFile& file, bool val, const char* tag)
-{
-	XMLElement* entry = file.GetElementByTagName(tag);
-	char buffer[32];
-
-	sprintf_s(buffer, "%s", val ? "true" : "false");
-
-	if (!entry)
-	{
-		entry = file.Doc().NewElement(tag);
-		file.GetRoot()->InsertEndChild(entry);
-	}
-	entry->SetText(buffer);
-}
-
-void Settings::_SaveEntry(XMLFile& file, COLORREF val, const char* tag)
-{
-	XMLElement* entry = file.GetElementByTagName(tag);
-	char buffer[32];
-
-	// Convert BGR to RGB.
-	sprintf_s(buffer, "#%x", BGRtoRGB(val));
-
-	if (!entry)
-	{
-		entry = file.Doc().NewElement(tag);
-		file.GetRoot()->InsertEndChild(entry);
-	}
-	entry->SetText(buffer);
-}
-
 void Settings::_SaveHeroInfo(XMLFile& file)
 {
 	XMLElement* entry = file.GetElementByTagName("Hero");

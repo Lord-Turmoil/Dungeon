@@ -3,17 +3,17 @@
  ******************************************************************************
  *                   Project Name : Dungeon                                   *
  *                                                                            *
- *                      File Name : Portal.h                                  *
+ *                      File Name : Stand.h                                   *
  *                                                                            *
  *                     Programmer : Tony Skywalker                            *
  *                                                                            *
- *                     Start Date : August 4, 2022                            *
+ *                     Start Date : December 8, 2022                          *
  *                                                                            *
- *                    Last Update : December 8, 2022                          *
+ *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
- *   Portal.                                                                  *
+ *   The stand...                                                             *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
  *   Windows 11 Pro                                                           *
@@ -21,41 +21,37 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#ifndef _PORTAL_H_
-#define _PORTAL_H_
+#ifndef _STAND_H_
+#define _STAND_H_
 
 #include "Object.h"
 
-
-/********************************************************************
-** 2022/12/08 TS:
-**   Now, Portal can not only do level up, but also jump to flashback
-** point. :)
-*/
 class Flashback;
 
-class Portal final : public Object
+class Stand : public Object
 {
 public:
-	Portal(Scene* scene);
-	virtual ~Portal() {}
+	Stand(Scene* scene);
+	virtual ~Stand();
 
-	virtual Portal* Clone() const;
-	virtual void Clone(Portal* clone) const {}
+	virtual Stand* Clone() const;
+	virtual void Clone(Stand* clone) const {}
 
 	virtual bool Load(XMLElement* node);
 
-	void Initialize();
-
-	void SetFlashback(Flashback* flashback) { m_pFlashback = flashback; }
-	Flashback* GetFlashback() { return m_pFlashback; }
-
 public:
+	void IsActive(bool isActive) { m_isActive = isActive; }
+	bool IsActive() const { return m_isActive; }
+
 	double GetRadius() const { return m_radius; }
+
+	Flashback* GetFlashback();
 
 protected:
 	virtual void _InitBehavior(XMLElement* node = nullptr);
 
+private:
+	bool m_isActive;
 	double m_radius;
 
 	Flashback* m_pFlashback;

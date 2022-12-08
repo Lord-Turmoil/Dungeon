@@ -23,6 +23,7 @@
     <ClInclude Include="inc\common\Math.h" />
     <ClInclude Include="inc\game\Collision.h" />
     <ClInclude Include="inc\game\Dungeon.h" />
+    <ClInclude Include="inc\game\Flashback.h" />
     <ClInclude Include="inc\game\Settings.h" />
     <ClInclude Include="inc\game\Startup.h" />
     <ClInclude Include="inc\object\Boss.h" />
@@ -66,6 +67,8 @@
     <ClInclude Include="inc\object\Portal.h" />
     <ClInclude Include="inc\object\PortalBehavior.h" />
     <ClInclude Include="inc\object\SoundComponent.h" />
+    <ClInclude Include="inc\object\Stand.h" />
+    <ClInclude Include="inc\object\StandBehavior.h" />
     <ClInclude Include="inc\object\Weapon.h" />
     <ClInclude Include="inc\object\WeaponBehavior.h" />
     <ClInclude Include="inc\object\WeaponComponent.h" />
@@ -89,6 +92,7 @@
     <ClCompile Include="src\common\Math.cpp" />
     <ClCompile Include="src\game\Collision.cpp" />
     <ClCompile Include="src\game\Dungeon.cpp" />
+    <ClCompile Include="src\game\Flashback.cpp" />
     <ClCompile Include="src\game\Settings.cpp" />
     <ClCompile Include="src\game\Startup.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -133,6 +137,8 @@
     <ClCompile Include="src\object\PortalBehavior.cpp" />
     <ClCompile Include="src\object\RockBehavior.cpp" />
     <ClCompile Include="src\object\SoundComponent.cpp" />
+    <ClCompile Include="src\object\Stand.cpp" />
+    <ClCompile Include="src\object\StandBehavior.cpp" />
     <ClCompile Include="src\object\Weapon.cpp" />
     <ClCompile Include="src\object\WeaponBehavior.cpp" />
     <ClCompile Include="src\object\WeaponComponent.cpp" />

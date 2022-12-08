@@ -70,7 +70,7 @@ public:
 
 	void CostHP(int val);
 	void CostMP(int val);
-	void CostAmor(int val);
+	void CostArmor(int val);
 	void CostChi(int val);
 
 	void HealHP(int val);

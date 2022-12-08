@@ -22,9 +22,11 @@
  ******************************************************************************/
 
 #include "../../inc/object/MiscKit.h"
-#include "../../inc/object/Portal.h"
+
 #include "../../inc/object/Buff.h"
 #include "../../inc/object/Crate.h"
+#include "../../inc/object/Portal.h"
+#include "../../inc/object/Stand.h"
 
 
 Object* MiscKit::LoadObject(XMLElement* node)
@@ -60,6 +62,8 @@ Object* MiscKit::LoadObject(XMLElement* node, std::string& objName)
 		obj = new MPDrug(nullptr);
 	else if (_STR_SAME(name, "Crate"))
 		obj = new Crate(nullptr);
+	else if (_STR_SAME(name, "Stand"))
+		obj = new Stand(nullptr);
 
 	if (obj)
 	{
