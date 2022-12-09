@@ -3,8 +3,8 @@
     <Difficulty>3</Difficulty>
     <SoundVolume>0.50</SoundVolume>
     <MusicVolume>0.20</MusicVolume>
-    <Fullscreen>true</Fullscreen>
-    <Coin>600</Coin>
+    <Fullscreen>false</Fullscreen>
+    <Coin>0</Coin>
     <ShowCredits>true</ShowCredits>
     <ChapterNum>2</ChapterNum>
     <LevelNum>3</LevelNum>

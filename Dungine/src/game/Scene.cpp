@@ -70,7 +70,14 @@ void Scene::AddObjects(std::vector<GameObject*>& pool)
 
 void Scene::RemoveObject(GameObject* object)
 {
+	/*
+	** 2022/12/09 TS:
+	** Although in logic, we should do this, but... ya know,
+	** Uhem... weapons still need scene info when equipped. :(
+	* 
 	object->SetScene(nullptr);
+	*
+	*/
 
 	if (m_isUpdating)
 		m_dirtyObjects.AddObject(object);

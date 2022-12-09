@@ -174,7 +174,7 @@
             <Static name="para-1-1" pos="320 170">
                 <Drawer>
                     <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
-                        Game now support save file
+                        Game now supports save file
                     </Text>
                 </Drawer>
             </Static>

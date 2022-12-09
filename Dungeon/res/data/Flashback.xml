@@ -2,13 +2,13 @@
 <Flashback>
     <Valid>true</Valid>
     <Chapter>0</Chapter>
-    <Level>0</Level>
-    <Hero>BlackHand</Hero>
-    <HP>2</HP>
-    <MP>300</MP>
-    <Armor>8</Armor>
+    <Level>1</Level>
+    <Hero>Yony</Hero>
+    <HP>5</HP>
+    <MP>175</MP>
+    <Armor>5</Armor>
     <Chi>100</Chi>
     <Weapons>
-        <Weapon>Thrower</Weapon>
+        <Weapon>Rifle</Weapon>
     </Weapons>
 </Flashback>
