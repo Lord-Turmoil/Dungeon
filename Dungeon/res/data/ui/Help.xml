@@ -69,7 +69,7 @@
                     <AlphaTransition duration="1300" delay="123" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
                 </Transitions>
             </Static>
-            <Static name="droid-l" pos="340 480" layer="4">
+            <Static name="droid-l" pos="340 480" layer="10">
                 <Drawer>
                     <Animation width="128" height="192" focus="64 0" src="anim-droid-l"></Animation>
                 </Drawer>
@@ -113,12 +113,12 @@
                 </Drawer>
             </Static>
             <!-- HUD -->
-            <Static name="hud-1" float="true" pos="100% 100%">
+            <Static name="hud-1" float="true" pos="100% 100%" layer="5">
                 <Drawer>
                     <Text width="256" height="24" focus="320 124" font-size="18" font="8bitoperator JVE Regular" color="#000000">HUD at the corner shows the name of</Text>
                 </Drawer>
             </Static>
-            <Static name="hud-2" float="true" pos="100% 100%">
+            <Static name="hud-2" float="true" pos="100% 100%" layer="5">
                 <Drawer>
                     <Text width="256" height="24" focus="320 100" font-size="18" font="8bitoperator JVE Regular" color="#000000">the weapon and the energy it costs</Text>
                 </Drawer>

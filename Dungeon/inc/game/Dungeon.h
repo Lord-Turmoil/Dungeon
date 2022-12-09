@@ -45,10 +45,10 @@ class Enemy;
 class Hero;
 class Boss;
 class Portal;
+class Stand;
 
 class GameInterface;
 
-// For saved games.
 class Flashback;
 
 class Dungeon : public Scene
@@ -68,8 +68,12 @@ public:
 	Coordinate GetMouse() { return m_target; }
 
 	void SetLevelUp() { m_isToLevelUp = true; }
-	void SetFlashback(Flashback* flashback) { m_pFlashback = flashback; }
 
+	int GetChapter() const { return m_chapter; }
+	int GetLevel() const { return m_level; }
+
+	void SetFlashback(Flashback* pFlashback) { m_pFlashback = pFlashback; }
+	
 public:
 	bool AddEnemy(Enemy* enemy);
 	bool AddEnemy(Enemy* enemy, const Coordinate& center);
@@ -100,6 +104,8 @@ protected:
 	void _GenerateEnemy();
 	void _GenerateCrate();
 
+	void _AddStand();
+
 protected:
 	// Interface transition.
 	void _VictoryTransit();
@@ -122,6 +128,7 @@ protected:
 	Hero* m_pHero;
 	Boss* m_pBoss;
 	Portal* m_pPortal;
+	Stand* m_pStand;
 
 	int m_enemyCount;
 	
@@ -130,7 +137,7 @@ protected:
 
 	bool m_isToLoadChapter;	// Denotes whether to load chapter resource.
 	bool m_isToLevelUp;
-	
+
 	Flashback* m_pFlashback;
 
 	GameInterface* m_pGameInterface;

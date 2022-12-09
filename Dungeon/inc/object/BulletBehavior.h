@@ -80,8 +80,9 @@ public:
 protected:
 	// Damage game objects.
 	virtual bool _Explode(GameObject* obj);
+	virtual void _AdjustDirection();
 
-	Coordinate m_start;
+	double m_dist;	// distance covered
 	std::vector<GameObject*> m_candidates;
 };
 

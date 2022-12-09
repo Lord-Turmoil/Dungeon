@@ -23,7 +23,7 @@
 
 #include "../../inc/object/Portal.h"
 #include "../../inc/object/PortalBehavior.h"
-
+#include "../../inc/object/SoundComponent.h"
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -74,6 +74,7 @@ bool Portal::Load(XMLElement* node)
 void Portal::Initialize()
 {
 	GetComponent<BehaviorComponent>()->ChangeBehavior("Init");
+	GetComponent<SoundComponent>()->Play("init");
 }
 
 void Portal::_InitBehavior(XMLElement* node)

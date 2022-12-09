@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 25, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 9, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -211,6 +211,48 @@ Coordinate Rotate(const Coordinate& vec, double radian)
 	double sinx = sin(radian);
 
 	return { (int)((double)vec.x * cosx - (double)vec.y * sinx), -(int)((double)vec.x * sinx + (double)vec.y * cosx) };
+}
+
+
+/******************************************************************************
+ * VectorProjection -- Get the vector projection of vec to base.              *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   vec                                                               *
+ *          base                                                              *
+ *                                                                            *
+ * OUTPUT:  Vector projection.                                                *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/09 Tony : Created.                                               *
+ *============================================================================*/
+Vector VectorProjection(Vector& vec, Vector& base)
+{
+	Vector unit = Unit(base);
+	return vec * unit * unit;
+}
+
+/******************************************************************************
+ * ScalarProjection -- Get the scalar projection of vec to base.              *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   vec                                                               *
+ *          base                                                              *
+ *                                                                            *
+ * OUTPUT:  Scalar projection.                                                *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/09 Tony : Created.                                               *
+ *============================================================================*/
+double ScalarProjection(Vector& vec, Vector& base)
+{
+	return vec * Unit(base);
 }
 
 

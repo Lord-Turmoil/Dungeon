@@ -22,14 +22,24 @@
  ******************************************************************************/
 
 #include "../../inc/game/Dungeon.h"
+#include "../../inc/game/Flashback.h"
+#include "../../inc/game/Settings.h"
+
+#include "../../inc/terrain/Space.h"
 
 #include "../../inc/object/Stand.h"
 #include "../../inc/object/StandBehavior.h"
+#include "../../inc/object/WeaponComponent.h"
+#include "../../inc/object/SoundComponent.h"
+
+#include "../../inc/object/Portal.h"
+#include "../../inc/object/MiscLibrary.h"
 
 #include "../../inc/object/Hero.h"
 
 
-static const Coordinate DIALOG_OFFSET = { -72, 144 };
+static const Coordinate DIALOG_OFFSET = { -144, -140 };
+static const int DIALOG_FONT_SIZE = 28;
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -43,7 +53,7 @@ StandBehavior::StandBehavior() : m_elapsedTime(0)
 {
 	// Bad Magic number. :(
 	m_symbol.SetOffset(DIALOG_OFFSET);
-	_RenderDialog();
+	m_symbol.SetLayer(LAYER_HIGH);
 }
 
 void StandBehavior::Clone(StandBehavior* clone) const
@@ -54,20 +64,56 @@ void StandBehavior::Clone(StandBehavior* clone) const
 	clone->m_symbol = m_symbol;
 }
 
+void StandBehavior::OnEnter()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+
+	m_symbol.SetCoord(stand->GetCoord());
+	stand->GetSymbol()->SetSubSymbol(&m_symbol);
+
+	m_elapsedTime = 0;
+}
+
+void StandBehavior::OnExit()
+{
+	static_cast<Stand*>(m_parent->GetGameObject())
+		->GetSymbol()->SetSubSymbol(nullptr);
+}
+
+void StandBehavior::_AdjustDirection(bool isLeft)
+{
+	auto anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()
+		->GetAnim();
+	anim->SetDir(isLeft ? ANIM_LEFT : ANIM_RIGHT);
+}
+
 void StandBehavior::_ApplyFontAttribute()
 {
 	settextcolor(BLACK);
-	settextstyle(18, 0, INTERNAL_FONT_NAME);
-	setbkcolor(TRANSPARENT_COLOR);
+	settextstyle(DIALOG_FONT_SIZE, 0, INTERNAL_FONT_NAME);
+	setbkmode(TRANSPARENT);
 }
 
+void StandBehavior::_Collide()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Dungeon* dungeon = static_cast<Dungeon*>(stand->GetScene());
+	QuadTree* tree = dungeon->GetQuadTree();
+
+	std::vector<GameObject*> candidates = tree->Query(stand);
+	for (auto it = candidates.begin(); it != candidates.end(); it++)
+	{
+		if (*it != stand)
+			Collider::Collide(stand, *it);
+	}
+}
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ** StandIdle
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
-const time_t StandIdle::IDLE_DURATION = 30000;
+const time_t StandIdle::IDLE_DURATION = 5000;
 
 StandIdle* StandIdle::Clone() const
 {
@@ -85,19 +131,24 @@ void StandIdle::Update(Event* evnt)
 	Hero* hero = static_cast<Dungeon*>(stand->GetScene())->GetHero();
 	double dist = Distance(hero->GetCoord(), stand->GetCoord());
 
+	m_symbol.SetCoord(stand->GetCoord());
+
 	// Hmm... it won't overflow, huh?
 	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
 
 	if (dist < stand->GetRadius())
 	{
-		if (stand->IsActive())
+		if (stand->IsAvailable())
 			m_parent->ChangeBehavior("Choose");
 		else
 		{
-			if (m_elapsedTime >= IDLE_DURATION)
+			if (m_elapsedTime > IDLE_DURATION)
 				m_parent->ChangeBehavior("Greet");
 		}
 	}
+
+	_Collide();
+	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
 }
 
 void StandIdle::OnEnter()
@@ -107,11 +158,7 @@ void StandIdle::OnEnter()
 
 	anim->SetMotion(STAND_ANIM_ACTIVE);
 	anim->SetDir(ANIM_LEFT);	// Actually it doesn't have direction.
-}
 
-void StandIdle::OnExit()
-{
-	// Clear elapsed time for interval, I guess.
 	m_elapsedTime = 0;
 }
 
@@ -120,7 +167,7 @@ void StandIdle::OnExit()
 ** StandChoose
 */
 const wchar_t StandChoose::PROMPT_SAVE[]	= L"Save progress? (V)";
-const wchar_t StandChoose::PROMPT_FLASH[]	= L"Flashback? (F)    ";
+const wchar_t StandChoose::PROMPT_FLASH[]	= L"Flashback? (F)       ";
 
 StandChoose* StandChoose::Clone() const
 {
@@ -138,29 +185,28 @@ void StandChoose::Update(Event* evnt)
 	Hero* hero = static_cast<Dungeon*>(stand->GetScene())->GetHero();
 	double dist = Distance(hero->GetCoord(), stand->GetCoord());
 
-	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+	// m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+
+	m_symbol.SetCoord(stand->GetCoord());
 
 	if (dist < stand->GetRadius())
 	{
-		m_elapsedTime = 0;
-
+		Event* evnt = Event::GetInstance();
+		
+		if (evnt->Sluggish(VK_V))
+			m_parent->ChangeBehavior("Save");
+		else if (evnt->Sluggish(VK_F))
+			m_parent->ChangeBehavior("Flash");
+		
+		// m_elapsedTime = 0;
 	}
-}
+	else
+	{
+		m_parent->ChangeBehavior("Idle");
+	}
 
-void StandChoose::OnEnter()
-{
-	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
-
-	m_symbol.SetCoord(stand->GetCoord());
-	stand->GetSymbol()->SetSubSymbol(&m_symbol);
-
-	m_elapsedTime = 0;
-}
-
-void StandChoose::OnExit()
-{
-	static_cast<Stand*>(m_parent->GetGameObject())
-		->GetSymbol()->SetSubSymbol(nullptr);
+	_Collide();
+	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
 }
 
 void StandChoose::_RenderDialog()
@@ -170,12 +216,12 @@ void StandChoose::_RenderDialog()
 
 	Device::GetInstance()->SetTargetImage(image);
 
-	Rect rect(0, 0, 144, 20);
+	Rect rect(0, 0, 288, 40);
 	_ApplyFontAttribute();
 
-	rect.SetPos(0, 2);
+	rect.SetPos(0, 4);
 	drawtext(PROMPT_SAVE, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
-	rect.SetPos(0, 23);
+	rect.SetPos(0, 44);
 	drawtext(PROMPT_FLASH, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
 
 	Device::GetInstance()->SetTargetImage();
@@ -187,141 +233,551 @@ void StandChoose::_RenderDialog()
 /********************************************************************
 ** StandGreet
 */
-class StandGreet : public StandBehavior
+const wchar_t StandGreet::PROMPT_GREET[] = L"Merry Christmas!";
+
+StandGreet* StandGreet::Clone() const
 {
-public:
-	StandGreet();
-	virtual ~StandGreet() {}
+	auto clone = new StandGreet();
+	clone->_MakePrototype(false);
 
-	virtual const char* Name() const { return "Greet"; }
+	StandBehavior::Clone(clone);
 
-	virtual StandGreet* Clone() const;
-	virtual void Clone(StandGreet* clone) const {}
+	return clone;
+}
 
-	virtual void Update(Event* evnt);
+void StandGreet::Update(Event* evnt)
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Hero* hero = static_cast<Dungeon*>(stand->GetScene())->GetHero();
 
-protected:
-	virtual void _RenderDialog();
-};
+	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+	
+	m_symbol.SetCoord(stand->GetCoord());
+
+	if (m_elapsedTime > STAND_TIMEOUT)
+		m_parent->ChangeBehavior("Idle");
+
+	_Collide();
+	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
+}
+
+void StandGreet::_RenderDialog()
+{
+	ImageResource* res = LoadResource<ImageResource>(DIALOG_RES_ID);
+	IMAGE* image = new IMAGE(*(res->GetResource()));
+
+	Device::GetInstance()->SetTargetImage(image);
+
+	Rect rect(0, 8, 288, 40);
+	_ApplyFontAttribute();
+
+	drawtext(PROMPT_GREET, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+
+	Device::GetInstance()->SetTargetImage();
+
+	m_symbol.SetImage(image);
+}
+
 
 /********************************************************************
 ** StandConfirmSave
 */
-class StandSave : public StandBehavior
+const wchar_t StandSave::PROMPT_CONFIRM_SAVE_1[] = L"Save your progress  ";
+const wchar_t StandSave::PROMPT_CONFIRM_SAVE_2[] = L"for 100 coins? (Y/N)";
+
+StandSave* StandSave::Clone() const
 {
-public:
-	StandSave();
-	virtual ~StandSave() {}
+	auto clone = new StandSave();
+	clone->_MakePrototype(false);
 
-	virtual const char* Name() const { return "Save"; }
+	StandBehavior::Clone(clone);
 
-	virtual StandSave* Clone() const;
-	virtual void Clone(StandSave* clone) const {}
+	return clone;
+}
 
-	virtual void Update(Event* evnt);
+void StandSave::Update(Event* evnt)
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Hero* hero = static_cast<Dungeon*>(stand->GetScene())->GetHero();
+	double dist = Distance(hero->GetCoord(), stand->GetCoord());
 
-protected:
-	virtual void _RenderDialog();
-};
+	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+
+	m_symbol.SetCoord(stand->GetCoord());
+
+	if (dist < stand->GetRadius())
+	{
+		Event* evnt = Event::GetInstance();
+
+		if (evnt->Sluggish(VK_Y))
+		{
+			if (Settings::GetInstance()->Coin() < stand->SaveCost())
+				m_parent->ChangeBehavior("Insufficient");
+			else
+			{
+				_Save();
+				m_parent->ChangeBehavior("Saved");
+			}
+		}
+		else if (evnt->Sluggish(VK_N))
+			m_parent->ChangeBehavior("Cancel");
+
+		m_elapsedTime = 0;
+	}
+	else
+	{
+		if (m_elapsedTime > STAND_TIMEOUT)
+			m_parent->ChangeBehavior("Idle");
+	}
+
+	_Collide();
+	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
+}
+
+void StandSave::_RenderDialog()
+{
+	ImageResource* res = LoadResource<ImageResource>(DIALOG_RES_ID);
+	IMAGE* image = new IMAGE(*(res->GetResource()));
+
+	Device::GetInstance()->SetTargetImage(image);
+
+	Rect rect(0, 0, 288, 40);
+	_ApplyFontAttribute();
+
+	rect.SetPos(0, 4);
+	drawtext(PROMPT_CONFIRM_SAVE_1, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+	rect.SetPos(0, 44);
+	drawtext(PROMPT_CONFIRM_SAVE_2, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+
+	Device::GetInstance()->SetTargetImage();
+
+	m_symbol.SetImage(image);
+}
+
+bool StandSave::_Save()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Flashback* flashback = stand->GetFlashback();
+	Dungeon* dungeon = static_cast<Dungeon*>(stand->GetScene());
+	Hero* hero = dungeon->GetHero();
+
+	// Set hero.
+	flashback->SetHeroName(hero->Name());
+	flashback->SetHP(hero->GetHP());
+	flashback->SetMP(hero->GetMP());
+	flashback->SetArmor(hero->GetArmor());
+	flashback->SetChi(hero->GetChi());
+	flashback->SetWeaponList(hero->GetComponent<WeaponComponent>()->GetWeaponList());
+
+	// Set progress.
+	flashback->SetChapter(dungeon->GetChapter());
+	flashback->SetLevel(dungeon->GetLevel());
+
+	// Set valid.
+	flashback->IsValid(true);
+
+	flashback->Save();
+
+	return true;
+}
 
 /********************************************************************
 ** StandFlash
 */
-class StandFlash : public StandBehavior
+const wchar_t StandFlash::PROMPT_CONFIRM_FLASH_1[] = L"Flash back for  ";
+const wchar_t StandFlash::PROMPT_CONFIRM_FLASH_2[] = L"200 coins? (Y/N)";
+
+StandFlash* StandFlash::Clone() const
 {
-public:
-	StandFlash();
-	virtual ~StandFlash() {}
+	auto clone = new StandFlash();
+	clone->_MakePrototype(false);
 
-	virtual const char* Name() const { return "Flash"; }
+	StandBehavior::Clone(clone);
 
-	virtual StandFlash* Clone() const;
-	virtual void Clone(StandFlash* clone) const {}
+	return clone;
+}
 
-	virtual void Update(Event* evnt);
+void StandFlash::Update(Event* evnt)
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Hero* hero = static_cast<Dungeon*>(stand->GetScene())->GetHero();
+	double dist = Distance(hero->GetCoord(), stand->GetCoord());
 
-protected:
-	virtual void _RenderDialog();
-};
+	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+
+	m_symbol.SetCoord(stand->GetCoord());
+
+	if (dist < stand->GetRadius())
+	{
+		Event* evnt = Event::GetInstance();
+
+		if (evnt->Sluggish(VK_Y))
+		{
+			if (Settings::GetInstance()->Coin() < stand->FlashCost())
+				m_parent->ChangeBehavior("Insufficient");
+			else
+			{
+				if (_Flash())
+					m_parent->ChangeBehavior("Flashed");
+				else
+					m_parent->ChangeBehavior("Error");
+			}
+		}
+		else if (evnt->Sluggish(VK_N))
+			m_parent->ChangeBehavior("Cancel");
+
+		m_elapsedTime = 0;
+	}
+	else
+	{
+		if (m_elapsedTime > STAND_TIMEOUT)
+			m_parent->ChangeBehavior("Idle");
+	}
+
+	_Collide();
+	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
+}
+
+void StandFlash::_RenderDialog()
+{
+	ImageResource* res = LoadResource<ImageResource>(DIALOG_RES_ID);
+	IMAGE* image = new IMAGE(*(res->GetResource()));
+
+	Device::GetInstance()->SetTargetImage(image);
+
+	Rect rect(0, 0, 288, 40);
+	_ApplyFontAttribute();
+
+	rect.SetPos(0, 4);
+	drawtext(PROMPT_CONFIRM_FLASH_1, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+	rect.SetPos(0, 44);
+	drawtext(PROMPT_CONFIRM_FLASH_2, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+
+	Device::GetInstance()->SetTargetImage();
+
+	m_symbol.SetImage(image);
+}
+
+bool StandFlash::_Flash()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Flashback* flashback = stand->GetFlashback();
+
+	flashback->Load();
+
+	if (!flashback->IsValid())
+		return false;
+
+	_GeneratePortal();
+
+	return true;
+}
+
+void StandFlash::_GeneratePortal()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Flashback* flashback = stand->GetFlashback();
+	Dungeon* dungeon = static_cast<Dungeon*>(stand->GetScene());
+	Portal* portal = MiscLibrary::GetInstance()->
+		GetMiscObject<Portal>("Portal")->Clone();
+
+	portal->SetFlashback(stand->GetFlashback());
+	portal->SetActive(true);
+	portal->SetCoord(dungeon->GetArena()->GetCoord());
+	portal->Initialize();
+
+	dungeon->AddObject(portal);
+}
+
 
 /********************************************************************
 ** StandSaved
 */
-class StandSaved : public StandBehavior
+const wchar_t StandSaved::PROMPT_SAVED[] = L"Progress saved.";
+
+StandSaved* StandSaved::Clone() const
 {
-public:
-	StandSaved();
-	virtual ~StandSaved() {}
+	auto clone = new StandSaved();
+	clone->_MakePrototype(false);
 
-	virtual const char* Name() const { return "Saved"; }
+	StandBehavior::Clone(clone);
 
-	virtual StandSaved* Clone() const;
-	virtual void Clone(StandSaved* clone) const {}
+	return clone;
+}
 
-	virtual void Update(Event* evnt);
+void StandSaved::Update(Event* evnt)
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Hero* hero = static_cast<Dungeon*>(stand->GetScene())->GetHero();
 
-protected:
-	virtual void _RenderDialog();
-};
+	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+
+	m_symbol.SetCoord(stand->GetCoord());
+
+	if (m_elapsedTime > STAND_TIMEOUT)
+		m_parent->ChangeBehavior("Idle");
+
+	_Collide();
+	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
+}
+
+void StandSaved::OnEnter()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	stand->IsAvailable(false);
+
+	m_symbol.SetCoord(stand->GetCoord());
+	stand->GetSymbol()->SetSubSymbol(&m_symbol);
+
+	m_elapsedTime = 0;
+
+	Settings::GetInstance()->AddCoin(-stand->SaveCost());
+}
+
+void StandSaved::_RenderDialog()
+{
+	ImageResource* res = LoadResource<ImageResource>(DIALOG_RES_ID);
+	IMAGE* image = new IMAGE(*(res->GetResource()));
+
+	Device::GetInstance()->SetTargetImage(image);
+
+	Rect rect(0, 8, 288, 40);
+	_ApplyFontAttribute();
+
+	drawtext(PROMPT_SAVED, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+
+	Device::GetInstance()->SetTargetImage();
+
+	m_symbol.SetImage(image);
+}
+
 
 /********************************************************************
 ** StandFlashed
 */
-class StandFlashed : public StandBehavior
+const wchar_t StandFlashed::PROMPT_FLASHED[] = L"The Portal is open.";
+
+StandFlashed* StandFlashed::Clone() const
 {
-public:
-	StandFlashed();
-	virtual ~StandFlashed() {}
+	auto clone = new StandFlashed();
+	clone->_MakePrototype(false);
 
-	virtual const char* Name() const { return "Flashed"; }
+	StandBehavior::Clone(clone);
 
-	virtual StandFlashed* Clone() const;
-	virtual void Clone(StandFlashed* clone) const {}
+	return clone;
+}
 
-	virtual void Update(Event* evnt);
+void StandFlashed::Update(Event* evnt)
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Hero* hero = static_cast<Dungeon*>(stand->GetScene())->GetHero();
 
-protected:
-	virtual void _RenderDialog();
-};
+	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+
+	m_symbol.SetCoord(stand->GetCoord());
+
+	if (m_elapsedTime > STAND_TIMEOUT)
+		m_parent->ChangeBehavior("Idle");
+
+	_Collide();
+	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
+}
+
+void StandFlashed::OnEnter()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	stand->IsAvailable(false);
+
+	m_symbol.SetCoord(stand->GetCoord());
+	stand->GetSymbol()->SetSubSymbol(&m_symbol);
+
+	m_elapsedTime = 0;
+
+	Settings::GetInstance()->AddCoin(-stand->FlashCost());
+}
+
+void StandFlashed::_RenderDialog()
+{
+	ImageResource* res = LoadResource<ImageResource>(DIALOG_RES_ID);
+	IMAGE* image = new IMAGE(*(res->GetResource()));
+
+	Device::GetInstance()->SetTargetImage(image);
+
+	Rect rect(0, 8, 288, 40);
+	_ApplyFontAttribute();
+
+	drawtext(PROMPT_FLASHED, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+
+	Device::GetInstance()->SetTargetImage();
+
+	m_symbol.SetImage(image);
+}
+
+/********************************************************************
+** StandCancel
+*/
+const wchar_t StandCancel::PROMPT_CANCEL[] = L"Deal canceled.";
+
+StandCancel* StandCancel::Clone() const
+{
+	auto clone = new StandCancel();
+	clone->_MakePrototype(false);
+
+	StandBehavior::Clone(clone);
+
+	return clone;
+}
+
+void StandCancel::Update(Event* evnt)
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Hero* hero = static_cast<Dungeon*>(stand->GetScene())->GetHero();
+
+	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+
+	m_symbol.SetCoord(stand->GetCoord());
+
+	if (m_elapsedTime > STAND_TIMEOUT)
+		m_parent->ChangeBehavior("Idle");
+
+	_Collide();
+	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
+}
+
+void StandCancel::OnEnter()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+
+	m_symbol.SetCoord(stand->GetCoord());
+	stand->GetSymbol()->SetSubSymbol(&m_symbol);
+
+	m_elapsedTime = 0;
+
+	stand->GetComponent<SoundComponent>()->Play("cancel");
+}
+
+void StandCancel::_RenderDialog()
+{
+	ImageResource* res = LoadResource<ImageResource>(DIALOG_RES_ID);
+	IMAGE* image = new IMAGE(*(res->GetResource()));
+
+	Device::GetInstance()->SetTargetImage(image);
+
+	Rect rect(0, 8, 288, 40);
+	_ApplyFontAttribute();
+
+	drawtext(PROMPT_CANCEL, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+
+	Device::GetInstance()->SetTargetImage();
+
+	m_symbol.SetImage(image);
+}
 
 /********************************************************************
 ** StandInsufficient
 */
-class StandInsufficient : public StandBehavior
+const wchar_t StandInsufficient::PROMPT_INSUFFICIENT[] = L"Insufficient funds.";
+
+StandInsufficient* StandInsufficient::Clone() const
 {
-public:
-	StandInsufficient();
-	virtual ~StandInsufficient() {}
+	auto clone = new StandInsufficient();
+	clone->_MakePrototype(clone);
 
-	virtual const char* Name() const { return "Insufficient"; }
+	StandBehavior::Clone(clone);
 
-	virtual StandInsufficient* Clone() const;
-	virtual void Clone(StandInsufficient* clone) const {}
+	return clone;
+}
 
-	virtual void Update(Event* evnt);
+void StandInsufficient::Update(Event* evnt)
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Hero* hero = static_cast<Dungeon*>(stand->GetScene())->GetHero();
 
-protected:
-	virtual void _RenderDialog();
-};
+	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+
+	m_symbol.SetCoord(stand->GetCoord());
+
+	if (m_elapsedTime > STAND_TIMEOUT)
+		m_parent->ChangeBehavior("Idle");
+
+	_Collide();
+	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
+}
+
+void StandInsufficient::OnEnter()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+
+	m_symbol.SetCoord(stand->GetCoord());
+	stand->GetSymbol()->SetSubSymbol(&m_symbol);
+
+	m_elapsedTime = 0;
+
+	stand->GetComponent<SoundComponent>()->Play("insuf");
+}
+
+void StandInsufficient::_RenderDialog()
+{
+	ImageResource* res = LoadResource<ImageResource>(DIALOG_RES_ID);
+	IMAGE* image = new IMAGE(*(res->GetResource()));
+
+	Device::GetInstance()->SetTargetImage(image);
+
+	Rect rect(0, 8, 288, 40);
+	_ApplyFontAttribute();
+
+	drawtext(PROMPT_INSUFFICIENT, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+
+	Device::GetInstance()->SetTargetImage();
+
+	m_symbol.SetImage(image);
+}
+
 
 /********************************************************************
-** StandComplete
+** StandError
 */
-class StandComplete : public StandBehavior
+const wchar_t StandError::PROMPT_ERROR[] = L"No Flashback!";
+
+StandError* StandError::Clone() const
 {
-public:
-	StandComplete();
-	virtual ~StandComplete() {}
+	auto clone = new StandError();
+	clone->_MakePrototype(false);
 
-	virtual const char* Name() const { return "Complete"; }
+	StandBehavior::Clone(clone);
 
-	virtual StandComplete* Clone() const;
-	virtual void Clone(StandComplete* clone) const {}
+	return clone;
+}
 
-	virtual void Update(Event* evnt);
+void StandError::Update(Event* evnt)
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+	Hero* hero = static_cast<Dungeon*>(stand->GetScene())->GetHero();
 
-protected:
-	virtual void _RenderDialog();
-};
+	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
 
-#endif
+	m_symbol.SetCoord(stand->GetCoord());
+
+	if (m_elapsedTime > STAND_TIMEOUT)
+		m_parent->ChangeBehavior("Idle");
+
+	_Collide();
+	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
+}
+
+void StandError::_RenderDialog()
+{
+	ImageResource* res = LoadResource<ImageResource>(DIALOG_RES_ID);
+	IMAGE* image = new IMAGE(*(res->GetResource()));
+
+	Device::GetInstance()->SetTargetImage(image);
+
+	Rect rect(0, 8, 288, 40);
+	_ApplyFontAttribute();
+
+	drawtext(PROMPT_ERROR, rect.GetEasyXRect(), DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+
+	Device::GetInstance()->SetTargetImage();
+
+	m_symbol.SetImage(image);
+}

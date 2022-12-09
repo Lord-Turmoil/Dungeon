@@ -70,6 +70,8 @@ void Scene::AddObjects(std::vector<GameObject*>& pool)
 
 void Scene::RemoveObject(GameObject* object)
 {
+	object->SetScene(nullptr);
+
 	if (m_isUpdating)
 		m_dirtyObjects.AddObject(object);
 	else

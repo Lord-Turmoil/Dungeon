@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <UI>
-    <Logo name="Logo" in-time="1000" out-time="500" duration="500">
+    <Logo name="Logo" in-time="1000" out-time="500" duration="1000">
         <Widgets>
             <Static name="bg" layer="-10">
                 <Drawer>

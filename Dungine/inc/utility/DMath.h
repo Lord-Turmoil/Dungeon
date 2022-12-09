@@ -110,6 +110,9 @@ double Module(const Vector& vec);
 Vector Rotate(const Vector& vec, double radian);
 Coordinate Rotate(const Coordinate& vec, double radian);
 
+Vector VectorProjection(Vector& vec, Vector& base);
+double ScalarProjection(Vector& vec, Vector& base);
+
 inline bool IsZero(const Vector& vec)
 {
 	return Module(vec) < EPSILON;

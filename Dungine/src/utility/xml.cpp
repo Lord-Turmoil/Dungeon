@@ -7,9 +7,9 @@
  *                                                                            *
  *                     Programmer : Tony Skywalker                            *
  *                                                                            *
- *                     Start Date : April 9th, 2022                           *
+ *                     Start Date : April 9, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 9, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -102,6 +102,31 @@ bool XMLFile::Save(const char* filename)
 		LOG_ERROR(CANNOT_SAVE_XML, filename, ret);
 		return false;
 	}
+
+	return true;
+}
+
+
+/******************************************************************************
+ * XMLFile::Clear -- Clear the xml file.                                      *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/09 Tony : Created.                                               *
+ *============================================================================*/
+bool XMLFile::Clear()
+{
+	if (!m_isLoaded)
+		return false;
+
+	m_doc.RootElement()->DeleteChildren();
 
 	return true;
 }

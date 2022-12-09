@@ -144,7 +144,14 @@ void MeleeBehavior::_SlashBullet()
 			if ((dist > range) || (GetAngle(dir, base) > radian))
 				continue;
 
-			victim->Corrupt();
+			RigidBodyComponent* rigid = victim->GetComponent<RigidBodyComponent>();
+			Vector v = rigid->GetVelocity();
+			Vector u = VectorProjection(v, dir);	// less
+			rigid->SetVelocity(v - 2 * u);
+			if (rigid->ID() == COLL_ID_ENEMY_BULLET)
+				rigid->SetID(COLL_ID_HERO_BULLET);
+			else if (rigid->ID() == COLL_ID_ENEMY_FLAME)
+				rigid->SetID(COLL_ID_HERO_FLAME);
 		}
 	}
 }

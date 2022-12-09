@@ -152,11 +152,61 @@
             <Static name="copyright" pos="320 340">
                 <Drawer>
                     <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
-                        Copyright (C) New Desire Studios 2022 - 2023
+                        Copyright (C) New Desire Studios 2023
                     </Text>
                 </Drawer>
             </Static>
         </Widgets>
+         <Page>
+            <!-- Version 1.1.0 Christmas Edition -->
+            <Static name="title" pos="320 40" layer="10">
+                <Drawer>
+                    <Text width="640" height="80" focus="320 0" font-size="60" font="8bitoperator JVE Regular" color="#000000">Version 1.1.0 Xmas</Text>
+                </Drawer>
+            </Static>
+            <Static name="section-1" pos="320 120">
+                <Drawer>
+                    <Text width="640" height="40" focus="320 0" font-size="40" font="8bitoperator JVE Regular" color="#000000">
+                        - MERRY CHRISTMAS ! -
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-1" pos="320 170">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Game now support save file
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-2" pos="320 200">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Melee weapons can now bounce bullets
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-3" pos="320 230">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Game engine BUGs fixed
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-4" pos="320 260">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Sound details improved
+                    </Text>
+                </Drawer>
+            </Static>
+            <Static name="para-1-5" pos="320 290">
+                <Drawer>
+                    <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
+                        Primary objective achieved
+                    </Text>
+                </Drawer>
+            </Static>
+        </Page>
         <Page>
             <!-- Version 1.0.3 Christmas Edition -->
             <Static name="title" pos="320 40" layer="10">

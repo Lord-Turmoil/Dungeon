@@ -60,7 +60,7 @@
                     <AlphaTransition duration="1700" delay="0" loop="true" reverse="true" style="linear" begin="255" end="128"></AlphaTransition>
                 </Transitions>
             </Static>
-             <Static name="star-3" float="true" pos="70% 85%" layer="-10">
+             <Static name="star-3" float="true" pos="60% 75%" layer="-10">
                 <Drawer>
                     <Image width="32" height="32" focus="16 16" src="star" size="64 64"></Image>
                 </Drawer>
@@ -114,28 +114,28 @@
                 </Drawer>
             </Static>
 
-            <Static name="p1" pos="320 160">
+            <Static name="p1" pos="320 140">
                 <Drawer>
                     <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
                         Some resources are collected from the Internet
                     </Text>
                 </Drawer>
             </Static>
-            <Static name="p2" pos="320 200">
+            <Static name="p2" pos="320 180">
                 <Drawer>
                     <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
                         Developed with EasyX and FMOD
                     </Text>
                 </Drawer>
             </Static>
-            <Static name="p3" pos="320 240">
+            <Static name="p3" pos="320 220">
                 <Drawer>
                     <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
                         Powered by Dungine
                     </Text>
                 </Drawer>
             </Static>
-            <Static name="p4" pos="320 280">
+            <Static name="p4" pos="320 260">
                 <Drawer>
                     <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
                         New Desire Studios Proudly Produced
@@ -143,20 +143,53 @@
                 </Drawer>
             </Static>
 
-            <Static name="copyright" pos="320 340">
+            <Static name="copyright" pos="320 320">
                 <Drawer>
                     <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
-                        Copyright (C) New Desire Studios 2022 - 2023
+                        Copyright (C) New Desire Studios 2023
                     </Text>
                 </Drawer>
             </Static>
 
-            <!-- Special Banner -->
-            <Static name="mayhem" pos="640 440" layer="-5">
+            <!-- Website, huh -->
+            <Static name="url-board" float="true" pos="100% 100%" layer="-7" alpha="200">
                 <Drawer>
-                    <Text width="320" height="40" focus="320 40" font-size="24" color="#000000" font="8bitoperator JVE Regular">- For Mayhem</Text>
+                    <Roundrect width="280" height="80" radius="10" focus="300 95" filled="true" line-color="rgb(62, 39, 35)" fill-color="rgb(109, 76, 65)" border="4"></Roundrect>
                 </Drawer>
             </Static>
+            <Static name="url-prompt" float="true" pos="100% 100%" layer="-6">
+                <Drawer>
+                    <Text width="120" height="25" focus="315 65" font-size="24" font="8bitoperator JVE Regular" color="#ffc107">Visit</Text>
+                </Drawer>
+            </Static>
+            <Button name="url-studio" float="true" pos="100% 100%" layer="-6">
+                <Up>
+                    <Text width="240" height="25" font-size="24" focus="250 85" font="8bitoperator JVE Regular" color="#ffc107">Official Website</Text>
+                </Up>
+                <Hover>
+                    <Text width="240" height="25" font-size="24" focus="250 85" font="8bitoperator JVE Regular" color="#ffeb3b">Official Website</Text>
+                </Hover>
+                <Down>
+                    <Text width="240" height="25" font-size="24" focus="250 85" font="8bitoperator JVE Regular" color="#ff9900">Official Website</Text>
+                </Down>
+                <Trigger>
+                    <Trigger type="rect" width="160" height="35" focus="210 85"></Trigger>
+                </Trigger>
+            </Button>
+            <Button name="url-gitee" float="true" pos="100% 100%" layer="-6">
+                <Up>
+                    <Text width="240" height="25" font-size="24" focus="250 50" font="8bitoperator JVE Regular" color="#ffc107">Dungeon on Gitee</Text>
+                </Up>
+                <Hover>
+                    <Text width="240" height="25" font-size="24" focus="250 50" font="8bitoperator JVE Regular" color="#ffeb3b">Dungeon on Gitee</Text>
+                </Hover>
+                <Down>
+                    <Text width="240" height="25" font-size="24" focus="250 50" font="8bitoperator JVE Regular" color="#ff9900">Dungeon on Gitee</Text>
+                </Down>
+                <Trigger>
+                    <Trigger type="rect" width="160" height="35" focus="210 50"></Trigger>
+                </Trigger>
+            </Button>
         </Widgets>
     </About>
 </UI>

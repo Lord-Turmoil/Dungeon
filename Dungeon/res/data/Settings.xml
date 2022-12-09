@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Settings>
     <Difficulty>3</Difficulty>
-    <SoundVolume>0.53</SoundVolume>
-    <MusicVolume>0.00</MusicVolume>
+    <SoundVolume>0.50</SoundVolume>
+    <MusicVolume>0.20</MusicVolume>
     <Fullscreen>true</Fullscreen>
-    <Coin>0</Coin>
+    <Coin>600</Coin>
     <ShowCredits>true</ShowCredits>
-    <ChapterNum>1</ChapterNum>
-    <LevelNum>1</LevelNum>
+    <ChapterNum>2</ChapterNum>
+    <LevelNum>3</LevelNum>
     <BeginColor>#3f51b5</BeginColor>
     <EndColor>#2195f3</EndColor>
     <Hero>

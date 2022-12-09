@@ -7,9 +7,9 @@
  *                                                                            *
  *                     Programmer : Tony Skywalker                            *
  *                                                                            *
- *                     Start Date : April 9th, 2022                           *
+ *                     Start Date : April 9, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 9, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -47,6 +47,12 @@ public:
 	bool Load(const char* filename);
 	bool Save();
 	bool Save(const char* filename);
+
+	/*
+	** 2022/12/09 TS:
+	**   Clear current document.
+	*/
+	bool Clear();
 
 	/*
 	** Unload the current file.

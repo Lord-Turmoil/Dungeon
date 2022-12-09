@@ -410,6 +410,8 @@ bool QuadTree::_Insert(QuadTreeNode* node, GameObject* obj)
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/06/09 Tony : Created.                                               *
+ *   2022/12/09 Tony : Critical bug found! Too large object may not be found  *
+ *                     by the other object.                                   *
  *============================================================================*/
 void QuadTree::_Query(QuadTreeNode* node, const Rect& range, std::vector<GameObject*>& results)
 {

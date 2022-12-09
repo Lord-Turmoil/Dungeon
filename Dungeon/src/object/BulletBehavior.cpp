@@ -69,7 +69,7 @@ BulletFly* BulletFly::Clone() const
 
 	BulletBehavior::Clone(clone);
 
-	clone->m_start = m_start;
+	clone->m_dist = m_dist;
 	// No need to clone candidates.
 
 	return clone;
@@ -79,8 +79,9 @@ void BulletFly::Update(Event* evnt)
 {
 	Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
 
-	if ((Distance(bullet->GetCoord(), m_start) > bullet->GetRange()) || \
-		(IsTrivia(bullet->GetComponent<RigidBodyComponent>()->GetVelocity())))
+	RigidBodyComponent* rigid = bullet->GetComponent<RigidBodyComponent>();
+	m_dist += rigid->GetVelocity().Module();
+	if ((m_dist > bullet->GetRange()) || IsTrivia(rigid->GetVelocity()))
 	{
 		m_parent->ChangeBehavior("Corrupt");
 		return;
@@ -107,6 +108,8 @@ void BulletFly::Update(Event* evnt)
 			break;
 		}
 	}
+
+	_AdjustDirection();
 }
 
 void BulletFly::OnEnter()
@@ -125,8 +128,9 @@ void BulletFly::OnEnter()
 			GetRotationRadian(dir, false);
 	}
 
-	m_start = bullet->GetCoord();
+	m_dist = 0.0;
 }
+
 
 /********************************************************************
 ** Return whether hit wall or not.
@@ -182,6 +186,23 @@ bool BulletFly::_Explode(GameObject* obj)
 	}
 
 	return hitWall;
+}
+
+void BulletFly::_AdjustDirection()
+{
+	Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
+	if (!bullet->IsGood())
+		return;
+
+	RigidBodyComponent* rigid = bullet->GetComponent<RigidBodyComponent>();
+	Vector dir = rigid->GetVelocity().Unit();
+
+	bullet->SetDirection(dir);
+	if (bullet->IsDirectional())
+	{
+		bullet->GetSymbol()->GetAttribute()->rotationAngle =
+			GetRotationRadian(dir, false);
+	}
 }
 
 

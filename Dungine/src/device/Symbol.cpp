@@ -53,8 +53,10 @@ Symbol::~Symbol()
 		delete m_pSupSymbol;
 	*/
 
+	/*
 	if (m_pSubSymbol)
 		delete m_pSubSymbol;
+	*/
 
 	if ((!m_isStatic) && m_pImage)
 		delete m_pImage;

@@ -32,7 +32,7 @@
         <Components>
             <Behavior order="10"></Behavior>
             <ColliderBox offset="0 0" box-size="32 32" border-size="256 256" order="30"></ColliderBox>
-            <RigidBody mass="10" strength="10" max-velocity="40" ratio="1.0" id="4" order="40"></RigidBody>
+            <RigidBody mass="10" strength="10" max-velocity="30" ratio="1.0" id="4" order="40"></RigidBody>
             <Move order="50"></Move>
             <Anim src="wave" offset="-32 -32" order="70"></Anim>
         </Components>

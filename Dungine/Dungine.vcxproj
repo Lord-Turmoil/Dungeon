@@ -148,6 +148,7 @@ xcopy /y  "lib\fmod_vc.lib"  "$(SolutionDir)Build\lib\"</Command>
   <ItemGroup>
     <ClCompile Include="src\common\Coordinate.cpp" />
     <ClCompile Include="src\common\Logger.cpp" />
+    <ClCompile Include="src\common\Rect.cpp" />
     <ClCompile Include="src\common\Vector.cpp" />
     <ClCompile Include="src\device\Color.cpp" />
     <ClCompile Include="src\device\Device.cpp" />

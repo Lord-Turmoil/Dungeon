@@ -5,6 +5,9 @@
         <Components>
             <Behavior order="10"></Behavior>
             <Anim src="portal" offset="-150 -270" order="70"></Anim>
+            <Sound order="90">
+                <li name="init" src="portal-init"></li>
+            </Sound>
         </Components>
     </Portal>
     <Crate radius="96" center="0 -4">
@@ -43,4 +46,16 @@
             <Anim src="mpdrug" offset="-24 -60" order="70"></Anim>
         </Components>
     </MPDrug>
+    <Stand radius="288">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 60" box-size="260 120" border-size="360 360" order="30"></ColliderBox>
+            <RigidBody mass="0" id="10" order="40"></RigidBody>
+            <Anim src="stand" offset="-144 -168" order="70"></Anim>
+            <Sound order="90">
+                <li name="cancel" src="cancel"></li>
+                <li name="insuf" src="insuf"></li>
+            </Sound>
+        </Components>
+    </Stand>
 </MiscLibrary>

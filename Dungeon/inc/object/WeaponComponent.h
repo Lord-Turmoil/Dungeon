@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 27, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 9, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -60,6 +60,9 @@ public:
 	bool IsEmpty() const { return m_weapons.empty(); }
 	bool IsFull() const { return m_weapons.size() == m_capacity; }
 	bool IsArmed() const { return m_isArmed; }
+
+	// 2022/12/09 TS: Get the weapon names for flashback.
+	std::vector<std::string> GetWeaponList() const;
 
 	/*
 	** Equip the figure with current weapon. Used on figure loaded.

@@ -185,6 +185,16 @@
                     </Mark>
                 </Radio>
             </RadioList>
+            <!-- Easter Egg -->
+            <Static name="square" pos="180 260" layer="-1">
+                <Drawer>
+                    <Animation width="96" height="96" focus="48 48" src="anim-square"></Animation>
+                </Drawer>
+                <Transitions>
+                    <RotationTransition duration="1" delay="0" loop="false" reverse="false" style="linear" begin="-90" end="-90"></RotationTransition>
+                    <CoordTransition duration="3000" delay="1000" loop="true" reverse="true" style="linear" begin="180 260" end="280 260"></CoordTransition>
+                </Transitions>
+            </Static>
             <!-- Black Purchase -->
             <Button name="buy-blck" pos="385 140">
                 <Up>

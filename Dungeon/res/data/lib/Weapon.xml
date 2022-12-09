@@ -114,7 +114,7 @@
             </Sound>
         </Components>
     </Melee>
-    <Melee name="ESword" radius="128" bullet="Wave" offset="0 -10" muzzle="40 0" cooling="200" cost="3" burst="1" accuracy="1.0" damage="32" force="500" radian="60" range="192">
+    <Melee name="ESword" radius="128" bullet="Wave" offset="0 -10" muzzle="128 0" cooling="200" cost="5" burst="1" accuracy="1.0" damage="32" force="500" radian="60" range="100">
         <Components>
             <Behavior order="10"></Behavior>
             <ColliderBox offset="0 0" box-size="128 128" border-size="384 384" order="30"></ColliderBox>

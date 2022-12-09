@@ -25,11 +25,13 @@
 #include "../../inc/game/Settings.h"
 #include "../../inc/game/Flashback.h"
 
-#include "../../inc/object/Hero.h"
-#include "../../inc/object/Portal.h"
+#include "../../inc/object/Boss.h"
 #include "../../inc/object/Crate.h"
 #include "../../inc/object/Enemy.h"
-#include "../../inc/object/Boss.h"
+#include "../../inc/object/Hero.h"
+#include "../../inc/object/Portal.h"
+#include "../../inc/object/Stand.h"
+#include "../../inc/object/Weapon.h"
 
 #include "../../inc/object/Component.h"
 #include "../../inc/object/Library.h"
@@ -61,6 +63,7 @@ Dungeon::Dungeon() :
 	m_pHero(nullptr),
 	m_pBoss(nullptr),
 	m_pPortal(nullptr),
+	m_pStand(nullptr),
 	m_pGameInterface(nullptr),
 	m_isToLevelUp(false),
 	m_isToLoadChapter(false),
@@ -272,8 +275,13 @@ bool Dungeon::Initialize()
 
 	m_pHero = HeroLibrary::GetInstance()
 		->GetHeroByName(Settings::GetInstance()->HeroName())->Clone();
+	AddObject(m_pHero);
 	m_pPortal = MiscLibrary::GetInstance()->
 		GetMiscObject<Portal>("Portal")->Clone();
+	AddObject(m_pPortal);
+	m_pStand = MiscLibrary::GetInstance()->
+		GetMiscObject<Stand>("Stand")->Clone();
+	AddObject(m_pStand);
 
 	m_isToLoadChapter = true;
 	_Launch();
@@ -478,7 +486,10 @@ void Dungeon::_LevelFlashback()
 		m_gameObjects.DeleteObject(m_pHero);
 		Settings::GetInstance()->HeroName(heroName);
 		m_pHero = HeroLibrary::GetInstance()->GetHeroByName(heroName)->Clone();
+		AddObject(m_pHero);
 	}
+	else
+		m_pHero->Revitalize();
 
 	m_pHero->CostHP(m_pHero->GetMaxHP() - m_pFlashback->GetHP());
 	m_pHero->CostMP(m_pHero->GetMaxMP() - m_pFlashback->GetMP());
@@ -487,14 +498,17 @@ void Dungeon::_LevelFlashback()
 
 	m_pHero->GetComponent<WeaponComponent>()->Clear();
 	auto& weaponList = m_pFlashback->GetWeaponList();
+	WeaponLibrary* lib = WeaponLibrary::GetInstance();
 	for (auto it = weaponList.begin(); it != weaponList.end(); it++)
-		m_pHero->PickUpWeapon(WeaponLibrary::GetInstance()->GetWeaponByName(*it));
+		m_pHero->PickUpWeapon(lib->GetWeaponByName(*it)->Clone());
 
 	// Reset level.
 	if (m_chapter != m_pFlashback->GetChapter())
 		m_isToLoadChapter = true;
 	m_chapter = m_pFlashback->GetChapter();
 	m_level = m_pFlashback->GetLevel();
+
+	m_pFlashback = nullptr;
 
 	_Launch();
 }
@@ -586,8 +600,10 @@ void Dungeon::_UnLoadChapter()
  *============================================================================*/
 void Dungeon::_InitLevel()
 {
-	m_gameObjects.RemoveObject(m_pHero);
-	m_gameObjects.RemoveObject(m_pPortal);
+	RemoveObject(m_pHero);
+	RemoveObject(m_pPortal);
+	RemoveObject(m_pStand);
+
 	m_gameObjects.Destroy();	// Bricks not here.
 	m_pendingObjects.Destroy();
 
@@ -595,13 +611,17 @@ void Dungeon::_InitLevel()
 
 	// Here, current space is the start space.
 	m_pSpace = m_pTerrain->GetCurrentSpace();
+	m_pArena = static_cast<Arena*>(m_pSpace);
 	m_quadTree.Initialize(m_pSpace->GetBorder());
 
 	m_pPortal->SetActive(false);
 	m_pPortal->SetCoord({ -1000, -1000 });
 
+	_AddStand();
+
 	AddObject(m_pHero);
 	AddObject(m_pPortal);
+	AddObject(m_pStand);
 
 	_OnLevelChange();
 }
@@ -742,6 +762,32 @@ void Dungeon::_GenerateCrate()
 
 	crate->SetCoord(m_pArena->FindBlank(box->GetBoxWidth(), box->GetBoxHeight()));
 	crate->Generate();
+}
+
+
+/******************************************************************************
+ * Dungeon::_AddStand -- Add stand in the starting arena.                     *
+ *                                                                            *
+ *    This should be called right on _InitLevel. Stand is placed              *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/09 Tony : Created.                                               *
+ *============================================================================*/
+void Dungeon::_AddStand()
+{
+	ColliderBoxComponent* box = m_pStand->GetComponent<ColliderBoxComponent>();
+
+	m_pStand->Initialize();
+
+	Coordinate coord = m_pArena->FindBlank(
+		m_pArena->GetBorder().pos, box->GetBoxWidth(), box->GetBoxHeight());
+	m_pStand->SetCoord(coord);
 }
 
 

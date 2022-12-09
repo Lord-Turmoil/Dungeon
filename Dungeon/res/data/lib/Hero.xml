@@ -14,16 +14,8 @@
             <ColliderBox offset="0 -16" box-size="56 34" border-size="192 192" order="30"></ColliderBox>
             <RigidBody mass="10" strength="10" max-velocity="12" ratio="0.8" id="7" order="40"></RigidBody>
             <Move order="50"></Move>
-            <WeaponSlot capacity="20" offset="0 -30" order="60">
+            <WeaponSlot capacity="2" offset="0 -30" order="60">
                 <Weapon>Rifle</Weapon>
-                <Weapon>Thrower</Weapon>
-                <Weapon>Shotgun</Weapon>
-                <Weapon>SnowGun</Weapon>
-                <Weapon>Mini</Weapon>
-                <Weapon>Saber</Weapon>
-                <Weapon>Pike</Weapon>
-                <Weapon>ESword</Weapon>
-                <Weapon>ICanon</Weapon>
             </WeaponSlot>
             <Anim src="yony" offset="-48 -96" order="70"></Anim>
             <Indicator order="80" offset="-48 -48">

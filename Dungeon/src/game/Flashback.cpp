@@ -111,20 +111,24 @@ bool Flashback::Save()
 	if (!_LoadFile(file))
 		return false;
 
-	_SaveEntry(file, &m_isValid, "Valid");
+	file.Clear();
+
+	_SaveEntry(file, m_isValid, "Valid");
 	if (!m_isValid)
 		return true;
 
-	_SaveEntry(file, &m_chapter, "Chapter");
-	_SaveEntry(file, &m_level, "Level");
+	_SaveEntry(file, m_chapter, "Chapter");
+	_SaveEntry(file, m_level, "Level");
 
-	_SaveEntry(file, &m_heroName, "Hero");
-	_SaveEntry(file, &m_hp, "HP");
-	_SaveEntry(file, &m_mp, "MP");
-	_SaveEntry(file, &m_armor, "Armor");
-	_SaveEntry(file, &m_chi, "Chi");
+	_SaveEntry(file, m_heroName, "Hero");
+	_SaveEntry(file, m_hp, "HP");
+	_SaveEntry(file, m_mp, "MP");
+	_SaveEntry(file, m_armor, "Armor");
+	_SaveEntry(file, m_chi, "Chi");
 
 	_SaveWeaponList(file);
+
+	file.Save();
 
 	return true;
 }
@@ -182,7 +186,7 @@ void Flashback::_SaveWeaponList(XMLFile& file)
 {
 	XMLElement* entry = file.GetElementByTagName("Weapons");
 	if (!entry)
-		throw EntryError("Weapons");
+		entry = file.GetRoot()->InsertNewChildElement("Weapons");
 
 	XMLElement* tag;
 	entry->DeleteChildren();

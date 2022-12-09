@@ -33,7 +33,7 @@
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
 Stand::Stand(Scene* scene) : Object(ObjectType::OBJ_STAND, scene),
-	m_isActive(false), m_radius(0.0)
+	m_isAvailable(false), m_radius(0.0)
 {
 	m_symbol.SetLayer(LAYER_FIGURE);
 }
@@ -51,7 +51,7 @@ Stand* Stand::Clone() const
 
 	Object::Clone(clone);
 
-	clone->m_isActive = m_isActive;
+	clone->m_isAvailable = m_isAvailable;
 	clone->m_radius = m_radius;
 
 	return clone;
@@ -80,6 +80,12 @@ bool Stand::Load(XMLElement* node)
 	_RETURN_STATE();
 }
 
+void Stand::Initialize()
+{
+	GetComponent<BehaviorComponent>()->ChangeBehavior("Idle");
+	IsAvailable(true);
+}
+
 Flashback* Stand::GetFlashback()
 {
 	if (!m_pFlashback)
@@ -98,8 +104,9 @@ void Stand::_InitBehavior(XMLElement* node)
 	parent->AddBehavior(new StandFlash());
 	parent->AddBehavior(new StandSaved());
 	parent->AddBehavior(new StandFlashed());
+	parent->AddBehavior(new StandCancel());
 	parent->AddBehavior(new StandInsufficient());
-	parent->AddBehavior(new StandComplete());
+	parent->AddBehavior(new StandError());
 
 	parent->ChangeBehavior("Idle");
 }

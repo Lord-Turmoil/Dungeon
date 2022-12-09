@@ -104,6 +104,23 @@
         </Animation>
     </Resource>
 
+    <!-- Easter Egg! -->
+    <Resource type="motion" id="anim-monster">
+        <Animation motion-num="1" frame-width="96" frame-height="96" src="res/images/figure/monster.png">
+            <Motion origin="0 0" frame-num="12" frame-speed="75" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-mega">
+        <Animation motion-num="1" frame-width="128" frame-height="128" src="res/images/figure/mega.png">
+            <Motion origin="0 0" frame-num="4" frame-speed="125" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="motion" id="anim-square">
+        <Animation motion-num="1" frame-width="64" frame-height="64" src="res/images/figure/square.png">
+            <Motion origin="0 0" frame-num="4" frame-speed="125" dir-num="1" loop="true"></Motion>
+        </Animation>
+    </Resource>
+
     <!-- UI Sounds -->
     <Resource type="audio" id="hover">
         <Mono src="res/sounds/ui/hover.wav"></Mono>
@@ -116,6 +133,9 @@
     </Resource>
     <Resource type="audio" id="yy-slt">
         <Mono src="res/sounds/ui/yony.wav"></Mono>
+    </Resource>
+    <Resource type="audio" id="monster-roar">
+        <Mono src="res/sounds/ui/monster.mp3"></Mono>
     </Resource>
     <Resource type="audio" id="credits">
         <PlayList loop="true" shuffle="false">
@@ -459,6 +479,9 @@
             <Motion origin="0 384" frame-num="8" frame-speed="50" dir-num="2" loop="true"></Motion>
         </Animation>
     </Resource>
+    <Resource type="audio" id="portal-init">
+        <Mono share="true" src="res/sounds/effect/portal.wav"></Mono>
+    </Resource>
     <Resource type="motion" id="crate">
         <Animation motion-num="4" frame-width="96" frame-height="128" src="res/images/misc/crate.png">
             <Motion origin="0 0" frame-num="8" frame-speed="125" dir-num="1" loop="false"></Motion>
@@ -490,6 +513,20 @@
             <Motion origin="0 304" frame-num="8" frame-speed="75" dir-num="1" loop="true"></Motion>
             <Motion origin="128 304" frame-num="8" frame-speed="75" dir-num="1" loop="false"></Motion>
         </Animation>
+    </Resource>
+    <Resource type="motion" id="stand">
+        <Animation motion-num="1" frame-width="288" frame-height="288" src="res/images/misc/stand.png">
+            <Motion origin="0 0" frame-num="8" frame-speed="350" dir-num="2" loop="true"></Motion>
+        </Animation>
+    </Resource>
+    <Resource type="image" id="dialog">
+        <img src="res/images/misc/dialog.png" width="288" height="144"></img>
+    </Resource>
+    <Resource type="audio" id="cancel">
+        <Mono share="true" src="res/sounds/ui/cancel.mp3"></Mono>
+    </Resource>
+    <Resource type="audio" id="insuf">
+        <Mono share="true" src="res/sounds/ui/insufficient.mp3"></Mono>
     </Resource>
 
     <!-- Terrain -->

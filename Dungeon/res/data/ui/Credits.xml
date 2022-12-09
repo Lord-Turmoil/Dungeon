@@ -78,6 +78,37 @@
                     <AlphaTransition duration="2000" delay="50000" loop="false" reverse="false" style="linear" begin="0" end="255"></AlphaTransition>
                 </Transitions>
             </Static>
+            <!-- Easter Egg! -->
+            <Static name="monster" float="true" pos="10% 60%" layer="10">
+                <Drawer>
+                    <Animation width="96" height="96" src="anim-monster"></Animation>
+                </Drawer>
+            </Static>
+            <Button name="monster" float="true" pos="10% 60%" layer="10">
+                <Up>
+                    <Animation width="96" height="96" src="anim-monster"></Animation>
+                </Up>
+                <Hover>
+                    <Animation width="96" height="96" src="anim-monster"></Animation>
+                </Hover>
+                <Down>
+                    <Animation width="96" height="96" src="anim-monster"></Animation>
+                </Down>
+                <Trigger>
+                    <Trigger type="rect" width="96" height="96" focus="0 0"></Trigger>
+                </Trigger>
+                <ClickSound>
+                    <Buzzer src="monster-roar"></Buzzer>
+                </ClickSound>
+            </Button>
+            <Static name="mega" float="true" pos="-10% 100%" layer="105">
+                <Drawer>
+                    <Animation width="128" height="128" focus="64 118" src="anim-mega"></Animation>
+                </Drawer>
+                <Transitions>
+                    <CoordTransition duration="49000" delay="1000" loop="false" reverse="false" style="ease-in" float="true" begin="-10% 100%" end="110% 100%"></CoordTransition>
+                </Transitions>
+            </Static>
             <!-- Quit -->
             <Detector name="quit">
                 <Trigger type="key" vkey="0x1B"></Trigger>
@@ -123,7 +154,7 @@
             <Section>Thanks for your playing !</Section>
             <Section>Developed with EasyX and FMOD</Section>
             <Section>Powered by Dungine (Dungeon Engine)</Section>
-            <Chapter>Copyright (C) New Desire Studios 2022</Chapter>
+            <Chapter>Copyright (C) New Desire Studios 2023</Chapter>
         </Texts>
     </Credits>
 </UI>

@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 27, 2022                             *
  *                                                                            *
- *                    Last Update : December 8, 2022                          *
+ *                    Last Update : December 9, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -235,6 +235,31 @@ void WeaponComponent::Translate(const Coordinate& offset)
 
 
 /******************************************************************************
+ * WeaponComponent::GetWeaponList -- Get all weapon names.                    *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  All weapon name in the slot.                                      *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/09 Tony : Created.                                               *
+ *============================================================================*/
+std::vector<std::string> WeaponComponent::GetWeaponList() const
+{
+	std::vector<std::string> list;
+
+	for (auto weapon : m_weapons)
+		list.push_back(weapon->Name());
+
+	return list;
+}
+
+
+/******************************************************************************
  * WeaponComponent::Equip -- Equip the figure with the current weapon.        *
  *                                                                            *
  *    Just the literal meaning.                                               *
@@ -426,4 +451,6 @@ void WeaponComponent::Clear()
 	UnEquip();
 	for (auto it = m_weapons.begin(); it != m_weapons.end(); it++)
 		delete (*it);
+	m_weapons.clear();
+	m_current = m_weapons.begin();
 }
