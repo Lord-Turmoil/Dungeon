@@ -202,6 +202,10 @@ public:
 	void AddNeighbor(Space* spc);
 	bool IsActivated() const { return m_isActivated; }
 
+public:
+	int GetGraphWidth() const	{ return m_graph.Width(); }
+	int GetGraphHeight() const	{ return m_graph.Height(); }
+
 private:
 	void _Lock();
 	void _UnLock();

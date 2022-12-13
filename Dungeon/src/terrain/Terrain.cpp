@@ -212,9 +212,10 @@ bool Terrain::Load(XMLElement* node)
 *		...
 **	</Terrain>
 */
-	m_brickKit.Load(node);
+	if (!node)
+		return false;
 
-	return true;
+	return m_brickKit.Load(node);
 }
 
 

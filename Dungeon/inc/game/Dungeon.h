@@ -74,6 +74,9 @@ public:
 
 	void SetFlashback(Flashback* pFlashback) { m_pFlashback = pFlashback; }
 	
+	void IsInfinite(bool isInfinite)	{ m_isInfinite = isInfinite; }
+	bool IsInfinite() const				{ return m_isInfinite; }
+
 public:
 	bool AddEnemy(Enemy* enemy);
 	bool AddEnemy(Enemy* enemy, const Coordinate& center);
@@ -90,11 +93,11 @@ public:
 	int GetEnemyCount() { return m_enemyCount; }
 
 protected:
-	void _Launch();
+	bool _Launch();
 	void _LevelUp();
 	void _LevelFlashback();
 	
-	void _LoadChapter();
+	bool _LoadChapter();
 	void _UnLoadChapter();
 	void _InitLevel();
 
@@ -134,6 +137,9 @@ protected:
 	
 	int m_chapter;
 	int m_level;
+
+	// Indicates if the dungeon is in Infinite mode or not.
+	bool m_isInfinite;
 
 	bool m_isToLoadChapter;	// Denotes whether to load chapter resource.
 	bool m_isToLevelUp;

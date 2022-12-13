@@ -712,7 +712,12 @@ Coordinate Arena::FindBlank(int width, int height)
 	else
 	{
 		// No way!
-		LOG_ERROR(INTERNAL_ERROR);
+		if (m_graph.FindBlank(1, 1))
+		{
+			return (_SubToCoord(m_graph.Blank()) + UNIT_HALF_OFFSET);
+		}
+
+		LOG_MESSAGE("Cannot find blank area");
 		return GetCoord();
 	}
 }

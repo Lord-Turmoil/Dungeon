@@ -722,8 +722,7 @@ void Slider::Update(Event* evnt)
 	{
 		_ProcessInput(*evnt);
 
-		if (m_pBlock)
-			m_pBlock->SetCoord({ m_coord.x + (int)(m_barWidth * m_value), m_coord.y + (m_barHeight >> 1) });
+		_AdjustBarCoord();
 	}
 }
 
@@ -1066,6 +1065,29 @@ void Slider::SetValue(double value)
 
 	if (m_pOnChange)
 		m_pOnChange(m_value);
+
+	_AdjustBarCoord();
+}
+
+
+/******************************************************************************
+ * Slider::_AdjustBarCoord -- Adjust bar's position.                          *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/13 Tony : Created.                                               *
+ *============================================================================*/
+void Slider::_AdjustBarCoord()
+{
+	if (m_pBlock)
+		m_pBlock->SetCoord({ m_coord.x + (int)(m_barWidth * m_value), m_coord.y + (m_barHeight >> 1) });
 }
 
 

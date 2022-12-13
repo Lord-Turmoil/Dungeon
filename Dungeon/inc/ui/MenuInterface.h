@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 30, 2022                             *
  *                                                                            *
- *                    Last Update : November 27, 2022                         *
+ *                    Last Update : December 13, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -113,6 +113,7 @@ private:
 	static void _OnYony(bool isSelected);
 	static void _OnSpecter(bool isSelected);
 	static void _OnBlackHand(bool isSelected);
+	static void _OnChangeMode(bool isSelected);
 	static void _OnStart();
 
 	static bool m_selected;

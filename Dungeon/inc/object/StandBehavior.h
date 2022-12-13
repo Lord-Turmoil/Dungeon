@@ -128,6 +128,8 @@ public:
 
 	virtual void Update(Event* evnt);
 
+	virtual void OnEnter();
+
 protected:
 	virtual void _RenderDialog();
 

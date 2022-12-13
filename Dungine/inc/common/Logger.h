@@ -42,14 +42,13 @@
 #define DUNGINE_ASSERT(expression)
 #endif
 
-#define LOG_MESSAGE(FORMAT, ...) Logger::LogMessage(FORMAT, __VA_ARGS__)
+#define LOG_MESSAGE(FORMAT, ...)	Logger::LogMessage(FORMAT, __VA_ARGS__)
+#define LOG_ERROR(FORMAT, ...)		Logger::LogError(FORMAT, __VA_ARGS__)
 
 #ifdef DUNGINE_NO_LOG
-	#define LOG_ERROR(FORMAT, ...)
 	#define LOG_WARNING(FORMAT, ...)
 	#define LOG_EXTRA_WARNING(FORMAT, ...)
 #else
-	#define LOG_ERROR(FORMAT, ...) Logger::LogError(FORMAT, __VA_ARGS__)
 	#define LOG_WARNING(FORMAT, ...) Logger::LogWarning(FORMAT, __VA_ARGS__)
 	#ifdef DUNGINE_EXTRA_WARNING
 		#define LOG_EXTRA_WARNING(FORMAT, ...) Logger::LogWarning(FORMAT, __VA_ARGS__)

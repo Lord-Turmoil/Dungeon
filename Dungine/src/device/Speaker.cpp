@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : June 14, 2022                             *
  *                                                                            *
- *                    Last Update : August 12, 2022                           *
+ *                    Last Update : December 13, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -101,6 +101,7 @@ bool Speaker::Destroy()
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/06/14 Tony : Created.                                               *
+ *   2022/12/13 Tony : If muted, then it won't play.                          *
  *============================================================================*/
 void Speaker::Play(DSound* sound)
 {
@@ -115,8 +116,11 @@ void Speaker::Play(DSound* sound)
 
 	if (!isPlaying)
 	{
-		m_speaker->playSound(sound->snd, nullptr, false, &(sound->chl));
-		sound->chl->setVolume((float)m_soundVolume);
+		if (m_soundVolume > 0.0)
+		{
+			m_speaker->playSound(sound->snd, nullptr, false, &(sound->chl));
+			sound->chl->setVolume((float)m_soundVolume);
+		}
 	}
 }
 
@@ -134,11 +138,15 @@ void Speaker::Play(DSound* sound)
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/08/15 Tony : Created.                                               *
+ *   2022/12/13 Tony : If muted, it won't play.                               *
  *============================================================================*/
 void Speaker::PlayShared(DSound* sound)
 {
-	m_speaker->playSound(sound->snd, nullptr, false, &m_channel);
-	m_channel->setVolume((float)m_soundVolume);
+	if (m_soundVolume > 0.0)
+	{
+		m_speaker->playSound(sound->snd, nullptr, false, &m_channel);
+		m_channel->setVolume((float)m_soundVolume);
+	}
 }
 
 

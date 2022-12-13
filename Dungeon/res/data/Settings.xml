@@ -2,10 +2,10 @@
 <Settings>
     <Difficulty>3</Difficulty>
     <SoundVolume>0.50</SoundVolume>
-    <MusicVolume>0.20</MusicVolume>
+    <MusicVolume>0.27</MusicVolume>
     <Fullscreen>false</Fullscreen>
-    <Coin>0</Coin>
-    <ShowCredits>true</ShowCredits>
+    <Coin>745</Coin>
+    <ShowCredits>false</ShowCredits>
     <ChapterNum>2</ChapterNum>
     <LevelNum>3</LevelNum>
     <BeginColor>#3f51b5</BeginColor>

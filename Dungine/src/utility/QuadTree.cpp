@@ -301,7 +301,7 @@ bool QuadTree::_Split(QuadTreeNode* node)
 	// Too small...
 	if ((halfWidth == 0) || (halfHeight == 0))
 	{
-		LOG_MESSAGE("QuadTree::_Split() Failed");
+		// LOG_MESSAGE("QuadTree::_Split() Failed");
 		return false;
 	}
 

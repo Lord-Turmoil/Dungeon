@@ -260,10 +260,16 @@ void Dungeon::Draw()
 bool Dungeon::Initialize()
 {
 	// Global resources.
-	BulletLibrary::GetInstance()->Load(BULLET_XML);
-	WeaponLibrary::GetInstance()->Load(WEAPON_XML);
-	HeroLibrary::GetInstance()->Load(HERO_XML);
-	MiscLibrary::GetInstance()->Load(MISC_XML);
+	if (!BulletLibrary::GetInstance()->Load(BULLET_XML))
+		return false;
+	if (!WeaponLibrary::GetInstance()->Load(WEAPON_XML))
+		return false;
+	if (!HeroLibrary::GetInstance()->Load(HERO_XML))
+		return false;
+	if (!MiscLibrary::GetInstance()->Load(MISC_XML))
+		return false;
+
+	m_isInfinite = Settings::GetInstance()->IsInfinite();
 
 	m_chapter = m_level = 0;
 	m_enemyCount = 0;
@@ -273,18 +279,42 @@ bool Dungeon::Initialize()
 	m_pSpace = nullptr;
 	m_pArena = nullptr;
 
-	m_pHero = HeroLibrary::GetInstance()
-		->GetHeroByName(Settings::GetInstance()->HeroName())->Clone();
+	Hero* heroProto = HeroLibrary::GetInstance()
+		->GetHeroByName(Settings::GetInstance()->HeroName());
+	if (!heroProto)
+	{
+		LOG_ERROR("Failed to load hero %s", Settings::GetInstance()->HeroName().c_str());
+		return false;
+	}
+	m_pHero = heroProto->Clone();
 	AddObject(m_pHero);
-	m_pPortal = MiscLibrary::GetInstance()->
-		GetMiscObject<Portal>("Portal")->Clone();
+
+	Portal* portalProto = MiscLibrary::GetInstance()
+		->GetMiscObject<Portal>("Portal");
+	if (!portalProto)
+	{
+		LOG_ERROR("Failed to load Portal");
+		return false;
+	}
+	m_pPortal = portalProto->Clone();
 	AddObject(m_pPortal);
-	m_pStand = MiscLibrary::GetInstance()->
-		GetMiscObject<Stand>("Stand")->Clone();
+
+	Stand* standProto = MiscLibrary::GetInstance()
+		->GetMiscObject<Stand>("Stand");
+	if (!standProto)
+	{
+		LOG_ERROR("Failed to load Stand");
+		return false;
+	}
+	m_pStand = standProto->Clone();
 	AddObject(m_pStand);
 
 	m_isToLoadChapter = true;
-	_Launch();
+	if (!_Launch())
+	{
+		LOG_ERROR("Failed to launch game!");
+		return false;
+	}
 
 	Update();
 
@@ -400,17 +430,21 @@ void Dungeon::KillAllEnemy()
  *                                                                            *
  * INPUT:   none                                                              *
  *                                                                            *
- * OUTPUT:  none                                                              *
+ * OUTPUT:  Return status.                                                    *
  *                                                                            *
  * WARNINGS:  none                                                            *
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/08/02 Tony : Created.                                               *
+ *   2022/12/13 Tony : Added return value.                                    *
  *============================================================================*/
-void Dungeon::_Launch()
+bool Dungeon::_Launch()
 {
 	if (m_isToLoadChapter)
-		_LoadChapter();
+	{
+		if (!_LoadChapter())
+			return false;
+	}
 	_InitLevel();
 	m_isToLoadChapter = false;	// This is bad... _InitLevel uses this flag.
 
@@ -419,6 +453,8 @@ void Dungeon::_Launch()
 	m_pHero->Update(nullptr);
 	m_camera.Focus(m_pHero->GetCoord());
 	m_target.Init(m_pHero->GetCoord());
+
+	return true;
 }
 
 
@@ -445,7 +481,7 @@ void Dungeon::_LevelUp()
 	{
 		m_level = 0;
 		m_chapter++;
-		if (m_chapter >= CHAPTER_NUM)
+		if (!IsInfinite() && (m_chapter >= CHAPTER_NUM))
 		{
 			_VictoryTransit();
 			return;
@@ -503,7 +539,8 @@ void Dungeon::_LevelFlashback()
 		m_pHero->PickUpWeapon(lib->GetWeaponByName(*it)->Clone());
 
 	// Reset level.
-	if (m_chapter != m_pFlashback->GetChapter())
+	m_isInfinite = m_pFlashback->GetInfinite();
+	if (m_chapter % CHAPTER_NUM != m_pFlashback->GetChapter() % CHAPTER_NUM)
 		m_isToLoadChapter = true;
 	m_chapter = m_pFlashback->GetChapter();
 	m_level = m_pFlashback->GetLevel();
@@ -527,8 +564,9 @@ void Dungeon::_LevelFlashback()
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/08/02 Tony : Created.                                               *
+ *   2022/12/13 Tony : Added return value.                                    *
  *============================================================================*/
-void Dungeon::_LoadChapter()
+bool Dungeon::_LoadChapter()
 {
 /*
 **	<Chapter>
@@ -545,21 +583,25 @@ void Dungeon::_LoadChapter()
 
 	filename = CHAPTER_DIRECTORY;
 	filename += "Chapter";
-	filename += std::to_string(m_chapter);
+	filename += std::to_string(m_chapter % CHAPTER_NUM);
 	filename += ".xml";
 
 	if (!file.Load(filename.c_str()))
-		return;
+		return false;
 
 	XMLElement* node;
 
 	// Load bricks
 	node = file.GetElementByTagName("Terrain");
-	m_pTerrain->Load(node);
+	if (!m_pTerrain->Load(node))
+		return false;
 
 	// Load enemies.
 	node = file.GetElementByTagName("EnemyLibrary");
-	EnemyLibrary::GetInstance()->Load(node);
+	if (!EnemyLibrary::GetInstance()->Load(node))
+		return false;
+
+	return true;
 }
 
 
@@ -680,7 +722,13 @@ void Dungeon::_GenerateEnemy()
 	int size;
 
 	int lower = difficulty;
-	int upper = m_chapter * 2 + (int)(m_level * 1.5) + difficulty * difficulty / 2;
+	// 2022/12/13 TS: Commented
+	// int upper = m_chapter * 2 + (int)(m_level * 1.5) + difficulty * difficulty / 2;
+	// It's gonna be really hard, huh.
+	int width = m_pArena->GetGraphWidth();
+	int upper = dmin(
+		m_chapter * m_chapter + (int)(m_level * 1.5) + difficulty * difficulty / 2,
+		(width - 2) * (width - 2) / 4);
 	int total = Random(lower, dmax(upper, lower + 1));
 	if (attr.isEnd && attr.rounds == 1)
 	{
@@ -727,6 +775,8 @@ void Dungeon::_GenerateEnemy()
 	if (attr.hasBoss && attr.rounds == 1)
 	{
 		Boss* boss = static_cast<Boss*>(lib->GetEnemyByLevel(-1)[0]->Clone());
+		if (IsInfinite())
+			boss->Enhance(m_chapter * 0.5);
 		m_pBoss = boss;
 		AddEnemy(boss);
 	}
@@ -876,19 +926,25 @@ void Dungeon::_OnLevelChange()
 	char buffer[32];
 	StaticWidget* widget;
 
-	sprintf_s(buffer, "Level   %d - %d", m_chapter + 1, m_level + 1);
+	if (IsInfinite())
+		sprintf_s(buffer, "Infinite   %d - %d", m_chapter + 1, m_level + 1);
+	else
+		sprintf_s(buffer, "Level   %d - %d", m_chapter + 1, m_level + 1);
 	widget = static_cast<StaticWidget*>(m_pGameInterface->GetWidget("s-level"));
 	static_cast<TextDrawer*>(widget->GetDrawer())->SetText(buffer);
 
-	sprintf_s(buffer, "> Level   %d - %d <", m_chapter + 1, m_level + 1);
+	if (IsInfinite())
+		sprintf_s(buffer, "> Infinite   %d - %d <", m_chapter + 1, m_level + 1);
+	else
+		sprintf_s(buffer, "> Level   %d - %d <", m_chapter + 1, m_level + 1);
 	widget = static_cast<StaticWidget*>(m_pGameInterface->GetWidget("b-level"));
 	static_cast<TextDrawer*>(widget->GetDrawer())->SetText(buffer);
 	widget->ResetTransition();
 
 	if (m_isToLoadChapter)
-		m_pGameInterface->PlayTrack(m_chapter);
+		m_pGameInterface->PlayTrack(m_chapter % CHAPTER_NUM);
 }
-	
+
 
 /******************************************************************************
  * Dungeon::_OnComplete -- On arena complete.                                 *

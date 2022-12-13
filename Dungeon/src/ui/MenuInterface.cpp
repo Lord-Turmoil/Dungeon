@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 30, 2022                             *
  *                                                                            *
- *                    Last Update : November 27, 2022                         *
+ *                    Last Update : December 13, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -292,6 +292,9 @@ void SelectInterface::AddEvents()
 	// radioList->GetRadio("spec")->OnCheck(std::bind(_OnSpecter, std::placeholders::_1));
 	radioList->GetRadio("blck")->OnCheck(std::bind(_OnBlackHand, std::placeholders::_1));
 
+	static_cast<RadioBox*>(m_pWidgetManager->GetWidget("mode"))
+		->OnCheck(std::bind(_OnChangeMode, std::placeholders::_1));
+
 	static_cast<Button*>(m_pWidgetManager->GetWidget("buy-blck"))
 		->OnClick(std::bind(&SelectInterface::_OnPurchaseBlackHand, this));
 }
@@ -309,6 +312,9 @@ void SelectInterface::_ResetState()
 	radioList->GetRadio("yony")->SetState(false);
 	// radioList->GetRadio("spec")->SetState(false);
 	radioList->GetRadio("blck")->SetState(false);
+
+	static_cast<RadioBox*>(m_pWidgetManager->GetWidget("mode"))
+		->SetState(Settings::GetInstance()->IsInfinite());
 	
 	Settings::GetInstance()->HeroName("");
 
@@ -387,6 +393,11 @@ void SelectInterface::_OnBlackHand(bool isSelected)
 		Settings::GetInstance()->HeroName("BlackHand");
 		m_selected = true;
 	}
+}
+
+void SelectInterface::_OnChangeMode(bool isSelected)
+{
+	Settings::GetInstance()->IsInfinite(isSelected);
 }
 
 void SelectInterface::_OnStart()

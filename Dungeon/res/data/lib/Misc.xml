@@ -53,8 +53,11 @@
             <RigidBody mass="0" id="10" order="40"></RigidBody>
             <Anim src="stand" offset="-144 -168" order="70"></Anim>
             <Sound order="90">
-                <li name="cancel" src="cancel"></li>
-                <li name="insuf" src="insuf"></li>
+                <li name="choose" src="stchs"></li>
+                <li name="cancel" src="stcncl"></li>
+                <li name="saved" src="stsvd"></li>
+                <li name="flashed" src="stflshd"></li>
+                <li name="insuf" src="stinsuf"></li>
             </Sound>
         </Components>
     </Stand>

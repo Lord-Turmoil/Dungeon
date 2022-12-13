@@ -246,6 +246,7 @@ Settings::Settings() :
 	m_difficulty(0),
 	m_coin(0),
 	m_showCredits(false),
+	m_isInfinite(false),
 	m_soundVolume(1.0),
 	m_musicVolume(1.0),
 	m_isFullscreen(true),

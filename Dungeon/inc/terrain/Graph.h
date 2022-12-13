@@ -163,6 +163,9 @@ public:
 	Coordinate Next() const { return m_next; }
 	Coordinate Blank() const { return m_blank; }
 
+	int Width() const { return m_width; }
+	int Height() const { return m_height; }
+
 private:
 	bool _IsLegal(const Coordinate& sub);
 

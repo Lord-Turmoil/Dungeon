@@ -522,11 +522,20 @@
     <Resource type="image" id="dialog">
         <img src="res/images/misc/dialog.png" width="288" height="144"></img>
     </Resource>
-    <Resource type="audio" id="cancel">
-        <Mono share="true" src="res/sounds/ui/cancel.mp3"></Mono>
+    <Resource type="audio" id="stchs">
+        <Mono src="res/sounds/ui/stchs.mp3"></Mono>
     </Resource>
-    <Resource type="audio" id="insuf">
-        <Mono share="true" src="res/sounds/ui/insufficient.mp3"></Mono>
+    <Resource type="audio" id="stcncl">
+        <Mono src="res/sounds/ui/stcncl.mp3"></Mono>
+    </Resource>
+    <Resource type="audio" id="stsvd">
+        <Mono src="res/sounds/ui/stsvd.mp3"></Mono=>
+    </Resource>
+    <Resource type="audio" id="stflshd">
+        <Mono src="res/sounds/ui/stflshd.mp3"></Mono>
+    </Resource>
+    <Resource type="audio" id="stinsuf">
+        <Mono src="res/sounds/ui/stinsuf.mp3"></Mono=>
     </Resource>
 
     <!-- Terrain -->

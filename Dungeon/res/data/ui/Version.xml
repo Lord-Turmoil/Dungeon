@@ -208,10 +208,10 @@
             </Static>
         </Page>
         <Page>
-            <!-- Version 1.0.3 Christmas Edition -->
+            <!-- Version 1.0.4 Xmas -->
             <Static name="title" pos="320 40" layer="10">
                 <Drawer>
-                    <Text width="640" height="80" focus="320 0" font-size="60" font="8bitoperator JVE Regular" color="#000000">Version 1.0.3 Xmas</Text>
+                    <Text width="640" height="80" focus="320 0" font-size="60" font="8bitoperator JVE Regular" color="#000000">Version 1.0.4 Xmas</Text>
                 </Drawer>
             </Static>
             <Static name="section-1" pos="320 120">
@@ -303,7 +303,7 @@
             <Static name="para-1-2" pos="320 260">
                 <Drawer>
                     <Text width="640" height="30" focus="320 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">
-                        Detailes improved
+                        Details improved
                     </Text>
                 </Drawer>
             </Static>

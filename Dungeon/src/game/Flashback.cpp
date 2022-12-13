@@ -70,6 +70,7 @@ bool Flashback::Load()
 		_LoadEntry(file, &m_isValid, "Valid");
 		if (m_isValid)
 		{
+			_LoadEntry(file, &m_isInfinite, "Infinite");
 			_LoadEntry(file, &m_chapter, "Chapter");
 			_LoadEntry(file, &m_level, "Level");
 
@@ -117,6 +118,7 @@ bool Flashback::Save()
 	if (!m_isValid)
 		return true;
 
+	_SaveEntry(file, m_isInfinite, "Infinite");
 	_SaveEntry(file, m_chapter, "Chapter");
 	_SaveEntry(file, m_level, "Level");
 

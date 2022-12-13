@@ -49,6 +49,12 @@ bool Boss::Load(XMLElement* node)
 	_RETURN_STATE();
 }
 
+// Enhance boss by increase health by rate.
+void Boss::Enhance(float rate)
+{
+	m_hp[1] = (int)((float)m_hp[1] * (1.0f + rate));
+	Revitalize();
+}
 
 
 /*

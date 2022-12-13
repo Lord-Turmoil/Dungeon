@@ -40,24 +40,26 @@ public:
 	void SetHeroName(const std::string& name) { m_heroName = name; }
 	const std::string& GetHeroName() const { return m_heroName; }
 
-	void SetHP(int hp) { m_hp = hp; }
-	int	 GetHP() const { return m_hp; }
-	void SetMP(int mp) { m_mp = mp; }
-	int	 GetMP() const { return m_mp; }
-	void SetArmor(int armor) { m_armor = armor; }
-	int	 GetArmor() const { return m_armor; }
-	void SetChi(int chi) { m_chi = chi; }
-	int	 GetChi() const { return m_chi; }
+	void SetHP(int hp)			{ m_hp = hp; }
+	int	 GetHP() const			{ return m_hp; }
+	void SetMP(int mp)			{ m_mp = mp; }
+	int	 GetMP() const			{ return m_mp; }
+	void SetArmor(int armor)	{ m_armor = armor; }
+	int	 GetArmor() const		{ return m_armor; }
+	void SetChi(int chi)		{ m_chi = chi; }
+	int	 GetChi() const			{ return m_chi; }
 	void SetWeaponList(std::vector<std::string> weaponList) { m_weaponList = weaponList; }
 	std::vector<std::string>& GetWeaponList() { return m_weaponList; }
 
-	void SetChapter(int chapter) { m_chapter = chapter; }
-	int	 GetChapter() const { return m_chapter; }
-	void SetLevel(int level) { m_level = level; }
-	int	 GetLevel() const { return m_level; }
+	void SetChapter	(int chapter)		{ m_chapter = chapter; }
+	int	 GetChapter() const				{ return m_chapter; }
+	void SetLevel(int level)			{ m_level = level; }
+	int	 GetLevel() const				{ return m_level; }
+	void SetInfinite(bool isInfinite)	{ m_isInfinite = isInfinite; }
+	bool GetInfinite() const			{ return m_isInfinite; }
 
-	void IsValid(bool isValid) { m_isValid = isValid; }
-	bool IsValid() const { return m_isValid; }
+	void IsValid(bool isValid)	{ m_isValid = isValid; }
+	bool IsValid() const		{ return m_isValid; }
 
 private:
 	void _LoadWeaponList(XMLFile& file);
@@ -75,6 +77,7 @@ private:
 	// Chapter info.
 	int m_chapter;
 	int m_level;
+	bool m_isInfinite;
 
 	// Valid flag.
 	bool m_isValid;

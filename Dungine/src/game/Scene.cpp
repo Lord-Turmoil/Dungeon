@@ -86,7 +86,7 @@ void Scene::RemoveObject(GameObject* object)
 		if (!m_gameObjects.RemoveObject(object))
 		{
 			if (!m_pendingObjects.RemoveObject(object))
-				LOG_ERROR("Invalid object to remove");
+				LOG_WARNING("Invalid object to remove");
 		}
 	}
 }

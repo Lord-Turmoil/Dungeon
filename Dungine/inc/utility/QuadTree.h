@@ -42,7 +42,7 @@ const int DEFAULT_DENSITY = 4;
 ** For the final node which can't split. If this number is
 ** exceeded, then it won't insert new ones.
 */
-const int MAX_DENSITY = 32;
+const int MAX_DENSITY = 64;
 
 class QuadTreeNode
 {

@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : August 25, 2022                           *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 13, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -41,6 +41,12 @@ public:
 	virtual void Clone(Boss* clone) const;
 
 	virtual bool Load(XMLElement* node);
+	
+	/*
+	** 2022/12/13 TS:
+	** Used to enhance boss in Infinite mode.
+	*/
+	virtual void Enhance(float rate);
 
 public:
 	void SetUsingSkill(bool isUsingSkill) { m_isUsingSkill = isUsingSkill; }

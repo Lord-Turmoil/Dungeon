@@ -194,6 +194,7 @@ public:
 	double GetValue() const { return m_value; }
 
 private:
+	void _AdjustBarCoord();
 	virtual void _ProcessInput(Event& evnt);
 
 	Button* m_pBlock;

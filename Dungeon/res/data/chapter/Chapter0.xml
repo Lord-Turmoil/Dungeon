@@ -132,7 +132,7 @@
     </Terrain>
     <EnemyLibrary>
         <!-- Increse the base num of original enemies -->
-        <Enemy name="Stone-0" center="0 -28" level="1" alert-radius="1500" attack-radius="80" rest="1000" damage="1" coin="3" energy="3">
+        <Enemy name="Stone-0" center="0 -28" level="1" alert-radius="1500" attack-radius="80" rest="1000" damage="1" coin="2" energy="3">
             <Property hurt-duration="200">
                 <HP>1, 0</HP>
                 <MP>0, 0</MP>
@@ -148,7 +148,7 @@
                 <Anim src="stone" offset="-48 -96" order="70"></Anim>
             </Components>
         </Enemy>
-        <Enemy name="Stone-0-1" center="0 -28" level="1" alert-radius="1500" attack-radius="80" rest="1000" damage="1" coin="1" energy="3">
+        <Enemy name="Stone-0-1" center="0 -28" level="1" alert-radius="1500" attack-radius="80" rest="1000" damage="1" coin="3" energy="3">
             <Property hurt-duration="200">
                 <HP>3, 0</HP>
                 <MP>0, 0</MP>
@@ -164,7 +164,7 @@
                 <Anim src="stone" offset="-48 -96" order="70"></Anim>
             </Components>
         </Enemy>
-        <Enemy name="Stone-1" center="0 -28" level="1" alert-radius="1000" attack-radius="80" rest="1000" damage="1" coin="1" energy="5">
+        <Enemy name="Stone-1" center="0 -28" level="1" alert-radius="1000" attack-radius="80" rest="1000" damage="1" coin="4" energy="5">
             <Property hurt-duration="200">
                 <HP>2, 0</HP>
                 <MP>0, 0</MP>
@@ -180,7 +180,7 @@
                 <Anim src="stone" offset="-48 -96" order="70"></Anim>
             </Components>
         </Enemy>
-        <Enemy name="Stone-2" center="0 -28" level="2" alert-radius="1200" attack-radius="80" rest="500" damage="1" coin="2" energy="7">
+        <Enemy name="Stone-2" center="0 -28" level="2" alert-radius="1200" attack-radius="80" rest="500" damage="1" coin="4" energy="7">
             <Property hurt-duration="200">
                 <HP>3, 0</HP>
                 <MP>0, 0</MP>
@@ -196,7 +196,7 @@
                 <Anim src="stone" offset="-48 -96" order="70"></Anim>
             </Components>
         </Enemy>
-        <Enemy name="Stone-2-1" center="0 -28" level="2" alert-radius="1200" attack-radius="80" rest="500" damage="1" coin="2" energy="7">
+        <Enemy name="Stone-2-1" center="0 -28" level="2" alert-radius="1200" attack-radius="80" rest="500" damage="1" coin="5" energy="7">
             <Property hurt-duration="200">
                 <HP>5, 0</HP>
                 <MP>0, 0</MP>
@@ -212,7 +212,7 @@
                 <Anim src="stone" offset="-48 -96" order="70"></Anim>
             </Components>
         </Enemy>
-        <Enemy name="Stone-3" center="0 -28" level="3" alert-radius="5000" attack-radius="80" rest="500" damage="2" coin="3" energy="9">
+        <Enemy name="Stone-3" center="0 -28" level="3" alert-radius="5000" attack-radius="80" rest="500" damage="2" coin="5" energy="9">
             <Property hurt-duration="200">
                 <HP>5, 0</HP>
                 <MP>0, 0</MP>
@@ -228,7 +228,7 @@
                 <Anim src="stone" offset="-48 -96" order="70"></Anim>
             </Components>
         </Enemy>
-        <Enemy name="Stone-3-1" center="0 -28" level="3" alert-radius="5000" attack-radius="80" rest="500" damage="2" coin="3" energy="9">
+        <Enemy name="Stone-3-1" center="0 -28" level="3" alert-radius="5000" attack-radius="80" rest="500" damage="2" coin="5" energy="9">
             <Property hurt-duration="200">
                 <HP>10, 0</HP>
                 <MP>0, 0</MP>
@@ -245,7 +245,7 @@
             </Components>
         </Enemy>
         <!-- Christmas Special -->
-        <Genie name="Snow-0" center="0 -20" level="1" alert-radius="1000" attack-radius="512" scare-radius="0" rest="3000" coin="2" energy="2">
+        <Genie name="Snow-0" center="0 -20" level="1" alert-radius="1000" attack-radius="512" scare-radius="0" rest="3000" coin="5" energy="2">
             <Property hurt-duration="200">
                 <HP>5, 0</HP>
                 <MP>0, 0</MP>
@@ -265,7 +265,7 @@
                 <Anim src="snowman" offset="-128 -376" order="70"></Anim>
             </Components>
         </Genie>
-        <Genie name="Snow-1" center="0 -20" level="3" alert-radius="1000" attack-radius="512" scare-radius="0" rest="3000" coin="2" energy="3">
+        <Genie name="Snow-1" center="0 -20" level="3" alert-radius="1000" attack-radius="512" scare-radius="0" rest="3000" coin="10" energy="3">
             <Property hurt-duration="200">
                 <HP>12, 0</HP>
                 <MP>0, 0</MP>
@@ -285,7 +285,7 @@
                 <Anim src="snowman" offset="-128 -376" order="70"></Anim>
             </Components>
         </Genie>
-        <Genie name="Droid-0" center="0 -10" level="1" alert-radius="2000" attack-radius="700" scare-radius="150" rest="100" coin="3" energy="4">
+        <Genie name="Droid-0" center="0 -10" level="1" alert-radius="2000" attack-radius="700" scare-radius="150" rest="100" coin="5" energy="4">
             <Property hurt-duration="200">
                 <HP>3, 0</HP>
                 <MP>0, 0</MP>
@@ -304,7 +304,7 @@
                 <Anim src="droid" offset="-64 -172" order="70"></Anim>
             </Components>
         </Genie>
-        <Genie name="Droid-1" center="0 -10" level="2" alert-radius="5000" attack-radius="800" scare-radius="200" rest="0" coin="3" energy="5">
+        <Genie name="Droid-1" center="0 -10" level="2" alert-radius="5000" attack-radius="800" scare-radius="200" rest="0" coin="10" energy="5">
             <Property hurt-duration="200">
                 <HP>5, 0</HP>
                 <MP>0, 0</MP>
@@ -323,7 +323,7 @@
                 <Anim src="droid" offset="-64 -172" order="70"></Anim>
             </Components>
         </Genie>
-        <Rock name="Rock" center="0 -56" level="-1" alert-radius="5000" attack-radius="600" scare-radius="300" rest="1000" coin="20" energy="20">
+        <Rock name="Rock" center="0 -56" level="-1" alert-radius="5000" attack-radius="600" scare-radius="300" rest="1000" coin="50" energy="20">
             <Property hurt-duration="200">
                 <HP>256, 0</HP>
                 <MP>100, 0</MP>

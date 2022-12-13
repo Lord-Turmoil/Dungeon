@@ -63,6 +63,9 @@ public:
 	bool ShowCredits() const			{ return m_showCredits; }
 	void ShowCredits(bool showCredits)	{ m_showCredits = showCredits; }
 
+	bool IsInfinite() const				{ return m_isInfinite; }
+	void IsInfinite(bool isInfinite)	{ m_isInfinite = isInfinite; }
+
 	void HeroName(const std::string& name)	{ m_heroName = name; }
 	const std::string& HeroName() const		{ return m_heroName; }
 	bool IsAvailable(const std::string& name) const;
@@ -81,15 +84,18 @@ private:
 
 private:
 	// Settings
-	int m_difficulty;
-	double m_soundVolume;
-	double m_musicVolume;
-	bool m_isFullscreen;
+	int		m_difficulty;
+	double	m_soundVolume;
+	double	m_musicVolume;
+	bool	m_isFullscreen;
 
 	// Config
-	int m_coin;
-	bool m_showCredits;		// Show credits when game ends.
-	std::string m_heroName;
+	int		m_coin;
+	bool	m_showCredits;		// Show credits when game ends.
+	
+	bool		m_isInfinite;		// Game mode. Transient.
+	std::string m_heroName;			// Game hero. Transient.
+	
 	COLORREF m_beginColor;	// Top color of the sky.
 	COLORREF m_endColor;	// Bottom color of the sky.
 

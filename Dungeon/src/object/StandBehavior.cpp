@@ -163,8 +163,10 @@ void StandIdle::OnEnter()
 }
 
 
-/********************************************************************
+/*
+**+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ** StandChoose
+**+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
 const wchar_t StandChoose::PROMPT_SAVE[]	= L"Save progress? (V)";
 const wchar_t StandChoose::PROMPT_FLASH[]	= L"Flashback? (F)       ";
@@ -207,6 +209,18 @@ void StandChoose::Update(Event* evnt)
 
 	_Collide();
 	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
+}
+
+void StandChoose::OnEnter()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+
+	m_symbol.SetCoord(stand->GetCoord());
+	stand->GetSymbol()->SetSubSymbol(&m_symbol);
+
+	m_elapsedTime = 0;
+
+	stand->GetComponent<SoundComponent>()->Play("choose");
 }
 
 void StandChoose::_RenderDialog()
@@ -370,6 +384,7 @@ bool StandSave::_Save()
 	flashback->SetWeaponList(hero->GetComponent<WeaponComponent>()->GetWeaponList());
 
 	// Set progress.
+	flashback->SetInfinite(dungeon->IsInfinite());
 	flashback->SetChapter(dungeon->GetChapter());
 	flashback->SetLevel(dungeon->GetLevel());
 
@@ -531,6 +546,8 @@ void StandSaved::OnEnter()
 
 	m_elapsedTime = 0;
 
+	stand->GetComponent<SoundComponent>()->Play("saved");
+
 	Settings::GetInstance()->AddCoin(-stand->SaveCost());
 }
 
@@ -592,6 +609,8 @@ void StandFlashed::OnEnter()
 	stand->GetSymbol()->SetSubSymbol(&m_symbol);
 
 	m_elapsedTime = 0;
+
+	stand->GetComponent<SoundComponent>()->Play("flashed");
 
 	Settings::GetInstance()->AddCoin(-stand->FlashCost());
 }

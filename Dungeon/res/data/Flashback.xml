@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flashback>
     <Valid>true</Valid>
-    <Chapter>0</Chapter>
-    <Level>1</Level>
+    <Chapter>1</Chapter>
+    <Level>2</Level>
     <Hero>Yony</Hero>
     <HP>5</HP>
-    <MP>175</MP>
+    <MP>200</MP>
     <Armor>5</Armor>
     <Chi>100</Chi>
     <Weapons>
-        <Weapon>Rifle</Weapon>
+        <Weapon>Pike</Weapon>
+        <Weapon>Mini</Weapon>
     </Weapons>
 </Flashback>
