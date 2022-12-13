@@ -529,13 +529,13 @@
         <Mono src="res/sounds/ui/stcncl.mp3"></Mono>
     </Resource>
     <Resource type="audio" id="stsvd">
-        <Mono src="res/sounds/ui/stsvd.mp3"></Mono=>
+        <Mono src="res/sounds/ui/stsvd.mp3"></Mono>
     </Resource>
     <Resource type="audio" id="stflshd">
         <Mono src="res/sounds/ui/stflshd.mp3"></Mono>
     </Resource>
     <Resource type="audio" id="stinsuf">
-        <Mono src="res/sounds/ui/stinsuf.mp3"></Mono=>
+        <Mono src="res/sounds/ui/stinsuf.mp3"></Mono>
     </Resource>
 
     <!-- Terrain -->

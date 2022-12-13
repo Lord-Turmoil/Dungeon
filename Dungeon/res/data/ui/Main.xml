@@ -207,13 +207,13 @@
             <!-- Version Button -->
             <Button name="version" pos="280 150">
                 <Up>
-                    <Text width="120" height="15" focus="10 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">v1.1.0 Xmas</Text>
+                    <Text width="120" height="15" focus="10 0" font-size="24" font="8bitoperator JVE Regular" color="#000000">v1.1.1 Xmas</Text>
                 </Up>
                 <Hover>
-                    <Text width="120" height="15" focus="10 0" font-size="24" font="8bitoperator JVE Regular" color="#555555">v1.1.0 Xmas</Text>
+                    <Text width="120" height="15" focus="10 0" font-size="24" font="8bitoperator JVE Regular" color="#555555">v1.1.1 Xmas</Text>
                 </Hover>
                 <Down>
-                    <Text width="120" height="15" focus="10 0" font-size="24" font="8bitoperator JVE Regular" color="#444444">v1.1.0 Xmas</Text>
+                    <Text width="120" height="15" focus="10 0" font-size="24" font="8bitoperator JVE Regular" color="#444444">v1.1.1 Xmas</Text>
                 </Down>
                 <Trigger>
                     <Trigger type="rect" width="120" height="35" focus="10 10"></Trigger>

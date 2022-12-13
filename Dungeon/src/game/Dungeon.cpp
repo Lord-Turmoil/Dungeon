@@ -154,10 +154,14 @@ void Dungeon::Update()
 					if (static_cast<Object*>(*it)->Type() == ObjectType::OBJ_ENEMY)
 					{
 						if (!static_cast<Enemy*>(*it)->IsDead())
+						{
+							(*it)->SetCoord(m_pArena->Revise((*it)->GetCoord()));
 							m_pArena->Entry((*it)->GetCoord());
+						}
 					}
 				}
 			}
+			m_pHero->SetCoord(m_pArena->Revise(m_pHero->GetCoord()));
 		}
 		else if (attr.isEnd && (!m_pPortal->IsActive()))
 		{
@@ -184,6 +188,7 @@ void Dungeon::Update()
 	for (auto it = objectPool.begin(); it != objectPool.end(); it++)
 	{
 		m_quadTree.Insert(*it);
+
 		if (static_cast<Object*>(*it)->Type() == ObjectType::OBJ_ENEMY)
 		{
 			if (!static_cast<Enemy*>(*it)->IsDead())
@@ -728,7 +733,7 @@ void Dungeon::_GenerateEnemy()
 	int width = m_pArena->GetGraphWidth();
 	int upper = dmin(
 		m_chapter * m_chapter + (int)(m_level * 1.5) + difficulty * difficulty / 2,
-		(width - 2) * (width - 2) / 4);
+		(int)((width - 2) * (width - 2) * 0.6f));
 	int total = Random(lower, dmax(upper, lower + 1));
 	if (attr.isEnd && attr.rounds == 1)
 	{
@@ -776,7 +781,7 @@ void Dungeon::_GenerateEnemy()
 	{
 		Boss* boss = static_cast<Boss*>(lib->GetEnemyByLevel(-1)[0]->Clone());
 		if (IsInfinite())
-			boss->Enhance(m_chapter * 0.5);
+			boss->Enhance(m_chapter * 0.5f);
 		m_pBoss = boss;
 		AddEnemy(boss);
 	}

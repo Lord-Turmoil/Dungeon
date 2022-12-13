@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Settings>
     <Difficulty>3</Difficulty>
-    <SoundVolume>0.50</SoundVolume>
-    <MusicVolume>0.27</MusicVolume>
+    <SoundVolume>0.40</SoundVolume>
+    <MusicVolume>0.10</MusicVolume>
     <Fullscreen>false</Fullscreen>
-    <Coin>745</Coin>
-    <ShowCredits>false</ShowCredits>
+    <Coin>3801</Coin>
+    <ShowCredits>true</ShowCredits>
     <ChapterNum>2</ChapterNum>
     <LevelNum>3</LevelNum>
     <BeginColor>#3f51b5</BeginColor>

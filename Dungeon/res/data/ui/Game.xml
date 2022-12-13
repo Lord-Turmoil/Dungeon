@@ -185,6 +185,39 @@
                     </Mark>
                 </Radio>
             </RadioList>
+            <!-- Mode -->
+            <Static name="mode-prompt" pos="192 403">
+                <Drawer>
+                    <Text width="192" height="64" font-size="48" font="8bitoperator JVE Regular" color="#FFFFFF">Infinite</Text>
+                </Drawer>
+            </Static>
+            <Radio name="mode" cancelable="true" pos="384 409">
+                <Box>
+                    <Button name="" float="true" pos="0% 0%">
+                        <Up>
+                            <Image width="64" height="48" origin="256 752" size="64 48" src="widget"></Image>
+                        </Up>
+                        <Hover>
+                            <Image width="64" height="48" origin="320 752" size="64 48" src="widget"></Image>
+                        </Hover>
+                        <Down>
+                            <Image width="64" height="48" origin="384 752" size="64 48" src="widget"></Image>
+                        </Down>
+                        <Trigger>
+                            <Trigger type="mask" width="64" height="48" origin="256 752" size="64 48" src="widget"></Trigger>
+                        </Trigger>
+                        <HoverSound>
+                            <Buzzer src="hover"></Buzzer>
+                        </HoverSound>
+                        <ClickSound>
+                            <Buzzer src="click"></Buzzer>
+                        </ClickSound>
+                    </Button>
+                </Box>
+                <Mark>
+                    <Image width="64" height="64" focus="0 8" origin="448 800" size="64 64" src="widget"></Image>
+                </Mark>
+            </Radio>
             <!-- Easter Egg -->
             <Static name="square" pos="180 260" layer="-1">
                 <Drawer>
@@ -381,24 +414,24 @@
             </Static>
             <Static name="weapon-name" float="true" pos="100% 100%" layer="10">
                 <Drawer>
-                    <Text width="90" height="50" focus="90 50" font-size="26" font="8bitoperator JVE Regular" color="#111111"> </Text>
+                    <Text width="90" height="50" focus="90 50" font-size="26" font="8bitoperator JVE Regular" color="#111111"></Text>
                 </Drawer>
             </Static>
             <Static name="weapon-cost" float="true" pos="100% 100%" layer="10">
                 <Drawer>
-                    <Text width="50" height="50" focus="50 90" font-size="48" font="8bitoperator JVE Regular" color="#311b92"> </Text>
+                    <Text width="50" height="50" focus="50 90" font-size="48" font="8bitoperator JVE Regular" color="#311b92"></Text>
                 </Drawer>
             </Static>
 
             <!-- Level prompt (s for small, b for big/banner)-->
             <Static name="s-level" pos="320 20">
                 <Drawer>
-                    <Text width="240" height="40" focus="120 0" font-size="30" font="8bitoperator JVE Regular" color="#FFFFFF">Level 0 - 0</Text>
+                    <Text width="320" height="40" focus="120 0" font-size="30" font="8bitoperator JVE Regular" color="#FFFFFF">Level 0 - 0</Text>
                 </Drawer>
             </Static>
             <Static name="b-level" pos="320 240">
                 <Drawer>
-                    <Text width="640" height="100" focus="320 50" font-size="100" font="8bitoperator JVE Regular" color="#FFFFFF">&gt; Level 0 - 0 &lt;</Text>
+                    <Text width="640" height="100" focus="320 50" font-size="84" font="8bitoperator JVE Regular" color="#FFFFFF">&gt; Level 0 - 0 &lt;</Text>
                 </Drawer>
                 <Transitions>
                     <AlphaTransition duration="500" delay="1000" loop="false" reverse="false" style="ease-in" begin="255" end="0"></AlphaTransition>

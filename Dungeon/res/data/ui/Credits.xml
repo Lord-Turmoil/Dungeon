@@ -79,11 +79,6 @@
                 </Transitions>
             </Static>
             <!-- Easter Egg! -->
-            <Static name="monster" float="true" pos="10% 60%" layer="10">
-                <Drawer>
-                    <Animation width="96" height="96" src="anim-monster"></Animation>
-                </Drawer>
-            </Static>
             <Button name="monster" float="true" pos="10% 60%" layer="10">
                 <Up>
                     <Animation width="96" height="96" src="anim-monster"></Animation>

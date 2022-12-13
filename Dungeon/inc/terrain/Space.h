@@ -206,6 +206,12 @@ public:
 	int GetGraphWidth() const	{ return m_graph.Width(); }
 	int GetGraphHeight() const	{ return m_graph.Height(); }
 
+	/*
+	** 2022/12/13 TS:
+	** In case any object is out of bound. :(
+	*/
+	Coordinate Revise(const Coordinate& coord);
+
 private:
 	void _Lock();
 	void _UnLock();

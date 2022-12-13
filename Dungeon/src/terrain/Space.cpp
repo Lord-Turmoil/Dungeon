@@ -806,6 +806,29 @@ void Arena::AddNeighbor(Space* spc)
 
 
 /******************************************************************************
+ * Arena::Revivse -- Correct the coordinate.                                  *
+ *                                                                            *
+ *    If the coord is out of Arena, then make it inside. If not, makes no     *
+ *    change.                                                                 *
+ *                                                                            *
+ * INPUT:   coord                                                             *
+ *                                                                            *
+ * OUTPUT:  Correct coord.                                                    *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/13 Tony : Created.                                               *
+ *============================================================================*/
+Coordinate Arena::Revise(const Coordinate& coord)
+{
+	if (!InRectangle(m_rect, coord))
+		return m_rect.GetCenter();
+	return coord;
+}
+
+
+/******************************************************************************
  * Arena::_Lock -- Lock the arena.                                            *
  *                                                                            *
  *    Just the literal meaning.                                               *
