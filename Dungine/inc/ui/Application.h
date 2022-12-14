@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 17, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 14, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -58,6 +58,8 @@ public:
 	** is the main loop of the game.
 	*/
 	void Run();
+
+	void Exit();	// Force exit the application.
 
 	/*
 	** Vital function for interface transition. Quite clumsy, it simply

@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : June 6, 2022                              *
  *                                                                            *
- *                    Last Update : August 12, 2022                           *
+ *                    Last Update : December 14, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -107,9 +107,9 @@ void Graph::EntryObstacle(const Coordinate& topLeft, const Coordinate& bottomRig
 /******************************************************************************
  * Graph::EntryObject -- Entry object.                                        *
  *                                                                            *
- *    Just the literal meaning.                                               *
+ *    This should not overwrite obstacles.                                    *
  *                                                                            *
- * INPUT:   sub         --                                                    *
+ * INPUT:   sub                                                               *
  *          topLeft     -- From top left to bottom right.                     *
  *          bottomRight -- From top left to bottom right.                     *
  *                                                                            *
@@ -119,11 +119,15 @@ void Graph::EntryObstacle(const Coordinate& topLeft, const Coordinate& bottomRig
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/06 Tony : Created.                                               *
+ *   2022/12/14 Tony : Added extra condition.                                 *
  *============================================================================*/
 void Graph::EntryObject(const Coordinate& sub)
 {
-	m_graph[sub.y][sub.x].type = GridType::GRID_OBJECT;
-	m_objectList.emplace_back(sub);
+	if (m_graph[sub.y][sub.x].type == GridType::GRID_PLAIN)
+	{
+		m_graph[sub.y][sub.x].type = GridType::GRID_OBJECT;
+		m_objectList.emplace_back(sub);
+	}
 }
 
 void Graph::EntryObject(const Coordinate& topLeft, const Coordinate& bottomRight)
@@ -131,10 +135,7 @@ void Graph::EntryObject(const Coordinate& topLeft, const Coordinate& bottomRight
 	for (int i = topLeft.y; i <= bottomRight.y; i++)
 	{
 		for (int j = topLeft.x; j <= bottomRight.x; j++)
-		{
-			m_graph[i][j].type = GridType::GRID_OBJECT;
-			m_objectList.emplace_back(j, i);
-		}
+			EntryObject(Coordinate(j, i));
 	}
 }
 
@@ -222,6 +223,7 @@ void Graph::DeEntryObject(const Coordinate& topLeft, const Coordinate& bottomRig
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/30 Tony : Created.                                               *
+ *   2022/12/14 Tony : Added legal check.                                     *
  *============================================================================*/
 bool Graph::Wander(const Coordinate& src)
 {
@@ -231,6 +233,15 @@ bool Graph::Wander(const Coordinate& src)
 	for (int i = 0; i < DIR_NUM; i++)
 	{
 		next = src + DIR[i];
+
+		/*
+		** 2022/12/14 TS:
+		** Ah... The most tricky bug... How could I forget legality
+		** check... :(
+		*/
+		if (!_IsLegal(next))
+			continue;
+
 		if (m_graph[next.y][next.x].type == GridType::GRID_PLAIN)
 			candidates.push_back(next);
 	}

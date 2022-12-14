@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Settings>
     <Difficulty>3</Difficulty>
-    <SoundVolume>0.40</SoundVolume>
-    <MusicVolume>0.10</MusicVolume>
-    <Fullscreen>false</Fullscreen>
-    <Coin>3801</Coin>
+    <SoundVolume>0.37</SoundVolume>
+    <MusicVolume>0.18</MusicVolume>
+    <Fullscreen>true</Fullscreen>
+    <Coin>28576</Coin>
     <ShowCredits>true</ShowCredits>
     <ChapterNum>2</ChapterNum>
     <LevelNum>3</LevelNum>

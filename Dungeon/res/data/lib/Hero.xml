@@ -30,7 +30,7 @@
     <BlackHand name="BlackHand" center="0 -40">
         <Property hurt-duration="500" skill-duration="100" skill-cost="100">
             <HP>2, 0</HP>
-            <MP>300, 5000</MP>
+            <MP>300, 1000</MP>
             <Armor>8, 8000</Armor>
             <Chi>100, 100</Chi>
         </Property>

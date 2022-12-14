@@ -2,15 +2,15 @@
 <Flashback>
     <Valid>true</Valid>
     <Infinite>true</Infinite>
-    <Chapter>100</Chapter>
-    <Level>0</Level>
-    <Hero>Yony</Hero>
-    <HP>5</HP>
-    <MP>200</MP>
-    <Armor>4</Armor>
+    <Chapter>99</Chapter>
+    <Level>2</Level>
+    <Hero>BlackHand</Hero>
+    <HP>214748364</HP>
+    <MP>214748364</MP>
+    <Armor>214748364</Armor>
     <Chi>100</Chi>
     <Weapons>
-        <Weapon>Mini</Weapon>
+        <Weapon>Thrower</Weapon>
         <Weapon>Pike</Weapon>
     </Weapons>
 </Flashback>

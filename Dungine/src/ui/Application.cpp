@@ -231,6 +231,31 @@ void Application::Run()
 
 
 /******************************************************************************
+ * Application::Exit -- Directly exit the application.                        *
+ *                                                                            *
+ *    This will stop all interfaces. But won't clear resources. So it can be  *
+ *    re-launched later.                                                      *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/14 Tony : Created.                                               *
+ *============================================================================*/
+void Application::Exit()
+{
+	if (!m_isRunning)
+		return;
+
+	m_isRunning = false;
+	m_pCurIntf = nullptr;
+}
+
+
+/******************************************************************************
  * Application::Launch -- Launch a new interface.                             *
  *                                                                            *
  *    Just the literal meaning.                                               *

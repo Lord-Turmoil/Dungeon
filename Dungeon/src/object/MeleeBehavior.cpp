@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 25, 2022                             *
  *                                                                            *
- *                    Last Update : November 25, 2022                         *
+ *                    Last Update : December 14, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -109,6 +109,8 @@ void MeleeBehavior::_Slash()
 /*
 ** 2022/11/25 TS:
 ** Hmm... Slash bullet to be seperated.
+** 2022/12/14 TS:
+** Added check for unneccessary bounce.
 */
 void MeleeBehavior::_SlashBullet()
 {
@@ -145,13 +147,23 @@ void MeleeBehavior::_SlashBullet()
 				continue;
 
 			RigidBodyComponent* rigid = victim->GetComponent<RigidBodyComponent>();
-			Vector v = rigid->GetVelocity();
-			Vector u = VectorProjection(v, dir);	// less
-			rigid->SetVelocity(v - 2 * u);
-			if (rigid->ID() == COLL_ID_ENEMY_BULLET)
-				rigid->SetID(COLL_ID_HERO_BULLET);
-			else if (rigid->ID() == COLL_ID_ENEMY_FLAME)
-				rigid->SetID(COLL_ID_HERO_FLAME);
+			int id = rigid->ID();
+			CollisionType type = GetCollisionType(id, CollisionID::COLL_ID_HERO);
+			if (type == CollisionType::COLL_NONE)
+				continue;
+			else if (type == CollisionType::COLL_CHECK)
+				victim->Corrupt();
+			else
+			{
+				// Valid bounce. :)
+				Vector v = rigid->GetVelocity();
+				Vector u = VectorProjection(v, dir);	// less
+				rigid->SetVelocity(v - 2 * u);
+				if (id == COLL_ID_ENEMY_BULLET)
+					rigid->SetID(COLL_ID_HERO_BULLET);
+				else if (id == COLL_ID_ENEMY_FLAME)
+					rigid->SetID(COLL_ID_HERO_FLAME);
+			}
 		}
 	}
 }

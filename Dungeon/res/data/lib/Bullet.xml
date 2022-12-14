@@ -50,7 +50,7 @@
         <Components>
             <Behavior order="10"></Behavior>
             <ColliderBox offset="0 0" box-size="32 32" border-size="128 128" order="30"></ColliderBox>
-            <RigidBody mass="10" strength="10" max-velocity="15" ratio="1.0" id="6" order="40"></RigidBody>
+            <RigidBody mass="10" strength="10" max-velocity="15" ratio="1.0" id="5" order="40"></RigidBody>
             <Move order="50"></Move>
             <Anim src="fireball" offset="-32 -32" order="70"></Anim>
         </Components>
@@ -59,7 +59,7 @@
         <Components>
             <Behavior order="10"></Behavior>
             <ColliderBox offset="0 0" box-size="32 32" border-size="128 128" order="30"></ColliderBox>
-            <RigidBody mass="10" strength="10" max-velocity="15" ratio="1.0" id="6" order="40"></RigidBody>
+            <RigidBody mass="10" strength="10" max-velocity="15" ratio="1.0" id="5" order="40"></RigidBody>
             <Move order="50"></Move>
             <Anim src="fireball" offset="-32 -32" order="70"></Anim>
         </Components>
@@ -69,7 +69,7 @@
         <Components>
             <Behavior order="10"></Behavior>
             <ColliderBox offset="0 0" box-size="8 8" border-size="64 64" order="30"></ColliderBox>
-            <RigidBody mass="10" strength="10" max-velocity="25" ratio="1.0" id="4" order="40"></RigidBody>
+            <RigidBody mass="10" strength="10" max-velocity="25" ratio="1.0" id="3" order="40"></RigidBody>
             <Move order="50"></Move>
             <Anim src="glaser" offset="-18 -18" order="70"></Anim>
         </Components>
@@ -78,7 +78,7 @@
         <Components>
             <Behavior order="10"></Behavior>
             <ColliderBox offset="0 0" box-size="8 8" border-size="64 64" order="30"></ColliderBox>
-            <RigidBody mass="10" strength="10" max-velocity="20" ratio="1.0" id="6" order="40"></RigidBody>
+            <RigidBody mass="10" strength="10" max-velocity="20" ratio="1.0" id="5" order="40"></RigidBody>
             <Move order="50"></Move>
             <Anim src="laser" offset="-18 -18" order="70"></Anim>
         </Components>
