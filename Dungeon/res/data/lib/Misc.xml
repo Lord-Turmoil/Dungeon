@@ -58,6 +58,7 @@
                 <li name="saved" src="stsvd"></li>
                 <li name="flashed" src="stflshd"></li>
                 <li name="insuf" src="stinsuf"></li>
+                <li name="error" src="sterr"></li>
             </Sound>
         </Components>
     </Stand>

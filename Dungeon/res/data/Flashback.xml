@@ -2,12 +2,12 @@
 <Flashback>
     <Valid>true</Valid>
     <Infinite>true</Infinite>
-    <Chapter>99</Chapter>
+    <Chapter>3</Chapter>
     <Level>2</Level>
     <Hero>BlackHand</Hero>
-    <HP>214748364</HP>
-    <MP>214748364</MP>
-    <Armor>214748364</Armor>
+    <HP>2</HP>
+    <MP>300</MP>
+    <Armor>8</Armor>
     <Chi>100</Chi>
     <Weapons>
         <Weapon>Thrower</Weapon>

@@ -784,6 +784,18 @@ void StandError::Update(Event* evnt)
 	_AdjustDirection(hero->GetCoord().x < stand->GetCoord().x);
 }
 
+void StandError::OnEnter()
+{
+	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
+
+	m_symbol.SetCoord(stand->GetCoord());
+	stand->GetSymbol()->SetSubSymbol(&m_symbol);
+
+	m_elapsedTime = 0;
+
+	stand->GetComponent<SoundComponent>()->Play("error");
+}
+
 void StandError::_RenderDialog()
 {
 	ImageResource* res = LoadResource<ImageResource>(DIALOG_RES_ID);

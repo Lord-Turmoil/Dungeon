@@ -106,3 +106,67 @@ Message: Cannot find blank area
 Message: Cannot find blank area
 Message: Cannot find blank area
 Message: Cannot find blank area
+
+------------------------------
+12/15/2022 14:29:57
+Error: Invalid resource directory "res/sounds/track/Dance of Snowman.mp3"
+Error: Failed to load resource "menu-track"
+Error: Resource type mismatch at "menu-track"
+Error: Cannot load "Widget"
+Error: Conflict of interface name "" occurred
+Error: Conflict of interface name "" occurred
+Error: Conflict of interface name "" occurred
+Error: Conflict of interface name "" occurred
+Error: Conflict of interface name "" occurred
+Error: Conflict of interface name "" occurred
+Error: Conflict of interface name "" occurred
+Error: Conflict of interface name "" occurred
+Error: Conflict of interface name "" occurred
+Error: Conflict of interface name "" occurred
+
+------------------------------
+12/15/2022 14:30:46
+Error: Invalid resource directory "res/sounds/track/Dance of Snowman.mp3"
+Error: Failed to load resource "menu-track"
+Error: Resource type mismatch at "menu-track"
+Error: Cannot load "Widget"
+
+------------------------------
+12/15/2022 14:32:40
+Error: Invalid resource directory "res/sounds/track/Dance of Snowman.mp3"
+Error: Failed to load resource "menu-track"
+Error: Resource type mismatch at "menu-track"
+Error: Cannot load "Widget"
+Error: Failed to load ui at "res\data\ui\Main.xml"
+
+------------------------------
+12/15/2022 14:33:12
+Error: Invalid resource directory "res/sounds/track/Dance of Snowman.mp3"
+Error: Failed to load resource "menu-track"
+Error: Resource type mismatch at "menu-track"
+Error: Cannot load "Widget"
+Error: Failed to load ui at "res\data\ui\Main.xml"
+
+------------------------------
+12/15/2022 14:38:45
+Error: Invalid resource directory "res/sounds/track/Dance of Snowman.mp3"
+Error: Failed to load resource "menu-track"
+Error: Resource type mismatch at "menu-track"
+Error: Cannot load "Widget"
+Error: Failed to load ui at "res\data\ui\Main.xml"
+
+------------------------------
+12/15/2022 14:38:53
+Error: Invalid resource directory "res/sounds/track/Dance of Snowman.mp3"
+Error: Failed to load resource "menu-track"
+Error: Resource type mismatch at "menu-track"
+Error: Cannot load "Widget"
+Error: Failed to load ui at "res\data\ui\Main.xml"
+
+------------------------------
+12/15/2022 14:40:29
+Error: Invalid resource directory "res/sounds/track/Dance of Snowman.mp3"
+Error: Failed to load resource "menu-track"
+Error: Resource type mismatch at "menu-track"
+Error: Cannot load "Widget"
+Error: Failed to load ui at "res\data\ui\Main.xml"

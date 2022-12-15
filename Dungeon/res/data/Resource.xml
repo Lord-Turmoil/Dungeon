@@ -144,7 +144,7 @@
     </Resource>
     <Resource type="audio" id="menu-track">
         <PlayList loop="true" shuffle="false">
-            <li src="res/sounds/track/Home (Music Box).mp3"></li>
+            <li src="res/sounds/track/Dance of Snowman.mp3"></li>
         </PlayList>
     </Resource>
     <Resource type="audio" id="c0-track">
@@ -536,6 +536,9 @@
     </Resource>
     <Resource type="audio" id="stinsuf">
         <Mono src="res/sounds/ui/stinsuf.mp3"></Mono>
+    </Resource>
+    <Resource type="audio" id="sterr">
+        <Mono src="res/sounds/ui/sterr.mp3"></Mono>
     </Resource>
 
     <!-- Terrain -->
