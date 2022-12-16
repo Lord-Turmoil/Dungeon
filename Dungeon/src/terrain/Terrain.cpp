@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 13 , 2022                            *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 16, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -167,13 +167,15 @@ void Terrain::Update()
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/13 Tony : Created.                                               *
+ *   2022/12/16 Tony : If boss exists, mini map won't be drawn.               *
  *============================================================================*/
 void Terrain::Draw()
 {
 	for (auto it = m_spaces.begin(); it != m_spaces.end(); it++)
 		(*it)->Draw();
 
-	Device::GetInstance()->AddSymbol(&m_miniMap);
+	if (!m_pDungeon->GetBoss())
+		Device::GetInstance()->AddSymbol(&m_miniMap);
 }
 
 void Terrain::Draw(Camera* camera)
@@ -181,7 +183,8 @@ void Terrain::Draw(Camera* camera)
 	for (auto it = m_spaces.begin(); it != m_spaces.end(); it++)
 		(*it)->Draw(camera);
 
-	Device::GetInstance()->AddSymbol(&m_miniMap);
+	if (!m_pDungeon->GetBoss())
+		Device::GetInstance()->AddSymbol(&m_miniMap);
 }
 
 

@@ -530,6 +530,7 @@ const int SCREEN_HEIGHT = 480;
 #define FAILED_TO_LOAD_UI_AT	R"(Failed to load ui at "%s")"
 #define FAILED_TO_LAUNCH_INTF	R"(Failed to launch interface "%s")"
 #define MISSING_INTERFACE		R"(Missing interface "%s")"
+#define MISSING_WIDGET			R"(Missing widget "%s")"
 
 #define CRITICAL_ERROR			R"(CRITICAL ERROR ENCOUNTERED!!!)"
 #define INTERNAL_ERROR			R"(INTERNAL ERROR ENCOUTNERED!!!)"

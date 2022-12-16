@@ -213,7 +213,10 @@ AbstractWidget* WidgetManager::GetWidget(const std::string& name)
 	auto it = m_widgets.find(name);
 
 	if (it == m_widgets.end())
+	{
+		LOG_ERROR(MISSING_WIDGET, name.c_str());
 		return nullptr;
+	}
 
 	return it->second;
 }

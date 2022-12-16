@@ -120,6 +120,9 @@ void GameInterface::Update(Event* evnt)
 		Boss* boss = m_pDungeon->GetBoss();
 		if (boss)
 		{
+			auto board = static_cast<StaticWidget*>(m_pWidgetManager->GetWidget("boss-board"));
+			board->Activate(true);
+
 			auto bar = static_cast<ProgressBar*>(m_pWidgetManager->GetWidget("boss-hp"));
 			bar->Activate(true);
 			_UpdateStatus(bar, boss->GetHPPercent());
@@ -129,6 +132,8 @@ void GameInterface::Update(Event* evnt)
 		}
 		else
 		{
+			static_cast<StaticWidget*>(m_pWidgetManager->GetWidget("boss-board"))
+				->Activate(false);
 			static_cast<ProgressBar*>(m_pWidgetManager->GetWidget("boss-hp"))
 				->Activate(false);
 			static_cast<ProgressBar*>(m_pWidgetManager->GetWidget("boss-armor"))

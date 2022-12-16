@@ -922,22 +922,28 @@ void Arena::_GenerateObstacle(BrickMatrix& matrix)
 {
 	if (m_attr.isStart)
 		return;
-	else if (m_attr.isEnd)
-		_PatternCorner(matrix);
 	else
 	{
-		switch (Random(3))
+		do
 		{
-		case 0:
-			_PatternLine(matrix);
-			break;
-		case 1:
-			_PatternCorner(matrix);
-			break;
-		default:
-			_PatternRandom(matrix);
-			break;
-		}
+			if (m_attr.isEnd)
+				_PatternCorner(matrix);
+			else
+			{
+				switch (Random(3))
+				{
+				case 0:
+					_PatternLine(matrix);
+					break;
+				case 1:
+					_PatternCorner(matrix);
+					break;
+				default:
+					_PatternRandom(matrix);
+					break;
+				}
+			}
+		} while (!_IsFree(matrix));
 	}
 }
 
@@ -1104,6 +1110,112 @@ void Arena::_PatternRandom(BrickMatrix& matrix)
 			if (Random(20) == 0)
 				matrix[i][j] = BrickType::BRICK_WALL;
 		}
+	}
+}
+
+
+/******************************************************************************
+ * Arena::_IsFree -- Check if the arena is free to go anywhere.               *
+ *                                                                            *
+ *    If the obstacle forms any dead area, it will return false.              *
+ *    Here, the border must be initialized to WALL.                           *
+ *                                                                            *
+ * INPUT:   matrix                                                            *
+ *                                                                            *
+ * OUTPUT:  Whether is free (no dead area) or not.                            *
+ *													                          *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/16 Tony : Created.                                               *
+ *============================================================================*/
+bool Arena::_IsFree(BrickMatrix& matrix)
+{
+	int size = (int)matrix.size();
+	int low = 1;
+	int high = size - 2;
+	Coordinate cur(COORD_ZERO);
+	BrickMatrix flag(size, BrickRow(size));
+
+	for (int i = low; i <= high; i++)
+	{
+		for (int j = low; j <= high; j++)
+			flag[i][j] = BrickType::BRICK_WALL;
+	}
+
+	for (int i = low; (i <= high) && (cur == COORD_ZERO); i++)
+	{
+		for (int j = low; (j <= high) && (cur == COORD_ZERO); j++)
+		{
+			if (matrix[i][j] == BrickType::BRICK_FLOOR)
+			{
+				cur.x = i;
+				cur.y = j;
+			}
+		}
+	}
+	if (cur == COORD_ZERO)
+		return false;
+
+	// Dye
+	std::queue<Coordinate> candidates;
+	Coordinate next;
+	candidates.push(cur);
+	flag[cur.x][cur.y] = BrickType::BRICK_FLOOR;
+	while (!candidates.empty())
+	{
+		cur = candidates.front();
+		candidates.pop();
+		for (int d = 0; d < RIGID_DIR_NUM; d++)
+		{
+			next = cur + DIR[d];
+			if (matrix[next.x][next.y] != BrickType::BRICK_FLOOR)
+				continue;
+			if (flag[next.x][next.y] == BrickType::BRICK_FLOOR)
+				continue;
+			candidates.push(next);
+			flag[next.x][next.y] = BrickType::BRICK_FLOOR;
+		}
+	}
+
+	// Check
+	for (int i = low; i <= high; i++)
+	{
+		for (int j = low; j <= high; j++)
+		{
+			if (matrix[i][j] != flag[i][j])
+				return false;
+		}
+	}
+
+	return true;
+}
+
+
+/******************************************************************************
+ * Arena::_ClearObstacle -- Clear all obstacles in the arena.                 *
+ *                                                                            *
+ *    This will clear all obstacles in the arena. Not affect border.          *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/16 Tony : Created.                                               *
+ *============================================================================*/
+void Arena::_ClearObstacle(BrickMatrix& matrix)
+{
+	int size = (int)matrix.size();
+	int low = 1;
+	int high = size - 2;
+
+	for (int i = low; i <= high; i++)
+	{
+		for (int j = low; j <= high; j++)
+			matrix[i][j] = BrickType::BRICK_FLOOR;
 	}
 }
 

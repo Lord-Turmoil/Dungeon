@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 7, 2022                              *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 16, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -223,6 +223,13 @@ private:
 	void _PatternLine(BrickMatrix& matrix);
 	void _PatternCorner(BrickMatrix& matrix);
 	void _PatternRandom(BrickMatrix& matrix);
+
+	/*
+	** 2022/12/16 TS:
+	** Err, the obstacles may form... dead area.
+	*/
+	bool _IsFree(BrickMatrix& matrix);
+	void _ClearObstacle(BrickMatrix& matrix);
 
 	std::vector<Gate*> m_gates;
 	std::vector<Space*> m_neighbors;

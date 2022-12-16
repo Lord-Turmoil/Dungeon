@@ -38,6 +38,7 @@
 ** 
 */
 const int DIR_NUM = 8;
+const int RIGID_DIR_NUM = 4;
 
 const Coordinate DIR[8] = {
 	{ -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 },
