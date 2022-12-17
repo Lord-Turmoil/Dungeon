@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : June 10, 2022                             *
  *                                                                            *
- *                    Last Update :                                           *
+ *                    Last Update : December 17, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -494,6 +494,7 @@ void PlayList::_Release()
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/06/15 Tony : Created.                                               *
+ *   2022/12/17 Tony : Bug fixed.                                             *
  *============================================================================*/
 void PlayList::_PlayNext()
 {
@@ -506,8 +507,14 @@ void PlayList::_PlayNext()
 		if (m_isLoop)
 			Play();
 	}
-	
-	Speaker::GetInstance()->Play(*m_current);
+	else
+	{
+		/*
+		** 2022/12/17 TS:
+		** This should not be reached if previous if is true.
+		*/
+		Speaker::GetInstance()->Play(*m_current);
+	}
 }
 
 

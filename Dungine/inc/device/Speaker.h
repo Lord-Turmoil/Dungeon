@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : June 14, 2022                             *
  *                                                                            *
- *                    Last Update : November 24, 2022                         *
+ *                    Last Update : December 17, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -58,6 +58,9 @@ public:
 	void AddPlayList(PlayList* playList);
 	void RemovePlayList();
 	bool IsPlaying() const;
+
+	PlayList* GetCurrentPlayList();
+
 public:
 	void SetSoundVolume(double volume) { m_soundVolume = volume; }
 	void SetMusicVolume(double volume);

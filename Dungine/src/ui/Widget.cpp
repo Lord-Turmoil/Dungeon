@@ -2987,11 +2987,13 @@ void AudioPlayer::Pause(bool isPaused)
  *                                                                            *
  * HISTORY:                                                                   *
  *   2022/07/17 Tony : Created.                                               *
+ *   2022/12/17 Tony : Extra check for consistence.                           *
  *============================================================================*/
 void AudioPlayer::Stop()
 {
-	if (m_playList)
-		Speaker::GetInstance()->RemovePlayList();
+	Speaker* speaker = Speaker::GetInstance();
+	if (m_playList && (speaker->GetCurrentPlayList() == m_playList))
+		speaker->RemovePlayList();
 }
 
 

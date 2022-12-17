@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : June 14, 2022                             *
  *                                                                            *
- *                    Last Update : December 13, 2022                         *
+ *                    Last Update : December 17, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -327,6 +327,28 @@ bool Speaker::IsPlaying() const
 	if (m_stack.empty())
 		return false;
 	return m_stack.top()->IsPlaying();
+}
+
+
+/******************************************************************************
+ * PlayList::GetCurrentPlayList -- Get current play list.                     *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  Return current play list.                                         *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/17 Tony : Created.                                               *
+ *============================================================================*/
+PlayList* Speaker::GetCurrentPlayList()
+{
+	if (m_stack.empty())
+		return nullptr;
+	return m_stack.top();
 }
 
 

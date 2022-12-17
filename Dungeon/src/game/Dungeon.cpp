@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : July 13, 2022                             *
  *                                                                            *
- *                    Last Update : August 15, 2022                           *
+ *                    Last Update : December 17, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -392,6 +392,12 @@ void Dungeon::RemoveBoss()
 	{
 		m_pBoss = nullptr;
 		m_enemyCount--;
+		
+		/*
+		** 2022/12/17 TS:
+		** Well, when Boss dies, the track will change back.
+		*/
+		m_pGameInterface->PlayTrack(m_chapter % CHAPTER_NUM);
 	}
 }
 
@@ -736,10 +742,7 @@ void Dungeon::_GenerateEnemy()
 		(int)((width - 2) * (width - 2) * 0.6f));
 	int total = Random(lower, dmax(upper, lower + 1));
 	if (attr.isEnd && attr.rounds == 1)
-	{
 		total *= 2;
-		_OnFinal();
-	}
 
 	// level 1
 	auto& pool1 = lib->GetEnemyByLevel(1);
@@ -781,10 +784,13 @@ void Dungeon::_GenerateEnemy()
 	{
 		Boss* boss = static_cast<Boss*>(lib->GetEnemyByLevel(-1)[0]->Clone());
 		if (IsInfinite())
-			boss->Enhance(m_chapter * 0.5f);
+			boss->Enhance(m_chapter * 0.2f);
 		m_pBoss = boss;
 		AddEnemy(boss);
 	}
+
+	if (attr.isEnd && attr.rounds == 1)
+		_OnFinal();
 }
 
 
@@ -991,4 +997,12 @@ void Dungeon::_OnFinal()
 {
 	static_cast<StaticWidget*>(m_pGameInterface->GetWidget("b-final"))
 		->ResetTransition();
+	if (m_pBoss)
+	{
+		/*
+		** 2022/12/17 TS:
+		** Well, for now, there is only one boss track. Just be this.
+		*/
+		m_pGameInterface->PlayTrack(10);
+	}
 }
