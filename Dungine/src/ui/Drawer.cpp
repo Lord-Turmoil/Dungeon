@@ -9,7 +9,7 @@
  *                                                                            *
  *                     Start Date : March 9, 2022                             *
  *                                                                            *
- *                    Last Update : November 29, 2022                         *
+ *                    Last Update : December 22, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
@@ -944,6 +944,15 @@ bool AnimDrawer::Load(XMLElement* node)
 		return false;
 	}
 	m_anim.Initialize(m_pResource->GetResource());
+
+	/*
+	** 2022/12/22 TS:
+	** Whether random beginning.
+	*/
+	bool isRandom = true;
+	_PARSE("random", isRandom, name, true);
+	if (isRandom)
+		m_anim.SetFrame(Random(m_anim.GetTotalFrameNum()));
 
 	float aspectRatio = dmin(1.0f * m_width / m_anim.GetFrameWidth(), 1.0f * m_height / m_anim.GetFrameHeight());
 	float k = (aspectRatio - 1.0f) / 2.0f;

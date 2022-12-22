@@ -37,6 +37,8 @@ bool CreditsInterface::Load(XMLElement* node)
 	_RETURN_IF_ERROR();
 
 	TimeInterface::Load(node);
+	_RETURN_IF_ERROR();
+
 	_LoadCredits(node);
 
 	_RETURN_STATE();

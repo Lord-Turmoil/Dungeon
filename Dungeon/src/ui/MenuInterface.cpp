@@ -150,6 +150,7 @@ bool SettingInterface::Load(XMLElement* node)
 	_RETURN_IF_ERROR();
 
 	PlainInterface::Load(node);
+	_RETURN_IF_ERROR();
 
 	_LoadSettings();
 
@@ -555,6 +556,7 @@ bool VictoryInterface::Load(XMLElement* node)
 	_RETURN_IF_ERROR();
 
 	TimeInterface::Load(node);
+	_RETURN_IF_ERROR();
 
 	_PARSE("victory", m_isVictory, name, false);
 

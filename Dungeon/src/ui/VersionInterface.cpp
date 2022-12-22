@@ -47,6 +47,7 @@ bool VersionInterface::Load(XMLElement* node)
 	_RETURN_IF_ERROR();
 
 	PlainInterface::Load(node);
+	_RETURN_IF_ERROR();
 
 	WidgetManager* mgr;
 	XMLElement* page = node->FirstChildElement("Page");

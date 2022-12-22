@@ -53,6 +53,7 @@ bool PlainInterface::Load(XMLElement* node)
 	const char* attr;
 
 	AbstractInterface::Load(node);
+	_RETURN_IF_ERROR();
 
 	_PARSE("in-time", m_inTime, name, 0L);
 	_PARSE("out-time", m_outTime, name, 0L);
@@ -212,6 +213,7 @@ bool TimeInterface::Load(XMLElement* node)
 	const char* attr;
 
 	PlainInterface::Load(node);
+	_RETURN_IF_ERROR();
 
 	_PARSE("duration", m_duration, name, 0L);
 
@@ -346,7 +348,7 @@ AbstractInterface* LoadInterface(XMLElement* node)
 
 	if (intf)
 	{
-		intf->SetWidgetManager(new WidgetManager());
+		// intf->SetWidgetManager(new WidgetManager());
 		if (!intf->Load(node))
 		{
 			delete intf;

@@ -169,5 +169,6 @@ const std::vector<Enemy*>& EnemyLibrary::GetEnemyByLevel(int level)
 	LOG_EXTRA_WARNING("Missing enemy of level %d", level);
 
 	static std::vector<Enemy*> dummy;
+
 	return dummy;
 }
