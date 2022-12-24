@@ -47,6 +47,7 @@ const int MAX_DENSITY = 64;
 class QuadTreeNode
 {
 	friend class QuadTree;
+
 public:
 	QuadTreeNode(const Rect& range, int maxDensity);
 	
@@ -92,7 +93,7 @@ public:
 	void Insert(GameObject* obj);
 	void Query(const Rect& range, std::vector<GameObject*>& results);
 	void Query(GameObject* obj, std::vector<GameObject*>& results);
-	std::vector<GameObject*> Query(const Rect& range);			// RVO?
+	std::vector<GameObject*> Query(const Rect& range);	// RVO?
 	std::vector<GameObject*> Query(GameObject* obj);	// RVO?
 	
 	void Clear();
