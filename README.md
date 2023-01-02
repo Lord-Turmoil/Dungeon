@@ -2,88 +2,98 @@
 
 Copyright © New Desire Studios 2022 - 2023
 
-### 一、项目简介
+## 1. Project Introduction
 
-之前很喜欢《元气骑士》这种风格的手机游戏，所以也想做一个类似的 Roguelike 游戏。刚好最近学习了一些基本的设计模式，就把这个项目当作是我的初步实践。此外，由于之前也写过一些游戏，但是每次都从零开始，对于游戏内对象的管理也比较混乱，所以这次也希望构建一个简单的通用游戏框架，使得游戏具有更强的灵活性与可扩展性。
+Years ago, I quite like mobile game Soul Knight, and hoped to make a similar one. Recently, I happened to learn some basic design patterns, so I wish this could be my first practice. Before, I did make some games, but they were all small, and poor management can do the job. So this time, I'd also want to create a simple frame for game development, that is to say, a game engine, which could provide more flexibility and expansibility.
 
-更多内容以及可执行文件下载可以访问我的个人网站：[Tony's Studio - Dungeon](http://tonys-studio.top/project/dungeon.html)。
+More information can be found in my personal website: [Tony's Studio - Dungeon](http://tonys-studio.top/project/dungeon.html)。
 
-### 二、编译说明
+## 2. Building Dungeon
 
-该项目解决方案下包含三个工程：Dungeon，Dungine 和 TinyXML2。其中 TinyXML2 工程是为了把 TinyXML2 库打包成静态链接库方便使用，编译时直接编译整个解决方案即可。Release 模式下，编译成功后可执行文件将输出到 Publish\ 目录下；Debug 模式下，编译成功后可执行文件将输出到 Build\dist\Debug\ 目录下。默认采用 Release 模式编译，程序中有关调试信息的宏已关闭。
+There are three projects in this Visual Studio solution: Dungeon, Dungine and TinyXML2. [TinyXML2](https://github.com/leethomason/tinyxml2) is a great XML parser so I use this to pack it into a static library. And Dungine is the so callled game engine. Just simply build the solution is OK. Dungeon is the start up project, and Release configuration will output the executable to `Publish\` directory, while Debug configuration will output to `Build\dist\Debug\`. All macros for debug are disabled.
 
-编译环境如下：
+### Build Environment
 
 - Windows 11 Pro
 - Visual Studio 2022 Community
-- EasyX 20220901
-- FMOD 0.2.2.7
+- [EasyX 20220901](https://easyx.cn/)
+- [FMOD 0.2.2.7](https://fmod.com)
 
-注：EasyX 20220901 中将消息类型前缀 EM 改为了 EX，可能导致与旧版本不兼容。
+Notice that in EasyX 20220901, prefix for message changed from `EM` to `EX`, which was not compatible with previous versions.
 
-### 三、项目实现
+## 3. How Does Dungeon Work
 
-该项目包含游戏框架部分 Dungine (Dungeon Engine) 和游戏主体 Dungeon 两部分。除了 EasyX 外，还使用了音频库 FMOD，以及用于 XML 解析的 TinyXML2。
+The game contains the game engine Dungine (Dungeon Engine) and the game Dungeon itself. It is developed with [EasyX](https://easyx.cn/) for graphics and [FMOD](https://fmod.com) for audio. Also, tinyxml2 as mentioned before.
 
-#### 3.1 Dungine
+### 3.1 Dungine
 
-该部分是一个较为通用的游戏框架，包括游戏中基本类型的定义，以及设备相关的封装，同时也包括一个简易的 UI 库。
+This is the game engine, including basic classes, encapsulations and a simple UI library. It was build with ECS pattern. 
 
-#### 3.1.1 游戏对象
+#### 3.1.1 Game Object
 
-框架的最核心部分之一是对游戏对象的抽象。对于游戏中需要的常见对象，比如角色、武器等，均使用了工厂模式和原型模式进行创建，并通过组件模式添加各种行为和属性。下面展示了游戏对象类和组件类的基本声明，项目中的具体实现要稍复杂一些。GameObject 有一个重要的成员 m_isValid，因为删除对象并不是直接进行的，而是通过设置该标记，然后由场景类删除。这里的 AbstractObject 是更一般的对象，包括对组件等的抽象，其提供了原型模式的两个 Clone 方法。
+The core of a game frame is to manage all objects. For common objects in game, including characters, weapons, bullets, etc., I used Factory Pattern and Prototype Pattern to create them, and Component Pattern to add properties behaviors.
 
-场景类对游戏中的所有对象进行管理，主要通过对象池实现。（这里的对象池只是保存游戏场景中的所有对象，并不是提供对象复用的功能。）所有在更新过程中遇到的对象添加、移除等动作都会在更新完成后统一处理。
+#### 3.1.2 Scene
 
-#### 3.1.2 图像绘制与音频播放
+Scene manages all game objects. It maintains a object pool, just a pool, no reuse things. One important thing is that adding or removing objects during scene update should be postponed till update finishes.
 
+#### 3.1.3 Graphics and Audio
 
-对于图像绘制，这里把 IMAGE 类封装为了 Symbol，包含位置、图层、旋转角度、缩放比例、透明度等信息。由 Device 类管理绘制，使用画家算法，对所有 Symbol 排序后进行绘制。
+For graphics, the one and only thing to render is a `Symbol`, it includes position, layer, rotation angle, scale and alpha info, and is rendered in order of layer and position.
 
-对于音频播放，这里封装了 FMOD 的相关函数。声音分为两种，一种是短时间的音效，比如按钮按下的声音；一种是长时间的背景音乐。
+For audio, I used FMOD, and there are two types of sound. Effect, e.g. click and fire. The other is background music.
 
-#### 3.1.3 资源管理
+#### 3.1.4 Resource Management
 
-这里按我自己的想法实现了一个资源管理器，在程序开始运行时，仅从外部 XML 文件读取所有资源的索引。当需要某一资源时再通过索引加载，并在资源不被使用时自动将其释放。资源分为图像资源、音频资源、动作资源三种，其中动作资源是提供给动画使用的 Sprite Sheet。
+Well, the resource management is not advanced, I made it up without reference.
 
-#### 3.1.4 UI 库
+When the program starts, it reads all reference of resource in a XML file, and only load it when required. Then, like smart pointer, it will release it if reference count is zero. There are image, audio, and motion resource. Motion resource is sprite sheet for animation.
 
-上一个版本的 UI 库参考了这篇文章：[EasyUI：基于 EasyX 的 UI 界面库（by 祝融）](https://codebus.cn/contributor/zhurong-easyui)。在这一版本中，我根据我的需求对其进行了重构，包括实现细节与各种类的组织关系，同时添加了如许多新特性。所有页面都被封装成类，并被页面管理器（Application）管理，并并由其启动。页面支持切换的过渡动画以及子页面（弹窗）的实现。
+#### 3.1.5 UI
 
-UI 控件均可通过外部 XML 文件加载，支持绝对坐标和相对坐标，并可根据屏幕大小自行适配。同时，还可以添加动画效果，不过该功能目前并不完善，只能支持简单的位移、缩放和透明度变化效果。
+In version 0.1.0, I was inspired by [EasyUI](https://codebus.cn/contributor/zhurong-easyui). Now, with more consideration, I refactored that, and added more fancy features. However, the basic thing is still, a widget contains drawer and trigger.
 
-此外，键盘鼠标信息的接收也包括在 UI 库中，这里仅仅使用数组记录按键信息，不过将按键信息分为两种：InstantKey 是只要按下就是 true，松开就是 false；SluggishKey 则是只有按下的第一帧是 true，之后若不松开，也会变为 false。这里额外检测了窗口激活消息，如果窗口失去焦点，则会停止接收键盘和鼠标消息。
+All UI widgets are preferred to be loaded from external XML file, including both absolute and relative positioning, and can also adapt to screen size automatically. Besides, there are some animation effects available, like translation, scaling and alpha change. In version 1.1.0, I introduced animation drawer to support animation widget.
 
-#### 3.1.5 其他
+There is one problem that widgets with animation drawer could not be assigned scaling animation, since animation drawer scales itself to adapt to screen size.
 
-除了主要功能外，该框架还提供了一些其他的功能，比如基于 TinyXML2 的 XML 解析，向量运算，四叉树（参考自[四叉树碰撞优化](https://codebus.cn/sunxiaoyu/quadtree-collision)）等，还提供了如单例模式、原型模式、工厂模式等的模板基类。这里在工厂模式的基础上设计了 Library 类，用于存放一类对象的所有原型。其中的原型均通过工厂模式从 XML 文件创建，此后该类对象便可直接从 Library 中的原型直接复制得到。
+Interface is the carrier of all events, and is managed by Application, the largest class of all, and the entrance of the program.
+
+#### 3.1.6 Trivia
+
+Apart from primary objectives, it provides some other convenient tools, such as XML parse with TinyXML2, some vector calculations, [Quadruple Tree](https://codebus.cn/sunxiaoyu/quadtree-collision), etc. And some base class for design pattern. Here, Factory Pattern is combined with Prototype to be a Library, so, just get what you want directly from a library.
 
 ### 3.2 Dungeon
 
-该部分是游戏的具体实现，包括游戏核心流程，地图的生成，游戏对象的具体实现，以及游戏的各个页面。
+Well, this part is the actual game logic based on Dungine. The main stuff it does is to concrete game procedure, terrain, objects, and interfaces.
 
-#### 3.2.1 核心流程
+#### 3.2.1 Procedure
 
-游戏核心流程由 Dungeon 类实现，其派生于 Scene 类。由于所有游戏对象的更新和绘制均可由对象池统一管理，因此其主要进行资源的初始化以及调用地形的生成，还有一些特殊对象，如随机宝箱（Crate）的生成等。这里使用了四叉树进行碰撞优化。
+It is the whole process of the game, derived from `Scene`. It initialize resources, call terrain generation, and manage some special objects with special behaviors.
 
-#### 3.2.2 地图生成
+#### 3.2.2 Terrain
 
-地图的生成基于一个 3 * 3 的网格图，通过随机化 Prim 算法生成一个顶点数为 3 ~ 9 的树作为地图的基本形状，顶点数与当前关卡数和游戏难度成正相关。树的顶点随后生成房间（Arena），边生成连接房间的桥（Bridge）。房间中障碍的生成有三种模式，也可能无障碍。每个房间内含 Graph 类，Graph 类将房间划分为网格，记录障碍信息，并提供 A* 寻路算法和寻找空白区域算法的接口。
+Terrain is one of the most complicated part of the game. It use random Prim algorithm to generate a maze in a 3 * 3 graph. Then it implements the real map based on this plain graph, turning nodes into Arenas, and edges into Bridges.
 
-#### 3.2.3 对象行为
+Besides, it provides A* algorithm for path finding, and a blank area finding algorihtm.
 
-所有对象均通过组件赋予其属性或行为。属性方面，比如，参与碰撞的物体都有 RigidBodyComponent 和 ColliderBoxComponent 组件，移动的对象都有 MoveComponent，需要绘制的对象都有 AnimComponent 等。行为方面，有行为的对象均包含 BehaviorComponent，而对象的每一个行为都是一个派生自 Behavior 的类，而非通过 if - else，这样使得对象的行为有更大的灵活性，也可以方便地添加更多行为。类似的，对象的状态也是如此。下面是行为组件的大致实现。
+#### 3.2.3 Property and Behavior
 
-#### 3.2.4 游戏页面
+All these are added by component. For example, there are `RigidBodyComponent`, `ColliderBoxComponent` for collision, `MoveComponent` for movement, and `AnimComponent` for rendering. For interaction and 'AI', there is `BehaviorComponent`, which really reduced dependency of objects.
 
-游戏包括主页面、设置页面、关于页面等，每个页面的 UI 控件样式及布局均由外部 XML 文件提供，但是事件的绑定还是在程序中进行。游戏界面还需要管理 Dungeon 类的初始化和每帧的更新，同时游戏内的部分元素，比如玩家的状态栏、关卡数提示等，均由 UI 控件实现，因此也需要一定的交互。
+#### 3.2.4 Interface
 
-#### 3.2.5 可扩展性
+Interface is where every event takes place, and each of them is an specific class. Interface layout is provided by XML file, but events has to be hooked by hard coding.
 
-游戏中绝大部分数据均从外部 XML 文件加载，因此，如果不涉及对象行为逻辑的更新，可以在不进行重新编译的情况下对游戏内容进行较大幅度的改动。比如角色、武器、子弹等属性的调整，新武器、新敌人、甚至新地图样式的添加都可以完成。
+#### 3.2.5 Flexibility
 
-## 四、总结
+Most of the game data are loaded from external XML file, so you can easily modify the game without re-compile it. For example, change character properties, add new image or audio, even new character and weapon!
 
-游戏中几乎所有美术素材都是我自己绘制的，工作量比我想象的要大，因此只绘制了两种风格的地图，怪物与武器的种类也并不多，有待之后进一步丰富。此外，游戏平衡性也有待提升。
+## 4. Epilogue
 
-这是我第一次使用设计模式构建较大的项目，虽然达到了最初的设计目标，但很多地方实现比较笨拙，也没有进行很多优化，还希望大家多多指点。
+Almost all image were drawn by myself, some of them were collected from the internet, but made my own modification. In-game sound track comes from the game Undertale, the other were created by my mother.
+
+It is, a reflection of my inner self, so it was never balanced, some weapons are extremely powerful, while others may be a little... weak.
+
+Thanks for your watching! :smiley:
+
