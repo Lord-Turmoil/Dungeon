@@ -50,7 +50,7 @@ void Genie::Clone(Genie* clone) const
 
 bool Genie::Load(XMLElement* node)
 {
-	const char* name = node->Name();
+	// const char* name = node->Name();
 	const char* attr;
 
 	Enemy::Load(node);

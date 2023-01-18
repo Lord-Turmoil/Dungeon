@@ -220,6 +220,7 @@
     <CopyLocalDeploymentContent>true</CopyLocalDeploymentContent>
     <IncludePath>..\Dungine\inc;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Build\;$(LibraryPath)</LibraryPath>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Publish\</OutDir>
@@ -227,6 +228,7 @@
     <CopyLocalDeploymentContent>true</CopyLocalDeploymentContent>
     <IncludePath>..\Dungine\inc;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Build\;$(LibraryPath)</LibraryPath>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

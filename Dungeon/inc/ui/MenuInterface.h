@@ -173,6 +173,10 @@ public:
 
 private:
 	static void _OnOpenUrl(std::string url);
+	static bool _LoadLink(XMLElement* root, const char* link, std::string& url);
+
+	static std::string m_studioUrl;	// studio url
+	static std::string m_githubUrl;	// github url
 };
 
 

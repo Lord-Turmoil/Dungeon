@@ -46,7 +46,7 @@
  *   2022/07/11 Tony : Created.                                               *
  *============================================================================*/
 Space::Space(SpaceType type, Terrain* terrain) :
-	m_type(type), m_pTerrain(terrain), m_id(-1)
+	m_type(type), m_id(-1), m_pTerrain(terrain)
 {
 	m_floor.SetLayer(LAYER_FLOOR);
 }

@@ -64,12 +64,13 @@ Dungeon::Dungeon() :
 	m_pBoss(nullptr),
 	m_pPortal(nullptr),
 	m_pStand(nullptr),
-	m_pGameInterface(nullptr),
-	m_isToLevelUp(false),
+	m_isInfinite(false),
 	m_isToLoadChapter(false),
+	m_isToLevelUp(false),
 	m_enemyCount(0),
 	m_chapter(0),
-	m_level(0)
+	m_level(0),
+	m_pGameInterface(nullptr)
 {
 	m_camera.Initialize(deviceInfo.GetDeviceRect());
 }

@@ -41,7 +41,7 @@ void Buff::Clone(Buff* clone) const
 
 bool Buff::Load(XMLElement* node)
 {
-	const char* name = node->Name();
+	// const char* name = node->Name();
 	const char* attr;
 
 	Object::Load(node);

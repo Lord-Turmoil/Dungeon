@@ -236,7 +236,7 @@ void RockAttack::OnEnter()
 	ERock* rock = static_cast<ERock*>(m_parent->GetGameObject());
 	Hero* hero = static_cast<Dungeon*>(rock->GetScene())->GetHero();
 
-	RigidBodyComponent* heroRigid = hero->GetComponent<RigidBodyComponent>();
+	// RigidBodyComponent* heroRigid = hero->GetComponent<RigidBodyComponent>();
 	Vector dir = GetDirection(rock->GetCoord(), hero->GetCoord());
 
 	rock->UpdateProperty();

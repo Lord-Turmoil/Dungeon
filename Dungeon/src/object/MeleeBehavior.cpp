@@ -123,8 +123,8 @@ void MeleeBehavior::_SlashBullet()
 
 	double range = melee->GetRange();
 	double radian = melee->GetRadian();
-	double force = melee->GetForce();
-	int damage = melee->GetDamage();
+	// double force = melee->GetForce();
+	// int damage = melee->GetDamage();
 	double dist;
 	Figure* owner = static_cast<Figure*>(melee->GetSlot()->GetGameObject());
 	Object* target;

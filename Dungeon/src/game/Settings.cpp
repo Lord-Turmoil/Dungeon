@@ -244,12 +244,12 @@ bool Settings::MakeAvailable(const std::string& name)
  *============================================================================*/
 Settings::Settings() :
 	m_difficulty(0),
-	m_coin(0),
-	m_showCredits(false),
-	m_isInfinite(false),
 	m_soundVolume(1.0),
 	m_musicVolume(1.0),
 	m_isFullscreen(true),
+	m_coin(0),
+	m_showCredits(false),
+	m_isInfinite(false),
 	m_beginColor(RGB(41, 182, 246)),
 	m_endColor(RGB(128, 222, 234))
 {

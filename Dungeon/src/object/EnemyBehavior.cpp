@@ -66,7 +66,7 @@ bool EnemyBehavior::_Alert()
 void EnemyBehavior::_Move(const Vector& dir)
 {
 	Enemy* enemy = static_cast<Enemy*>(m_parent->GetGameObject());
-	RigidBodyComponent* rigid = enemy->GetComponent<RigidBodyComponent>();
+	// RigidBodyComponent* rigid = enemy->GetComponent<RigidBodyComponent>();
 	Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
 	
 	if (!IsZero(dir))

@@ -512,6 +512,9 @@ void QuitInterface::_OnCancel()
 ** AboutInterface
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
+std::string AboutInterface::m_studioUrl;	// studio url
+std::string AboutInterface::m_githubUrl;	// github url
+
 bool AboutInterface::Load(XMLElement* node)
 {
 	const char* name = node->Name();
@@ -520,6 +523,17 @@ bool AboutInterface::Load(XMLElement* node)
 	_RETURN_IF_ERROR();
 
 	PlainInterface::Load(node);
+	_RETURN_IF_ERROR();
+
+	XMLElement* links = GetElementByTagName(node, "Links");
+	if (!links)
+	{
+		LOG_ERROR(MISSING_TAG, "Links", name);
+		return false;
+	}
+	_LoadLink(links, "Studio", m_studioUrl);
+	_LoadLink(links, "Github", m_githubUrl);
+	_RETURN_IF_ERROR();
 
 	_RETURN_STATE();
 }
@@ -529,9 +543,9 @@ void AboutInterface::AddEvents()
 	static_cast<Button*>(m_pWidgetManager->GetWidget("back"))
 		->OnClick(GetDetacher(this));
 	static_cast<Button*>(m_pWidgetManager->GetWidget("url-studio"))
-		->OnClick(std::bind(AboutInterface::_OnOpenUrl, "http://www.tonys-studio.top/project/dungeon.html"));
-	static_cast<Button*>(m_pWidgetManager->GetWidget("url-gitee"))
-		->OnClick(std::bind(AboutInterface::_OnOpenUrl, "https://gitee.com/tonys-studio/dungeon"));
+		->OnClick(std::bind(AboutInterface::_OnOpenUrl, m_studioUrl.c_str()));
+	static_cast<Button*>(m_pWidgetManager->GetWidget("url-github"))
+		->OnClick(std::bind(AboutInterface::_OnOpenUrl, m_githubUrl.c_str()));
 }
 
 void AboutInterface::_OnOpenUrl(std::string url)
@@ -539,6 +553,25 @@ void AboutInterface::_OnOpenUrl(std::string url)
 	url = "start " + url;
 	
 	std::system(url.c_str());
+}
+
+bool AboutInterface::_LoadLink(XMLElement* root, const char* link, std::string& url)
+{
+	XMLElement* node = GetElementByTagName(root, link);
+	if (!node)
+	{
+		LOG_ERROR(MISSING_TAG, link, root);
+		return false;
+	}
+	const char* text = node->GetText();
+	if (!text)
+	{
+		LOG_ERROR("Missing link of \"%s\"", node->Name());
+		return false;
+	}
+	url = text;
+
+	return true;
 }
 
 

@@ -25,6 +25,7 @@
 #define _PIPE_H_
 
 #include <easyx.h>
+#include <string>
 
 #include "xml.h"
 

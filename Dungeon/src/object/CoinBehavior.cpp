@@ -105,7 +105,7 @@ void CoinActive::Update(Event* evnt)
 void CoinActive::OnEnter()
 {
 	Coin* coin = static_cast<Coin*>(m_parent->GetGameObject());
-	Hero* hero = static_cast<Dungeon*>(coin->GetScene())->GetHero();
+	// Hero* hero = static_cast<Dungeon*>(coin->GetScene())->GetHero();
 
 	coin->GetComponent<AnimComponent>()
 		->GetAnim()->SetMotion(COIN_ANIM_ACTIVE);

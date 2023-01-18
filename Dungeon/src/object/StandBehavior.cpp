@@ -491,7 +491,7 @@ bool StandFlash::_Flash()
 void StandFlash::_GeneratePortal()
 {
 	Stand* stand = static_cast<Stand*>(m_parent->GetGameObject());
-	Flashback* flashback = stand->GetFlashback();
+	// Flashback* flashback = stand->GetFlashback();
 	Dungeon* dungeon = static_cast<Dungeon*>(stand->GetScene());
 	Portal* portal = MiscLibrary::GetInstance()->
 		GetMiscObject<Portal>("Portal")->Clone();
