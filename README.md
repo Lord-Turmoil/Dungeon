@@ -12,6 +12,16 @@ More information can be found in my personal website: [Tony's Studio - Dungeon](
 
 There are three projects in this Visual Studio solution: Dungeon, Dungine and TinyXML2. [TinyXML2](https://github.com/leethomason/tinyxml2) is a great XML parser so I use this to pack it into a static library. And Dungine is the so callled game engine. Just simply build the solution is OK. Dungeon is the start up project, and Release configuration will output the executable to `Publish\` directory, while Debug configuration will output to `Build\dist\Debug\`. All macros for debug are disabled.
 
+> Since the resource files is mutable, and is mainly used for debug purpose during coding, I removed them from the source file folder.
+>
+> If your want to compile and run it in IDE, please download the latest binary release file at either of these places.
+>
+> - [Release Page](http://tonys-studio.top:82/project/dungeon.html)
+>
+> - [My Blog](http://www.tonys-studio.top/2023/01/04/Dungeon/)
+>
+> Then, copy the `res` folder to the root directory of the game project `Dungeon`. (Which contains `Dungeon.vcxproj`.)
+
 ### Build Environment
 
 - Windows 11 Pro
