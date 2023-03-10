@@ -19,7 +19,7 @@ There are three projects in this Visual Studio solution: Dungeon, Dungine and Ti
 - [EasyX 20220901](https://easyx.cn/)
 - [FMOD 0.2.2.7](https://fmod.com)
 
-Notice that in EasyX 20220901, prefix for message changed from `EM` to `EX`, which was not compatible with previous versions.
+Notice that in EasyX 20220901, prefix for message changed from `EM` to `EX`, if you want to use previous macros, please add `graphics.h` to your code.
 
 ## 3. How Does Dungeon Work
 

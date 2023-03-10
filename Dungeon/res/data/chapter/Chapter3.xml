@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Chapter>
+    <Terrain>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-2-0" offset="-32 -64" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-2-1" offset="-32 -64" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-2-2" offset="-32 -64" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-2-3" offset="-32 -64" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-2-4" offset="-32 -64" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-2-5" offset="-32 -64" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-2-6" offset="-32 -64" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-2-7" offset="-32 -64" order="70"></Anim>
+            </Components>
+        </Wall>
+        <!-- Christmas Special Wall -->
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-snow-0" offset="-32 -160" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-snow-1" offset="-32 -160" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-snow-2" offset="-32 -160" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Wall>
+            <Components>
+                <ColliderBox offset="0 0" box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="wall-snow-3" offset="-32 -160" order="70"></Anim>
+            </Components>
+        </Wall>
+        <Gate>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <ColliderBox box-size="66 66" border-size="96 96" order="30"></ColliderBox>
+                <RigidBody mass="0" strength="0" max-velocity="0" ratio="0.0" id="1" order="40"></RigidBody>
+                <Anim src="gate-2" offset="-32 -64" order="70"></Anim>
+            </Components>
+        </Gate>
+        <Floor src="floor-2-0">
+        </Floor>
+        <Floor src="floor-2-0">
+        </Floor>
+        <Floor src="floor-2-1">
+        </Floor>
+        <Floor src="floor-2-1">
+        </Floor>
+        <Floor src="floor-2-2">
+        </Floor>
+        <Floor src="floor-2-3">
+        </Floor>
+        <Floor src="floor-2-4">
+        </Floor>
+        <Floor src="floor-2-5">
+        </Floor>
+        <Floor src="floor-2-6">
+        </Floor>
+        <Floor src="floor-2-7">
+        </Floor>
+        <!-- Christmas Special Floor -->
+        <Floor src="floor-snow-0">
+        </Floor>
+        <Floor src="floor-snow-1">
+        </Floor>
+        <Floor src="floor-snow-2">
+        </Floor>
+        <Floor src="floor-snow-3">
+        </Floor>
+        <Floor src="floor-snow-4">
+        </Floor>
+        <Floor src="floor-snow-5">
+        </Floor>
+        <Floor src="floor-snow-6">
+        </Floor>
+        <Floor src="floor-snow-7">
+        </Floor>
+    </Terrain>
+    <EnemyLibrary>
+        <Genie name="Genie-0" center="0 -28" level="1" alert-radius="1500" attack-radius="300" scare-radius="200" rest="1000" coin="2" energy="3">
+            <Property hurt-duration="200">
+                <HP>1, 0</HP>
+                <MP>100, 1</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -32" box-size="66 66" border-size="288 288" order="30"></ColliderBox>
+                <RigidBody mass="15" strength="5" max-velocity="5" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>GGun</Weapon>
+                </WeaponSlot>
+                <Anim src="genie" offset="-48 -96" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Genie-1" center="0 -28" level="1" alert-radius="1000" attack-radius="300" scare-radius="250" rest="800" coin="3" energy="5">
+            <Property hurt-duration="200">
+                <HP>2, 0</HP>
+                <MP>100, 1</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -32" box-size="66 66" border-size="288 288" order="30"></ColliderBox>
+                <RigidBody mass="15" strength="5" max-velocity="6" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>GGun</Weapon>
+                </WeaponSlot>
+                <Anim src="genie" offset="-48 -96" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Genie-1-1" center="0 -28" level="1" alert-radius="1000" attack-radius="300" scare-radius="250" rest="800" coin="4" energy="5">
+            <Property hurt-duration="200">
+                <HP>2, 0</HP>
+                <MP>100, 1</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -32" box-size="66 66" border-size="288 288" order="30"></ColliderBox>
+                <RigidBody mass="15" strength="5" max-velocity="6" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>GGun</Weapon>
+                </WeaponSlot>
+                <Anim src="genie" offset="-48 -96" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Genie-2" center="0 -28" level="2" alert-radius="2000" attack-radius="500" scare-radius="200" rest="500" coin="5" energy="7">
+            <Property hurt-duration="200">
+                <HP>3, 0</HP>
+                <MP>100, 1</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -32" box-size="66 66" border-size="288 288" order="30"></ColliderBox>
+                <RigidBody mass="15" strength="5" max-velocity="8" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>GGun</Weapon>
+                </WeaponSlot>
+                <Anim src="genie" offset="-48 -96" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Genie-2-1" center="0 -28" level="2" alert-radius="2000" attack-radius="500" scare-radius="200" rest="500" coin="6" energy="7">
+            <Property hurt-duration="200">
+                <HP>5, 0</HP>
+                <MP>100, 1</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -32" box-size="66 66" border-size="288 288" order="30"></ColliderBox>
+                <RigidBody mass="15" strength="5" max-velocity="8" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>GGun</Weapon>
+                </WeaponSlot>
+                <Anim src="genie" offset="-48 -96" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Genie-3" center="0 -28" level="3" alert-radius="5000" attack-radius="600" scare-radius="300" rest="500" coin="5" energy="9">
+            <Property hurt-duration="200">
+                <HP>5, 0</HP>
+                <MP>100, 1</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -32" box-size="66 66" border-size="288 288" order="30"></ColliderBox>
+                <RigidBody mass="15" strength="5" max-velocity="10" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>GGunPro</Weapon>
+                </WeaponSlot>
+                <Anim src="genie" offset="-48 -96" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Genie-3-1" center="0 -28" level="3" alert-radius="5000" attack-radius="600" scare-radius="300" rest="500" coin="6" energy="9">
+            <Property hurt-duration="200">
+                <HP>10, 0</HP>
+                <MP>100, 1</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -32" box-size="66 66" border-size="288 288" order="30"></ColliderBox>
+                <RigidBody mass="15" strength="5" max-velocity="10" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>GGunPro</Weapon>
+                </WeaponSlot>
+                <Anim src="genie" offset="-48 -96" order="70"></Anim>
+            </Components>
+        </Genie>
+        <!-- Christmas Special -->
+        <Genie name="Snow-0" center="0 -20" level="1" alert-radius="1000" attack-radius="512" scare-radius="0" rest="2000" coin="5" energy="3">
+            <Property hurt-duration="200">
+                <HP>12, 0</HP>
+                <MP>0, 0</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -40" box-size="150 80" border-size="512 512" order="30"></ColliderBox>
+                <!-- Stay still. -->
+                <RigidBody id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>SLauncher</Weapon>
+                </WeaponSlot>
+                <Anim src="snowman" offset="-128 -376" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Snow-1" center="0 -20" level="3" alert-radius="1000" attack-radius="512" scare-radius="0" rest="1000" coin="10" energy="5">
+            <Property hurt-duration="200">
+                <HP>25, 0</HP>
+                <MP>0, 0</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -40" box-size="150 80" border-size="512 512" order="30"></ColliderBox>
+                <!-- Stay still. -->
+                <RigidBody id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>SLauncher</Weapon>
+                </WeaponSlot>
+                <Anim src="snowman" offset="-128 -376" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Droid-0" center="0 -10" level="1" alert-radius="2000" attack-radius="600" scare-radius="150" rest="100" coin="5" energy="3">
+            <Property hurt-duration="200">
+                <HP>3, 0</HP>
+                <MP>0, 0</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -20" box-size="80 40" border-size="512 512" order="30"></ColliderBox>
+                <RigidBody mass="100" strength="20" max-velocity="3" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>Blaster</Weapon>
+                </WeaponSlot>
+                <Anim src="droid" offset="-64 -172" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Droid-1" center="0 -10" level="2" alert-radius="5000" attack-radius="700" scare-radius="200" rest="0" coin="8" energy="5">
+            <Property hurt-duration="200">
+                <HP>4, 0</HP>
+                <MP>0, 0</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -20" box-size="80 40" border-size="512 512" order="30"></ColliderBox>
+                <RigidBody mass="100" strength="20" max-velocity="3" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>Blaster</Weapon>
+                </WeaponSlot>
+                <Anim src="droid" offset="-64 -172" order="70"></Anim>
+            </Components>
+        </Genie>
+        <Genie name="Droid-3" center="0 -10" level="3" alert-radius="50000" attack-radius="800" scare-radius="200" rest="0" coin="10" energy="5">
+            <Property hurt-duration="200">
+                <HP>10, 0</HP>
+                <MP>0, 0</MP>
+                <Armor>0, 0</Armor>
+                <Chi>0, 0</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -20" box-size="80 40" border-size="512 512" order="30"></ColliderBox>
+                <RigidBody mass="100" strength="20" max-velocity="3" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>Blaster</Weapon>
+                </WeaponSlot>
+                <Anim src="droid" offset="-64 -172" order="70"></Anim>
+            </Components>
+        </Genie>
+        <DBlackHand name="DBK" center="0 -28" level="-1" alert-radius="5000" attack-radius="400" scare-radius="200" coin="50" energy="30">
+            <Property hurt-duration="200" skill-duration="1000" skill-cost="100">
+                <HP>256, 0</HP>
+                <MP>100, 0</MP>
+                <Armor>10, 3000</Armor>
+                <Chi>100, 200</Chi>
+            </Property>
+            <Components>
+                <Behavior order="10"></Behavior>
+                <State order="20"></State>
+                <ColliderBox offset="0 -16" box-size="60 34" border-size="192 192" order="30"></ColliderBox>
+                <RigidBody mass="20" strength="15" max-velocity="3" ratio="0.9" id="9" order="40"></RigidBody>
+                <Move order="50"></Move>
+                <WeaponSlot capacity="2" offset="0 -30" order="60">
+                    <Weapon>DThrower</Weapon>
+                </WeaponSlot>
+                <Anim src="dbk" offset="-48 -96" order="70"></Anim>
+                <Sound order="90">
+                    <li name="init" src="dbk-init"></li>
+                    <li name="skill" src="bk-skill"></li>
+                </Sound>
+            </Components>
+        </DBlackHand>
+    </EnemyLibrary>
+</Chapter>

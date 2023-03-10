@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BulletLibrary>
+    <Bullet name="Pepper" damage="1" range="5000" force="5" aoe="0.0">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox box-size="16 16" border-size="364 364" order="30"></ColliderBox>
+            <RigidBody mass="10" strength="10" max-velocity="30" ratio="1.0" id="3" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="pepper" offset="-8 -8" order="70"></Anim>
+        </Components>
+    </Bullet>
+    <Bullet name="Flame" damage="2" range="5000" force="20.0" aoe="0.0">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="32 32" border-size="256 256" order="30"></ColliderBox>
+            <RigidBody mass="10" strength="10" max-velocity="40" ratio="0.9" id="4" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="flame" offset="-24 -24" order="70"></Anim>
+        </Components>
+    </Bullet>
+    <Bullet name="DFlame" damage="1" range="5000" force="20.0" aoe="0.0">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="32 32" border-size="256 256" order="30"></ColliderBox>
+            <RigidBody mass="10" strength="10" max-velocity="20" ratio="0.95" id="6" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="dflame" offset="-24 -24" order="70"></Anim>
+        </Components>
+    </Bullet>
+    <Bullet name="Wave" damage="5" range="5000" force="100.0" aoe="0.0" directional="true" penetrable="true">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="32 32" border-size="256 256" order="30"></ColliderBox>
+            <RigidBody mass="10" strength="10" max-velocity="30" ratio="1.0" id="4" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="wave" offset="-32 -32" order="70"></Anim>
+        </Components>
+    </Bullet>
+    <Bullet name="Ion" damage="1024" range="5000" force="2048.0" aoe="384.0">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="64 64" border-size="512 512" order="30"></ColliderBox>
+            <RigidBody mass="10" strength="10" max-velocity="64" ratio="0.95" id="4" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="ion" offset="-128 -128" order="70"></Anim>
+        </Components>
+    </Bullet>
+    <Bullet name="Fireball" damage="1" range="5000" force="128.0" aoe="0.0" directional="true">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="32 32" border-size="128 128" order="30"></ColliderBox>
+            <RigidBody mass="10" strength="10" max-velocity="15" ratio="1.0" id="5" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="fireball" offset="-32 -32" order="70"></Anim>
+        </Components>
+    </Bullet>
+    <Bullet name="FireballPro" damage="2" range="5000" force="128.0" aoe="0.0" directional="true">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="32 32" border-size="128 128" order="30"></ColliderBox>
+            <RigidBody mass="10" strength="10" max-velocity="15" ratio="1.0" id="5" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="fireball" offset="-32 -32" order="70"></Anim>
+        </Components>
+    </Bullet>
+    <!-- Christmas Special -->
+     <Bullet name="Laser" damage="1" range="5000" force="128.0" aoe="0.0" directional="true">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="8 8" border-size="64 64" order="30"></ColliderBox>
+            <RigidBody mass="10" strength="10" max-velocity="25" ratio="1.0" id="3" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="glaser" offset="-18 -18" order="70"></Anim>
+        </Components>
+    </Bullet>
+    <Bullet name="DLaser" damage="1" range="5000" force="128.0" aoe="0.0" directional="true">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="8 8" border-size="64 64" order="30"></ColliderBox>
+            <RigidBody mass="10" strength="10" max-velocity="20" ratio="1.0" id="5" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="laser" offset="-18 -18" order="70"></Anim>
+        </Components>
+    </Bullet>
+    <Bullet name="Snowball" damage="2" range="5000" force="128.0" aoe="128.0" directional="true">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="24 24" border-size="128 128" order="30"></ColliderBox>
+            <RigidBody mass="5" strength="5" max-velocity="25" ratio="1.0" id="4" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="snowball" offset="-16 -16" order="70"></Anim>
+        </Components>
+    </Bullet>
+    <!-- For Snowman -->
+    <Bullet name="SSnowball" damage="1" range="5000" force="0.0" aoe="0.0" directional="true">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="24 24" border-size="128 128" order="30"></ColliderBox>
+            <RigidBody mass="5" strength="5" max-velocity="20" ratio="0.95" id="6" order="40"></RigidBody>
+            <Move order="50"></Move>
+            <Anim src="snowball" offset="-16 -16" order="70"></Anim>
+        </Components>
+    </Bullet>
+</BulletLibrary>

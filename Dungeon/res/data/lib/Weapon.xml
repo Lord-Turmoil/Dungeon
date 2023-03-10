@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<WeaponLibrary>
+    <Gun name="Rifle" exclusive="true" radius="128" bullet="Pepper" offset="0 0" muzzle="40 0" cooling="20" cost="1" burst="1" accuracy="0.95">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="rifle" offset="-47 -45" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="rifle-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <Gun name="Thrower" exclusive="true" radius="128" bullet="Flame" offset="0 -5" muzzle="42 5" cooling="0" cost="2" burst="5" accuracy="0.6">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="thrower" offset="-65 -65" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="thrower-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <Gun name="DThrower" exclusive="true" radius="128" bullet="DFlame" offset="0 -5" muzzle="42 5" cooling="100" cost="0" burst="3" accuracy="0.7">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="dthrower" offset="-65 -65" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="thrower-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <Gun name="GGun" exclusive="true" radius="128" bullet="Fireball" offset="0 0" muzzle="0 0" cooling="1000" cost="0" burst="1" accuracy="0.8">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="ggun" offset="-6 -6" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="ggun-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <Gun name="GGunPro" exclusive="true" radius="128" bullet="FireballPro" offset="0 0" muzzle="0 0" cooling="500" cost="0" burst="3" accuracy="0.7">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="ggun" offset="-6 -6" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="ggun-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <Gun name="Shotgun" radius="128" bullet="Pepper" offset="0 0" muzzle="40 12" cooling="800" cost="4" burst="8" accuracy="0.7">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="shotgun" offset="-64 -64" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="shotgun-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <!-- Christmas Special -->
+    <Gun name="Blaster" exclusive="true" radius="128" bullet="DLaser" offset="0 -70" muzzle="0 0" cooling="256" cost="0" burst="1" accuracy="0.9">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="blaster" offset="-6 -6" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="blaster-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <!-- Bug Machine(Mini) cost nothing! :P -->
+    <Gun name="Mini" radius="128" bullet="Laser" offset="0 0" muzzle="48 5" cooling="16" cost="0" burst="1" accuracy="0.85">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="machine" offset="-64 -64" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="machine-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <Gun name="SnowGun" radius="128" bullet="Snowball" offset="0 -10" muzzle="70 -5" cooling="500" cost="3" burst="3" accuracy="0.85">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="launcher" offset="-96 -96" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="launcher-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <Gun name="SLauncher" exclusive="true" radius="128" bullet="SSnowball" offset="0 -36" muzzle="72 0" cooling="1000" cost="0" burst="10" accuracy="0.0">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="slauncher" offset="-6 -6" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="slauncher-s"></li>
+            </Sound>
+        </Components>
+    </Gun>
+    <Melee name="Saber" radius="128" offset="0 -10" cooling="0" cost="0" damage="4" force="100" radian="72" range="128">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="128 128" border-size="384 384" order="30"></ColliderBox>
+            <Anim src="saber" offset="-128 -128" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="saber-s"></li>
+            </Sound>
+        </Components>
+    </Melee>
+    <!-- I LOOOOVE MAUL'S DOUBLE-BLADE!!! -->
+    <Melee name="Pike" radius="128" offset="0 0" cooling="0" cost="0" damage="8" force="100" radian="180" range="156">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="128 128" border-size="384 384" order="30"></ColliderBox>
+            <Anim src="pike" offset="-128 -128" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="pike-s"></li>
+            </Sound>
+        </Components>
+    </Melee>
+    <Melee name="ESword" radius="128" bullet="Wave" offset="0 -10" muzzle="128 0" cooling="200" cost="5" burst="1" accuracy="1.0" damage="32" force="500" radian="60" range="100">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <ColliderBox offset="0 0" box-size="128 128" border-size="384 384" order="30"></ColliderBox>
+            <Anim src="esword" offset="-96 -96" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="esword-s"></li>
+            </Sound>
+        </Components>
+    </Melee>
+    <Bow name="ICanon" radius="128" bullet="Ion" offset="0 -10" muzzle="80 0" cooling="1024" cost="16" burst="1" accuracy="0.95">
+        <Components>
+            <Behavior order="10"></Behavior>
+            <Anim src="icanon" offset="-128 -128" order="70"></Anim>
+            <Sound order="80">
+                <li name="fire" src="icanon-s"></li>
+                <li name="charge" src="icanon-c"></li>
+            </Sound>
+        </Components>
+    </Bow>
+</WeaponLibrary>
