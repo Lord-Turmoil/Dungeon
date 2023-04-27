@@ -78,7 +78,7 @@ struct Grid
 struct AStarToken
 {
 	Coordinate sub;	// subscription of the grid
-	int priority;	// cost and heuritics
+	int priority;	// cost and heuristics
 
 	AStarToken(Coordinate _sub = COORD_ZERO, int _priority = 0) :
 		sub(_sub), priority(_priority) {}

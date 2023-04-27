@@ -32,7 +32,7 @@
 #include "Terrain.h"
 
 /********************************************************************
-** To avoid name comflict with std::map, I use terrain instead.
+** To avoid name conflict with std::map, I use terrain instead.
 ** Terrain is generated with randomized Prim. There are two types
 ** of terrains, one is in campaign mode, which is in a 3 * 3 room.
 ** The other is death mode, which is one large room.

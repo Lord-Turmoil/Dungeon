@@ -39,7 +39,7 @@ class Device;
 
 /********************************************************************
 ** Although camera can derive from GameObject, I think it is not that
-** neccessary here.
+** necessary here.
 */
 class Camera
 {
