@@ -37,3 +37,4 @@
 .vs/
 Publish/
 Build/
+**/res
