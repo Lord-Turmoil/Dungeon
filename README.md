@@ -2,6 +2,12 @@
 
 Copyright © New Desire Studios 2022 - 2023
 
+---
+
+<img src="Screenshot/01.png" style="zoom:50%;" />
+
+---
+
 ## 1. Project Introduction
 
 Years ago, I quite like mobile game Soul Knight, and hoped to make a similar one. Recently, I happened to learn some basic design patterns, so I wish this could be my first practice. Before, I did make some games, but they were all small, and poor management can do the job. So this time, I'd also want to create a simple frame for game development, that is to say, a game engine, which could provide more flexibility and expansibility.
@@ -107,3 +113,12 @@ It is, a reflection of my inner self, so it was never balanced, some weapons are
 
 Thanks for your watching! :smiley:
 
+---
+
+## Extra Screenshots
+
+<img src="Screenshot/02.png" style="zoom: 67%;" />
+
+<img src="Screenshot/03.png" style="zoom:67%;" />
+
+<img src="Screenshot/04.png" style="zoom: 50%;" />
