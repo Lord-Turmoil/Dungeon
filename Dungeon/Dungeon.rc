@@ -71,7 +71,7 @@ IDI_ICON1               ICON                    "Dungeon.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,1,7
+ FILEVERSION 1,1,1,8
  PRODUCTVERSION 1,1,1,7
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -89,7 +89,7 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "New Desire Studios"
             VALUE "FileDescription", "Main executable for Dungeon"
-            VALUE "FileVersion", "1.1.1.7"
+            VALUE "FileVersion", "1.1.1.8"
             VALUE "InternalName", "Dungeon Canon.exe"
             VALUE "LegalCopyright", "Copyright (C) New Desire Studios 2022 - 2023"
             VALUE "OriginalFilename", "Dungeon.exe"
