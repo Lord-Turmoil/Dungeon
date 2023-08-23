@@ -93,7 +93,7 @@ void AbstractInterface::Launch()
 void AbstractInterface::Attach()
 {
 	_Initialize();
-	m_pApp->Attatch(m_name);
+	m_pApp->Attach(m_name);
 }
 
 

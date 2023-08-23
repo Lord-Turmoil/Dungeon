@@ -13,7 +13,7 @@
  *                                                                            *
  * -------------------------------------------------------------------------- *
  * Over View:                                                                 *
- *   For the transition effect of the widgets. Similar to the CSS trasform    *
+ *   For the transition effect of the widgets. Similar to the CSS transform   *
  *   style.                                                                   *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *

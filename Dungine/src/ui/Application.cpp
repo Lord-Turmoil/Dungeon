@@ -302,7 +302,7 @@ void Application::Launch(const std::string& name)
  * HISTORY:                                                                   *
  *   2022/07/15 Tony : Created.                                               *
  *============================================================================*/
-void Application::Attatch(const std::string& name)
+void Application::Attach(const std::string& name)
 {
 	AbstractInterface* intf = GetInterface(name);
 

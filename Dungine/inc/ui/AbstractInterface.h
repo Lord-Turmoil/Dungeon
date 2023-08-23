@@ -61,9 +61,9 @@ public:
 	/*
 	** Well, it is tricky that sometimes, when we launch a new interface, we
 	** do not want the current interface to be terminated. So... Launch will
-	** terminate the current one, while Attatch will keep the current one. :)
+	** terminate the current one, while Attach will keep the current one. :)
 	** Notice that terminate doesn't care about the next interface, however,
-	** sometimes the next interface may not be assigned, which means detatch
+	** sometimes the next interface may not be assigned, which means detach
 	** is needed.
 	**
 	** Excution order:
@@ -149,7 +149,7 @@ std::function<void(void)> GetLauncher(IntfType* intf)
 template<typename IntfType>
 std::function<void(void)> GetAttacher(IntfType* intf)
 {
-	return std::bind(&IntfType::Attatch, intf);
+	return std::bind(&IntfType::Attach, intf);
 }
 
 template<typename IntfType>

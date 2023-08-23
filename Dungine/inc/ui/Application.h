@@ -66,7 +66,7 @@ public:
 	** assume that no misuse happens.
 	*/
 	void Launch(const std::string& name);
-	void Attatch(const std::string& name);
+	void Attach(const std::string& name);
 	void Terminate();
 	void Detach();
 
