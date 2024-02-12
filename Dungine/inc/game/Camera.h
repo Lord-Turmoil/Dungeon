@@ -44,7 +44,7 @@ class Device;
 class Camera
 {
 public:
-	Camera() : m_lag(CAM_MEDIUM), m_updated(true), m_device(nullptr) {}
+	Camera() : m_lag(CAM_SLOW), m_updated(true), m_device(nullptr) {}
 	~Camera() {}
 
 	void Initialize(const Rect& rect);
