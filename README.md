@@ -12,7 +12,7 @@ Copyright © New Desire Studios 2022 - 2023
 
 Years ago, I quite like mobile game Soul Knight, and hoped to make a similar one. Recently, I happened to learn some basic design patterns, so I wish this could be my first practice. Before, I did make some games, but they were all small, and poor management can do the job. So this time, I'd also want to create a simple frame for game development, that is to say, a game engine, which could provide more flexibility and expansibility.
 
-More information can be found in my personal website: [Tony's Studio - Dungeon](http://tonys-studio.top:82/project/dungeon.html)。
+More information can be found in its release page: [Dungeon](https://old.tonys-studio.top/project/dungeon.html)。
 
 ## 2. Building Dungeon
 
@@ -22,9 +22,9 @@ There are three projects in this Visual Studio solution: Dungeon, Dungine and Ti
 >
 > If your want to compile and run it in IDE, please download the latest binary release file at either of these places.
 >
-> - [Release Page](http://tonys-studio.top:82/project/dungeon.html)
+> - [Release Page](https://old.tonys-studio.top/project/dungeon.html)
 >
-> - [My Blog](http://www.tonys-studio.top/2023/01/04/Dungeon/)
+> - [My Blog](http://www.tonys-studio.top/posts/Dungeon/)
 >
 > Then, copy the `res` folder to the root directory of the game project `Dungeon`. (Which contains `Dungeon.vcxproj`.)
 
