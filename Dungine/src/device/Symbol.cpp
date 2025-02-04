@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For the basic image type and operations.                                 *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -45,23 +45,26 @@
  *============================================================================*/
 Symbol::~Symbol()
 {
-	if (m_pAttribute)
-		delete m_pAttribute;
-	
-	/*
-	if (m_pSupSymbol)
-		delete m_pSupSymbol;
-	*/
+    if (m_pAttribute)
+    {
+        delete m_pAttribute;
+    }
 
-	/*
-	if (m_pSubSymbol)
-		delete m_pSubSymbol;
-	*/
+    /*
+    if (m_pSupSymbol)
+            delete m_pSupSymbol;
+    */
 
-	if ((!m_isStatic) && m_pImage)
-		delete m_pImage;
+    /*
+    if (m_pSubSymbol)
+            delete m_pSubSymbol;
+    */
+
+    if ((!m_isStatic) && m_pImage)
+    {
+        delete m_pImage;
+    }
 }
-
 
 /******************************************************************************
  * Symbol::Translate -- Translate symbol.                                     *
@@ -79,14 +82,17 @@ Symbol::~Symbol()
  *============================================================================*/
 void Symbol::Translate(const Coordinate& offset)
 {
-	m_coord += offset;
+    m_coord += offset;
 
-	if (m_pSupSymbol)
-		m_pSupSymbol->Translate(offset);
-	if (m_pSubSymbol)
-		m_pSubSymbol->Translate(offset);
+    if (m_pSupSymbol)
+    {
+        m_pSupSymbol->Translate(offset);
+    }
+    if (m_pSubSymbol)
+    {
+        m_pSubSymbol->Translate(offset);
+    }
 }
-
 
 /******************************************************************************
  * Symbol::SetSupSymbol -- Set the sup symbol of the symbol.                  *
@@ -106,11 +112,10 @@ void Symbol::Translate(const Coordinate& offset)
  *============================================================================*/
 Symbol* Symbol::SetSupSymbol(Symbol* pSupSymbol)
 {
-	m_pSupSymbol = pSupSymbol;
+    m_pSupSymbol = pSupSymbol;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Symbol::SetSubSymbol -- Set the sub symbol of the symbol.                  *
@@ -129,11 +134,10 @@ Symbol* Symbol::SetSupSymbol(Symbol* pSupSymbol)
  *============================================================================*/
 Symbol* Symbol::SetSubSymbol(Symbol* pSubSymbol)
 {
-	m_pSubSymbol = pSubSymbol;
+    m_pSubSymbol = pSubSymbol;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Symbol::SetAttribute -- Set the attribute of the object.                   *
@@ -153,14 +157,15 @@ Symbol* Symbol::SetSubSymbol(Symbol* pSubSymbol)
  *============================================================================*/
 Symbol* Symbol::SetAttribute(SymbolAttribute* attribute)
 {
-	if (!m_pAttribute)
-		m_pAttribute = new SymbolAttribute();
+    if (!m_pAttribute)
+    {
+        m_pAttribute = new SymbolAttribute();
+    }
 
-	*m_pAttribute = *attribute;
+    *m_pAttribute = *attribute;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Symbol::GetAttribute -- Get the attribute of the symbol.                   *
@@ -179,12 +184,13 @@ Symbol* Symbol::SetAttribute(SymbolAttribute* attribute)
  *============================================================================*/
 SymbolAttribute* Symbol::GetAttribute()
 {
-	if (!m_pAttribute)
-		m_pAttribute = new SymbolAttribute();
+    if (!m_pAttribute)
+    {
+        m_pAttribute = new SymbolAttribute();
+    }
 
-	return m_pAttribute;
+    return m_pAttribute;
 }
-
 
 /******************************************************************************
  * Symbol::ClearAttribute -- Clear the attribute.                             *
@@ -202,15 +208,14 @@ SymbolAttribute* Symbol::GetAttribute()
  *============================================================================*/
 Symbol* Symbol::ClearAttribute()
 {
-	if (m_pAttribute)
-	{
-		delete m_pAttribute;
-		m_pAttribute = nullptr;
-	}
+    if (m_pAttribute)
+    {
+        delete m_pAttribute;
+        m_pAttribute = nullptr;
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Symbol::SetImage -- Set the image of the symbol.                           *
@@ -228,14 +233,15 @@ Symbol* Symbol::ClearAttribute()
  *============================================================================*/
 Symbol* Symbol::SetImage(IMAGE* image)
 {
-	if (m_pImage && !m_isStatic)
-		delete m_pImage;
+    if (m_pImage && !m_isStatic)
+    {
+        delete m_pImage;
+    }
 
-	m_pImage = image;
+    m_pImage = image;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Symbol::GetImage -- Get the image of the symbol.                           *
@@ -253,16 +259,14 @@ Symbol* Symbol::SetImage(IMAGE* image)
  *============================================================================*/
 IMAGE* Symbol::GetImage()
 {
-	if (!m_pImage)
-	{
-		m_pImage = new IMAGE();
-		m_isStatic = false;
-	}
+    if (!m_pImage)
+    {
+        m_pImage = new IMAGE();
+        m_isStatic = false;
+    }
 
-	return m_pImage;
+    return m_pImage;
 }
-
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Well, the widget manager.                                                *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,28 +21,29 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
+#include "../../inc/ui/AbstractWidget.h"
 #include "../../inc/ui/Widget.h"
 #include "../../inc/ui/WidgetManger.h"
-#include "../../inc/ui/AbstractWidget.h"
 
 #include "../../inc/utility/Parser.h"
 
- /******************************************************************************
-  * WidgetManager::Constructor of the object.                                  *
-  *                                                                            *
-  *    Just the literal meaning.                                               *
-  *                                                                            *
-  * INPUT:   none                                                              *
-  *                                                                            *
-  * OUTPUT:  none                                                              *
-  *                                                                            *
-  * WARNINGS:  none                                                            *
-  *                                                                            *
-  * HISTORY:                                                                   *
-  *   2022/05/25 Tony : Created.                                               *
-  *============================================================================*/
-WidgetManager::WidgetManager() {}
-
+/******************************************************************************
+ * WidgetManager::Constructor of the object.                                  *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/05/25 Tony : Created.                                               *
+ *============================================================================*/
+WidgetManager::WidgetManager()
+{
+}
 
 /******************************************************************************
  * WidgetManager::~WidgetManager -- Deconstructor of the object.              *
@@ -60,10 +61,11 @@ WidgetManager::WidgetManager() {}
  *============================================================================*/
 WidgetManager::~WidgetManager()
 {
-	for (auto it = m_widgets.begin(); it != m_widgets.end(); it++)
-		delete it->second;
+    for (auto it = m_widgets.begin(); it != m_widgets.end(); it++)
+    {
+        delete it->second;
+    }
 }
-
 
 /******************************************************************************
  * WidgetManager::Update -- Update widget manager.                            *
@@ -82,10 +84,11 @@ WidgetManager::~WidgetManager()
  *============================================================================*/
 void WidgetManager::Update(Event* evnt)
 {
-	for (auto it = m_widgets.begin(); it != m_widgets.end(); it++)
-		it->second->Update(evnt);
+    for (auto it = m_widgets.begin(); it != m_widgets.end(); it++)
+    {
+        it->second->Update(evnt);
+    }
 }
-
 
 /******************************************************************************
  * WidgetManager::Draw -- Draw all widgets of the manager.                    *
@@ -103,10 +106,11 @@ void WidgetManager::Update(Event* evnt)
  *============================================================================*/
 void WidgetManager::Draw()
 {
-	for (auto it = m_widgets.begin(); it != m_widgets.end(); it++)
-		it->second->Draw();
+    for (auto it = m_widgets.begin(); it != m_widgets.end(); it++)
+    {
+        it->second->Draw();
+    }
 }
-
 
 /******************************************************************************
  * WidgetManager::Load -- Load all widgets of a manager.                      *
@@ -128,31 +132,32 @@ void WidgetManager::Draw()
  *============================================================================*/
 bool WidgetManager::Load(XMLElement* node)
 {
-	if (!node)
-		return false;
+    if (!node)
+    {
+        return false;
+    }
 
-	const char* name = node->Name();
-	XMLElement* tag;
-	AbstractWidget* widget;
+    const char* name = node->Name();
+    XMLElement* tag;
+    AbstractWidget* widget;
 
-	StandardWidgetKit kit;
-	tag = node->FirstChildElement();
-	while (tag)
-	{
-		widget = kit.LoadWidget(tag);
-		if (Logger::Error())
-		{
-			LOG_ERROR(CANNOT_LOAD, "Widget");
-			return false;
-		}
-		AddWidget(widget);
+    StandardWidgetKit kit;
+    tag = node->FirstChildElement();
+    while (tag)
+    {
+        widget = kit.LoadWidget(tag);
+        if (Logger::Error())
+        {
+            LOG_ERROR(CANNOT_LOAD, "Widget");
+            return false;
+        }
+        AddWidget(widget);
 
-		tag = tag->NextSiblingElement();
-	}
+        tag = tag->NextSiblingElement();
+    }
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * WidgetManager::AddWidget -- Add widget to the manager.                     *
@@ -173,26 +178,27 @@ bool WidgetManager::Load(XMLElement* node)
  *============================================================================*/
 AbstractWidget* WidgetManager::AddWidget(AbstractWidget* widget)
 {
-	if (!widget)
-		return nullptr;
+    if (!widget)
+    {
+        return nullptr;
+    }
 
-	std::string name = widget->Name();
-	auto it = m_widgets.find(name);
-	if (it == m_widgets.end())
-	{
-		widget->SetManager(this);
-		m_widgets.emplace(name, widget);
-	}
-	else
-	{
-		LOG_ERROR(NAME_CONFLICT, "Widget", name.c_str());
-		delete it->second;
-		it->second = widget;
-	}
+    std::string name = widget->Name();
+    auto it = m_widgets.find(name);
+    if (it == m_widgets.end())
+    {
+        widget->SetManager(this);
+        m_widgets.emplace(name, widget);
+    }
+    else
+    {
+        LOG_ERROR(NAME_CONFLICT, "Widget", name.c_str());
+        delete it->second;
+        it->second = widget;
+    }
 
-	return widget;
+    return widget;
 }
-
 
 /******************************************************************************
  * WidgetManager::GetWidget -- Get a widget in the manager.                   *
@@ -210,17 +216,16 @@ AbstractWidget* WidgetManager::AddWidget(AbstractWidget* widget)
  *============================================================================*/
 AbstractWidget* WidgetManager::GetWidget(const std::string& name)
 {
-	auto it = m_widgets.find(name);
+    auto it = m_widgets.find(name);
 
-	if (it == m_widgets.end())
-	{
-		LOG_ERROR(MISSING_WIDGET, name.c_str());
-		return nullptr;
-	}
+    if (it == m_widgets.end())
+    {
+        LOG_ERROR(MISSING_WIDGET, name.c_str());
+        return nullptr;
+    }
 
-	return it->second;
+    return it->second;
 }
-
 
 /******************************************************************************
  * WidgetManager::ResetTransition -- Reset transition of all widgets.         *
@@ -238,9 +243,11 @@ AbstractWidget* WidgetManager::GetWidget(const std::string& name)
  *============================================================================*/
 void WidgetManager::ResetTransition()
 {
-	for (auto it = m_widgets.begin(); it != m_widgets.end(); it++)
-	{
-		if (it->second->IsVisual())
-			dynamic_cast<VisualWidget*>(it->second)->ResetTransition();
-	}
+    for (auto it = m_widgets.begin(); it != m_widgets.end(); it++)
+    {
+        if (it->second->IsVisual())
+        {
+            dynamic_cast<VisualWidget*>(it->second)->ResetTransition();
+        }
+    }
 }

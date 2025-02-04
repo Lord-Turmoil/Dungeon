@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For miscellaneous objects.                                               *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -30,21 +30,20 @@ class Object;
 
 class MiscLibrary : private AbstractLibrary<Object>, public Singleton<MiscLibrary>
 {
-	friend class Singleton<MiscLibrary>;
+    friend class Singleton<MiscLibrary>;
+
 public:
-	bool Load(const char* filename);
+    bool Load(const char* filename);
 
-	virtual bool Load(XMLElement* node);
-	virtual void UnLoad();
+    bool Load(XMLElement* node) override;
+    void UnLoad() override;
 
-	// GetObject is defined in wingdi.h...
-	template<typename T>
-	T* GetMiscObject(const std::string& name)
-	{
-		return static_cast<T*>(GetItem(name));
-	}
+    // GetObject is defined in wingdi.h...
+    template <typename T> T* GetMiscObject(const std::string& name)
+    {
+        return static_cast<T*>(GetItem(name));
+    }
 
 private:
-
 };
 #endif

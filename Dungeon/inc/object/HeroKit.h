@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Hero factory.                                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -31,10 +31,15 @@ class Hero;
 class HeroKit : public AbstractKit<Hero>
 {
 public:
-	HeroKit() {}
-	virtual ~HeroKit() {}
+    HeroKit()
+    {
+    }
 
-	virtual Hero* LoadObject(XMLElement* node);
+    ~HeroKit() override
+    {
+    }
+
+    Hero* LoadObject(XMLElement* node) override;
 };
 
 #endif

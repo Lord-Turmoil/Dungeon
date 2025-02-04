@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Behavior of hero. Generally, they are the same.                          *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,7 +26,6 @@
 
 #include <dungine.h>
 
-
 /********************************************************************
 ** Hero's behavior:
 **   Init   -- Play initialization animation.
@@ -37,35 +36,47 @@
 class HeroBehavior : public Behavior
 {
 public:
-	HeroBehavior() {}
-	virtual ~HeroBehavior() {}
+    HeroBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~HeroBehavior() override
+    {
+    }
 
-	virtual HeroBehavior* Clone() const = 0;
-	virtual void Clone(HeroBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    HeroBehavior* Clone() const override = 0;
+    virtual void Clone(HeroBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	virtual void _Collide();
+    virtual void _Collide();
 
 protected:
-	// INIT and DEAD only has one direction.
-	enum HeroAnimTag
-	{
-		HERO_ANIM_INIT = 0,
-		HERO_ANIM_IDLE,
-		HERO_ANIM_MOVE,
-		HERO_ANIM_DEAD
-	};
+    // INIT and DEAD only has one direction.
+    enum HeroAnimTag
+    {
+        HERO_ANIM_INIT = 0,
+        HERO_ANIM_IDLE,
+        HERO_ANIM_MOVE,
+        HERO_ANIM_DEAD
+    };
 };
-
 
 /********************************************************************
 ** First show up in the battlefield.
@@ -73,58 +84,84 @@ protected:
 class HeroInit : public HeroBehavior
 {
 public:
-	virtual const char* Name() const { return "Init"; }
+    const char* Name() const override
+    {
+        return "Init";
+    }
 
-	virtual HeroInit* Clone() const;
-	virtual void Clone(HeroInit* clone) const {}
+    HeroInit* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(HeroInit* clone) const
+    {
+    }
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
+    void OnExit() override;
 };
 
 class HeroMove : public HeroBehavior
 {
 public:
-	virtual const char* Name() const { return "Move"; }
+    const char* Name() const override
+    {
+        return "Move";
+    }
 
-	virtual HeroMove* Clone() const;
-	virtual void Clone(HeroMove* clone) const {}
+    HeroMove* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(HeroMove* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 protected:
-	void _Move(Event* evnt);
-	void _Act(Event* evnt);
+    void _Move(Event* evnt);
+    void _Act(Event* evnt);
 };
 
 class HeroDead : public HeroBehavior
 {
 public:
-	virtual const char* Name() const { return "Dead"; }
+    const char* Name() const override
+    {
+        return "Dead";
+    }
 
-	virtual HeroDead* Clone() const;
-	virtual void Clone(HeroDead* clone) const {}
+    HeroDead* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(HeroDead* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class HeroPerish : public HeroBehavior
 {
 public:
-	virtual const char* Name() const { return "Perish"; }
+    const char* Name() const override
+    {
+        return "Perish";
+    }
 
-	virtual HeroPerish* Clone() const;
-	virtual void Clone(HeroPerish* clone) const {}
+    HeroPerish* Clone() const override;
 
-	virtual void Update(Event* evnt) {}
+    virtual void Clone(HeroPerish* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override
+    {
+    }
+
+    void OnEnter() override;
 };
 
 #endif

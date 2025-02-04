@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Manage cursor style.                                                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,17 +26,15 @@
 
 enum CursorStyle
 {
-	CUR_ARROW,
-	CUR_ATTACK,
-	CUR_NUM
+    CUR_ARROW,
+    CUR_ATTACK,
+    CUR_NUM
 };
 
 const char CURSOR_DIR[] = "res\\images\\cursor\\";
-const char* const CURSOR_NAME[] = {
-	"arrow.cur",
-	"attack.ani" };
+const char* const CURSOR_NAME[] = { "arrow.cur", "attack.ani" };
 
-void LoadCursorStyle();	// Load on start.
+void LoadCursorStyle(); // Load on start.
 void SetCursorStyle(CursorStyle style);
 
 #endif

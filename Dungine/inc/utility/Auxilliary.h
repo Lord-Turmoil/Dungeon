@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Integrate some auxilliary functions.                                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -30,19 +30,18 @@
 
 #include "../common/Common.h"
 
-
 #define _STR_SAME(STR1, STR2) (strcmp(STR1, STR2) == 0)
 #define _STR_DIFF(STR1, STR2) (strcmp(STR1, STR2) != 0)
 
-#define _DELETE(POINTER) \
-	do { \
-		if (POINTER) \
-		{ \
-			delete POINTER; \
-			POINTER = nullptr; \
-		} \
-	} while (0)
-
+#define _DELETE(POINTER)                                                                                               \
+    do                                                                                                                 \
+    {                                                                                                                  \
+        if (POINTER)                                                                                                   \
+        {                                                                                                              \
+            delete POINTER;                                                                                            \
+            POINTER = nullptr;                                                                                         \
+        }                                                                                                              \
+    } while (0)
 
 // Shape related.
 void ResizeRect(RECT* rect, int left, int top, int right, int bottom);
@@ -69,66 +68,61 @@ wchar_t* widen(const char* src);
 bool narrow(char* dest, const wchar_t* src);
 char* narrow(const wchar_t* src);
 
-
 // string operation
 void strip(std::string* str);
 void strip(char* str);
 
 const char* splice(const char* front, const char* end);
-const char* splice(const char* front, const char end);
-
+const char* splice(const char* front, char end);
 
 // Random value.
 void SetRandomSeed();
 int Random(int upper);
 int Random(int lower, int upper);
 
-inline double _Random() { return (double)rand() / (double)RAND_MAX; }
+inline double _Random()
+{
+    return static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+}
+
 double Random(double upper);
 double Random(double lower, double upper);
 
-template<typename T>
-T Random(std::vector<T> vec)
+template <typename T> T Random(std::vector<T> vec)
 {
-	return vec[Random((int)vec.size())];
+    return vec[Random(static_cast<int>(vec.size()))];
 }
-
 
 /********************************************************************
 ** Emm... what to say...?
 */
-template<typename T>
-T BlendValue(T start, T end, double ratio)
+template <typename T> T BlendValue(T start, T end, double ratio)
 {
-	return (T)(start * (1.0 - ratio) + end * ratio);
+    return static_cast<T>(start * (1.0 - ratio) + end * ratio);
 }
 
-template<typename T>
-T BlendValue(T start, T end, double ratio, T(*blender)(T, T, double))
+template <typename T> T BlendValue(T start, T end, double ratio, T (*blender)(T, T, double))
 {
-	return start + blender(start, end, ratio);
+    return start + blender(start, end, ratio);
 }
 
 // Some default blender.
-template<typename T>
-T LinearBlender(T start, T end, double ratio)
+template <typename T> T LinearBlender(T start, T end, double ratio)
 {
-	return (T)((end - start) * ratio);
+    return static_cast<T>((end - start) * ratio);
 }
 
-template<typename T>
-T EaseInBlender(T start, T end, double ratio)
+template <typename T> T EaseInBlender(T start, T end, double ratio)
 {
-	return (T)((end - start) * (1.0 - log10(10.0 - 9.0 * ratio)));
+    return static_cast<T>((end - start) * (1.0 - log10(10.0 - 9.0 * ratio)));
 }
 
-template<typename T>
-T EaseOutBlender(T start, T end, double ratio)
+template <typename T> T EaseOutBlender(T start, T end, double ratio)
 {
-	return (T)((end - start) * log10(9.0 * ratio + 1.0));
+    return static_cast<T>((end - start) * log10(9.0 * ratio + 1.0));
 }
 
-#if 0	// Experimental
+#if 0 // Experimental
 template<typename T>
 T _EaseOutBlender(T start, T end, double ratio)
 {
@@ -136,7 +130,6 @@ T _EaseOutBlender(T start, T end, double ratio)
 	return (start - end) * pow(0.90, ratio * 100.0) + end;
 }
 #endif
-
 
 /********************************************************************
 ** Directory.

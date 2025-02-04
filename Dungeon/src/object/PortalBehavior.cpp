@@ -12,7 +12,7 @@
  *                    Last Update : December 8, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Portal behavior.                                                         *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -34,9 +34,8 @@
 */
 void PortalBehavior::Clone(PortalBehavior* clone) const
 {
-	Behavior::Clone(clone);
+    Behavior::Clone(clone);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -45,24 +44,23 @@ void PortalBehavior::Clone(PortalBehavior* clone) const
 */
 PortalIdle* PortalIdle::Clone() const
 {
-	PortalIdle* clone = new PortalIdle();
-	clone->_MakePrototype(false);
+    PortalIdle* clone = new PortalIdle();
+    clone->_MakePrototype(false);
 
-	PortalBehavior::Clone(clone);
+    PortalBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void PortalIdle::OnEnter()
 {
-	m_parent->GetGameObject()->SetDisplay(false);
+    m_parent->GetGameObject()->SetDisplay(false);
 }
 
 void PortalIdle::OnExit()
 {
-	m_parent->GetGameObject()->SetDisplay(true);
+    m_parent->GetGameObject()->SetDisplay(true);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -71,32 +69,29 @@ void PortalIdle::OnExit()
 */
 PortalInit* PortalInit::Clone() const
 {
-	PortalInit* clone = new PortalInit();
-	clone->_MakePrototype(false);
+    PortalInit* clone = new PortalInit();
+    clone->_MakePrototype(false);
 
-	PortalBehavior::Clone(clone);
+    PortalBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void PortalInit::Update(Event* evnt)
 {
-	if (m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim()->IsOver())
-	{
-		m_parent->ChangeBehavior("Ready");
-	}
+    if (m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->IsOver())
+    {
+        m_parent->ChangeBehavior("Ready");
+    }
 }
 
 void PortalInit::OnEnter()
 {
-	Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim();
+    Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
 
-	anim->SetMotion(PORTAL_ANIM_INIT);
-	anim->SetDir(ANIM_LEFT);
+    anim->SetMotion(PORTAL_ANIM_INIT);
+    anim->SetDir(ANIM_LEFT);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -105,12 +100,12 @@ void PortalInit::OnEnter()
 */
 PortalReady* PortalReady::Clone() const
 {
-	PortalReady* clone = new PortalReady();
-	clone->_MakePrototype(false);
+    PortalReady* clone = new PortalReady();
+    clone->_MakePrototype(false);
 
-	PortalBehavior::Clone(clone);
+    PortalBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 /********************************************************************
@@ -119,36 +114,37 @@ PortalReady* PortalReady::Clone() const
 */
 void PortalReady::Update(Event* evnt)
 {
-	Portal* portal = static_cast<Portal*>(m_parent->GetGameObject());
-	Dungeon* dungeon = static_cast<Dungeon*>(portal->GetScene());
-	Hero* hero = dungeon->GetHero();
-	double dist = Distance(hero->GetCoord(), portal->GetCoord());
+    Portal* portal = static_cast<Portal*>(m_parent->GetGameObject());
+    Dungeon* dungeon = static_cast<Dungeon*>(portal->GetScene());
+    Hero* hero = dungeon->GetHero();
+    double dist = Distance(hero->GetCoord(), portal->GetCoord());
 
-	if (dist < portal->GetRadius())
-	{
-		m_parent->GetGameObject()->GetComponent<AnimComponent>()
-			->GetAnim()->SetDir(ANIM_RIGHT);
-		if (evnt->Sluggish(CMD_ACTIVATE))
-		{
-			if (portal->GetFlashback())
-				dungeon->SetFlashback(portal->GetFlashback());
-			else
-				dungeon->SetLevelUp();
-			m_parent->ChangeBehavior("Idle");
-		}
-	}
-	else
-	{
-		m_parent->GetGameObject()->GetComponent<AnimComponent>()
-			->GetAnim()->SetDir(ANIM_LEFT);
-	}
+    if (dist < portal->GetRadius())
+    {
+        m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->SetDir(ANIM_RIGHT);
+        if (evnt->Sluggish(CMD_ACTIVATE))
+        {
+            if (portal->GetFlashback())
+            {
+                dungeon->SetFlashback(portal->GetFlashback());
+            }
+            else
+            {
+                dungeon->SetLevelUp();
+            }
+            m_parent->ChangeBehavior("Idle");
+        }
+    }
+    else
+    {
+        m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->SetDir(ANIM_LEFT);
+    }
 }
 
 void PortalReady::OnEnter()
 {
-	Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim();
-	
-	anim->SetMotion(PORTAL_ANIM_READY);
-	anim->SetDir(ANIM_LEFT);
+    Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
+
+    anim->SetMotion(PORTAL_ANIM_READY);
+    anim->SetDir(ANIM_LEFT);
 }

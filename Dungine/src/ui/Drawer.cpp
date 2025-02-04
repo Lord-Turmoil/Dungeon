@@ -12,7 +12,7 @@
  *                    Last Update : December 22, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Drawer of the widget.                                                    *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,10 +29,9 @@
 
 #include "../../inc/utility/Auxilliary.h"
 #include "../../inc/utility/DMath.h"
-#include "../../inc/utility/tinyxml.h"
 #include "../../inc/utility/Parser.h"
 #include "../../inc/utility/Straw.h"
-
+#include "../../inc/utility/tinyxml.h"
 
 /******************************************************************************
  * Drawer::~Drawer -- Destructor of the drawer.                               *
@@ -50,9 +49,8 @@
  *============================================================================*/
 Drawer::~Drawer()
 {
-	_DELETE(m_pSubDrawer);
+    _DELETE(m_pSubDrawer);
 }
-
 
 /******************************************************************************
  * Drawer::SetSubDrawer -- Set sub-drawer of drawer.                          *
@@ -70,13 +68,12 @@ Drawer::~Drawer()
  *============================================================================*/
 Drawer* Drawer::SetSubDrawer(Drawer* drawer)
 {
-	_DELETE(m_pSubDrawer);
+    _DELETE(m_pSubDrawer);
 
-	m_pSubDrawer = drawer;
+    m_pSubDrawer = drawer;
 
-	return m_pSubDrawer;
+    return m_pSubDrawer;
 }
-
 
 /******************************************************************************
  * Drawer::SetLayer -- Set the layer of the drawer.                           *
@@ -95,13 +92,14 @@ Drawer* Drawer::SetSubDrawer(Drawer* drawer)
  *============================================================================*/
 Drawer* Drawer::SetLayer(int layer)
 {
-	m_symbol.SetLayer(LAYER_UI + layer);
-	if (m_pSubDrawer)
-		m_pSubDrawer->SetLayer(layer + 1);
+    m_symbol.SetLayer(LAYER_UI + layer);
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->SetLayer(layer + 1);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Drawer::SetAlpha -- Set the alpha of the drawer.                           *
@@ -119,13 +117,14 @@ Drawer* Drawer::SetLayer(int layer)
  *============================================================================*/
 Drawer* Drawer::SetAlpha(int alpha)
 {
-	m_symbol.GetAttribute()->alpha = alpha;
-	if (m_pSubDrawer)
-		m_pSubDrawer->SetAlpha(alpha);
+    m_symbol.GetAttribute()->alpha = alpha;
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->SetAlpha(alpha);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Drawer::SetScale -- Set the scale of the drawer.                           *
@@ -143,14 +142,14 @@ Drawer* Drawer::SetAlpha(int alpha)
  *============================================================================*/
 Drawer* Drawer::SetScale(double scale)
 {
-	m_symbol.GetAttribute()->scale = scale;
-	if (m_pSubDrawer)
-		m_pSubDrawer->SetScale(scale);
+    m_symbol.GetAttribute()->scale = scale;
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->SetScale(scale);
+    }
 
-	return this;
+    return this;
 }
-
-
 
 /******************************************************************************
  * Drawer::SetRotationAngle -- Set the rotation angle of the drawer.          *
@@ -168,13 +167,14 @@ Drawer* Drawer::SetScale(double scale)
  *============================================================================*/
 Drawer* Drawer::SetRotationAngle(double angle)
 {
-	m_symbol.GetAttribute()->rotationAngle = angle;
-	if (m_pSubDrawer)
-		m_pSubDrawer->SetRotationAngle(angle);
+    m_symbol.GetAttribute()->rotationAngle = angle;
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->SetRotationAngle(angle);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Drawer::Draw -- Just... draw.                                              *
@@ -192,11 +192,12 @@ Drawer* Drawer::SetRotationAngle(double angle)
  *============================================================================*/
 void Drawer::Draw()
 {
-	Device::GetInstance()->AddSymbol(&m_symbol);
-	if (m_pSubDrawer)
-		m_pSubDrawer->Draw();
+    Device::GetInstance()->AddSymbol(&m_symbol);
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->Draw();
+    }
 }
-
 
 /******************************************************************************
  * Drawer::_LoadSubDrawer -- Load sub-drawer of a drawer.                     *
@@ -215,12 +216,13 @@ void Drawer::Draw()
  *============================================================================*/
 void Drawer::_LoadSubDrawer(XMLElement* node)
 {
-	XMLElement* tag = node->FirstChildElement();
+    XMLElement* tag = node->FirstChildElement();
 
-	if (tag)
-		SetSubDrawer(LoadDrawer(tag));
+    if (tag)
+    {
+        SetSubDrawer(LoadDrawer(tag));
+    }
 }
-
 
 /******************************************************************************
  * RawDrawer::Load -- Load drawer attributes.                                 *
@@ -238,22 +240,21 @@ void Drawer::_LoadSubDrawer(XMLElement* node)
  *============================================================================*/
 bool RawDrawer::Load(XMLElement* node)
 {
-	/*
-	** <... filled="" line-color="" fill-color="" border="" ...>
-	*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    ** <... filled="" line-color="" fill-color="" border="" ...>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_PARSE("filled", m_attribute.isFilled, name, true);
-	_PARSE_PRIVATE("line-color", m_attribute.lineColor, name, ParseColor);
-	_PARSE_PRIVATE("fill-color", m_attribute.fillColor, name, ParseColor);
-	_PARSE("border", m_attribute.lineStyle.thickness, name, 1);
+    _PARSE("filled", m_attribute.isFilled, name, true);
+    _PARSE_PRIVATE("line-color", m_attribute.lineColor, name, ParseColor);
+    _PARSE_PRIVATE("fill-color", m_attribute.fillColor, name, ParseColor);
+    _PARSE("border", m_attribute.lineStyle.thickness, name, 1);
 
-	m_drawerChanged = true;
+    m_drawerChanged = true;
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * RawDrawer::_ApplyAttribute -- Apply drawing attribute.                     *
@@ -271,12 +272,10 @@ bool RawDrawer::Load(XMLElement* node)
  *============================================================================*/
 void RawDrawer::_ApplyAttribute()
 {
-	setlinecolor(m_attribute.lineColor);
-	setlinestyle(&m_attribute.lineStyle);
-	setfillcolor(m_attribute.fillColor);
+    setlinecolor(m_attribute.lineColor);
+    setlinestyle(&m_attribute.lineStyle);
+    setfillcolor(m_attribute.fillColor);
 }
-
-
 
 /******************************************************************************
  * RectDrawer::Update -- Update rectangle drawer.                             *
@@ -294,15 +293,18 @@ void RawDrawer::_ApplyAttribute()
  *============================================================================*/
 void RectDrawer::Update()
 {
-	if (m_cellChanged || m_drawerChanged)
-		_Render();
+    if (m_cellChanged || m_drawerChanged)
+    {
+        _Render();
+    }
 
-	m_symbol.SetCoord(m_coord - m_focus);
+    m_symbol.SetCoord(m_coord - m_focus);
 
-	if (m_pSubDrawer)
-		m_pSubDrawer->Update();
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->Update();
+    }
 }
-
 
 /******************************************************************************
  * RectDrawer::Load -- Load rectangle drawer from a xml node.                 *
@@ -320,21 +322,20 @@ void RectDrawer::Update()
  *============================================================================*/
 bool RectDrawer::Load(XMLElement* node)
 {
-	const char* name = node->Name();
+    const char* name = node->Name();
 
-	_CHECK_TAG("Rectangle");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Rectangle");
+    _RETURN_IF_ERROR();
 
-	LoadProperty(node);
-	RawDrawer::Load(node);
+    LoadProperty(node);
+    RawDrawer::Load(node);
 
-	m_drawerChanged = true;
+    m_drawerChanged = true;
 
-	_LoadSubDrawer(node);
+    _LoadSubDrawer(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * RectDrawer::_Render -- Render rectangle image.                             *
@@ -352,34 +353,39 @@ bool RectDrawer::Load(XMLElement* node)
  *============================================================================*/
 void RectDrawer::_Render()
 {
-	int border = m_attribute.lineStyle.thickness & (~1u);	// turn odd to even
-	int width = m_width + border;
-	int height = m_height + border;
-	Coordinate origin(border >> 1);
+    int border = m_attribute.lineStyle.thickness & (~1u); // turn odd to even
+    int width = m_width + border;
+    int height = m_height + border;
+    Coordinate origin(border >> 1);
 
-	m_symbol.GetImage()->Resize(width, height);
+    m_symbol.GetImage()->Resize(width, height);
 
-	Device::GetInstance()->SetTargetImage(m_symbol.GetImage());
-	setbkcolor(TRANSPARENT_COLOR);
-	cleardevice();
+    Device::GetInstance()->SetTargetImage(m_symbol.GetImage());
+    setbkcolor(TRANSPARENT_COLOR);
+    cleardevice();
 
-	_ApplyAttribute();
+    _ApplyAttribute();
 
-	if (m_attribute.isFilled)
-	{
-		if (m_attribute.lineStyle.thickness > 0)
-			fillrectangle(origin.x, origin.y, origin.x + m_width, origin.y + m_height);
-		else
-			solidrectangle(origin.x, origin.y, origin.x + m_width, origin.y + m_height);
-	}
-	else if (m_attribute.lineStyle.thickness > 0)
-		rectangle(origin.x, origin.y, origin.x + m_width, origin.y + m_height);
+    if (m_attribute.isFilled)
+    {
+        if (m_attribute.lineStyle.thickness > 0)
+        {
+            fillrectangle(origin.x, origin.y, origin.x + m_width, origin.y + m_height);
+        }
+        else
+        {
+            solidrectangle(origin.x, origin.y, origin.x + m_width, origin.y + m_height);
+        }
+    }
+    else if (m_attribute.lineStyle.thickness > 0)
+    {
+        rectangle(origin.x, origin.y, origin.x + m_width, origin.y + m_height);
+    }
 
-	m_cellChanged = m_drawerChanged = false;
+    m_cellChanged = m_drawerChanged = false;
 
-	Device::GetInstance()->SetTargetImage(NULL);
+    Device::GetInstance()->SetTargetImage(nullptr);
 }
-
 
 /******************************************************************************
  * RoundRectDrawer::Update -- Update roundrectangle drawer.                   *
@@ -397,15 +403,18 @@ void RectDrawer::_Render()
  *============================================================================*/
 void RoundRectDrawer::Update()
 {
-	if (m_cellChanged || m_drawerChanged)
-		_Render();
+    if (m_cellChanged || m_drawerChanged)
+    {
+        _Render();
+    }
 
-	m_symbol.SetCoord(m_coord - m_focus);
+    m_symbol.SetCoord(m_coord - m_focus);
 
-	if (m_pSubDrawer)
-		m_pSubDrawer->Update();
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->Update();
+    }
 }
-
 
 /******************************************************************************
  * RoundRectDrawer::Load -- Load roundrectangle drawer from a xml node.       *
@@ -423,21 +432,20 @@ void RoundRectDrawer::Update()
  *============================================================================*/
 bool RoundRectDrawer::Load(XMLElement* node)
 {
-	const char* name = node->Name();
+    const char* name = node->Name();
 
-	_CHECK_TAG("Roundrect");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Roundrect");
+    _RETURN_IF_ERROR();
 
-	LoadProperty(node);
-	RawDrawer::Load(node);
+    LoadProperty(node);
+    RawDrawer::Load(node);
 
-	m_drawerChanged = true;
+    m_drawerChanged = true;
 
-	_LoadSubDrawer(node);
+    _LoadSubDrawer(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * RoundRectDrawer::_Render -- Render roundrectangle image.                   *
@@ -455,34 +463,39 @@ bool RoundRectDrawer::Load(XMLElement* node)
  *============================================================================*/
 void RoundRectDrawer::_Render()
 {
-	int border = m_attribute.lineStyle.thickness & (~1u);	// turn odd to even
-	int width = m_width + border;
-	int height = m_height + border;
-	Coordinate origin(border >> 1);
+    int border = m_attribute.lineStyle.thickness & (~1u); // turn odd to even
+    int width = m_width + border;
+    int height = m_height + border;
+    Coordinate origin(border >> 1);
 
-	m_symbol.GetImage()->Resize(width, height);
+    m_symbol.GetImage()->Resize(width, height);
 
-	Device::GetInstance()->SetTargetImage(m_symbol.GetImage());
-	setbkcolor(TRANSPARENT_COLOR);
-	cleardevice();
+    Device::GetInstance()->SetTargetImage(m_symbol.GetImage());
+    setbkcolor(TRANSPARENT_COLOR);
+    cleardevice();
 
-	_ApplyAttribute();
+    _ApplyAttribute();
 
-	if (m_attribute.isFilled)
-	{
-		if (m_attribute.lineStyle.thickness > 0)
-			fillroundrect(origin.x, origin.y, origin.x + m_width, origin.y + m_height, m_radius, m_radius);
-		else
-			solidroundrect(origin.x, origin.y, origin.x + m_width, origin.y + m_height, m_radius, m_radius);
-	}
-	else if (m_attribute.lineStyle.thickness > 0)
-		roundrect(origin.x, origin.y, origin.x + m_width, origin.y + m_height, m_radius, m_radius);
+    if (m_attribute.isFilled)
+    {
+        if (m_attribute.lineStyle.thickness > 0)
+        {
+            fillroundrect(origin.x, origin.y, origin.x + m_width, origin.y + m_height, m_radius, m_radius);
+        }
+        else
+        {
+            solidroundrect(origin.x, origin.y, origin.x + m_width, origin.y + m_height, m_radius, m_radius);
+        }
+    }
+    else if (m_attribute.lineStyle.thickness > 0)
+    {
+        roundrect(origin.x, origin.y, origin.x + m_width, origin.y + m_height, m_radius, m_radius);
+    }
 
-	m_cellChanged = m_drawerChanged = false;
+    m_cellChanged = m_drawerChanged = false;
 
-	Device::GetInstance()->SetTargetImage(NULL);
+    Device::GetInstance()->SetTargetImage(nullptr);
 }
-
 
 /******************************************************************************
  * CircleDrawer::Update -- Update circle drawer.                              *
@@ -500,15 +513,18 @@ void RoundRectDrawer::_Render()
  *============================================================================*/
 void CircleDrawer::Update()
 {
-	if (m_cellChanged || m_drawerChanged)
-		_Render();
+    if (m_cellChanged || m_drawerChanged)
+    {
+        _Render();
+    }
 
-	m_symbol.SetCoord(m_coord - m_focus);
+    m_symbol.SetCoord(m_coord - m_focus);
 
-	if (m_pSubDrawer)
-		m_pSubDrawer->Update();
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->Update();
+    }
 }
-
 
 /******************************************************************************
  * CircleDrawer::Load -- Load circle drawer.                                  *
@@ -526,21 +542,20 @@ void CircleDrawer::Update()
  *============================================================================*/
 bool CircleDrawer::Load(XMLElement* node)
 {
-	const char* name = node->Name();
+    const char* name = node->Name();
 
-	_CHECK_TAG("Circle");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Circle");
+    _RETURN_IF_ERROR();
 
-	LoadProperty(node);
-	RawDrawer::Load(node);
+    LoadProperty(node);
+    RawDrawer::Load(node);
 
-	m_drawerChanged = true;
+    m_drawerChanged = true;
 
-	_LoadSubDrawer(node);
+    _LoadSubDrawer(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * CircleDrawer::_Render -- Render circle drawer.                             *
@@ -558,34 +573,39 @@ bool CircleDrawer::Load(XMLElement* node)
  *============================================================================*/
 void CircleDrawer::_Render()
 {
-	int border = m_attribute.lineStyle.thickness & (~1u);	// turn odd to even
-	int width, height;
-	Coordinate origin(m_radius + (border >> 1));
-	width = height = m_radius * 2 + 1 + border;
+    int border = m_attribute.lineStyle.thickness & (~1u); // turn odd to even
+    int width, height;
+    Coordinate origin(m_radius + (border >> 1));
+    width = height = m_radius * 2 + 1 + border;
 
-	m_symbol.GetImage()->Resize(width, height);
+    m_symbol.GetImage()->Resize(width, height);
 
-	Device::GetInstance()->SetTargetImage(m_symbol.GetImage());
-	setbkcolor(TRANSPARENT_COLOR);
-	cleardevice();
+    Device::GetInstance()->SetTargetImage(m_symbol.GetImage());
+    setbkcolor(TRANSPARENT_COLOR);
+    cleardevice();
 
-	_ApplyAttribute();
+    _ApplyAttribute();
 
-	if (m_attribute.isFilled)
-	{
-		if (m_attribute.lineStyle.thickness > 0)
-			fillcircle(origin.x, origin.y, m_radius);
-		else
-			solidcircle(origin.x, origin.y, m_radius);
-	}
-	else if (m_attribute.lineStyle.thickness > 0)
-		circle(origin.x, origin.y, m_radius);
+    if (m_attribute.isFilled)
+    {
+        if (m_attribute.lineStyle.thickness > 0)
+        {
+            fillcircle(origin.x, origin.y, m_radius);
+        }
+        else
+        {
+            solidcircle(origin.x, origin.y, m_radius);
+        }
+    }
+    else if (m_attribute.lineStyle.thickness > 0)
+    {
+        circle(origin.x, origin.y, m_radius);
+    }
 
-	m_cellChanged = m_drawerChanged = false;
+    m_cellChanged = m_drawerChanged = false;
 
-	Device::GetInstance()->SetTargetImage(NULL);
+    Device::GetInstance()->SetTargetImage(nullptr);
 }
-
 
 /******************************************************************************
  * TextDrawer::Update -- Update text drawer.                                  *
@@ -603,15 +623,18 @@ void CircleDrawer::_Render()
  *============================================================================*/
 void TextDrawer::Update()
 {
-	if (m_cellChanged || m_drawerChanged)
-		_Render();
+    if (m_cellChanged || m_drawerChanged)
+    {
+        _Render();
+    }
 
-	m_symbol.SetCoord(m_coord - m_focus);
+    m_symbol.SetCoord(m_coord - m_focus);
 
-	if (m_pSubDrawer)
-		m_pSubDrawer->Update();
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->Update();
+    }
 }
-
 
 /******************************************************************************
  * TextDrawer::Load -- Load text drawer.                                      *
@@ -630,41 +653,41 @@ void TextDrawer::Update()
  *============================================================================*/
 bool TextDrawer::Load(XMLElement* node)
 {
-	/*
-	**	<Text pos="" focus="" width="" height="" font="" font-size="" color="" justified="">
-	**		Content
-	**	</Text>
-	*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<Text pos="" focus="" width="" height="" font="" font-size="" color=""
+    *justified=""> *		Content *	</Text>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG("Text");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Text");
+    _RETURN_IF_ERROR();
 
-	LoadProperty(node);
+    LoadProperty(node);
 
-	_PARSE("font", m_font, name, "");
-	_PARSE("font-size", m_fontHeight, name, 0);
-	m_fontHeight = (int)(m_fontHeight * deviceInfo.aspectRatio);
-	_PARSE_PRIVATE("color", m_fontColor, name, ParseColor);
-	_PARSE("justified", m_isJustified, name, true);
+    _PARSE("font", m_font, name, "");
+    _PARSE("font-size", m_fontHeight, name, 0);
+    m_fontHeight = static_cast<int>(m_fontHeight * deviceInfo.aspectRatio);
+    _PARSE_PRIVATE("color", m_fontColor, name, ParseColor);
+    _PARSE("justified", m_isJustified, name, true);
 
-	attr = node->GetText();
-	if (!attr)
-		LOG_EXTRA_WARNING(MISSING_TEXT);
-	else
-	{
-		m_text = attr;
-		strip(&m_text);
-	}
+    attr = node->GetText();
+    if (!attr)
+    {
+        LOG_EXTRA_WARNING(MISSING_TEXT);
+    }
+    else
+    {
+        m_text = attr;
+        strip(&m_text);
+    }
 
-	m_drawerChanged = true;
+    m_drawerChanged = true;
 
-	_LoadSubDrawer(node);
+    _LoadSubDrawer(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * TextDrawer::_ApplyTextAttribute -- Apply text attribute.                   *
@@ -682,10 +705,9 @@ bool TextDrawer::Load(XMLElement* node)
  *============================================================================*/
 void TextDrawer::_ApplyTextAttribute()
 {
-	settextcolor(m_fontColor);
-	settextstyle(m_fontHeight, 0, widen(m_font.c_str()));
+    settextcolor(m_fontColor);
+    settextstyle(m_fontHeight, 0, widen(m_font.c_str()));
 }
-
 
 /******************************************************************************
  * TextDrawer::_Render -- Render text drawer.                                 *
@@ -703,26 +725,29 @@ void TextDrawer::_ApplyTextAttribute()
  *============================================================================*/
 void TextDrawer::_Render()
 {
-	RECT rect = { 0, 0, m_width, m_height };
+    RECT rect = { 0, 0, m_width, m_height };
 
-	m_symbol.GetImage()->Resize(m_width, m_height);
+    m_symbol.GetImage()->Resize(m_width, m_height);
 
-	Device::GetInstance()->SetTargetImage(m_symbol.GetImage());
-	setbkcolor(TRANSPARENT_COLOR);
-	cleardevice();
+    Device::GetInstance()->SetTargetImage(m_symbol.GetImage());
+    setbkcolor(TRANSPARENT_COLOR);
+    cleardevice();
 
-	_ApplyTextAttribute();
+    _ApplyTextAttribute();
 
-	if (m_isJustified)
-		drawtext(widen(m_text.c_str()), &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
-	else
-		outtextxy(0, 0, widen(m_text.c_str()));
+    if (m_isJustified)
+    {
+        drawtext(widen(m_text.c_str()), &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+    }
+    else
+    {
+        outtextxy(0, 0, widen(m_text.c_str()));
+    }
 
-	m_cellChanged = m_drawerChanged = false;
+    m_cellChanged = m_drawerChanged = false;
 
-	Device::GetInstance()->SetTargetImage(NULL);
+    Device::GetInstance()->SetTargetImage(nullptr);
 }
-
 
 /******************************************************************************
  * ImageDrawer::Update -- Update image drawer.                                *
@@ -740,15 +765,18 @@ void TextDrawer::_Render()
  *============================================================================*/
 void ImageDrawer::Update()
 {
-	if (m_cellChanged || m_drawerChanged)
-		_Render();
+    if (m_cellChanged || m_drawerChanged)
+    {
+        _Render();
+    }
 
-	m_symbol.SetCoord(m_coord - m_focus);
+    m_symbol.SetCoord(m_coord - m_focus);
 
-	if (m_pSubDrawer)
-		m_pSubDrawer->Update();
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->Update();
+    }
 }
-
 
 /******************************************************************************
  * ImageDrawer::Load -- Load image drawer.                                    *
@@ -767,48 +795,51 @@ void ImageDrawer::Update()
  *============================================================================*/
 bool ImageDrawer::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG("Image");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Image");
+    _RETURN_IF_ERROR();
 
-	LoadProperty(node);
+    LoadProperty(node);
 
-	Coordinate origin;
-	Coordinate size;
-	const char* src;
+    Coordinate origin;
+    Coordinate size;
+    const char* src;
 
-	_PARSE_PRIVATE("origin", origin, name, ParseCoord);
-	_PARSE_PRIVATE("size", size, name, ParseCoord);
+    _PARSE_PRIVATE("origin", origin, name, ParseCoord);
+    _PARSE_PRIVATE("size", size, name, ParseCoord);
 
-	src = node->Attribute("src");
-	if (!src)
-	{
-		LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
-		return false;
-	}
+    src = node->Attribute("src");
+    if (!src)
+    {
+        LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
+        return false;
+    }
 
-	ImageResource* res = LoadResource<ImageResource>(src);
-	if (!res)
-	{
-		LOG_ERROR(INVALID_RESOURCE_ID, src);
-		return false;
-	}
+    ImageResource* res = LoadResource<ImageResource>(src);
+    if (!res)
+    {
+        LOG_ERROR(INVALID_RESOURCE_ID, src);
+        return false;
+    }
 
-	/*
-	** A compromise, the background should fill the screen.
-	*/
-	if (size == COORD_ZERO)
-		FetchImage(m_symbol.GetImage(), res->GetResource());
-	else
-		FetchImage(m_symbol.GetImage(), res->GetResource(), m_width, m_height, origin.x, origin.y, size.x, size.y);
+    /*
+    ** A compromise, the background should fill the screen.
+    */
+    if (size == COORD_ZERO)
+    {
+        FetchImage(m_symbol.GetImage(), res->GetResource());
+    }
+    else
+    {
+        FetchImage(m_symbol.GetImage(), res->GetResource(), m_width, m_height, origin.x, origin.y, size.x, size.y);
+    }
 
-	_LoadSubDrawer(node);
+    _LoadSubDrawer(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * ImageDrawer::_Render -- Render image drawer.                               *
@@ -826,9 +857,8 @@ bool ImageDrawer::Load(XMLElement* node)
  *============================================================================*/
 void ImageDrawer::_Render()
 {
-	m_cellChanged = m_drawerChanged = false;
+    m_cellChanged = m_drawerChanged = false;
 }
-
 
 /******************************************************************************
  * AnimDrawer::AnimDrawer -- Constructor of the object.                       *
@@ -846,15 +876,13 @@ void ImageDrawer::_Render()
  *============================================================================*/
 AnimDrawer::AnimDrawer() : m_pResource(nullptr)
 {
-	m_symbol.SetStatic(true);
+    m_symbol.SetStatic(true);
 }
 
-AnimDrawer::AnimDrawer(int width, int height) : RectCell(width, height),
-	m_pResource(nullptr)
+AnimDrawer::AnimDrawer(int width, int height) : RectCell(width, height), m_pResource(nullptr)
 {
-	m_symbol.SetStatic(true);
+    m_symbol.SetStatic(true);
 }
-
 
 /******************************************************************************
  * AnimDrawer::~AnimDrawer -- Destructor of the object.                       *
@@ -872,10 +900,11 @@ AnimDrawer::AnimDrawer(int width, int height) : RectCell(width, height),
  *============================================================================*/
 AnimDrawer::~AnimDrawer()
 {
-	if (m_pResource)
-		m_pResource->Release();
+    if (m_pResource)
+    {
+        m_pResource->Release();
+    }
 }
-
 
 /******************************************************************************
  * AnimDrawer::Update -- Update animation drawer.                             *
@@ -893,18 +922,21 @@ AnimDrawer::~AnimDrawer()
  *============================================================================*/
 void AnimDrawer::Update()
 {
-	if (m_cellChanged || m_drawerChanged)
-		_Render();
+    if (m_cellChanged || m_drawerChanged)
+    {
+        _Render();
+    }
 
-	m_anim.Update();
+    m_anim.Update();
 
-	m_symbol.SetImage(m_anim.GetFrame());
-	m_symbol.SetCoord(m_coord - m_focus);
+    m_symbol.SetImage(m_anim.GetFrame());
+    m_symbol.SetCoord(m_coord - m_focus);
 
-	if (m_pSubDrawer)
-		m_pSubDrawer->Update();
+    if (m_pSubDrawer)
+    {
+        m_pSubDrawer->Update();
+    }
 }
-
 
 /******************************************************************************
  * AnimDrawer::Load -- Load animation drawer.                                 *
@@ -922,51 +954,51 @@ void AnimDrawer::Update()
  *============================================================================*/
 bool AnimDrawer::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG("Animation");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Animation");
+    _RETURN_IF_ERROR();
 
-	LoadProperty(node);
+    LoadProperty(node);
 
-	const char* src = node->Attribute("src");
-	if (!src)
-	{
-		LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
-		return false;
-	}
+    const char* src = node->Attribute("src");
+    if (!src)
+    {
+        LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
+        return false;
+    }
 
-	m_pResource = LoadResource<MotionResource>(src);
-	if (!m_pResource)
-	{
-		LOG_ERROR(INVALID_RESOURCE_ID, src);
-		return false;
-	}
-	m_anim.Initialize(m_pResource->GetResource());
+    m_pResource = LoadResource<MotionResource>(src);
+    if (!m_pResource)
+    {
+        LOG_ERROR(INVALID_RESOURCE_ID, src);
+        return false;
+    }
+    m_anim.Initialize(m_pResource->GetResource());
 
-	/*
-	** 2022/12/22 TS:
-	** Whether random beginning.
-	*/
-	bool isRandom = true;
-	_PARSE("random", isRandom, name, true);
-	if (isRandom)
-		m_anim.SetFrame(Random(m_anim.GetTotalFrameNum()));
+    /*
+    ** 2022/12/22 TS:
+    ** Whether random beginning.
+    */
+    bool isRandom = true;
+    _PARSE("random", isRandom, name, true);
+    if (isRandom)
+    {
+        m_anim.SetFrame(Random(m_anim.GetTotalFrameNum()));
+    }
 
-	float aspectRatio = dmin(1.0f * m_width / m_anim.GetFrameWidth(), 1.0f * m_height / m_anim.GetFrameHeight());
-	float k = (aspectRatio - 1.0f) / 2.0f;
-	// Compensate the effect of symbol scale.
-	m_symbol.GetAttribute()->SetScale(aspectRatio);
-	m_symbol.SetOffset(Coordinate(
-		(int)(m_anim.GetFrameWidth() * k),
-		(int)(m_anim.GetFrameHeight() * k)));
+    float aspectRatio = dmin(1.0f * m_width / m_anim.GetFrameWidth(), 1.0f * m_height / m_anim.GetFrameHeight());
+    float k = (aspectRatio - 1.0f) / 2.0f;
+    // Compensate the effect of symbol scale.
+    m_symbol.GetAttribute()->SetScale(aspectRatio);
+    m_symbol.SetOffset(
+        Coordinate(static_cast<int>(m_anim.GetFrameWidth() * k), static_cast<int>(m_anim.GetFrameHeight() * k)));
 
-	_LoadSubDrawer(node);
+    _LoadSubDrawer(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * AnimDrawer::_Render -- Render animation drawer.                            *
@@ -984,9 +1016,8 @@ bool AnimDrawer::Load(XMLElement* node)
  *============================================================================*/
 void AnimDrawer::_Render()
 {
-	m_cellChanged = m_drawerChanged = false;
+    m_cellChanged = m_drawerChanged = false;
 }
-
 
 /******************************************************************************
  * LoadDrawer -- Load a drawer.                                               *
@@ -1005,29 +1036,47 @@ void AnimDrawer::_Render()
  *============================================================================*/
 Drawer* LoadDrawer(XMLElement* node)
 {
-	if (!node)
-		return nullptr;
+    if (!node)
+    {
+        return nullptr;
+    }
 
-	const char* name = node->Name();
-	Drawer* rv = nullptr;
+    const char* name = node->Name();
+    Drawer* rv = nullptr;
 
-	if (_STR_SAME(name, "Image"))
-		rv = new ImageDrawer();
-	else if (_STR_SAME(name, "Animation"))
-		rv = new AnimDrawer();
-	else if (_STR_SAME(name, "Text"))
-		rv = new TextDrawer();
-	else if (_STR_SAME(name, "Rectangle"))
-		rv = new RectDrawer();
-	else if (_STR_SAME(name, "Roundrect"))
-		rv = new RoundRectDrawer();
-	else if (_STR_SAME(name, "Circle"))
-		rv = new CircleDrawer();
+    if (_STR_SAME(name, "Image"))
+    {
+        rv = new ImageDrawer();
+    }
+    else if (_STR_SAME(name, "Animation"))
+    {
+        rv = new AnimDrawer();
+    }
+    else if (_STR_SAME(name, "Text"))
+    {
+        rv = new TextDrawer();
+    }
+    else if (_STR_SAME(name, "Rectangle"))
+    {
+        rv = new RectDrawer();
+    }
+    else if (_STR_SAME(name, "Roundrect"))
+    {
+        rv = new RoundRectDrawer();
+    }
+    else if (_STR_SAME(name, "Circle"))
+    {
+        rv = new CircleDrawer();
+    }
 
-	if (rv)
-		rv->Load(node);
-	else
-		LOG_ERROR(UNKNOWN_TAG, name);
+    if (rv)
+    {
+        rv->Load(node);
+    }
+    else
+    {
+        LOG_ERROR(UNKNOWN_TAG, name);
+    }
 
-	return rv;
+    return rv;
 }

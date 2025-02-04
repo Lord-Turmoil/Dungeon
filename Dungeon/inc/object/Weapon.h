@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Weapon system of the game.                                               *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -43,94 +43,158 @@ class Figure;
 class Weapon : public Object
 {
 public:
-	Weapon(Scene* scene) : Object(ObjectType::OBJ_WEAPON, scene),
-		m_pSlot(nullptr), m_isEquipped(false), m_isTriggered(false),
-		m_isExclusive(false)
-	{
-		m_symbol.SetLayer(LAYER_WEAPON);
-	}
-	virtual ~Weapon() {}
+    Weapon(Scene* scene)
+        : Object(OBJ_WEAPON, scene), m_pSlot(nullptr), m_isEquipped(false), m_isTriggered(false), m_isExclusive(false)
+    {
+        m_symbol.SetLayer(LAYER_WEAPON);
+    }
 
-	const std::string& Name() const { return m_name; }
+    ~Weapon() override
+    {
+    }
 
-	virtual Weapon* Clone() const = 0;
-	virtual void Clone(Weapon* clone) const;
+    const std::string& Name() const
+    {
+        return m_name;
+    }
 
-	virtual bool Load(XMLElement* node);
+    Weapon* Clone() const override = 0;
+    virtual void Clone(Weapon* clone) const;
 
-public:
-	/*
-	** Equip the weapon when picked up.
-	*/
-	void Equip();
-	void UnEquip();
-	void Drop();
-
-	/*
-	** Adjust coordinate and rotation angle.
-	*/
-	void AdjustPosture();
-	void AdjustPosture(const Coordinate& target);
+    bool Load(XMLElement* node) override;
 
 public:
-	const std::string& BulletName() const { return m_bulletName; }
+    /*
+    ** Equip the weapon when picked up.
+    */
+    void Equip();
+    void UnEquip();
+    void Drop();
 
-	/*
-	** For both player and enemy can fire the right way.
-	*/
-	void Trig() { m_isTriggered = true; }
-	void UnTrig() { m_isTriggered = false; }
-	bool IsTriggered() const { return m_isTriggered; }
+    /*
+    ** Adjust coordinate and rotation angle.
+    */
+    void AdjustPosture();
+    void AdjustPosture(const Coordinate& target);
 
-	void SetTarget(const Coordinate& target) { m_target = target; }
-	void SetTarget(Direction dir);
-	Coordinate GetTarget() const { return m_target; }
+public:
+    const std::string& BulletName() const
+    {
+        return m_bulletName;
+    }
 
-	void SetSlot(WeaponComponent* pSlot) { m_pSlot = pSlot; }
-	WeaponComponent* GetSlot() { return m_pSlot; }
+    /*
+    ** For both player and enemy can fire the right way.
+    */
+    void Trig()
+    {
+        m_isTriggered = true;
+    }
 
-	clock_t GetCoolingTime() const { return m_coolingTime; }
-	Coordinate GetOffset() const { return m_offset; }
-	Coordinate GetMuzzleOffset() const { return m_muzzleOffset; }
-	
-	int GetCost() const { return m_cost; }
-	int GetBurstNum() const { return m_burstNum; }
-	double GetAccuracy() const { return m_accuracy; }
-	double GetRadius() const { return m_radius; }
+    void UnTrig()
+    {
+        m_isTriggered = false;
+    }
 
-	bool IsExclusive() const { return m_isExclusive; }
+    bool IsTriggered() const
+    {
+        return m_isTriggered;
+    }
+
+    void SetTarget(const Coordinate& target)
+    {
+        m_target = target;
+    }
+
+    void SetTarget(Direction dir);
+
+    Coordinate GetTarget() const
+    {
+        return m_target;
+    }
+
+    void SetSlot(WeaponComponent* pSlot)
+    {
+        m_pSlot = pSlot;
+    }
+
+    WeaponComponent* GetSlot()
+    {
+        return m_pSlot;
+    }
+
+    clock_t GetCoolingTime() const
+    {
+        return m_coolingTime;
+    }
+
+    Coordinate GetOffset() const
+    {
+        return m_offset;
+    }
+
+    Coordinate GetMuzzleOffset() const
+    {
+        return m_muzzleOffset;
+    }
+
+    int GetCost() const
+    {
+        return m_cost;
+    }
+
+    int GetBurstNum() const
+    {
+        return m_burstNum;
+    }
+
+    double GetAccuracy() const
+    {
+        return m_accuracy;
+    }
+
+    double GetRadius() const
+    {
+        return m_radius;
+    }
+
+    bool IsExclusive() const
+    {
+        return m_isExclusive;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr) {}
+    void _InitBehavior(XMLElement* node = nullptr) override
+    {
+    }
 
-	std::string m_name;
-	std::string m_bulletName;
+    std::string m_name;
+    std::string m_bulletName;
 
-	WeaponComponent* m_pSlot;
+    WeaponComponent* m_pSlot;
 
-	// offset from standard rotation center to its custom rotation center
-	Coordinate m_offset;
-	Coordinate m_muzzleOffset;
+    // offset from standard rotation center to its custom rotation center
+    Coordinate m_offset;
+    Coordinate m_muzzleOffset;
 
-	Coordinate m_target;
+    Coordinate m_target;
 
-	clock_t m_coolingTime;
+    clock_t m_coolingTime;
 
-	int m_cost;	// cost of mp
-	
-	int m_burstNum;		// how many bullets at a time
-	double m_accuracy;
-	double m_radius;	// pickup radius
+    int m_cost; // cost of mp
 
-	bool m_isEquipped;
-	bool m_isTriggered;
+    int m_burstNum; // how many bullets at a time
+    double m_accuracy;
+    double m_radius; // pickup radius
 
-	/*
-	** If is exclusive, then it won't appear in the crate.
-	*/
-	bool m_isExclusive;
+    bool m_isEquipped;
+    bool m_isTriggered;
+
+    /*
+    ** If is exclusive, then it won't appear in the crate.
+    */
+    bool m_isExclusive;
 };
-
 
 /********************************************************************
 ** Gun is the standard weapon, just like the guns in real life.
@@ -138,85 +202,134 @@ protected:
 class Gun : public Weapon
 {
 public:
-	Gun(Scene* scene) : Weapon(scene) {}
-	virtual ~Gun() {}
+    Gun(Scene* scene) : Weapon(scene)
+    {
+    }
 
-	virtual Gun* Clone() const;
-	virtual void Clone(Gun* clone) const;
+    ~Gun() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    Gun* Clone() const override;
+    virtual void Clone(Gun* clone) const;
+
+    bool Load(XMLElement* node) override;
 
 public:
-	Coordinate MuzzleOffset() const { return m_muzzleOffset; }
+    Coordinate MuzzleOffset() const
+    {
+        return m_muzzleOffset;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 };
 
 class Bow : public Weapon
 {
 public:
-	Bow(Scene* scene) : Weapon(scene),
-		m_isInterrupted(false), m_isCharged(false) {}
-	virtual ~Bow() {}
+    Bow(Scene* scene) : Weapon(scene), m_isInterrupted(false), m_isCharged(false)
+    {
+    }
 
-	virtual Bow* Clone() const;
-	virtual void Clone(Bow* clone) const;
+    ~Bow() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    Bow* Clone() const override;
+    virtual void Clone(Bow* clone) const;
+
+    bool Load(XMLElement* node) override;
 
 public:
-	Coordinate MuzzleOffset() const { return m_muzzleOffset; }
+    Coordinate MuzzleOffset() const
+    {
+        return m_muzzleOffset;
+    }
 
-	void SetInterrupted(bool isInterrupted) { m_isInterrupted = isInterrupted; }
-	bool IsInterrupted() const { return m_isInterrupted; }
+    void SetInterrupted(bool isInterrupted)
+    {
+        m_isInterrupted = isInterrupted;
+    }
 
-	void SetCharged(bool isCharged) { m_isCharged = isCharged; }
-	bool IsCharged() const { return m_isCharged; }
+    bool IsInterrupted() const
+    {
+        return m_isInterrupted;
+    }
+
+    void SetCharged(bool isCharged)
+    {
+        m_isCharged = isCharged;
+    }
+
+    bool IsCharged() const
+    {
+        return m_isCharged;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 
-	/*
-	** If charge or discharge progress is interrupted, this will be
-	** set to true;
-	*/
-	bool m_isInterrupted;
-	bool m_isCharged;
+    /*
+    ** If charge or discharge progress is interrupted, this will be
+    ** set to true;
+    */
+    bool m_isInterrupted;
+    bool m_isCharged;
 };
 
 class Melee : public Weapon
 {
 public:
-	Melee(Scene* scene) : Weapon(scene) {}
-	virtual ~Melee() {}
+    Melee(Scene* scene) : Weapon(scene)
+    {
+    }
 
-	virtual Melee* Clone() const;
-	virtual void Clone(Melee* clone) const;
+    ~Melee() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    Melee* Clone() const override;
+    virtual void Clone(Melee* clone) const;
+
+    bool Load(XMLElement* node) override;
 
 public:
-	double GetRadian() const { return m_radian; }
-	double GetRange() const { return m_range; }
-	double GetForce() const { return m_force; }
-	int GetDamage() const { return m_damage; }
+    double GetRadian() const
+    {
+        return m_radian;
+    }
+
+    double GetRange() const
+    {
+        return m_range;
+    }
+
+    double GetForce() const
+    {
+        return m_force;
+    }
+
+    int GetDamage() const
+    {
+        return m_damage;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 
-	/*
-	** The attack range of melee is a fan area?
-	** radian is half of the range.
-	*/
-	double m_radian;
-	double m_range;
+    /*
+    ** The attack range of melee is a fan area?
+    ** radian is half of the range.
+    */
+    double m_radian;
+    double m_range;
 
-	/*
-	** Melee weapon doesn't have bullet.
-	*/
-	double m_force;
-	int m_damage;
+    /*
+    ** Melee weapon doesn't have bullet.
+    */
+    double m_force;
+    int m_damage;
 };
 
 #endif

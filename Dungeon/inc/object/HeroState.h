@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For hero's state.                                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -35,104 +35,151 @@
 class HeroState : public State
 {
 public:
-	HeroState() {}
-	virtual ~HeroState() {}
+    HeroState()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~HeroState() override
+    {
+    }
 
-	virtual HeroState* Clone() const = 0;
-	virtual void Clone(HeroState* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    HeroState* Clone() const override = 0;
+    virtual void Clone(HeroState* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-
 };
 
 class HeroNone : public HeroState
 {
-	virtual const char* Name() const { return "None"; }
+    const char* Name() const override
+    {
+        return "None";
+    }
 
-	virtual HeroNone* Clone() const;
-	virtual void Clone(HeroNone* clone) const {}
+    HeroNone* Clone() const override;
 
-	virtual void Update(Event* evnt) {}
+    virtual void Clone(HeroNone* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override
+    {
+    }
 };
 
 class HeroHurt : public HeroState
 {
 public:
-	virtual const char* Name() const { return "Hurt"; }
+    const char* Name() const override
+    {
+        return "Hurt";
+    }
 
-	virtual HeroHurt* Clone() const;
-	virtual void Clone(HeroHurt* clone) const {}
+    HeroHurt* Clone() const override;
 
-	virtual void Update(Event* evnt);
-	
-	virtual void OnEnter();
-	virtual void OnExit();
+    virtual void Clone(HeroHurt* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
+    void OnExit() override;
 };
 
 class YonySkill : public HeroState
 {
 public:
-	virtual const char* Name() const { return "Skill"; }
+    const char* Name() const override
+    {
+        return "Skill";
+    }
 
-	virtual YonySkill* Clone() const;
-	virtual void Clone(YonySkill* clone) const {}
+    YonySkill* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(YonySkill* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class SpecterSkill : public HeroState
 {
 public:
-	SpecterSkill() : m_minAlpha(100), m_maxAlpha(200) {}
-	virtual const char* Name() const { return "Skill"; }
+    SpecterSkill() : m_minAlpha(100), m_maxAlpha(200)
+    {
+    }
 
-	virtual SpecterSkill* Clone() const;
-	virtual void Clone(SpecterSkill* clone) const {}
+    const char* Name() const override
+    {
+        return "Skill";
+    }
 
-	virtual void Update(Event* evnt);
+    SpecterSkill* Clone() const override;
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    virtual void Clone(SpecterSkill* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
+    void OnExit() override;
 
 private:
-	static const int m_DELTA_ALPHA;
+    static const int m_DELTA_ALPHA;
 
-	int m_curAlpha;
-	int m_minAlpha;
-	int m_maxAlpha;
-	int m_delta;
+    int m_curAlpha;
+    int m_minAlpha;
+    int m_maxAlpha;
+    int m_delta;
 };
 
 class BlackHandSkill : public HeroState
 {
 public:
-	virtual const char* Name() const { return "Skill"; }
+    const char* Name() const override
+    {
+        return "Skill";
+    }
 
-	virtual BlackHandSkill* Clone() const;
-	virtual void Clone(BlackHandSkill* clone) const {}
+    BlackHandSkill* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(BlackHandSkill* clone) const
+    {
+    }
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
+    void OnExit() override;
 
 private:
-	virtual void _ThrowFlame();
+    virtual void _ThrowFlame();
 
-	static const int m_FLAME_NUM;
-	static const int m_FLAME_RADIUS;
-	static const double m_DELTA;
+    static const int m_FLAME_NUM;
+    static const int m_FLAME_RADIUS;
+    static const double m_DELTA;
 };
 
 #endif

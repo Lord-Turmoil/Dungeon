@@ -12,7 +12,7 @@
  *                    Last Update : August 25, 2022                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Enemies of the game.                                                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -28,10 +28,9 @@
 
 #include "Figure.h"
 
-
 /********************************************************************
 ** Enemy is slightly different from hero, for it should behave on it
-** self. Since enemies varies, in this version, enemies do not have 
+** self. Since enemies varies, in this version, enemies do not have
 ** specific class, they are just categoried by level, which is used
 ** for generation. Of course, Boss still have name, and yes, specific
 ** class. Enemies with negative level is intended to be found only
@@ -48,51 +47,86 @@
 class Enemy : public Figure
 {
 public:
-	Enemy(Scene* pScene) : Figure(ObjectType::OBJ_ENEMY, pScene),
-		m_facing(DIR_LEFT) {}
-	virtual ~Enemy() {}
+    Enemy(Scene* pScene) : Figure(OBJ_ENEMY, pScene), m_facing(DIR_LEFT)
+    {
+    }
 
-	int Level() const { return m_level; }
+    ~Enemy() override
+    {
+    }
 
-	/*
-	** Here, enemy is both a final and an intermediate
-	** class, so it has both Clone functions.
-	*/
-	virtual Enemy* Clone() const;
-	virtual void Clone(Enemy* clone) const;
+    int Level() const
+    {
+        return m_level;
+    }
 
-	virtual bool Load(XMLElement* node);
+    /*
+     ** Here, enemy is both a final and an intermediate
+     ** class, so it has both Clone functions.
+     */
+    Enemy* Clone() const override;
+    virtual void Clone(Enemy* clone) const;
+
+    bool Load(XMLElement* node) override;
 
 public:
-	int GetDamage() const { return m_damage; }
-	int GetCoin() const { return m_coin; }
-	int GetEnergy() const { return m_energy; }
-	double GetAlertRadius() const { return m_alertRadius; }
-	double GetAttackRadius() const { return m_attackRadius; }
-	clock_t GetRestDuration() const { return m_restDuration; }
+    int GetDamage() const
+    {
+        return m_damage;
+    }
 
-	void SetFacing(Direction facing);
-	Direction GetFacing() const { return m_facing; }
-	void ChangeFacing();
+    int GetCoin() const
+    {
+        return m_coin;
+    }
+
+    int GetEnergy() const
+    {
+        return m_energy;
+    }
+
+    double GetAlertRadius() const
+    {
+        return m_alertRadius;
+    }
+
+    double GetAttackRadius() const
+    {
+        return m_attackRadius;
+    }
+
+    clock_t GetRestDuration() const
+    {
+        return m_restDuration;
+    }
+
+    void SetFacing(Direction facing);
+
+    Direction GetFacing() const
+    {
+        return m_facing;
+    }
+
+    void ChangeFacing();
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
-	virtual void _InitState();
+    void _InitBehavior(XMLElement* node = nullptr) override;
+    void _InitState() override;
 
 protected:
-	int m_level;
+    int m_level;
 
-	int m_damage;
-	
-	// For generation on defeat. These are max value.
-	int m_coin;
-	int m_energy;
+    int m_damage;
 
-	double m_alertRadius;
-	double m_attackRadius;
-	clock_t m_restDuration;
+    // For generation on defeat. These are max value.
+    int m_coin;
+    int m_energy;
 
-	Direction m_facing;
+    double m_alertRadius;
+    double m_attackRadius;
+    clock_t m_restDuration;
+
+    Direction m_facing;
 };
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update : December 8, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Portal.                                                                  *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,7 +26,6 @@
 
 #include "Object.h"
 
-
 /********************************************************************
 ** 2022/12/08 TS:
 **   Now, Portal can not only do level up, but also jump to flashback
@@ -37,28 +36,44 @@ class Flashback;
 class Portal final : public Object
 {
 public:
-	Portal(Scene* scene);
-	virtual ~Portal() {}
+    Portal(Scene* scene);
 
-	virtual Portal* Clone() const;
-	virtual void Clone(Portal* clone) const {}
+    ~Portal() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    Portal* Clone() const override;
 
-	void Initialize();
+    virtual void Clone(Portal* clone) const
+    {
+    }
 
-	void SetFlashback(Flashback* flashback) { m_pFlashback = flashback; }
-	Flashback* GetFlashback() { return m_pFlashback; }
+    bool Load(XMLElement* node) override;
+
+    void Initialize();
+
+    void SetFlashback(Flashback* flashback)
+    {
+        m_pFlashback = flashback;
+    }
+
+    Flashback* GetFlashback()
+    {
+        return m_pFlashback;
+    }
 
 public:
-	double GetRadius() const { return m_radius; }
+    double GetRadius() const
+    {
+        return m_radius;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 
-	double m_radius;
+    double m_radius;
 
-	Flashback* m_pFlashback;
+    Flashback* m_pFlashback;
 };
 
 #endif

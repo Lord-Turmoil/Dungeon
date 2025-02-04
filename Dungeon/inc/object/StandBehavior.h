@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The stand has many behaviors.                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -45,46 +45,54 @@
 class StandBehavior : public Behavior
 {
 public:
-	StandBehavior();
-	virtual ~StandBehavior() {}
+    StandBehavior();
 
-	virtual const char* Name() const = 0;
+    ~StandBehavior() override
+    {
+    }
 
-	virtual StandBehavior* Clone() const = 0;
-	virtual void Clone(StandBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    StandBehavior* Clone() const override = 0;
+    virtual void Clone(StandBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    void Update(Event* evnt) override = 0;
 
-protected:
-	void _AdjustDirection(bool isLeft);
-	virtual void _ApplyFontAttribute();
-	virtual void _RenderDialog() {}
-
-	/*
-	** The stand is too large, that it gets out of the border
-	** range of hero, which cause the latter not detect it
-	** correctly. So it should detect collision actively.
-	*/
-	virtual void _Collide();
+    void OnEnter() override;
+    void OnExit() override;
 
 protected:
-	enum StandAnimTag
-	{
-		STAND_ANIM_ACTIVE
-	};
+    void _AdjustDirection(bool isLeft);
+    virtual void _ApplyFontAttribute();
 
-	static const std::string DIALOG_RES_ID;
-	static const time_t STAND_TIMEOUT;
+    virtual void _RenderDialog()
+    {
+    }
 
-	time_t m_elapsedTime;
-	Symbol m_symbol;		// dialog image
+    /*
+    ** The stand is too large, that it gets out of the border
+    ** range of hero, which cause the latter not detect it
+    ** correctly. So it should detect collision actively.
+    */
+    virtual void _Collide();
+
+protected:
+    enum StandAnimTag
+    {
+        STAND_ANIM_ACTIVE
+    };
+
+    static const std::string DIALOG_RES_ID;
+    static const time_t STAND_TIMEOUT;
+
+    time_t m_elapsedTime;
+    Symbol m_symbol; // dialog image
 };
-
 
 /********************************************************************
 ** StandIdle
@@ -92,24 +100,41 @@ protected:
 class StandIdle : public StandBehavior
 {
 public:
-	StandIdle() { _RenderDialog(); }
-	virtual ~StandIdle() {}
+    StandIdle()
+    {
+        _RenderDialog();
+    }
 
-	virtual const char* Name() const { return "Idle"; }
+    ~StandIdle() override
+    {
+    }
 
-	virtual StandIdle* Clone() const;
-	virtual void Clone(StandIdle* clone) const {}
+    const char* Name() const override
+    {
+        return "Idle";
+    }
 
-	virtual void Update(Event* evnt);
+    StandIdle* Clone() const override;
 
-	virtual void OnEnter();
-	virtual void OnExit() {}
+    virtual void Clone(StandIdle* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	virtual void _RenderDialog() {}
+    void _RenderDialog() override
+    {
+    }
 
 private:
-	static const time_t IDLE_DURATION;
+    static const time_t IDLE_DURATION;
 };
 
 /********************************************************************
@@ -118,24 +143,36 @@ private:
 class StandChoose : public StandBehavior
 {
 public:
-	StandChoose() { _RenderDialog(); }
-	virtual ~StandChoose() {}
+    StandChoose()
+    {
+        _RenderDialog();
+    }
 
-	virtual const char* Name() const { return "Choose"; }
+    ~StandChoose() override
+    {
+    }
 
-	virtual StandChoose* Clone() const;
-	virtual void Clone(StandChoose* clone) const {}
+    const char* Name() const override
+    {
+        return "Choose";
+    }
 
-	virtual void Update(Event* evnt);
+    StandChoose* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(StandChoose* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 protected:
-	virtual void _RenderDialog();
+    void _RenderDialog() override;
 
 private:
-	static const wchar_t PROMPT_SAVE[];
-	static const wchar_t PROMPT_FLASH[];
+    static const wchar_t PROMPT_SAVE[];
+    static const wchar_t PROMPT_FLASH[];
 };
 
 /********************************************************************
@@ -144,21 +181,33 @@ private:
 class StandGreet : public StandBehavior
 {
 public:
-	StandGreet() { _RenderDialog(); }
-	virtual ~StandGreet() {}
+    StandGreet()
+    {
+        _RenderDialog();
+    }
 
-	virtual const char* Name() const { return "Greet"; }
+    ~StandGreet() override
+    {
+    }
 
-	virtual StandGreet* Clone() const;
-	virtual void Clone(StandGreet* clone) const {}
+    const char* Name() const override
+    {
+        return "Greet";
+    }
 
-	virtual void Update(Event* evnt);
+    StandGreet* Clone() const override;
+
+    virtual void Clone(StandGreet* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
 
 protected:
-	virtual void _RenderDialog();
+    void _RenderDialog() override;
 
 private:
-	static const wchar_t PROMPT_GREET[];
+    static const wchar_t PROMPT_GREET[];
 };
 
 /********************************************************************
@@ -167,24 +216,36 @@ private:
 class StandSave : public StandBehavior
 {
 public:
-	StandSave() { _RenderDialog(); }
-	virtual ~StandSave() {}
+    StandSave()
+    {
+        _RenderDialog();
+    }
 
-	virtual const char* Name() const { return "Save"; }
+    ~StandSave() override
+    {
+    }
 
-	virtual StandSave* Clone() const;
-	virtual void Clone(StandSave* clone) const {}
+    const char* Name() const override
+    {
+        return "Save";
+    }
 
-	virtual void Update(Event* evnt);
+    StandSave* Clone() const override;
+
+    virtual void Clone(StandSave* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
 
 protected:
-	virtual void _RenderDialog();
+    void _RenderDialog() override;
 
 private:
-	static const wchar_t PROMPT_CONFIRM_SAVE_1[];
-	static const wchar_t PROMPT_CONFIRM_SAVE_2[];
+    static const wchar_t PROMPT_CONFIRM_SAVE_1[];
+    static const wchar_t PROMPT_CONFIRM_SAVE_2[];
 
-	bool _Save();
+    bool _Save();
 };
 
 /********************************************************************
@@ -193,25 +254,37 @@ private:
 class StandFlash : public StandBehavior
 {
 public:
-	StandFlash() { _RenderDialog(); }
-	virtual ~StandFlash() {}
+    StandFlash()
+    {
+        _RenderDialog();
+    }
 
-	virtual const char* Name() const { return "Flash"; }
+    ~StandFlash() override
+    {
+    }
 
-	virtual StandFlash* Clone() const;
-	virtual void Clone(StandFlash* clone) const {}
+    const char* Name() const override
+    {
+        return "Flash";
+    }
 
-	virtual void Update(Event* evnt);
+    StandFlash* Clone() const override;
+
+    virtual void Clone(StandFlash* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
 
 protected:
-	virtual void _RenderDialog();
+    void _RenderDialog() override;
 
 private:
-	static const wchar_t PROMPT_CONFIRM_FLASH_1[];
-	static const wchar_t PROMPT_CONFIRM_FLASH_2[];
+    static const wchar_t PROMPT_CONFIRM_FLASH_1[];
+    static const wchar_t PROMPT_CONFIRM_FLASH_2[];
 
-	bool _Flash();
-	void _GeneratePortal();
+    bool _Flash();
+    void _GeneratePortal();
 };
 
 /********************************************************************
@@ -220,25 +293,37 @@ private:
 class StandSaved : public StandBehavior
 {
 public:
-	StandSaved() { _RenderDialog(); }
-	virtual ~StandSaved() {}
+    StandSaved()
+    {
+        _RenderDialog();
+    }
 
-	virtual const char* Name() const { return "Saved"; }
+    ~StandSaved() override
+    {
+    }
 
-	virtual StandSaved* Clone() const;
-	virtual void Clone(StandSaved* clone) const {}
+    const char* Name() const override
+    {
+        return "Saved";
+    }
 
-	virtual void Update(Event* evnt);
+    StandSaved* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(StandSaved* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 protected:
-	virtual void _RenderDialog();
+    void _RenderDialog() override;
 
 private:
-	static const wchar_t PROMPT_SAVED[];
+    static const wchar_t PROMPT_SAVED[];
 
-	void _CostCoin();
+    void _CostCoin();
 };
 
 /********************************************************************
@@ -247,23 +332,35 @@ private:
 class StandFlashed : public StandBehavior
 {
 public:
-	StandFlashed() { _RenderDialog(); }
-	virtual ~StandFlashed() {}
+    StandFlashed()
+    {
+        _RenderDialog();
+    }
 
-	virtual const char* Name() const { return "Flashed"; }
+    ~StandFlashed() override
+    {
+    }
 
-	virtual StandFlashed* Clone() const;
-	virtual void Clone(StandFlashed* clone) const {}
+    const char* Name() const override
+    {
+        return "Flashed";
+    }
 
-	virtual void Update(Event* evnt);
+    StandFlashed* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(StandFlashed* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 protected:
-	virtual void _RenderDialog();
+    void _RenderDialog() override;
 
 private:
-	static const wchar_t PROMPT_FLASHED[];
+    static const wchar_t PROMPT_FLASHED[];
 };
 
 /********************************************************************
@@ -272,23 +369,35 @@ private:
 class StandCancel : public StandBehavior
 {
 public:
-	StandCancel() { _RenderDialog(); }
-	virtual ~StandCancel() {}
+    StandCancel()
+    {
+        _RenderDialog();
+    }
 
-	virtual const char* Name() const { return "Cancel"; }
+    ~StandCancel() override
+    {
+    }
 
-	virtual StandCancel* Clone() const;
-	virtual void Clone(StandCancel* clone) const {}
+    const char* Name() const override
+    {
+        return "Cancel";
+    }
 
-	virtual void Update(Event* evnt);
+    StandCancel* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(StandCancel* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 protected:
-	virtual void _RenderDialog();
+    void _RenderDialog() override;
 
 private:
-	static const wchar_t PROMPT_CANCEL[];
+    static const wchar_t PROMPT_CANCEL[];
 };
 
 /********************************************************************
@@ -297,23 +406,35 @@ private:
 class StandInsufficient : public StandBehavior
 {
 public:
-	StandInsufficient() { _RenderDialog(); }
-	virtual ~StandInsufficient() {}
+    StandInsufficient()
+    {
+        _RenderDialog();
+    }
 
-	virtual const char* Name() const { return "Insufficient"; }
+    ~StandInsufficient() override
+    {
+    }
 
-	virtual StandInsufficient* Clone() const;
-	virtual void Clone(StandInsufficient* clone) const {}
+    const char* Name() const override
+    {
+        return "Insufficient";
+    }
 
-	virtual void Update(Event* evnt);
+    StandInsufficient* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(StandInsufficient* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 protected:
-	virtual void _RenderDialog();
+    void _RenderDialog() override;
 
 private:
-	static const wchar_t PROMPT_INSUFFICIENT[];
+    static const wchar_t PROMPT_INSUFFICIENT[];
 };
 
 /********************************************************************
@@ -322,23 +443,35 @@ private:
 class StandError : public StandBehavior
 {
 public:
-	StandError() { _RenderDialog(); }
-	virtual ~StandError() {}
+    StandError()
+    {
+        _RenderDialog();
+    }
 
-	virtual const char* Name() const { return "Error"; }
+    ~StandError() override
+    {
+    }
 
-	virtual StandError* Clone() const;
-	virtual void Clone(StandError* clone) const {}
+    const char* Name() const override
+    {
+        return "Error";
+    }
 
-	virtual void Update(Event* evnt);
+    StandError* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(StandError* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 protected:
-	virtual void _RenderDialog();
+    void _RenderDialog() override;
 
 private:
-	static const wchar_t PROMPT_ERROR[];
+    static const wchar_t PROMPT_ERROR[];
 };
 
 #endif

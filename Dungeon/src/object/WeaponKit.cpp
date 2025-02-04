@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Factory of weapons.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,9 +21,8 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Weapon.h"
 #include "../../inc/object/WeaponKit.h"
-
+#include "../../inc/object/Weapon.h"
 
 /******************************************************************************
  * WeaponKit::LoadObject -- Load weapon.                                      *
@@ -41,20 +40,30 @@
  *============================================================================*/
 Weapon* WeaponKit::LoadObject(XMLElement* node)
 {
-	const char* name = node->Name();
-	Weapon* weapon = nullptr;
+    const char* name = node->Name();
+    Weapon* weapon = nullptr;
 
-	if (_STR_SAME(name, "Gun"))
-		weapon = new Gun(nullptr);
-	else if (_STR_SAME(name, "Bow"))
-		weapon = new Bow(nullptr);
-	else if (_STR_SAME(name, "Melee"))
-		weapon = new Melee(nullptr);
-	
-	if (weapon)
-		weapon->Load(node);
-	else
-		LOG_ERROR(UNKNOWN_TAG, name);
+    if (_STR_SAME(name, "Gun"))
+    {
+        weapon = new Gun(nullptr);
+    }
+    else if (_STR_SAME(name, "Bow"))
+    {
+        weapon = new Bow(nullptr);
+    }
+    else if (_STR_SAME(name, "Melee"))
+    {
+        weapon = new Melee(nullptr);
+    }
 
-	return weapon;
+    if (weapon)
+    {
+        weapon->Load(node);
+    }
+    else
+    {
+        LOG_ERROR(UNKNOWN_TAG, name);
+    }
+
+    return weapon;
 }

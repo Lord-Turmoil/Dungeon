@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Shape info of widgets.                                                   *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -27,7 +27,6 @@
 #include "../common/Common.h"
 #include "../utility/tinyxml.h"
 
-
 /********************************************************************
 ** Cell is the base class of Drawer and Trigger. It contains the
 ** basic info of shapes.
@@ -35,86 +34,112 @@
 class Cell
 {
 public:
-	Cell() : m_width(0), m_height(0), m_cellChanged(true) {}
-	Cell(int width, int height)
-		: m_width(width), m_height(height), m_cellChanged(true) {}
-	virtual ~Cell() {}
+    Cell() : m_width(0), m_height(0), m_cellChanged(true)
+    {
+    }
 
-	Cell* SetCoord(const Coordinate& coord)
-	{
-		m_coord = coord;
-		return this;
-	}
-	Cell* SetCoord(int x, int y)
-	{
-		m_coord.Init(x, y);
-		return this;
-	}
-	Coordinate GetCoord() const { return m_coord; }
+    Cell(int width, int height) : m_width(width), m_height(height), m_cellChanged(true)
+    {
+    }
 
-	Cell* SetSize(int width, int height)
-	{
-		m_width = width;
-		m_height = height;
-		m_cellChanged = true;
-		return this;
-	}
-	Cell* SetWidth(int width)
-	{
-		m_width = width;
-		m_cellChanged = true;
-		return this;
-	}
-	Cell* SetHeight(int height)
-	{
-		m_height = height;
-		m_cellChanged = true;
-		return this;
-	}
-	int GetWidth() const { return m_width; }
-	int GetHeight() const { return m_height; }
+    virtual ~Cell()
+    {
+    }
 
-	Cell* SetFocus(const Coordinate& focus)
-	{
-		m_focus = focus;
-		return this;
-	}
-	Cell* SetFocus(int x, int y)
-	{
-		m_focus.Init(x, y);
-		return this;
-	}
-	Coordinate GetFocus() const { return m_focus; }
+    Cell* SetCoord(const Coordinate& coord)
+    {
+        m_coord = coord;
+        return this;
+    }
 
-	Cell* Translate(const Coordinate& offset)
-	{
-		m_coord += offset;
-		return this;
-	}
+    Cell* SetCoord(int x, int y)
+    {
+        m_coord.Init(x, y);
+        return this;
+    }
 
-	void LoadProperty(XMLElement* node);
+    Coordinate GetCoord() const
+    {
+        return m_coord;
+    }
+
+    Cell* SetSize(int width, int height)
+    {
+        m_width = width;
+        m_height = height;
+        m_cellChanged = true;
+        return this;
+    }
+
+    Cell* SetWidth(int width)
+    {
+        m_width = width;
+        m_cellChanged = true;
+        return this;
+    }
+
+    Cell* SetHeight(int height)
+    {
+        m_height = height;
+        m_cellChanged = true;
+        return this;
+    }
+
+    int GetWidth() const
+    {
+        return m_width;
+    }
+
+    int GetHeight() const
+    {
+        return m_height;
+    }
+
+    Cell* SetFocus(const Coordinate& focus)
+    {
+        m_focus = focus;
+        return this;
+    }
+
+    Cell* SetFocus(int x, int y)
+    {
+        m_focus.Init(x, y);
+        return this;
+    }
+
+    Coordinate GetFocus() const
+    {
+        return m_focus;
+    }
+
+    Cell* Translate(const Coordinate& offset)
+    {
+        m_coord += offset;
+        return this;
+    }
+
+    void LoadProperty(XMLElement* node);
 
 protected:
-	virtual void _LoadProperty(XMLElement* node);
-	virtual void _AdjustProperty(XMLElement* node);
+    virtual void _LoadProperty(XMLElement* node);
+    virtual void _AdjustProperty(XMLElement* node);
 
-	Coordinate m_coord;
-	int m_width;
-	int m_height;
+    Coordinate m_coord;
+    int m_width;
+    int m_height;
 
-	/*
-	** m_focus is the coordinate inside the drawer, whose global
-	** coordinate is m_coord.
-	*/
-	Coordinate m_focus;
+    /*
+    ** m_focus is the coordinate inside the drawer, whose global
+    ** coordinate is m_coord.
+    */
+    Coordinate m_focus;
 
-	/*
-	** This is for derived classes. If is changed, then the upper
-	** level should do some thing.
-	*/
-	bool m_cellChanged;
+    /*
+    ** This is for derived classes. If is changed, then the upper
+    ** level should do some thing.
+    */
+    bool m_cellChanged;
 };
-
 
 /********************************************************************
 ** Cell with a rectangle shape.
@@ -122,15 +147,22 @@ protected:
 class RectCell : public Cell
 {
 public:
-	RectCell() {}
-	RectCell(int width, int height) : Cell(width, height) {}
-	virtual ~RectCell() {}
+    RectCell()
+    {
+    }
+
+    RectCell(int width, int height) : Cell(width, height)
+    {
+    }
+
+    ~RectCell() override
+    {
+    }
 
 protected:
-	virtual void _LoadProperty(XMLElement* node);
-	virtual void _AdjustProperty(XMLElement* node);
+    void _LoadProperty(XMLElement* node) override;
+    void _AdjustProperty(XMLElement* node) override;
 };
-
 
 /********************************************************************
 ** Cell with a roundrectangel shape.
@@ -138,26 +170,37 @@ protected:
 class RoundRectCell : public RectCell
 {
 public:
-	RoundRectCell() : m_radius(0) {}
-	RoundRectCell(int width, int height, int radius = 0) : RectCell(width, height), m_radius(radius) {}
-	virtual ~RoundRectCell() {}
+    RoundRectCell() : m_radius(0)
+    {
+    }
 
-	RoundRectCell* SetRadius(int radius)
-	{
-		m_radius = radius;
-		m_cellChanged = true;
-		return this;
-	}
-	int GetRadius() const { return m_radius; }
+    RoundRectCell(int width, int height, int radius = 0) : RectCell(width, height), m_radius(radius)
+    {
+    }
+
+    ~RoundRectCell() override
+    {
+    }
+
+    RoundRectCell* SetRadius(int radius)
+    {
+        m_radius = radius;
+        m_cellChanged = true;
+        return this;
+    }
+
+    int GetRadius() const
+    {
+        return m_radius;
+    }
 
 protected:
-	virtual void _LoadProperty(XMLElement* node);
-	virtual void _AdjustProperty(XMLElement* node);
+    void _LoadProperty(XMLElement* node) override;
+    void _AdjustProperty(XMLElement* node) override;
 
-	// Four border-radius are the same.
-	int m_radius;
+    // Four border-radius are the same.
+    int m_radius;
 };
-
 
 /********************************************************************
 ** Cell with a circle shape. For circle cell, m_width and m_height
@@ -166,26 +209,36 @@ protected:
 class CircleCell : public Cell
 {
 public:
-	CircleCell() : m_radius(0) {}
-	CircleCell(int radius) : Cell()
-	{
-		m_radius = radius;
-	}
-	virtual ~CircleCell() {}
+    CircleCell() : m_radius(0)
+    {
+    }
 
-	CircleCell* SetRadius(int radius)
-	{
-		m_radius = radius;
-		m_cellChanged = true;
-		return this;
-	}
-	int GetRadius() const { return m_radius; }
+    CircleCell(int radius) : Cell()
+    {
+        m_radius = radius;
+    }
+
+    ~CircleCell() override
+    {
+    }
+
+    CircleCell* SetRadius(int radius)
+    {
+        m_radius = radius;
+        m_cellChanged = true;
+        return this;
+    }
+
+    int GetRadius() const
+    {
+        return m_radius;
+    }
 
 protected:
-	virtual void _LoadProperty(XMLElement* node);
-	virtual void _AdjustProperty(XMLElement* node);
+    void _LoadProperty(XMLElement* node) override;
+    void _AdjustProperty(XMLElement* node) override;
 
-	int m_radius;
+    int m_radius;
 };
 
 #endif

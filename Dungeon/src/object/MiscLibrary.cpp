@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For miscellaneous objects.                                               *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,10 +21,9 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Object.h"
-#include "../../inc/object/MiscKit.h"
 #include "../../inc/object/MiscLibrary.h"
-
+#include "../../inc/object/MiscKit.h"
+#include "../../inc/object/Object.h"
 
 /******************************************************************************
  * MiscLibrary::Load -- Load misc library.                                    *
@@ -42,17 +41,16 @@
  *============================================================================*/
 bool MiscLibrary::Load(const char* filename)
 {
-	XMLFile file;
+    XMLFile file;
 
-	file.Load(filename);
+    file.Load(filename);
 
-	Load(file.GetRoot());
+    Load(file.GetRoot());
 
-	file.UnLoad();
+    file.UnLoad();
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * MiscLibrary::Load -- Load misc library.                                    *
@@ -70,33 +68,32 @@ bool MiscLibrary::Load(const char* filename)
  *============================================================================*/
 bool MiscLibrary::Load(XMLElement* node)
 {
-/*
-**	<MiscLibrary>
-**		<ObjectName ...>...</ObjectName>
-**		<ObjectName ...>...</ObjectName>
-**		<ObjectName ...>...</ObjectName>
-**	</MiscLibrary>
-*/
-	const char* name = node->Name();
+    /*
+    **	<MiscLibrary>
+    **		<ObjectName ...>...</ObjectName>
+    **		<ObjectName ...>...</ObjectName>
+    **		<ObjectName ...>...</ObjectName>
+    **	</MiscLibrary>
+    */
+    const char* name = node->Name();
 
-	_CHECK_TAG("MiscLibrary");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("MiscLibrary");
+    _RETURN_IF_ERROR();
 
-	MiscKit kit;
-	XMLElement* elem = node->FirstChildElement();
-	Object* obj;
-	std::string objName;
-	while (elem)
-	{
-		obj = kit.LoadObject(elem, objName);
-		AddItem(objName, obj);
+    MiscKit kit;
+    XMLElement* elem = node->FirstChildElement();
+    Object* obj;
+    std::string objName;
+    while (elem)
+    {
+        obj = kit.LoadObject(elem, objName);
+        AddItem(objName, obj);
 
-		elem = elem->NextSiblingElement();
-	}
+        elem = elem->NextSiblingElement();
+    }
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * MiscLibrary::UnLoad -- Unload all resources.                               *
@@ -114,7 +111,9 @@ bool MiscLibrary::Load(XMLElement* node)
  *============================================================================*/
 void MiscLibrary::UnLoad()
 {
-	for (auto it = m_pool.begin(); it != m_pool.end(); it++)
-		delete it->second;
-	m_pool.clear();
+    for (auto it = m_pool.begin(); it != m_pool.end(); it++)
+    {
+        delete it->second;
+    }
+    m_pool.clear();
 }

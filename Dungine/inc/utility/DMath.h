@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide all math operations.                                             *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -42,63 +42,57 @@
 #define sign(x) (((x) < (0)) ? (-1) : (1))
 #endif
 
-template<typename T>
-inline T dabs(T a)
+template <typename T> T dabs(T a)
 {
-	return (a > (T)0) ? a : (-a);
+    return (a > static_cast<T>(0)) ? a : (-a);
 }
 
-template<typename T>
-inline T dmax(T a, T b)
+template <typename T> T dmax(T a, T b)
 {
-	return (a > b) ? a : b;
+    return (a > b) ? a : b;
 }
 
-template<typename T>
-inline T dmin(T a, T b)
+template <typename T> T dmin(T a, T b)
 {
-	return (a < b) ? a : b;
+    return (a < b) ? a : b;
 }
 
-template<typename T, typename... Values>
-inline T dmax(T arg, Values... args)
+template <typename T, typename... Values> T dmax(T arg, Values... args)
 {
-	return dmax(arg, dmax(args...));
+    return dmax(arg, dmax(args...));
 }
 
-template<typename T, typename... Values>
-inline T dmin(T arg, Values... args)
+template <typename T, typename... Values> T dmin(T arg, Values... args)
 {
-	return dmin(arg, dmin(args...));
+    return dmin(arg, dmin(args...));
 }
 
 inline int to_even(int a)
 {
-	return a & (~1);
+    return a & (~1);
 }
 
 inline int to_odd(int a)
 {
-	return a | 1;
+    return a | 1;
 }
-
 
 // distance
 double Distance(const Coordinate& p1, const Coordinate& p2);
 int ManhattanDist(const Coordinate& p1, const Coordinate& p2);
 int ManhattanDist(int x1, int y1, int x2, int y2);
-template<typename T>
-double Distance(T x1, T y1, T x2, T y2)
-{
-	T dx = x1 - x2;
-	T dy = y1 - y2;
 
-	return sqrt(dx * dx + dy * dy);
-}
-template<typename T>
-double Distance(T x, T y)
+template <typename T> double Distance(T x1, T y1, T x2, T y2)
 {
-	return sqrt(x * x + y * y);
+    T dx = x1 - x2;
+    T dy = y1 - y2;
+
+    return sqrt(dx * dx + dy * dy);
+}
+
+template <typename T> double Distance(T x, T y)
+{
+    return sqrt(x * x + y * y);
 }
 
 // vector operations
@@ -115,27 +109,27 @@ double ScalarProjection(Vector& vec, Vector& base);
 
 inline bool IsZero(const Vector& vec)
 {
-	return Module(vec) < EPSILON;
+    return Module(vec) < EPSILON;
 }
 
 inline bool IsZero(double x)
 {
-	return dabs(x) < EPSILON;
+    return dabs(x) < EPSILON;
 }
 
 inline bool IsTrivia(const Vector& vec)
 {
-	return Module(vec) < 1.0;
+    return Module(vec) < 1.0;
 }
 
 inline bool IsTrivia(double x)
 {
-	return dabs(x) < 1.0;
+    return dabs(x) < 1.0;
 }
 
 inline bool IsOpposite(double x, double y)
 {
-	return ((x < 0.0) != (y < 0.0));
+    return ((x < 0.0) != (y < 0.0));
 }
 
 // Get direction from v1 to v2.

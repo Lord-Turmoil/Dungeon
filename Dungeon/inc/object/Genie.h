@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Genie is enemy that holds weapon.                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,21 +29,29 @@
 class Genie : public Enemy
 {
 public:
-	Genie(Scene* pScene) : Enemy(pScene) {}
-	virtual ~Genie() {}
+    Genie(Scene* pScene) : Enemy(pScene)
+    {
+    }
 
-	virtual Genie* Clone() const;
-	virtual void Clone(Genie* clone) const;
+    ~Genie() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    Genie* Clone() const override;
+    virtual void Clone(Genie* clone) const;
+
+    bool Load(XMLElement* node) override;
 
 public:
-	double GetScareRadius() const { return m_scareRadius; }
+    double GetScareRadius() const
+    {
+        return m_scareRadius;
+    }
 
 public:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 
-	double m_scareRadius;
+    double m_scareRadius;
 };
 
 #endif

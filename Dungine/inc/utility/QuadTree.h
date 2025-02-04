@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide extra function of quadruple tree for collision check.            *
  * -------------------------------------------------------------------------- *
  * Reference:                                                                 *
@@ -46,67 +46,67 @@ const int MAX_DENSITY = 64;
 
 class QuadTreeNode
 {
-	friend class QuadTree;
+    friend class QuadTree;
 
 public:
-	QuadTreeNode(const Rect& range, int maxDensity);
-	
+    QuadTreeNode(const Rect& range, int maxDensity);
+
 private:
-	union
-	{
-		/*
-		**          |
-		** m_pDelta | m_pGamma
-		** --------------------->
-		** m_pBeta  | m_pAlpha
-		**          | 
-		**          V
-		*/
-		struct
-		{
-			QuadTreeNode* m_pAlpha;
-			QuadTreeNode* m_pBeta;
-			QuadTreeNode* m_pGamma;
-			QuadTreeNode* m_pDelta;
-		};
-		QuadTreeNode* m_pSubNode[4];
-	};
+    union
+    {
+        /*
+        **          |
+        ** m_pDelta | m_pGamma
+        ** --------------------->
+        ** m_pBeta  | m_pAlpha
+        **          |
+        **          V
+        */
+        struct
+        {
+            QuadTreeNode* m_pAlpha;
+            QuadTreeNode* m_pBeta;
+            QuadTreeNode* m_pGamma;
+            QuadTreeNode* m_pDelta;
+        };
 
-	Rect m_range;				// border of the node
-	GameObject** m_pObjects;	// boxes in current rect
-	int m_boxNum;				// number of points in range
-	int m_maxDensity;			// max point number in range
-	bool m_isSplit;				// whether split or not
+        QuadTreeNode* m_pSubNode[4];
+    };
+
+    Rect m_range;            // border of the node
+    GameObject** m_pObjects; // boxes in current rect
+    int m_boxNum;            // number of points in range
+    int m_maxDensity;        // max point number in range
+    bool m_isSplit;          // whether split or not
 };
-
 
 class QuadTree
 {
 public:
-	QuadTree();
-	QuadTree(const Rect& range, int maxDensity = DEFAULT_DENSITY);
-	~QuadTree();
+    QuadTree();
+    QuadTree(const Rect& range, int maxDensity = DEFAULT_DENSITY);
+    ~QuadTree();
 
-	void Initialize(const Rect& range, int maxDensity = DEFAULT_DENSITY);
-	void Destroy();
+    void Initialize(const Rect& range, int maxDensity = DEFAULT_DENSITY);
+    void Destroy();
 
-	void Insert(GameObject* obj);
-	void Query(const Rect& range, std::vector<GameObject*>& results);
-	void Query(GameObject* obj, std::vector<GameObject*>& results);
-	std::vector<GameObject*> Query(const Rect& range);	// RVO?
-	std::vector<GameObject*> Query(GameObject* obj);	// RVO?
-	
-	void Clear();
+    void Insert(GameObject* obj);
+    void Query(const Rect& range, std::vector<GameObject*>& results);
+    void Query(GameObject* obj, std::vector<GameObject*>& results);
+    std::vector<GameObject*> Query(const Rect& range); // RVO?
+    std::vector<GameObject*> Query(GameObject* obj);   // RVO?
 
-private:
-	bool _Split(QuadTreeNode* node);
-	bool _Insert(QuadTreeNode* node, GameObject* obj);
-	void _Query(QuadTreeNode* node, const Rect& range, std::vector<GameObject*>& results);
-	void _Destroy(QuadTreeNode* node);
+    void Clear();
 
 private:
-	QuadTreeNode* m_pQuadTree;
-	int m_maxBoxDensity;
+    bool _Split(QuadTreeNode* node);
+    bool _Insert(QuadTreeNode* node, GameObject* obj);
+    void _Query(QuadTreeNode* node, const Rect& range, std::vector<GameObject*>& results);
+    void _Destroy(QuadTreeNode* node);
+
+private:
+    QuadTreeNode* m_pQuadTree;
+    int m_maxBoxDensity;
 };
 
 #endif

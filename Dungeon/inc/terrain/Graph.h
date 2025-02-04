@@ -12,7 +12,7 @@
  *                    Last Update : August 13, 2022                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide all graph algorithms.                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -28,80 +28,77 @@
 
 #include <dungine.h>
 
-
 /********************************************************************
 ** The direction of each move, and their corresponding costs for
 ** AStar.
 ** 2022/08/13 TS:
 ** Here is a trick that figure may sometimes be stuck if he's gonna
 ** go diagonal, so DIR[] is carefully arranged. :)
-** 
+**
 */
 const int DIR_NUM = 8;
 const int RIGID_DIR_NUM = 4;
 
-const Coordinate DIR[8] = {
-	{ -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 },
-	{ -1, -1 }, { 1, -1 }, { -1, 1 }, { 1, 1 } };
+const Coordinate DIR[8] = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 }, { 1, 1 } };
 
 const int DIR_COST[8] = { 2, 2, 2, 2, 3, 3, 3, 3 };
 
 const int INF_COST = INF_INT;
 
-
 enum class GridType
 {
-	GRID_OBJECT = 0,	// temporary obstacle
-	GRID_OBSTACLE,
-	GRID_PLAIN		// nothing.
+    GRID_OBJECT = 0, // temporary obstacle
+    GRID_OBSTACLE,
+    GRID_PLAIN // nothing.
 };
 
 struct Grid
 {
-	GridType type;
-	int cost;
-	Coordinate father;	// For path finding.
+    GridType type;
+    int cost;
+    Coordinate father; // For path finding.
 
-	Grid() : type(GridType::GRID_PLAIN), cost(INF_COST) {}
-	
-	void Reset()
-	{
-		cost = INF_COST;
-		father = COORD_ZERO;
-	}
+    Grid() : type(GridType::GRID_PLAIN), cost(INF_COST)
+    {
+    }
+
+    void Reset()
+    {
+        cost = INF_COST;
+        father = COORD_ZERO;
+    }
 };
-
 
 /********************************************************************
 ** Token for A* algorithm.
 */
 struct AStarToken
 {
-	Coordinate sub;	// subscription of the grid
-	int priority;	// cost and heuristics
+    Coordinate sub; // subscription of the grid
+    int priority;   // cost and heuristics
 
-	AStarToken(Coordinate _sub = COORD_ZERO, int _priority = 0) :
-		sub(_sub), priority(_priority) {}
+    AStarToken(Coordinate _sub = COORD_ZERO, int _priority = 0) : sub(_sub), priority(_priority)
+    {
+    }
 };
 
 // For shortest path heap.
 struct AStarTokenGreater
 {
-	bool operator()(const AStarToken& t1, const AStarToken& t2) const
-	{
-		return t1.priority > t2.priority;
-	};
+    bool operator()(const AStarToken& t1, const AStarToken& t2) const
+    {
+        return t1.priority > t2.priority;
+    };
 };
 
 // For long path heap.
 struct AStarTokenLess
 {
-	bool operator()(const AStarToken& t1, const AStarToken& t2) const
-	{
-		return t1.priority < t2.priority;
-	};
+    bool operator()(const AStarToken& t1, const AStarToken& t2) const
+    {
+        return t1.priority < t2.priority;
+    };
 };
-
 
 // Useful? I doubt that.
 typedef std::vector<Grid> GridRow;
@@ -115,75 +112,94 @@ typedef std::vector<std::vector<Grid>> GridMatrix;
 class Graph
 {
 public:
-	Graph() : m_width(0), m_height(0) {}
-	~Graph() {}
+    Graph() : m_width(0), m_height(0)
+    {
+    }
 
-	/*
-	** Initialize the map with assigned size, and then
-	** call the generate() to make it enclosed;
-	*/
-	void Initialize(int width, int height);
+    ~Graph()
+    {
+    }
 
-	/*
-	** Clear everything in the map except the obstacles.
-	*/
-	void Clear();
+    /*
+    ** Initialize the map with assigned size, and then
+    ** call the generate() to make it enclosed;
+    */
+    void Initialize(int width, int height);
 
-	void EntryObstacle(const Coordinate& sub);
-	void EntryObstacle(const Coordinate& topLeft, const Coordinate& bottomRight);
+    /*
+    ** Clear everything in the map except the obstacles.
+    */
+    void Clear();
 
-	void EntryObject(const Coordinate& sub);
-	void EntryObject(const Coordinate& topLeft, const Coordinate& bottomRight);
+    void EntryObstacle(const Coordinate& sub);
+    void EntryObstacle(const Coordinate& topLeft, const Coordinate& bottomRight);
 
-	void DeEntryObstacle(const Coordinate& sub);
-	void DeEntryObstacle(const Coordinate& topLeft, const Coordinate& bottomRight);
+    void EntryObject(const Coordinate& sub);
+    void EntryObject(const Coordinate& topLeft, const Coordinate& bottomRight);
 
-	void DeEntryObject(const Coordinate& sub);
-	void DeEntryObject(const Coordinate& topLeft, const Coordinate& bottomRight);
+    void DeEntryObstacle(const Coordinate& sub);
+    void DeEntryObstacle(const Coordinate& topLeft, const Coordinate& bottomRight);
 
-	/*
-	** Find a path and if there has, store the next
-	** move int next.
-	*/
-	bool Wander(const Coordinate& src);
-	bool Engage(const Coordinate& src, const Coordinate& dest);
-	bool Retreat(const Coordinate& src, const Coordinate& dest);
+    void DeEntryObject(const Coordinate& sub);
+    void DeEntryObject(const Coordinate& topLeft, const Coordinate& bottomRight);
 
-	/*
-	** Find a blank position in the graph.
-	*/
-	bool FindBlank(int width, int height);
-	bool FindBlank(const Coordinate& center, int width, int height);
+    /*
+    ** Find a path and if there has, store the next
+    ** move int next.
+    */
+    bool Wander(const Coordinate& src);
+    bool Engage(const Coordinate& src, const Coordinate& dest);
+    bool Retreat(const Coordinate& src, const Coordinate& dest);
 
-	/*
-	** Check if the src can see the dest or not.
-	*/
-	bool InSight(const Coordinate& src, const Coordinate& dest);
+    /*
+    ** Find a blank position in the graph.
+    */
+    bool FindBlank(int width, int height);
+    bool FindBlank(const Coordinate& center, int width, int height);
+
+    /*
+    ** Check if the src can see the dest or not.
+    */
+    bool InSight(const Coordinate& src, const Coordinate& dest);
 
 public:
-	Coordinate Next() const { return m_next; }
-	Coordinate Blank() const { return m_blank; }
+    Coordinate Next() const
+    {
+        return m_next;
+    }
 
-	int Width() const { return m_width; }
-	int Height() const { return m_height; }
+    Coordinate Blank() const
+    {
+        return m_blank;
+    }
+
+    int Width() const
+    {
+        return m_width;
+    }
+
+    int Height() const
+    {
+        return m_height;
+    }
 
 private:
-	bool _IsLegal(const Coordinate& sub);
+    bool _IsLegal(const Coordinate& sub);
 
-	int _Heuristic(const Coordinate& src, const Coordinate& dest);
+    int _Heuristic(const Coordinate& src, const Coordinate& dest);
 
-	void _ClearPath();
+    void _ClearPath();
 
 private:
-	int m_width;
-	int m_height;
+    int m_width;
+    int m_height;
 
-	Coordinate m_next;
-	Coordinate m_blank;
+    Coordinate m_next;
+    Coordinate m_blank;
 
-	GridMatrix m_graph;
+    GridMatrix m_graph;
 
-	std::vector<Coordinate> m_objectList;
+    std::vector<Coordinate> m_objectList;
 };
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The base class of all classes that use singleton pattern.                *
  * -------------------------------------------------------------------------- *
  * Reference:                                                                 *
@@ -27,89 +27,94 @@
 #ifndef _SINGLETON_H_
 #define _SINGLETON_H_
 
-
 /********************************************************************
 ** Lazy singleton.
 */
-template<typename T>
-class Singleton
+template <typename T> class Singleton
 {
 public:
-	static T* GetInstance()
-	{
-		static Garbo m_garbo;
+    static T* GetInstance()
+    {
+        static Garbo m_garbo;
 
-		if (!m_instance)
-			m_instance = new T();
-		return m_instance;
-	}
+        if (!m_instance)
+        {
+            m_instance = new T();
+        }
+        return m_instance;
+    }
 
-	Singleton(const Singleton&) = delete;
-	Singleton& operator=(const Singleton&) = delete;
+    Singleton(const Singleton&) = delete;
+    Singleton& operator=(const Singleton&) = delete;
 
 protected:
-	/*
-	** This is used to auto-free the instance.
-	*/
-	class Garbo
-	{
-	public:
-		~Garbo()
-		{
-			if (m_instance)
-				delete m_instance;
-		}
-	};
+    /*
+    ** This is used to auto-free the instance.
+    */
+    class Garbo
+    {
+    public:
+        ~Garbo()
+        {
+            if (m_instance)
+            {
+                delete m_instance;
+            }
+        }
+    };
 
-	Singleton() {}
-	virtual ~Singleton() {}
+    Singleton()
+    {
+    }
 
-	static T* m_instance;
+    virtual ~Singleton()
+    {
+    }
+
+    static T* m_instance;
 };
 
-template<typename T>
-T* Singleton<T>::m_instance = nullptr;
-
+template <typename T> T* Singleton<T>::m_instance = nullptr;
 
 /********************************************************************
 ** Hungry singleton.
 */
-template<typename T>
-class SingletonHungry
+template <typename T> class SingletonHungry
 {
 public:
-	static T* GetInstance()
-	{
-		static Garbo m_garbo;
+    static T* GetInstance()
+    {
+        static Garbo m_garbo;
 
-		// This instance will always be available.
-		return m_instance;
-	}
+        // This instance will always be available.
+        return m_instance;
+    }
 
-	SingletonHungry(const SingletonHungry&) = delete;
-	SingletonHungry& operator=(const SingletonHungry&) = delete;
+    SingletonHungry(const SingletonHungry&) = delete;
+    SingletonHungry& operator=(const SingletonHungry&) = delete;
 
 protected:
-	/*
-	** This is used to auto-free the instance.
-	*/
-	class Garbo
-	{
-	public:
-		~Garbo()
-		{
-			if (m_instance)
-				delete m_instance;
-		}
-	};
+    /*
+    ** This is used to auto-free the instance.
+    */
+    class Garbo
+    {
+    public:
+        ~Garbo()
+        {
+            if (m_instance)
+            {
+                delete m_instance;
+            }
+        }
+    };
 
-	SingletonHungry() = default;
-	virtual ~SingletonHungry() = default;
+    SingletonHungry() = default;
+    virtual ~SingletonHungry() = default;
 
-	static T* m_instance;
+    static T* m_instance;
 };
 
-template<typename T>
-T* SingletonHungry<T>::m_instance = new T();
+template <typename T> T* SingletonHungry<T>::m_instance = new T();
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update : May 12, 2022                              *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Error and warning info in game should be reported and logged.            *
  * -------------------------------------------------------------------------- *
  * Reference:                                                                 *
@@ -24,18 +24,16 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include <cstdlib>
 #include <Windows.h>
+#include <cstdlib>
 
 #include "../../inc/common/Logger.h"
 #include "../../inc/common/Macros.h"
-
 
 GlobalState Logger::m_globalState;
 
 // How many logs.
 static int logCount;
-
 
 /******************************************************************************
  * Logger::LogError -- Log an error info.                                     *
@@ -54,30 +52,29 @@ static int logCount;
  *============================================================================*/
 void Logger::LogError(const char* format, ...)
 {
-	FILE* fp;
-	va_list args;
+    FILE* fp;
+    va_list args;
 
-	va_start(args, format);
+    va_start(args, format);
 
 #ifdef DGE_ENABLE_CONSOLE_LOG
-	_Output(stdout, "Error: ", format, args);
+    _Output(stdout, "Error: ", format, args);
 #endif
 
-	if (fopen_s(&fp, LOG_FILE, "a") != 0)
-	{
-		_Output(stderr, "ERROR: ", "LogError() failed!", NULL);
-		return;
-	}
-	_Output(fp, "Error: ", format, args);
-	fclose(fp);
+    if (fopen_s(&fp, LOG_FILE, "a") != 0)
+    {
+        _Output(stderr, "ERROR: ", "LogError() failed!", nullptr);
+        return;
+    }
+    _Output(fp, "Error: ", format, args);
+    fclose(fp);
 
-	va_end(args);
+    va_end(args);
 
-	m_globalState = GlobalState::GS_ERROR;
+    m_globalState = GlobalState::GS_ERROR;
 
-	logCount++;
+    logCount++;
 }
-
 
 /******************************************************************************
  * Logger::LogWarning -- Log a warning info.                                  *
@@ -96,30 +93,29 @@ void Logger::LogError(const char* format, ...)
  *============================================================================*/
 void Logger::LogWarning(const char* format, ...)
 {
-	FILE* fp;
-	va_list args;
-	
-	va_start(args, format);
+    FILE* fp;
+    va_list args;
+
+    va_start(args, format);
 
 #ifdef DGE_ENABLE_CONSOLE_LOG
-	_Output(stdout, "Error: ", format, args);
+    _Output(stdout, "Error: ", format, args);
 #endif
 
-	if (fopen_s(&fp, LOG_FILE, "a") != 0)
-	{
-		_Output(stderr, "ERROR: ", "LogWarning() failed!", NULL);
-		return;
-	}
-	_Output(fp, "Warning: ", format, args);
-	fclose(fp);
+    if (fopen_s(&fp, LOG_FILE, "a") != 0)
+    {
+        _Output(stderr, "ERROR: ", "LogWarning() failed!", nullptr);
+        return;
+    }
+    _Output(fp, "Warning: ", format, args);
+    fclose(fp);
 
-	va_end(args);
+    va_end(args);
 
-	m_globalState = GlobalState::GS_WARNING;
+    m_globalState = GlobalState::GS_WARNING;
 
-	logCount++;
+    logCount++;
 }
-
 
 /******************************************************************************
  * Logger::LogMessage -- Log a message.                                       *
@@ -138,28 +134,27 @@ void Logger::LogWarning(const char* format, ...)
  *============================================================================*/
 void Logger::LogMessage(const char* format, ...)
 {
-	FILE* fp;
-	va_list args;
+    FILE* fp;
+    va_list args;
 
-	va_start(args, format);
+    va_start(args, format);
 
 #ifdef DGE_ENABLE_CONSOLE_LOG
-	_Output(stdout, "Message: ", format, args);
+    _Output(stdout, "Message: ", format, args);
 #endif
 
-	if (fopen_s(&fp, LOG_FILE, "a") != 0)
-	{
-		_Output(stderr, "ERROR: ", "LogMessage() failed!", NULL);
-		return;
-	}
-	_Output(fp, "Message: ", format, args);
-	fclose(fp);
+    if (fopen_s(&fp, LOG_FILE, "a") != 0)
+    {
+        _Output(stderr, "ERROR: ", "LogMessage() failed!", nullptr);
+        return;
+    }
+    _Output(fp, "Message: ", format, args);
+    fclose(fp);
 
-	va_end(args);
+    va_end(args);
 
-	logCount++;
+    logCount++;
 }
-
 
 /******************************************************************************
  * Logger::_Output -- Output a message.                                       *
@@ -180,13 +175,12 @@ void Logger::LogMessage(const char* format, ...)
  *============================================================================*/
 void Logger::_Output(FILE* fp, const char* prompt, const char* format, va_list args)
 {
-	_PrintTimestamp(fp);
+    _PrintTimestamp(fp);
 
-	fprintf_s(fp, "%s", prompt);
-	vfprintf_s(fp, format, args);
-	fprintf_s(fp, "\n");
+    fprintf_s(fp, "%s", prompt);
+    vfprintf_s(fp, format, args);
+    fprintf_s(fp, "\n");
 }
-
 
 /******************************************************************************
  * Logger::_PrintTimestamp -- Print timestamp to error file.                  *
@@ -204,14 +198,16 @@ void Logger::_Output(FILE* fp, const char* prompt, const char* format, va_list a
  *============================================================================*/
 void Logger::_PrintTimestamp(FILE* fp)
 {
-	if (logCount > 0)
-		return;
+    if (logCount > 0)
+    {
+        return;
+    }
 
-	SYSTEMTIME sysTime;
+    SYSTEMTIME sysTime;
 
-	GetLocalTime(&sysTime);
+    GetLocalTime(&sysTime);
 
-	fprintf_s(fp, "\n------------------------------\n");	// *30
-	fprintf_s(fp, "%02hu/%02hu/%02hu ", sysTime.wMonth, sysTime.wDay, sysTime.wYear);
-	fprintf_s(fp, "%02hu:%02hu:%02hu\n", sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
+    fprintf_s(fp, "\n------------------------------\n"); // *30
+    fprintf_s(fp, "%02hu/%02hu/%02hu ", sysTime.wMonth, sysTime.wDay, sysTime.wYear);
+    fprintf_s(fp, "%02hu:%02hu:%02hu\n", sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
 }

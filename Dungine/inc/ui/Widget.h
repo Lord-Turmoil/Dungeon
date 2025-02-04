@@ -12,7 +12,7 @@
  *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   All concrete widgets.                                                    *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -32,105 +32,142 @@
 #include "Drawer.h"
 #include "Trigger.h"
 
- 
 /********************************************************************
 ** An ordinary button.
 */
 class Button : public VisualWidget
 {
 public:
-	Button();
-	virtual ~Button();
+    Button();
+    ~Button() override;
 
-	virtual void Update(Event* evnt = nullptr);
-	virtual void Draw();
-	virtual bool Load(XMLElement* node);
+    void Update(Event* evnt = nullptr) override;
+    void Draw() override;
+    bool Load(XMLElement* node) override;
 
-	virtual Button* SetLayer(int layer);
-	virtual Button* SetCoord(const Coordinate& coord);
-	virtual Button* Translate(const Coordinate& offset);
-	virtual Button* SetAlpha(int alpha);
-	virtual Button* SetScale(double scale);
-	virtual Button* SetRotationAngle(double angle);
+    Button* SetLayer(int layer) override;
+    Button* SetCoord(const Coordinate& coord) override;
+    Button* Translate(const Coordinate& offset) override;
+    Button* SetAlpha(int alpha) override;
+    Button* SetScale(double scale) override;
+    Button* SetRotationAngle(double angle) override;
 
-	/*
-	** Button now has four states,
-	** Up       -- Normal.
-	** Down     -- Pressed(mouse must on the button).
-	** Hover    -- Mouse is over the button.
-	** Disabled -- Button is inactivated.
-	*/
-	Button* SetUpDrawer(Drawer* drawer);
-	Button* SetDownDrawer(Drawer* drawer);
-	Button* SetHoverDrawer(Drawer* drawer);
-	Button* SetDisabledDrawer(Drawer* drawer);
+    /*
+    ** Button now has four states,
+    ** Up       -- Normal.
+    ** Down     -- Pressed(mouse must on the button).
+    ** Hover    -- Mouse is over the button.
+    ** Disabled -- Button is inactivated.
+    */
+    Button* SetUpDrawer(Drawer* drawer);
+    Button* SetDownDrawer(Drawer* drawer);
+    Button* SetHoverDrawer(Drawer* drawer);
+    Button* SetDisabledDrawer(Drawer* drawer);
 
-	Drawer* GetUpDrawer() { return m_pUpDrawer; }
-	Drawer* GetDownDrawer() { return m_pDownDrawer; }
-	Drawer* GetHoverDrawer() { return m_pHoverDrawer; }
-	Drawer* GetDisabledDrawer() { return m_pDisabledDrawer; }
+    Drawer* GetUpDrawer()
+    {
+        return m_pUpDrawer;
+    }
 
-	/*
-	** The four states share a common trigger.
-	*/
-	Button* SetTrigger(Trigger* trigger);
-	Trigger* GetTrigger() { return m_pTrigger; }
+    Drawer* GetDownDrawer()
+    {
+        return m_pDownDrawer;
+    }
 
-	Button* SetHoverSound(Buzzer* buzzer);
-	Buzzer* GetHoverSound() { return m_pHoverSound; }
-	Button* SetClickSound(Buzzer* buzzer);
-	Buzzer* GetClickSound() { return m_pClickSound; }
+    Drawer* GetHoverDrawer()
+    {
+        return m_pHoverDrawer;
+    }
 
-	Button* Disable(bool isDisabled)
-	{
-		m_isDisabled = isDisabled;
-		return this;
-	}
-	bool IsDisabled() const { return m_isDisabled; }
+    Drawer* GetDisabledDrawer()
+    {
+        return m_pDisabledDrawer;
+    }
 
-	/*
-	** The callback function of the button. It will
-	** be called... Just the literal meaning. :)
-	** sizeof(function<void(void)>) = 64... ?
-	*/
-	Button* OnClick(std::function<void(void)> callback)
-	{
-		m_pOnClick = callback;
-		return this;
-	};
+    /*
+    ** The four states share a common trigger.
+    */
+    Button* SetTrigger(Trigger* trigger);
 
-	bool IsPressed() const { return m_isPressed; }
-	bool IsHover() const { return m_isHover; }
+    Trigger* GetTrigger()
+    {
+        return m_pTrigger;
+    }
+
+    Button* SetHoverSound(Buzzer* buzzer);
+
+    Buzzer* GetHoverSound()
+    {
+        return m_pHoverSound;
+    }
+
+    Button* SetClickSound(Buzzer* buzzer);
+
+    Buzzer* GetClickSound()
+    {
+        return m_pClickSound;
+    }
+
+    Button* Disable(bool isDisabled)
+    {
+        m_isDisabled = isDisabled;
+        return this;
+    }
+
+    bool IsDisabled() const
+    {
+        return m_isDisabled;
+    }
+
+    /*
+    ** The callback function of the button. It will
+    ** be called... Just the literal meaning. :)
+    ** sizeof(function<void(void)>) = 64... ?
+    */
+    Button* OnClick(std::function<void(void)> callback)
+    {
+        m_pOnClick = callback;
+        return this;
+    };
+
+    bool IsPressed() const
+    {
+        return m_isPressed;
+    }
+
+    bool IsHover() const
+    {
+        return m_isHover;
+    }
 
 private:
-	virtual void _ProcessInput(Event& evnt);
+    void _ProcessInput(Event& evnt) override;
 
-	/*
-	** Four states.
-	*/
-	Drawer* m_pUpDrawer;
-	Drawer* m_pDownDrawer;
-	Drawer* m_pHoverDrawer;
-	Drawer* m_pDisabledDrawer;
+    /*
+    ** Four states.
+    */
+    Drawer* m_pUpDrawer;
+    Drawer* m_pDownDrawer;
+    Drawer* m_pHoverDrawer;
+    Drawer* m_pDisabledDrawer;
 
-	Buzzer* m_pHoverSound;
-	Buzzer* m_pClickSound;
+    Buzzer* m_pHoverSound;
+    Buzzer* m_pClickSound;
 
-	/*
-	** The trigger binded to it.
-	*/
-	Trigger* m_pTrigger;
+    /*
+    ** The trigger binded to it.
+    */
+    Trigger* m_pTrigger;
 
-	std::function<void(void)> m_pOnClick;
+    std::function<void(void)> m_pOnClick;
 
-	/*
-	** Current state.
-	*/
-	bool m_isHover : 1;
-	bool m_isPressed : 1;
-	bool m_isDisabled : 1;
+    /*
+    ** Current state.
+    */
+    bool m_isHover : 1;
+    bool m_isPressed : 1;
+    bool m_isDisabled : 1;
 };
-
 
 /********************************************************************
 ** A fancy drag bar. To set volume or else. It has a button as the
@@ -141,48 +178,59 @@ private:
 class Slider : public VisualWidget
 {
 public:
-	Slider();
-	virtual ~Slider();
+    Slider();
+    ~Slider() override;
 
-	virtual void Update(Event* evnt = nullptr);
-	virtual void Draw();
-	virtual bool Load(XMLElement* node);
+    void Update(Event* evnt = nullptr) override;
+    void Draw() override;
+    bool Load(XMLElement* node) override;
 
-	virtual Slider* SetLayer(int layer);
-	virtual Slider* SetCoord(const Coordinate& coord);
-	virtual Slider* Translate(const Coordinate& offset);
-	virtual Slider* SetAlpha(int alpha);
-	virtual Slider* SetScale(double scale);
-	virtual Slider* SetRotationAngle(double angle);
+    Slider* SetLayer(int layer) override;
+    Slider* SetCoord(const Coordinate& coord) override;
+    Slider* Translate(const Coordinate& offset) override;
+    Slider* SetAlpha(int alpha) override;
+    Slider* SetScale(double scale) override;
+    Slider* SetRotationAngle(double angle) override;
 
-	/*
-	** Drag bar consists of a block and a bar. Be aware that the
-	** block is a button whose position must center its coordinate.
-	** So the block should be set individually outside the dragbar.
-	** And the bar should better not be a circle. :)
-	*/
-	Slider* SetBlock(Button* block);
-	Slider* SetBarDrawer(Drawer* drawer);
+    /*
+    ** Drag bar consists of a block and a bar. Be aware that the
+    ** block is a button whose position must center its coordinate.
+    ** So the block should be set individually outside the dragbar.
+    ** And the bar should better not be a circle. :)
+    */
+    Slider* SetBlock(Button* block);
+    Slider* SetBarDrawer(Drawer* drawer);
 
-	Button* GetBlock() { return m_pBlock; }
-	Drawer* GetBarDrawer() { return m_pBarDrawer; }
+    Button* GetBlock()
+    {
+        return m_pBlock;
+    }
 
-	Slider* SetBarTrigger(Trigger* trigger);
-	Trigger* GetBarTrigger() { return m_pBarTrigger; }
+    Drawer* GetBarDrawer()
+    {
+        return m_pBarDrawer;
+    }
 
-	/*
-	** When the block is dragged, or the bar is pressed(not clicked).
-	*/
-	Slider* OnChange(std::function<void(double)> callback)
-	{
-		m_pOnChange = callback;
-		return this;
-	}
+    Slider* SetBarTrigger(Trigger* trigger);
 
-	/*
-	** When the drag bar loses focus. This feature is now
-	** on hold
-	*//*
+    Trigger* GetBarTrigger()
+    {
+        return m_pBarTrigger;
+    }
+
+    /*
+    ** When the block is dragged, or the bar is pressed(not clicked).
+    */
+    Slider* OnChange(std::function<void(double)> callback)
+    {
+        m_pOnChange = callback;
+        return this;
+    }
+
+    /*
+    ** When the drag bar loses focus. This feature is now
+    ** on hold
+    *//*
 	Slider* OnBlur(std::function<void(double)> callback)
 	{
 		m_pOnBlur = callback;
@@ -190,33 +238,36 @@ public:
 	}
 	*/
 
-	void SetValue(double value);
-	double GetValue() const { return m_value; }
+    void SetValue(double value);
+
+    double GetValue() const
+    {
+        return m_value;
+    }
 
 private:
-	void _AdjustBarCoord();
-	virtual void _ProcessInput(Event& evnt);
+    void _AdjustBarCoord();
+    void _ProcessInput(Event& evnt) override;
 
-	Button* m_pBlock;
-	Drawer* m_pBarDrawer;
+    Button* m_pBlock;
+    Drawer* m_pBarDrawer;
 
-	Trigger* m_pBarTrigger;
+    Trigger* m_pBarTrigger;
 
-	std::function<void(double)> m_pOnChange;
+    std::function<void(double)> m_pOnChange;
 
-	/*
-	std::function<void(double)> m_pOnBlur;
-	*/
+    /*
+    std::function<void(double)> m_pOnBlur;
+    */
 
-	int m_barWidth;
-	int m_barHeight;
+    int m_barWidth;
+    int m_barHeight;
 
-	/*
-	** value is between 0 and 1.
-	*/
-	double m_value;
+    /*
+    ** value is between 0 and 1.
+    */
+    double m_value;
 };
-
 
 /********************************************************************
 ** The most fancy progress bar. It doesn't interact with users.
@@ -224,58 +275,74 @@ private:
 class ProgressBar : public VisualWidget
 {
 public:
-	ProgressBar();
-	virtual ~ProgressBar();
+    ProgressBar();
+    ~ProgressBar() override;
 
-	virtual void Update(Event* evnt = nullptr);
-	virtual void Draw();
-	virtual bool Load(XMLElement* node);
+    void Update(Event* evnt = nullptr) override;
+    void Draw() override;
+    bool Load(XMLElement* node) override;
 
-	virtual ProgressBar* SetLayer(int layer);
-	virtual ProgressBar* SetCoord(const Coordinate& coord);
-	virtual ProgressBar* Translate(const Coordinate& offset);
-	virtual ProgressBar* SetAlpha(int alpha);
-	virtual ProgressBar* SetScale(double scale);
-	virtual ProgressBar* SetRotationAngle(double angle);
+    ProgressBar* SetLayer(int layer) override;
+    ProgressBar* SetCoord(const Coordinate& coord) override;
+    ProgressBar* Translate(const Coordinate& offset) override;
+    ProgressBar* SetAlpha(int alpha) override;
+    ProgressBar* SetScale(double scale) override;
+    ProgressBar* SetRotationAngle(double angle) override;
 
-	/*
-	** A progress bar is composed of a bar and a stuff...:?
-	*/
-	ProgressBar* SetBarDrawer(Drawer* drawer);
-	ProgressBar* SetStuffDrawer(Drawer* drawer);
+    /*
+    ** A progress bar is composed of a bar and a stuff...:?
+    */
+    ProgressBar* SetBarDrawer(Drawer* drawer);
+    ProgressBar* SetStuffDrawer(Drawer* drawer);
 
-	Drawer* GetBarDrawer() { return m_pBarDrawer; }
-	Drawer* GetStuffDrawer() { return m_pStuffDrawer; }
+    Drawer* GetBarDrawer()
+    {
+        return m_pBarDrawer;
+    }
 
-	ProgressBar* SetPadding(int padding);
-	int GetPadding() const { return m_padding; }
+    Drawer* GetStuffDrawer()
+    {
+        return m_pStuffDrawer;
+    }
 
-	void SetValue(double value)
-	{
-		value = max(value, 0.0);
-		value = min(value, 1.0);
-		m_value = value;
-	}
-	double GetValue(double value) const { return m_value; }
+    ProgressBar* SetPadding(int padding);
+
+    int GetPadding() const
+    {
+        return m_padding;
+    }
+
+    void SetValue(double value)
+    {
+        value = max(value, 0.0);
+        value = min(value, 1.0);
+        m_value = value;
+    }
+
+    double GetValue(double value) const
+    {
+        return m_value;
+    }
 
 private:
-	virtual void _ProcessInput(Event& evnt) {}	// No interaction.
+    void _ProcessInput(Event& evnt) override
+    {
+    } // No interaction.
 
-	Drawer* m_pBarDrawer;
-	Drawer* m_pStuffDrawer;
+    Drawer* m_pBarDrawer;
+    Drawer* m_pStuffDrawer;
 
-	double m_value;
+    double m_value;
 
-	int m_barWidth;
-	int m_barHeight;
+    int m_barWidth;
+    int m_barHeight;
 
-	/*
-	** Padding is... actually the border width of the
-	** bar, but I like this name. :)
-	*/
-	int m_padding;
+    /*
+    ** Padding is... actually the border width of the
+    ** bar, but I like this name. :)
+    */
+    int m_padding;
 };
-
 
 /********************************************************************
 ** Emm, radio button. If it can play alone or be added to a hmm...
@@ -286,72 +353,86 @@ class RadioList;
 class RadioBox : public VisualWidget
 {
 public:
-	RadioBox();
-	virtual ~RadioBox();
+    RadioBox();
+    ~RadioBox() override;
 
-	virtual void Update(Event* evnt = nullptr);
-	virtual void Draw();
-	virtual bool Load(XMLElement* node);
+    void Update(Event* evnt = nullptr) override;
+    void Draw() override;
+    bool Load(XMLElement* node) override;
 
-	virtual RadioBox* SetLayer(int layer);
-	virtual RadioBox* SetCoord(const Coordinate& coord);
-	virtual RadioBox* Translate(const Coordinate& offset);
-	virtual RadioBox* SetAlpha(int alpha);
-	virtual RadioBox* SetScale(double scale);
-	virtual RadioBox* SetRotationAngle(double angle);
+    RadioBox* SetLayer(int layer) override;
+    RadioBox* SetCoord(const Coordinate& coord) override;
+    RadioBox* Translate(const Coordinate& offset) override;
+    RadioBox* SetAlpha(int alpha) override;
+    RadioBox* SetScale(double scale) override;
+    RadioBox* SetRotationAngle(double angle) override;
 
-	RadioBox* SetParentList(RadioList* parent)
-	{
-		m_parent = parent;
-		return this;
-	}
-	RadioList* GetParentList() { return m_parent; }
+    RadioBox* SetParentList(RadioList* parent)
+    {
+        m_parent = parent;
+        return this;
+    }
 
-	/*
-	** Radio box is composed of two parts, the box and the
-	** stuff. The box has two state, normal and hover. And
-	** the stuff will only display when the radio is checked.
-	*/
-	RadioBox* SetBox(Button* box);
-	RadioBox* SetMarkDrawer(Drawer* drawer);
+    RadioList* GetParentList()
+    {
+        return m_parent;
+    }
 
-	Button* GetBox() { return m_pBox; }
-	Drawer* GetMarkDrawer() { return m_pMarkDrawer; }
+    /*
+    ** Radio box is composed of two parts, the box and the
+    ** stuff. The box has two state, normal and hover. And
+    ** the stuff will only display when the radio is checked.
+    */
+    RadioBox* SetBox(Button* box);
+    RadioBox* SetMarkDrawer(Drawer* drawer);
 
-	/*
-	** This will be called every time the radio box is checked,
-	** whether is turned on or off. It will sent its state after
-	** the event to the callback.
-	*/
-	RadioBox* OnCheck(std::function<void(bool)> callback)
-	{
-		m_pOnCheck = callback;
-		return this;
-	}
+    Button* GetBox()
+    {
+        return m_pBox;
+    }
 
-	void SetState(bool isChecked);
-	bool GetState() const { return m_isChecked; };
+    Drawer* GetMarkDrawer()
+    {
+        return m_pMarkDrawer;
+    }
+
+    /*
+    ** This will be called every time the radio box is checked,
+    ** whether is turned on or off. It will sent its state after
+    ** the event to the callback.
+    */
+    RadioBox* OnCheck(std::function<void(bool)> callback)
+    {
+        m_pOnCheck = callback;
+        return this;
+    }
+
+    void SetState(bool isChecked);
+
+    bool GetState() const
+    {
+        return m_isChecked;
+    };
 
 private:
-	virtual void _ProcessInput(Event& evnt);
+    void _ProcessInput(Event& evnt) override;
 
-	Button* m_pBox;
-	Drawer* m_pMarkDrawer;
+    Button* m_pBox;
+    Drawer* m_pMarkDrawer;
 
-	RadioList* m_parent;
+    RadioList* m_parent;
 
-	std::function<void(bool)> m_pOnCheck;
+    std::function<void(bool)> m_pOnCheck;
 
-	/*
-	** Whether the radio can be canceled from selection.
-	** If a radio is attached to a list, it shouldn't be
-	** be canceled, or no choice will be selected.
-	*/
-	bool m_isCancelable : 1;
-	bool m_isPressed : 1;
-	bool m_isChecked : 1;
+    /*
+    ** Whether the radio can be canceled from selection.
+    ** If a radio is attached to a list, it shouldn't be
+    ** be canceled, or no choice will be selected.
+    */
+    bool m_isCancelable : 1;
+    bool m_isPressed : 1;
+    bool m_isChecked : 1;
 };
-
 
 /********************************************************************
 ** RadioList contains some radioboxes and will update others if one
@@ -361,44 +442,46 @@ private:
 class RadioList : public VisualWidget
 {
 public:
-	RadioList();
-	virtual ~RadioList();
+    RadioList();
+    ~RadioList() override;
 
-	virtual void Update(Event* evnt = nullptr);
-	virtual void Draw();
-	virtual bool Load(XMLElement* node);
-	virtual RadioList* ResetTransition();
+    void Update(Event* evnt = nullptr) override;
+    void Draw() override;
+    bool Load(XMLElement* node) override;
+    RadioList* ResetTransition() override;
 
-	virtual RadioList* SetLayer(int layer);
-	virtual RadioList* SetCoord(const Coordinate& coord);
-	virtual RadioList* Translate(const Coordinate& offset);
-	virtual RadioList* SetAlpha(int alpha);
-	virtual RadioList* SetScale(double scale);
-	virtual RadioList* SetRotationAngle(double angle);
+    RadioList* SetLayer(int layer) override;
+    RadioList* SetCoord(const Coordinate& coord) override;
+    RadioList* Translate(const Coordinate& offset) override;
+    RadioList* SetAlpha(int alpha) override;
+    RadioList* SetScale(double scale) override;
+    RadioList* SetRotationAngle(double angle) override;
 
-	RadioBox* AddRadio(const std::string& name, RadioBox* radio);
-	RadioBox* GetRadio(const std::string& name);
-	RadioBox* operator[](const std::string& name)
-	{
-		return m_radios[name];
-	}
+    RadioBox* AddRadio(const std::string& name, RadioBox* radio);
+    RadioBox* GetRadio(const std::string& name);
 
-	/*
-	** If no parameter, it will check the first radio by default.
-	*/
-	void Check();
-	void Check(RadioBox* radio);
+    RadioBox* operator[](const std::string& name)
+    {
+        return m_radios[name];
+    }
+
+    /*
+    ** If no parameter, it will check the first radio by default.
+    */
+    void Check();
+    void Check(RadioBox* radio);
 
 private:
-	/*
-	** RadioList itself doesn't have to process input. This
-	** is done in Update() by its child radios.
-	*/
-	virtual void _ProcessInput(Event& evnt) {}
+    /*
+     ** RadioList itself doesn't have to process input. This
+     ** is done in Update() by its child radios.
+     */
+    void _ProcessInput(Event& evnt) override
+    {
+    }
 
-	std::map<std::string, RadioBox*> m_radios;
+    std::map<std::string, RadioBox*> m_radios;
 };
-
 
 /********************************************************************
 ** Text area still only supports single line input... :(
@@ -504,7 +587,6 @@ private:
 };
 #endif // #if 0 TextArea
 
-
 /********************************************************************
 ** Static widget is static(> <) and has no interaction with users.
 ** But with the help of Transform class, it can become dynamic. :)
@@ -512,29 +594,34 @@ private:
 class StaticWidget : public VisualWidget
 {
 public:
-	StaticWidget();
-	virtual ~StaticWidget();
+    StaticWidget();
+    ~StaticWidget() override;
 
-	virtual void Update(Event* evnt = nullptr);
-	virtual void Draw();
-	virtual bool Load(XMLElement* node);
+    void Update(Event* evnt = nullptr) override;
+    void Draw() override;
+    bool Load(XMLElement* node) override;
 
-	virtual StaticWidget* SetLayer(int layer);
-	virtual StaticWidget* SetCoord(const Coordinate& coord);
-	virtual StaticWidget* Translate(const Coordinate& offset);
-	virtual StaticWidget* SetAlpha(int alpha);
-	virtual StaticWidget* SetScale(double scale);
-	virtual StaticWidget* SetRotationAngle(double angle);
+    StaticWidget* SetLayer(int layer) override;
+    StaticWidget* SetCoord(const Coordinate& coord) override;
+    StaticWidget* Translate(const Coordinate& offset) override;
+    StaticWidget* SetAlpha(int alpha) override;
+    StaticWidget* SetScale(double scale) override;
+    StaticWidget* SetRotationAngle(double angle) override;
 
-	StaticWidget* SetDrawer(Drawer* drawer);
-	Drawer* GetDrawer() const { return m_pDrawer; }
+    StaticWidget* SetDrawer(Drawer* drawer);
+
+    Drawer* GetDrawer() const
+    {
+        return m_pDrawer;
+    }
 
 private:
-	virtual void _ProcessInput(Event& evnt) {}
+    void _ProcessInput(Event& evnt) override
+    {
+    }
 
-	Drawer* m_pDrawer;
+    Drawer* m_pDrawer;
 };
-
 
 /********************************************************************
 ** Detector only detects keyboard event.
@@ -542,29 +629,32 @@ private:
 class KeyboardDetector : public AbstractWidget
 {
 public:
-	KeyboardDetector();
-	virtual ~KeyboardDetector();
+    KeyboardDetector();
+    ~KeyboardDetector() override;
 
-	virtual void Update(Event* evnt);
-	virtual bool Load(XMLElement* node);
+    void Update(Event* evnt) override;
+    bool Load(XMLElement* node) override;
 
-	KeyboardDetector* SetTrigger(KeyboardTrigger* trigger);
-	KeyboardTrigger* GetTrigger() { return m_pTrigger; }
+    KeyboardDetector* SetTrigger(KeyboardTrigger* trigger);
 
-	KeyboardDetector* OnTriggered(std::function<void(void)> callback)
-	{
-		m_pOnTriggered = callback;
-		return this;
-	}
+    KeyboardTrigger* GetTrigger()
+    {
+        return m_pTrigger;
+    }
+
+    KeyboardDetector* OnTriggered(std::function<void(void)> callback)
+    {
+        m_pOnTriggered = callback;
+        return this;
+    }
 
 private:
-	virtual void _ProcessInput(Event& evnt);
+    void _ProcessInput(Event& evnt) override;
 
-	std::function<void(void)> m_pOnTriggered;
-	KeyboardTrigger* m_pTrigger;
-	bool m_isTriggered;
+    std::function<void(void)> m_pOnTriggered;
+    KeyboardTrigger* m_pTrigger;
+    bool m_isTriggered;
 };
-
 
 /********************************************************************
 ** AudioPlayer only plays audio stream. Unfortunately, it is likely
@@ -575,29 +665,32 @@ class PlayList;
 class AudioPlayer : public AbstractWidget
 {
 public:
-	AudioPlayer();
-	virtual ~AudioPlayer();
+    AudioPlayer();
+    ~AudioPlayer() override;
 
-	virtual void Update(Event* evnt);
-	virtual bool Load(XMLElement* node);
+    void Update(Event* evnt) override;
+    bool Load(XMLElement* node) override;
 
-	void Play();
-	void Pause(bool isPaused);
-	void Stop();
+    void Play();
+    void Pause(bool isPaused);
+    void Stop();
 
 protected:
-	PlayList* m_playList;
+    PlayList* m_playList;
 };
-
 
 class StandardWidgetKit
 {
 public:
-	StandardWidgetKit() {}
-	virtual ~StandardWidgetKit() {}
+    StandardWidgetKit()
+    {
+    }
 
-	virtual AbstractWidget* LoadWidget(XMLElement* node);
+    virtual ~StandardWidgetKit()
+    {
+    }
+
+    virtual AbstractWidget* LoadWidget(XMLElement* node);
 };
-
 
 #endif

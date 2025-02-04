@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Sound component.                                                         *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,28 +29,43 @@
 class SoundComponent : public AbstractComponent
 {
 public:
-	SoundComponent(int updateOrder = 0) : AbstractComponent(updateOrder) {}
-	virtual ~SoundComponent();
+    SoundComponent(int updateOrder = 0) : AbstractComponent(updateOrder)
+    {
+    }
 
-	static const char* StaticName() { return "Sound"; }
-	virtual const char* Name() { return StaticName(); }
+    ~SoundComponent() override;
 
-	virtual SoundComponent* Clone() const;
-	virtual void Clone(SoundComponent* clone) const {}
+    static const char* StaticName()
+    {
+        return "Sound";
+    }
 
-	virtual bool Load(XMLElement* node);
+    const char* Name() override
+    {
+        return StaticName();
+    }
 
-	virtual void Update(Event* evnt) {}
+    SoundComponent* Clone() const override;
+
+    virtual void Clone(SoundComponent* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    void Update(Event* evnt) override
+    {
+    }
 
 public:
-	void AddSound(const std::string& name, AudioResource* sound);
-	void Play(const std::string& name);
+    void AddSound(const std::string& name, AudioResource* sound);
+    void Play(const std::string& name);
 
 private:
-	/*
-	** Hmm... Here, audio resource must be MonoSound.
-	*/
-	std::unordered_map<std::string, AudioResource*> m_sounds;
+    /*
+    ** Hmm... Here, audio resource must be MonoSound.
+    */
+    std::unordered_map<std::string, AudioResource*> m_sounds;
 };
 
 #endif

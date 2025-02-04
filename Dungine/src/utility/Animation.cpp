@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide animation for game objects.                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -27,11 +27,9 @@
 #include "../../inc/device/Timer.h"
 
 #include "../../inc/utility/Animation.h"
-#include "../../inc/utility/Straw.h"
 #include "../../inc/utility/Parser.h"
+#include "../../inc/utility/Straw.h"
 #include "../../inc/utility/tinyxml.h"
-
-
 
 /******************************************************************************
  * MonoMotion::MonoMotion -- Constructor of the object.                       *
@@ -53,17 +51,10 @@
  * HISTORY:                                                                   *
  *   2022/06/15 Tony : Created.                                               *
  *============================================================================*/
-MonoMotion::MonoMotion(
-	IMAGE* pImage,
-	int srcX,
-	int srcY,
-	int frameNum,
-	int frameWidth,
-	int frameHeight)
+MonoMotion::MonoMotion(IMAGE* pImage, int srcX, int srcY, int frameNum, int frameWidth, int frameHeight)
 {
-	Load(pImage, srcX, srcY, frameNum, frameWidth, frameHeight);
+    Load(pImage, srcX, srcY, frameNum, frameWidth, frameHeight);
 }
-
 
 /******************************************************************************
  * MonoMotion::Load -- Load mono motion.                                      *
@@ -85,28 +76,21 @@ MonoMotion::MonoMotion(
  * HISTORY:                                                                   *
  *   2022/06/15 Tony : Created.                                               *
  *============================================================================*/
-bool MonoMotion::Load(
-	IMAGE* pImage,
-	int srcX,
-	int srcY,
-	int frameNum,
-	int frameWidth,
-	int frameHeight)
+bool MonoMotion::Load(IMAGE* pImage, int srcX, int srcY, int frameNum, int frameWidth, int frameHeight)
 {
-	Device::GetInstance()->SetTargetImage(pImage);
+    Device::GetInstance()->SetTargetImage(pImage);
 
-	m_frame.resize(frameNum);
-	for (int i = 0; i < frameNum; i++)
-	{
-		getimage(&m_frame[i], srcX, srcY, frameWidth, frameHeight);
-		srcX += frameWidth;
-	}
+    m_frame.resize(frameNum);
+    for (int i = 0; i < frameNum; i++)
+    {
+        getimage(&m_frame[i], srcX, srcY, frameWidth, frameHeight);
+        srcX += frameWidth;
+    }
 
-	Device::GetInstance()->SetTargetImage();
+    Device::GetInstance()->SetTargetImage();
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Motion::Motion -- Constructor of the object.                               *
@@ -127,15 +111,10 @@ bool MonoMotion::Load(
  * HISTORY:                                                                   *
  *   2022/06/15 Tony : Created.                                               *
  *============================================================================*/
-Motion::Motion(
-	XMLElement* node,
-	IMAGE* pImage,
-	int frameWidth,
-	int frameHeight)
+Motion::Motion(XMLElement* node, IMAGE* pImage, int frameWidth, int frameHeight)
 {
-	Load(node, pImage, frameWidth, frameHeight);
+    Load(node, pImage, frameWidth, frameHeight);
 }
-
 
 /******************************************************************************
  * Motion::~Motion -- Destructor of the object.                               *
@@ -153,10 +132,11 @@ Motion::Motion(
  *============================================================================*/
 Motion::~Motion()
 {
-	for (auto it = m_pMonoMotion.begin(); it != m_pMonoMotion.end(); it++)
-		delete (*it);
+    for (auto it = m_pMonoMotion.begin(); it != m_pMonoMotion.end(); it++)
+    {
+        delete (*it);
+    }
 }
-
 
 /******************************************************************************
  * Motion::Load -- Load a single motion.                                      *
@@ -177,43 +157,38 @@ Motion::~Motion()
  * HISTORY:                                                                   *
  *   2022/06/15 Tony : Created.                                               *
  *============================================================================*/
-bool Motion::Load(
-	XMLElement* node,
-	IMAGE* pImage,
-	int frameWidth,
-	int frameHeight)
+bool Motion::Load(XMLElement* node, IMAGE* pImage, int frameWidth, int frameHeight)
 {
-/*
-**	<Motion origin="" frame-num="" frame-speed="" dir-num="" ></Motion>
-*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<Motion origin="" frame-num="" frame-speed="" dir-num="" ></Motion>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG("Motion");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Motion");
+    _RETURN_IF_ERROR();
 
-	Coordinate origin;
-	int srcX, srcY;
-	int dirNum = 0;
+    Coordinate origin;
+    int srcX, srcY;
+    int dirNum = 0;
 
-	_PARSE_PRIVATE_ESSENTIAL("origin", origin, name, ParseCoord);
-	_PARSE_ESSENTIAL("frame-num", m_frameNum, name, 0);
-	_PARSE_ESSENTIAL("frame-speed", m_frameSpeed, name, 0);
-	_PARSE_ESSENTIAL("dir-num", dirNum, name, 0);
-	_PARSE_ESSENTIAL("loop", m_isLoop, name, false);
-	_RETURN_IF_ERROR();
+    _PARSE_PRIVATE_ESSENTIAL("origin", origin, name, ParseCoord);
+    _PARSE_ESSENTIAL("frame-num", m_frameNum, name, 0);
+    _PARSE_ESSENTIAL("frame-speed", m_frameSpeed, name, 0);
+    _PARSE_ESSENTIAL("dir-num", dirNum, name, 0);
+    _PARSE_ESSENTIAL("loop", m_isLoop, name, false);
+    _RETURN_IF_ERROR();
 
-	srcX = origin.x;
-	srcY = origin.y;
-	for (int i = 0; i < dirNum; i++)
-	{
-		m_pMonoMotion.push_back(new MonoMotion(pImage, srcX, srcY, m_frameNum, frameWidth, frameHeight));
-		srcY += frameHeight;
-	}
+    srcX = origin.x;
+    srcY = origin.y;
+    for (int i = 0; i < dirNum; i++)
+    {
+        m_pMonoMotion.push_back(new MonoMotion(pImage, srcX, srcY, m_frameNum, frameWidth, frameHeight));
+        srcY += frameHeight;
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Motion::GetFrame -- Get frame.                                             *
@@ -232,9 +207,8 @@ bool Motion::Load(
  *============================================================================*/
 IMAGE* Motion::GetFrame(int frame, AnimDirection dir)
 {
-	return m_pMonoMotion[dir]->GetFrame(frame);
+    return m_pMonoMotion[dir]->GetFrame(frame);
 }
-
 
 /******************************************************************************
  * MotionSet::~MotionSet -- Destructor of the object.                         *
@@ -252,10 +226,11 @@ IMAGE* Motion::GetFrame(int frame, AnimDirection dir)
  *============================================================================*/
 MotionSet::~MotionSet()
 {
-	for (auto it = m_pMotion.begin(); it != m_pMotion.end(); it++)
-		delete (*it);
+    for (auto it = m_pMotion.begin(); it != m_pMotion.end(); it++)
+    {
+        delete (*it);
+    }
 }
-
 
 /******************************************************************************
  * MotionSet::Load -- Load motion set.                                        *
@@ -273,47 +248,46 @@ MotionSet::~MotionSet()
  *============================================================================*/
 bool MotionSet::Load(XMLElement* node)
 {
-/*
-**	<Animation motion-num="" frame-width="" frame-height="" src="">
-**		<Motion origin="" frame-num="" frame-speed="" dir-num="" loop=""></Motion>
-**	</Animation>
-*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<Animation motion-num="" frame-width="" frame-height="" src="">
+    **		<Motion origin="" frame-num="" frame-speed="" dir-num=""
+    *loop=""></Motion> *	</Animation>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG("Animation");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Animation");
+    _RETURN_IF_ERROR();
 
-	const char* src = nullptr;
-	_PARSE_ESSENTIAL("motion-num", m_motionNum, name, 0);
-	_PARSE_ESSENTIAL("frame-width", m_frameWidth, name, 0);
-	_PARSE_ESSENTIAL("frame-height", m_frameHeight, name, 0);
-	_PARSE_ESSENTIAL("src", src, name, nullptr);
-	_RETURN_IF_ERROR();
+    const char* src = nullptr;
+    _PARSE_ESSENTIAL("motion-num", m_motionNum, name, 0);
+    _PARSE_ESSENTIAL("frame-width", m_frameWidth, name, 0);
+    _PARSE_ESSENTIAL("frame-height", m_frameHeight, name, 0);
+    _PARSE_ESSENTIAL("src", src, name, nullptr);
+    _RETURN_IF_ERROR();
 
-	IMAGE image;
-	if (!FetchImage(&image, src))
-	{
-		LOG_ERROR(INVALID_RESOURCE, src);
-		return false;
-	}
+    IMAGE image;
+    if (!FetchImage(&image, src))
+    {
+        LOG_ERROR(INVALID_RESOURCE, src);
+        return false;
+    }
 
-	XMLElement* tag = node->FirstChildElement();
-	for (int i = 0; i < m_motionNum; i++)
-	{
-		if (!tag)
-		{
-			LOG_ERROR(MISSING_CHILD_ELEMENT, name);
-			return false;
-		}
-		m_pMotion.push_back(new Motion(tag, &image, m_frameWidth, m_frameHeight));
+    XMLElement* tag = node->FirstChildElement();
+    for (int i = 0; i < m_motionNum; i++)
+    {
+        if (!tag)
+        {
+            LOG_ERROR(MISSING_CHILD_ELEMENT, name);
+            return false;
+        }
+        m_pMotion.push_back(new Motion(tag, &image, m_frameWidth, m_frameHeight));
 
-		tag = tag->NextSiblingElement();
-	}
+        tag = tag->NextSiblingElement();
+    }
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * MotionSet::GetMotion -- Get a motion.                                      *
@@ -331,10 +305,8 @@ bool MotionSet::Load(XMLElement* node)
  *============================================================================*/
 Motion* MotionSet::GetMotion(int motion)
 {
-	return m_pMotion[motion];
+    return m_pMotion[motion];
 }
-
-
 
 /******************************************************************************
  * Animation::Animation -- Constructor of the object.                         *
@@ -350,25 +322,16 @@ Motion* MotionSet::GetMotion(int motion)
  * HISTORY:                                                                   *
  *   2022/06/16 Tony : Created.                                               *
  *============================================================================*/
-Animation::Animation() :
-	m_pMotionSet(nullptr),
-	m_pCurMotion(nullptr),
-	m_frameNum(0),
-	m_frameSpeed(0),
-	m_isLoop(false),
-	m_elapsedTime(0),
-	m_curMotion(0),
-	m_curFrame(0),
-	m_curDir((AnimDirection)(0)),
-	m_isOver(true)
+Animation::Animation()
+    : m_pMotionSet(nullptr), m_pCurMotion(nullptr), m_elapsedTime(0), m_frameSpeed(0), m_frameNum(0), m_curMotion(0),
+      m_curFrame(0), m_curDir(static_cast<AnimDirection>(0)), m_isLoop(false), m_isOver(true)
 {
 }
 
 Animation::Animation(MotionSet* pMotionSet) : m_pMotionSet(pMotionSet)
 {
-	Reset();
+    Reset();
 }
-
 
 /******************************************************************************
  * Animation::~Animation -- Destructor of the object.                         *
@@ -388,7 +351,6 @@ Animation::~Animation()
 {
 }
 
-
 /******************************************************************************
  * Animation::Initialize -- Initialize animation.                             *
  *                                                                            *
@@ -405,10 +367,9 @@ Animation::~Animation()
  *============================================================================*/
 void Animation::Initialize(MotionSet* pMotionSet)
 {
-	m_pMotionSet = pMotionSet;
-	Reset();
+    m_pMotionSet = pMotionSet;
+    Reset();
 }
-
 
 /******************************************************************************
  * Animation::Reset -- Reset to default motion and frame.                     *
@@ -426,20 +387,19 @@ void Animation::Initialize(MotionSet* pMotionSet)
  *============================================================================*/
 void Animation::Reset()
 {
-	m_pCurMotion = m_pMotionSet->GetMotion(0);
-	m_frameNum = m_pCurMotion->m_frameNum;
-	m_frameSpeed = m_pCurMotion->m_frameSpeed;
-	m_isLoop = m_pCurMotion->m_isLoop;
+    m_pCurMotion = m_pMotionSet->GetMotion(0);
+    m_frameNum = m_pCurMotion->m_frameNum;
+    m_frameSpeed = m_pCurMotion->m_frameSpeed;
+    m_isLoop = m_pCurMotion->m_isLoop;
 
-	m_curMotion = 0;
-	m_curFrame = 0;
-	m_curDir = (AnimDirection)(0);
+    m_curMotion = 0;
+    m_curFrame = 0;
+    m_curDir = static_cast<AnimDirection>(0);
 
-	m_elapsedTime = 0;
+    m_elapsedTime = 0;
 
-	m_isOver = false;
+    m_isOver = false;
 }
-
 
 /******************************************************************************
  * Animation::Update -- Update animation on each frame.                       *
@@ -457,27 +417,30 @@ void Animation::Reset()
  *============================================================================*/
 void Animation::Update()
 {
-	if (m_isOver)
-		return;
+    if (m_isOver)
+    {
+        return;
+    }
 
-	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
-	if (m_elapsedTime > m_frameSpeed)
-	{
-		m_curFrame++;
-		if (m_curFrame >= m_frameNum)
-		{
-			if (m_isLoop)
-				m_curFrame = 0;
-			else
-			{
-				m_curFrame = m_frameNum - 1;
-				m_isOver = true;
-			}
-		}
-		m_elapsedTime = 0;
-	}
+    m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+    if (m_elapsedTime > m_frameSpeed)
+    {
+        m_curFrame++;
+        if (m_curFrame >= m_frameNum)
+        {
+            if (m_isLoop)
+            {
+                m_curFrame = 0;
+            }
+            else
+            {
+                m_curFrame = m_frameNum - 1;
+                m_isOver = true;
+            }
+        }
+        m_elapsedTime = 0;
+    }
 }
-
 
 /******************************************************************************
  * Animation::GetFrame -- Get current frame.                                  *
@@ -495,9 +458,8 @@ void Animation::Update()
  *============================================================================*/
 IMAGE* Animation::GetFrame()
 {
-	return m_pCurMotion->GetFrame(m_curFrame, m_curDir);
+    return m_pCurMotion->GetFrame(m_curFrame, m_curDir);
 }
-
 
 /******************************************************************************
  * Animation::GetFrameWidth -- Get frame width.                               *
@@ -515,11 +477,12 @@ IMAGE* Animation::GetFrame()
  *============================================================================*/
 int Animation::GetFrameWidth() const
 {
-	if (m_pMotionSet)
-		return m_pMotionSet->GetFrameWidth();
-	return 0;
+    if (m_pMotionSet)
+    {
+        return m_pMotionSet->GetFrameWidth();
+    }
+    return 0;
 }
-
 
 /******************************************************************************
  * Animation::GetFrameHeight -- Get frame height.                             *
@@ -537,11 +500,12 @@ int Animation::GetFrameWidth() const
  *============================================================================*/
 int Animation::GetFrameHeight() const
 {
-	if (m_pMotionSet)
-		return m_pMotionSet->GetFrameHeight();
-	return 0;
+    if (m_pMotionSet)
+    {
+        return m_pMotionSet->GetFrameHeight();
+    }
+    return 0;
 }
-
 
 /******************************************************************************
  * Animation::SetMotion -- Set current motion.                                *
@@ -559,18 +523,20 @@ int Animation::GetFrameHeight() const
  *============================================================================*/
 void Animation::SetMotion(int motion)
 {
-	if (motion == m_curMotion)
-		return;
+    if (motion == m_curMotion)
+    {
+        return;
+    }
 
-	m_pCurMotion = m_pMotionSet->GetMotion(motion);
-	m_frameNum = m_pCurMotion->m_frameNum;
-	m_frameSpeed = m_pCurMotion->m_frameSpeed;
-	m_isLoop = m_pCurMotion->m_isLoop;
+    m_pCurMotion = m_pMotionSet->GetMotion(motion);
+    m_frameNum = m_pCurMotion->m_frameNum;
+    m_frameSpeed = m_pCurMotion->m_frameSpeed;
+    m_isLoop = m_pCurMotion->m_isLoop;
 
-	m_curMotion = motion;
-	m_curFrame = 0;
+    m_curMotion = motion;
+    m_curFrame = 0;
 
-	m_elapsedTime = 0;
+    m_elapsedTime = 0;
 
-	m_isOver = false;
+    m_isOver = false;
 }

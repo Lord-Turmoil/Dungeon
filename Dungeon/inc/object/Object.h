@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For the base class of all game objects.                                  *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -28,23 +28,21 @@
 
 #include "../common/Defines.h"
 
-
 enum ObjectType : unsigned
 {
-	OBJ_BRICK	= BIT(1),	// wall and gate
-	OBJ_BUFF	= BIT(2),
-	OBJ_BULLET	= BIT(3),
-	OBJ_CHEST	= BIT(4),
-	OBJ_CRATE	= BIT(5),
-	OBJ_ENEMY	= BIT(6),
-	OBJ_HERO	= BIT(7),
-	OBJ_WEAPON	= BIT(8),
-	OBJ_PORTAL	= BIT(9),
-	OBJ_STAND	= BIT(10),
+    OBJ_BRICK = BIT(1), // wall and gate
+    OBJ_BUFF = BIT(2),
+    OBJ_BULLET = BIT(3),
+    OBJ_CHEST = BIT(4),
+    OBJ_CRATE = BIT(5),
+    OBJ_ENEMY = BIT(6),
+    OBJ_HERO = BIT(7),
+    OBJ_WEAPON = BIT(8),
+    OBJ_PORTAL = BIT(9),
+    OBJ_STAND = BIT(10),
 
-	OBJ_FIGURE	= OBJ_ENEMY | OBJ_HERO,
+    OBJ_FIGURE = OBJ_ENEMY | OBJ_HERO,
 };
-
 
 /********************************************************************
 ** Object derives from GameObject, add custom type info.
@@ -52,38 +50,54 @@ enum ObjectType : unsigned
 class Object : public GameObject
 {
 public:
-	// Hmm... scene is a must.
-	Object(ObjectType type, Scene* scene = nullptr) : 
-		GameObject(RTTIType::RTTI_OBJECT, scene), m_type(type) {}
-	virtual ~Object() {}
+    // Hmm... scene is a must.
+    Object(ObjectType type, Scene* scene = nullptr) : GameObject(RTTIType::RTTI_OBJECT, scene), m_type(type)
+    {
+    }
 
-	ObjectType Type() const { return m_type; }
+    ~Object() override
+    {
+    }
 
-	virtual Object* Clone() const = 0;
-	virtual void Clone(Object* clone) const;
+    ObjectType Type() const
+    {
+        return m_type;
+    }
 
-	virtual bool Load(XMLElement* node);
+    Object* Clone() const override = 0;
+    virtual void Clone(Object* clone) const;
 
-	// virtual void Update(Event* evnt);
-	// virtual void Draw();
-	// virtual void Draw(IMAGE* pDestImage);
+    bool Load(XMLElement* node) override;
+
+    // virtual void Update(Event* evnt);
+    // virtual void Draw();
+    // virtual void Draw(IMAGE* pDestImage);
 
 public:
-	virtual void SetCenter(const Coordinate& center) { m_coord = center - m_centerOffset; }
-	virtual Coordinate GetCenter() const { return m_coord + m_centerOffset; }
+    void SetCenter(const Coordinate& center) override
+    {
+        m_coord = center - m_centerOffset;
+    }
 
-	virtual void Translate(const Coordinate& offset);
+    Coordinate GetCenter() const override
+    {
+        return m_coord + m_centerOffset;
+    }
+
+    void Translate(const Coordinate& offset) override;
 
 protected:
-	/*
-	** If the game object has behaviors, then they will be initailzed here.
-	** node is the game object's xml node.
-	*/
-	virtual void _InitBehavior(XMLElement* node = nullptr) {}
+    /*
+    ** If the game object has behaviors, then they will be initailzed here.
+    ** node is the game object's xml node.
+    */
+    virtual void _InitBehavior(XMLElement* node = nullptr)
+    {
+    }
 
-	ObjectType m_type;
+    ObjectType m_type;
 
-	Coordinate m_centerOffset;
+    Coordinate m_centerOffset;
 };
 
 #endif

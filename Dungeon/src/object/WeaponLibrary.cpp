@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Weapon library of the game.                                              *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,10 +21,12 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Weapon.h"
-#include "../../inc/object/WeaponKit.h"
 #include "../../inc/object/WeaponLibrary.h"
 
+#include "../../inc/object/Weapon.h"
+#include "../../inc/object/WeaponKit.h"
+
+#include <algorithm>
 
 /******************************************************************************
  * WeaponLibrary::Load -- Load weapon library.                                *
@@ -42,17 +44,16 @@
  *============================================================================*/
 bool WeaponLibrary::Load(const char* filename)
 {
-	XMLFile file;
+    XMLFile file;
 
-	file.Load(filename);
+    file.Load(filename);
 
-	Load(file.GetRoot());
+    Load(file.GetRoot());
 
-	file.UnLoad();
+    file.UnLoad();
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * WeaponLibrary::Load -- Load weapon prototypes.                             *
@@ -70,30 +71,29 @@ bool WeaponLibrary::Load(const char* filename)
  *============================================================================*/
 bool WeaponLibrary::Load(XMLElement* node)
 {
-/*
-**	<WeaponLibrary>
-**		<WeaponName ...>...</WeaponName>
-**		<WeaponName ...>...</WeaponName>
-**		<WeaponName ...>...</WeaponName>
-**	</WeaponLibrary>
-*/
-	const char* name = node->Name();
+    /*
+    **	<WeaponLibrary>
+    **		<WeaponName ...>...</WeaponName>
+    **		<WeaponName ...>...</WeaponName>
+    **		<WeaponName ...>...</WeaponName>
+    **	</WeaponLibrary>
+    */
+    const char* name = node->Name();
 
-	_CHECK_TAG("WeaponLibrary");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("WeaponLibrary");
+    _RETURN_IF_ERROR();
 
-	WeaponKit kit;
-	XMLElement* elem = node->FirstChildElement();
-	while (elem)
-	{
-		AddWeapon(kit.LoadObject(elem));
-		elem = elem->NextSiblingElement();
-	}
-	_AcquireWeapons();
+    WeaponKit kit;
+    XMLElement* elem = node->FirstChildElement();
+    while (elem)
+    {
+        AddWeapon(kit.LoadObject(elem));
+        elem = elem->NextSiblingElement();
+    }
+    _AcquireWeapons();
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * WeaponLibrary::UnLoad -- Unload all resources.                             *
@@ -111,12 +111,13 @@ bool WeaponLibrary::Load(XMLElement* node)
  *============================================================================*/
 void WeaponLibrary::UnLoad()
 {
-	for (auto it = m_pool.begin(); it != m_pool.end(); it++)
-		delete it->second;
-	m_pool.clear();
-	m_unusedPool.clear();
+    for (auto it = m_pool.begin(); it != m_pool.end(); it++)
+    {
+        delete it->second;
+    }
+    m_pool.clear();
+    m_unusedPool.clear();
 }
-
 
 /******************************************************************************
  * WeaponLibrary::AddWeapon -- Add weapon to the library.                     *
@@ -134,9 +135,8 @@ void WeaponLibrary::UnLoad()
  *============================================================================*/
 Weapon* WeaponLibrary::AddWeapon(Weapon* weapon)
 {
-	return AddItem(weapon->Name(), weapon);
+    return AddItem(weapon->Name(), weapon);
 }
-
 
 /******************************************************************************
  * WeaponLibrary::GetWeapon -- Get a random weapon.                           *
@@ -155,17 +155,18 @@ Weapon* WeaponLibrary::AddWeapon(Weapon* weapon)
  *============================================================================*/
 Weapon* WeaponLibrary::GetWeapon()
 {
-	int size = (int)m_unusedPool.size();
-	Weapon* weapon;
+    int size = static_cast<int>(m_unusedPool.size());
+    Weapon* weapon;
 
-	if (size == 0)
-		_AcquireWeapons();
-	weapon = m_unusedPool.back();
-	m_unusedPool.pop_back();
+    if (size == 0)
+    {
+        _AcquireWeapons();
+    }
+    weapon = m_unusedPool.back();
+    m_unusedPool.pop_back();
 
-	return weapon;
+    return weapon;
 }
-
 
 /******************************************************************************
  * WeaponLibrary::GetWeaponByName -- Get a weapon by its name.                *
@@ -184,9 +185,8 @@ Weapon* WeaponLibrary::GetWeapon()
  *============================================================================*/
 Weapon* WeaponLibrary::GetWeaponByName(const std::string& name)
 {
-	return GetItem(name);
+    return GetItem(name);
 }
-
 
 /******************************************************************************
  * WeaponLibrary::~WeaponLibrary -- Destructor of the object.                 *
@@ -204,9 +204,8 @@ Weapon* WeaponLibrary::GetWeaponByName(const std::string& name)
  *============================================================================*/
 WeaponLibrary::~WeaponLibrary()
 {
-	UnLoad();
+    UnLoad();
 }
-
 
 /******************************************************************************
  * WeaponLibrary::_AcquireWeapons -- Acquire all non-exclusive weapons.       *
@@ -224,11 +223,13 @@ WeaponLibrary::~WeaponLibrary()
  *============================================================================*/
 void WeaponLibrary::_AcquireWeapons()
 {
-	m_unusedPool.clear();
-	for (auto it = m_pool.begin(); it != m_pool.end(); it++)
-	{
-		if (!it->second->IsExclusive())
-			m_unusedPool.push_back(it->second);
-	}
-	std::random_shuffle(m_unusedPool.begin(), m_unusedPool.end());
+    m_unusedPool.clear();
+    for (auto it = m_pool.begin(); it != m_pool.end(); it++)
+    {
+        if (!it->second->IsExclusive())
+        {
+            m_unusedPool.push_back(it->second);
+        }
+    }
+    std::random_shuffle(m_unusedPool.begin(), m_unusedPool.end());
 }

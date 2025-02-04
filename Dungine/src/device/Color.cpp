@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide some color definitions and operations.                           *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,7 +24,6 @@
 #include <cstdio>
 
 #include "../../inc/device/color.h"
-
 
 /******************************************************************************
  * ParseColor -- Parse color from a string.                                   *
@@ -43,25 +42,31 @@
  *============================================================================*/
 bool ParseColor(void* val, const char* attribute)
 {
-	if (attribute == NULL)
-		return false;
+    if (attribute == nullptr)
+    {
+        return false;
+    }
 
-	COLORREF color;
-	if (*attribute == '#')
-	{
-		if (sscanf_s(attribute, "#%x", &color) != 1)
-			return false;
-		color = BGRtoRGB(color);
-	}
-	else
-	{
-		int r, g, b;
-		if (sscanf_s(attribute, "rgb(%d, %d, %d)", &r, &g, &b) != 3)
-			return false;
-		color = RGB(r, g, b);
-	}
+    COLORREF color;
+    if (*attribute == '#')
+    {
+        if (sscanf_s(attribute, "#%x", &color) != 1)
+        {
+            return false;
+        }
+        color = BGRtoRGB(color);
+    }
+    else
+    {
+        int r, g, b;
+        if (sscanf_s(attribute, "rgb(%d, %d, %d)", &r, &g, &b) != 3)
+        {
+            return false;
+        }
+        color = RGB(r, g, b);
+    }
 
-	*((COLORREF*)val) = color;
+    *static_cast<COLORREF*>(val) = color;
 
-	return true;
+    return true;
 }

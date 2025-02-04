@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Load all resources and make all preperations.                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,11 +23,11 @@
 
 #include "../../inc/common/Defines.h"
 
-#include "../../inc/game/Startup.h"
 #include "../../inc/game/Settings.h"
+#include "../../inc/game/Startup.h"
 
-#include "../../inc/ui/ErrorInterface.h"
 #include "../../inc/ui/Cursor.h"
+#include "../../inc/ui/ErrorInterface.h"
 
 /******************************************************************************
  * Initialize -- Initialize all things.                                       *
@@ -45,105 +45,107 @@
  *============================================================================*/
 bool Initialize()
 {
-	Settings::GetInstance()->Link(SETTINGS_XML);
-	Settings::GetInstance()->Load();
+    Settings::GetInstance()->Link(SETTINGS_XML);
+    Settings::GetInstance()->Load();
 
-	if (!_InitDevice())
-	{
-		LOG_ERROR("Failed to initialize Device");
-		return false;
-	}
+    if (!_InitDevice())
+    {
+        LOG_ERROR("Failed to initialize Device");
+        return false;
+    }
 
-	if (!_InitApplication())
-	{
-		_UnInitApplication();
-		if (!_InitErrorApplication())
-			return false;
-	}
+    if (!_InitApplication())
+    {
+        _UnInitApplication();
+        if (!_InitErrorApplication())
+        {
+            return false;
+        }
+    }
 
-	srand((unsigned)time(NULL));
+    srand(static_cast<unsigned>(time(nullptr)));
 
-	return true;
+    return true;
 }
 
 bool _InitDevice()
 {
-	// Speaker
-	if (!Speaker::GetInstance()->Create())
-		return false;
-	Speaker::GetInstance()->SetSoundVolume(Settings::GetInstance()->SoundVolume());
-	Speaker::GetInstance()->SetMusicVolume(Settings::GetInstance()->MusicVolume());
+    // Speaker
+    if (!Speaker::GetInstance()->Create())
+    {
+        return false;
+    }
+    Speaker::GetInstance()->SetSoundVolume(Settings::GetInstance()->SoundVolume());
+    Speaker::GetInstance()->SetMusicVolume(Settings::GetInstance()->MusicVolume());
 
-	// Device
-	Device::GetInstance()->Create(Settings::GetInstance()->IsFullscreen());
+    // Device
+    Device::GetInstance()->Create(Settings::GetInstance()->IsFullscreen());
 
-	// Explorer
-	if (!Explorer::GetInstance()->Load(RESOURCE_XML))
-		return false;
+    // Explorer
+    if (!Explorer::GetInstance()->Load(RESOURCE_XML))
+    {
+        return false;
+    }
 
-	IMAGE* pSkyImage = new IMAGE(deviceInfo.clientWidth, deviceInfo.clientHeight);
-	GradiantFill(
-		pSkyImage,
-		Settings::GetInstance()->BeginColor(),
-		Settings::GetInstance()->EndColor());
-	Explorer::GetInstance()->AssignInternalResource(
-		ResourceType::RES_IMAGE, "sky", pSkyImage);
+    IMAGE* pSkyImage = new IMAGE(deviceInfo.clientWidth, deviceInfo.clientHeight);
+    GradiantFill(pSkyImage, Settings::GetInstance()->BeginColor(), Settings::GetInstance()->EndColor());
+    Explorer::GetInstance()->AssignInternalResource(ResourceType::RES_IMAGE, "sky", pSkyImage);
 
-	// Additional font
-	if (AddFontResourceEx(INTERNAL_FONT_PATH, FR_PRIVATE, NULL) == 0)
-	{
-		LOG_ERROR(R"(Missing essential font "%s")", narrow(INTERNAL_FONT_NAME));
-		return false;
-	}
+    // Additional font
+    if (AddFontResourceEx(INTERNAL_FONT_PATH, FR_PRIVATE, nullptr) == 0)
+    {
+        LOG_ERROR(R"(Missing essential font "%s")", narrow(INTERNAL_FONT_NAME));
+        return false;
+    }
 
-	// Custom cursor.
-	LoadCursorStyle();
-	SetCursorStyle(CUR_ARROW);
+    // Custom cursor.
+    LoadCursorStyle();
+    SetCursorStyle(CUR_ARROW);
 
-	return true;
+    return true;
 }
 
 bool _InitApplication()
 {
-	int intfNum = (int)(sizeof(UI_XML) / sizeof(UI_XML[0]));
-	Application* app = Application::GetInstance();
+    int intfNum = (int)(sizeof(UI_XML) / sizeof(UI_XML[0]));
+    Application* app = Application::GetInstance();
 
-	for (int i = 0; i < intfNum; i++)
-	{
-		if (!app->Load(splice(UI_DIRECTORY, UI_XML[i])))
-			return false;
-	}
+    for (int i = 0; i < intfNum; i++)
+    {
+        if (!app->Load(splice(UI_DIRECTORY, UI_XML[i])))
+        {
+            return false;
+        }
+    }
 
-	auto& pool = app->GetInterfacePool();
-	for (auto it = pool.begin(); it != pool.end(); it++)
-	{
-		static_cast<PlainInterface*>(it->second)->AddEvents();
-		it->second->Update(nullptr);	// Hmm... Initialize some image?
-	}
+    auto& pool = app->GetInterfacePool();
+    for (auto it = pool.begin(); it != pool.end(); it++)
+    {
+        static_cast<PlainInterface*>(it->second)->AddEvents();
+        it->second->Update(nullptr); // Hmm... Initialize some image?
+    }
 
-	return true;
+    return true;
 }
 
 void _UnInitApplication()
 {
-	Application::GetInstance()->UnLoad();
+    Application::GetInstance()->UnLoad();
 }
 
 bool _InitErrorApplication()
 {
-	ErrorInterface* intf = new ErrorInterface();
+    ErrorInterface* intf = new ErrorInterface();
 
-	Logger::ClearGlobalState();
+    Logger::ClearGlobalState();
 
-	intf->Load(nullptr);
-	intf->AddEvents();
+    intf->Load(nullptr);
+    intf->AddEvents();
 
-	Application::GetInstance()->AddInterface(intf);
+    Application::GetInstance()->AddInterface(intf);
 
-
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Run -- Run the application.                                                *
@@ -161,23 +163,25 @@ bool _InitErrorApplication()
  *============================================================================*/
 void Run()
 {
-	Application* app = Application::GetInstance();
-	app->Initialize();
-	app->Run();
+    Application* app = Application::GetInstance();
+    app->Initialize();
+    app->Run();
 
-	if (Logger::Error())
-		_RunError();
+    if (Logger::Error())
+    {
+        _RunError();
+    }
 }
 
 void _RunError()
 {
-	Application* app = Application::GetInstance();
+    Application* app = Application::GetInstance();
 
-	app->UnLoad();
-	_InitErrorApplication();
-	app->Initialize();
+    app->UnLoad();
+    _InitErrorApplication();
+    app->Initialize();
 
-	app->Run();
+    app->Run();
 }
 
 /******************************************************************************
@@ -196,11 +200,10 @@ void _RunError()
  *============================================================================*/
 void ClearUp()
 {
-	Application::GetInstance()->UnLoad();
-	Explorer::GetInstance()->UnLoad();
-	RemoveFontResourceEx(INTERNAL_FONT_PATH, FR_PRIVATE, NULL);
+    Application::GetInstance()->UnLoad();
+    Explorer::GetInstance()->UnLoad();
+    RemoveFontResourceEx(INTERNAL_FONT_PATH, FR_PRIVATE, nullptr);
 }
-
 
 /******************************************************************************
  * GradiantFill -- Fill the image with gradiant color.                        *
@@ -221,29 +224,31 @@ void ClearUp()
  *============================================================================*/
 void GradiantFill(IMAGE* pImage, COLORREF srcColor, COLORREF destColor)
 {
-	int width = pImage->getwidth();
-	int height = pImage->getheight();
+    int width = pImage->getwidth();
+    int height = pImage->getheight();
 
-	int sr = PR(srcColor);
-	int sg = PG(srcColor);
-	int sb = PB(srcColor);
-	int dr = PR(destColor);
-	int dg = PG(destColor);
-	int db = PB(destColor);
+    int sr = PR(srcColor);
+    int sg = PG(srcColor);
+    int sb = PB(srcColor);
+    int dr = PR(destColor);
+    int dg = PG(destColor);
+    int db = PB(destColor);
 
-	int r, g, b;
-	double ratio;
-	COLORREF color;
-	DWORD* pBuffer = GetImageBuffer(pImage);
-	for (int i = 0; i < height; i++)
-	{
-		ratio = (double)i / (double)height;
-		r = BlendValue(sr, dr, ratio);
-		g = BlendValue(sg, dg, ratio);
-		b = BlendValue(sb, db, ratio);
-		color = RGB(b, g, r);	// R and B in buffer is inverted?
-		for (int j = 0; j < width; j++)
-			pBuffer[j] = color;
-		pBuffer += width;
-	}
+    int r, g, b;
+    double ratio;
+    COLORREF color;
+    DWORD* pBuffer = GetImageBuffer(pImage);
+    for (int i = 0; i < height; i++)
+    {
+        ratio = static_cast<double>(i) / static_cast<double>(height);
+        r = BlendValue(sr, dr, ratio);
+        g = BlendValue(sg, dg, ratio);
+        b = BlendValue(sb, db, ratio);
+        color = RGB(b, g, r); // R and B in buffer is inverted?
+        for (int j = 0; j < width; j++)
+        {
+            pBuffer[j] = color;
+        }
+        pBuffer += width;
+    }
 }

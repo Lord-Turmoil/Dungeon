@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   This file provides base class of interface.                              *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,18 +23,17 @@
 
 #include "../../inc/common/Common.h"
 
-#include "../../inc/utility/xml.h"
-#include "../../inc/utility/Parser.h"
 #include "../../inc/utility/Auxilliary.h"
+#include "../../inc/utility/Parser.h"
+#include "../../inc/utility/xml.h"
 
-#include "../../inc/device/Explorer.h"
 #include "../../inc/device/Device.h"
+#include "../../inc/device/Explorer.h"
 #include "../../inc/device/Timer.h"
 
-#include "../../inc/ui/Application.h"
 #include "../../inc/ui/AbstractInterface.h"
+#include "../../inc/ui/Application.h"
 #include "../../inc/ui/WidgetManger.h"
-
 
 /******************************************************************************
  * AbstractInterface::~AbstractInterface -- Destructor of the object.         *
@@ -52,7 +51,7 @@
  *============================================================================*/
 AbstractInterface::~AbstractInterface()
 {
-	_DELETE(m_pWidgetManager);
+    _DELETE(m_pWidgetManager);
 }
 
 /******************************************************************************
@@ -71,10 +70,9 @@ AbstractInterface::~AbstractInterface()
  *============================================================================*/
 void AbstractInterface::Launch()
 {
-	_Initialize();
-	m_pApp->Launch(m_name);
+    _Initialize();
+    m_pApp->Launch(m_name);
 }
-
 
 /******************************************************************************
  * AbstractInterface::Attach -- Attach interface to the current one.          *
@@ -92,10 +90,9 @@ void AbstractInterface::Launch()
  *============================================================================*/
 void AbstractInterface::Attach()
 {
-	_Initialize();
-	m_pApp->Attach(m_name);
+    _Initialize();
+    m_pApp->Attach(m_name);
 }
-
 
 /******************************************************************************
  * AbstractInterface::Terminate -- Terminate interface.                       *
@@ -114,11 +111,10 @@ void AbstractInterface::Attach()
  *============================================================================*/
 void AbstractInterface::Terminate()
 {
-	m_pApp->Terminate();
-	ClearSubInterface();
-	_Destroy();
+    m_pApp->Terminate();
+    ClearSubInterface();
+    _Destroy();
 }
-
 
 /******************************************************************************
  * AbstractInterface::Detach -- Detach interface.                             *
@@ -136,11 +132,10 @@ void AbstractInterface::Terminate()
  *============================================================================*/
 void AbstractInterface::Detach()
 {
-	m_pApp->Detach();
-	ClearSubInterface();
-	_Destroy();
+    m_pApp->Detach();
+    ClearSubInterface();
+    _Destroy();
 }
-
 
 /******************************************************************************
  * AbstractInterface::Load -- Load the basic property of interface.           *
@@ -158,26 +153,27 @@ void AbstractInterface::Detach()
  *============================================================================*/
 bool AbstractInterface::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
-	XMLElement* tag;
+    const char* name = node->Name();
+    const char* attr;
+    XMLElement* tag;
 
-	_PARSE_ESSENTIAL("name", m_name, name, "");
-	if (Logger::Error())
-		return false;
+    _PARSE_ESSENTIAL("name", m_name, name, "");
+    if (Logger::Error())
+    {
+        return false;
+    }
 
-	tag = node->FirstChildElement("Widgets");
-	if (tag)
-	{
-		m_pWidgetManager = new WidgetManager();
-		m_pWidgetManager->Load(tag);
-	}
+    tag = node->FirstChildElement("Widgets");
+    if (tag)
+    {
+        m_pWidgetManager = new WidgetManager();
+        m_pWidgetManager->Load(tag);
+    }
 
-	m_isActive = false;
+    m_isActive = false;
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * AbstractInterface::Update -- Update on each frame.                         *
@@ -195,12 +191,15 @@ bool AbstractInterface::Load(XMLElement* node)
  *============================================================================*/
 void AbstractInterface::Update(Event* evnt)
 {
-	if (m_pSubIntf)
-		m_pSubIntf->Update(evnt);
-	else
-		m_pWidgetManager->Update(evnt);
+    if (m_pSubIntf)
+    {
+        m_pSubIntf->Update(evnt);
+    }
+    else
+    {
+        m_pWidgetManager->Update(evnt);
+    }
 }
-
 
 /******************************************************************************
  * AbstractInterface::Draw -- Draw the interface.                             *
@@ -218,20 +217,23 @@ void AbstractInterface::Update(Event* evnt)
  *============================================================================*/
 void AbstractInterface::Draw()
 {
-	m_pWidgetManager->Draw();
-	if (m_pSubIntf)
-		m_pSubIntf->Draw();
+    m_pWidgetManager->Draw();
+    if (m_pSubIntf)
+    {
+        m_pSubIntf->Draw();
+    }
 }
 
 void AbstractInterface::Draw(IMAGE* pDestImage)
 {
-	m_pWidgetManager->Draw();
-	if (m_pSubIntf)
-		m_pSubIntf->Draw();
+    m_pWidgetManager->Draw();
+    if (m_pSubIntf)
+    {
+        m_pSubIntf->Draw();
+    }
 
-	Device::GetInstance()->Render(pDestImage);
+    Device::GetInstance()->Render(pDestImage);
 }
-
 
 /******************************************************************************
  * AbstractInterface::GetWidget -- Get a widget in the interface.             *
@@ -249,5 +251,5 @@ void AbstractInterface::Draw(IMAGE* pDestImage)
  *============================================================================*/
 AbstractWidget* AbstractInterface::GetWidget(const std::string& name)
 {
-	return m_pWidgetManager->GetWidget(name);
+    return m_pWidgetManager->GetWidget(name);
 }

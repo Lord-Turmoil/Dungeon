@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Factory for miscellaneous objects.                                       *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -31,12 +31,17 @@ class Object;
 class MiscKit : public AbstractKit<Object>
 {
 public:
-	MiscKit() {}
-	virtual ~MiscKit() {}
+    MiscKit()
+    {
+    }
 
-	// Well, I think not all objects have a name. :(
-	Object* LoadObject(XMLElement* node, std::string& objName);
-	virtual Object* LoadObject(XMLElement* node);
+    ~MiscKit() override
+    {
+    }
+
+    // Well, I think not all objects have a name. :(
+    Object* LoadObject(XMLElement* node, std::string& objName);
+    Object* LoadObject(XMLElement* node) override;
 };
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update : November 26, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Version interface.                                                       *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -28,42 +28,41 @@
 
 #include "Interface.h"
 
-
 /********************************************************************
 ** Version interface have to support multiple version pages.
 */
 class VersionInterface final : public PlainInterface
 {
 public:
-	VersionInterface();
-	virtual ~VersionInterface();
+    VersionInterface();
+    ~VersionInterface() override;
 
-	virtual bool Load(XMLElement* node);
-	virtual void Update(Event* evnt);
-	virtual void Draw();
-	virtual void Draw(IMAGE* pDestImage);
+    bool Load(XMLElement* node) override;
+    void Update(Event* evnt) override;
+    void Draw() override;
+    void Draw(IMAGE* pDestImage) override;
 
-	virtual void AddEvents();
+    void AddEvents() override;
 
 protected:
-	virtual void _Initialize();
+    void _Initialize() override;
 
 private:
-	void _UpdatePage(Event* evnt);
-	void _DrawPage();
-	void _PageUp();
-	void _PageDown();
-	void _UpdateControl();
+    void _UpdatePage(Event* evnt);
+    void _DrawPage();
+    void _PageUp();
+    void _PageDown();
+    void _UpdateControl();
 
-	/*
-	** 2022/11/26 TS:
-	** Show latest version when opened.
-	*/
-	void _OnRewind();
-	static void _OnCredits();
+    /*
+    ** 2022/11/26 TS:
+    ** Show latest version when opened.
+    */
+    void _OnRewind();
+    static void _OnCredits();
 
-	std::vector<WidgetManager*> m_pages;
-	std::vector<WidgetManager*>::iterator m_curPage;
+    std::vector<WidgetManager*> m_pages;
+    std::vector<WidgetManager*>::iterator m_curPage;
 };
 
 #endif

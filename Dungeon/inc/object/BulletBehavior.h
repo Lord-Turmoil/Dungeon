@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Behavior of basic bullets.                                               *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,92 +26,129 @@
 
 #include <dungine.h>
 
-
 class BulletBehavior : public Behavior
 {
 public:
-	BulletBehavior() {}
-	virtual ~BulletBehavior() {}
+    BulletBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~BulletBehavior() override
+    {
+    }
 
-	virtual BulletBehavior* Clone() const = 0;
-	virtual void Clone(BulletBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    BulletBehavior* Clone() const override = 0;
+    virtual void Clone(BulletBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	enum BulletAnimTag
-	{
-		BULLET_ANIM_FLY = 0,
-		BULLET_ANIM_EXPLODE,
-		BULLET_ANIM_CORRUPT,
-	};
+    enum BulletAnimTag
+    {
+        BULLET_ANIM_FLY = 0,
+        BULLET_ANIM_EXPLODE,
+        BULLET_ANIM_CORRUPT,
+    };
 };
 
 class BulletNone : public BulletBehavior
 {
 public:
-	virtual const char* Name() const { return "None"; }
+    const char* Name() const override
+    {
+        return "None";
+    }
 
-	virtual BulletNone* Clone() const;
-	virtual void Clone(BulletNone* clone) const {}
+    BulletNone* Clone() const override;
 
-	virtual void Update(Event* evnt) {}
+    virtual void Clone(BulletNone* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override
+    {
+    }
 };
 
 class BulletFly : public BulletBehavior
 {
 public:
-	virtual const char* Name() const { return "Fly"; }
+    const char* Name() const override
+    {
+        return "Fly";
+    }
 
-	virtual BulletFly* Clone() const;
-	virtual void Clone(BulletFly* clone) const {}
+    BulletFly* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(BulletFly* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 protected:
-	// Damage game objects.
-	virtual bool _Explode(GameObject* obj);
-	virtual void _AdjustDirection();
+    // Damage game objects.
+    virtual bool _Explode(GameObject* obj);
+    virtual void _AdjustDirection();
 
-	double m_dist;	// distance covered
-	std::vector<GameObject*> m_candidates;
+    double m_dist; // distance covered
+    std::vector<GameObject*> m_candidates;
 };
 
 class BulletExplode : public BulletBehavior
 {
 public:
-	virtual const char* Name() const { return "Explode"; }
+    const char* Name() const override
+    {
+        return "Explode";
+    }
 
-	virtual BulletExplode* Clone() const;
-	virtual void Clone(BulletExplode* clone) const {}
+    BulletExplode* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(BulletExplode* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class BulletCorrupt : public BulletBehavior
 {
 public:
-	virtual const char* Name() const { return "Corrupt"; }
+    const char* Name() const override
+    {
+        return "Corrupt";
+    }
 
-	virtual BulletCorrupt* Clone() const;
-	virtual void Clone(BulletCorrupt* clone) const {}
+    BulletCorrupt* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(BulletCorrupt* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
-
 
 /*
 ** I'd like to name all objects' invalid state "Perish",
@@ -120,14 +157,20 @@ public:
 class BulletPerish : public BulletBehavior
 {
 public:
-	virtual const char* Name() const { return "Perish"; }
+    const char* Name() const override
+    {
+        return "Perish";
+    }
 
-	virtual BulletPerish* Clone() const;
-	virtual void Clone(BulletPerish* clone) const {}
+    BulletPerish* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(BulletPerish* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 #endif

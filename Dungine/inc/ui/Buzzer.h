@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Widget can use buzzer to make sound.                                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -31,19 +31,23 @@ class MonoSound;
 class Buzzer
 {
 public:
-	Buzzer() : m_pSound(nullptr) {}
+    Buzzer() : m_pSound(nullptr)
+    {
+    }
 
-	/*
-	** Buzzer doesn't need to delete the sound since it is managed by explorer.
-	*/
-	~Buzzer() {}
+    /*
+    ** Buzzer doesn't need to delete the sound since it is managed by explorer.
+    */
+    ~Buzzer()
+    {
+    }
 
-	bool Load(XMLElement* node);
+    bool Load(XMLElement* node);
 
-	void Play();
+    void Play();
 
 private:
-	MonoSound* m_pSound;
+    MonoSound* m_pSound;
 };
 
 Buzzer* LoadBuzzer(XMLElement* node);

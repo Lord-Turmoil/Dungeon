@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                  *
  *   Load all resources and make all preperations.                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -25,7 +25,6 @@
 #define _STARTUP_H_
 
 #include <dungine.h>
-
 
 /********************************************************************
 ** All in all, the game is to run the application. If there are any

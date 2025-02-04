@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The terrain of the game, in fact the map. It stores the arenas and the   *
  *   bridges, and handles path finding.                                       *
  * -------------------------------------------------------------------------- *
@@ -29,9 +29,8 @@
 
 #include <dungine.h>
 
-#include "Space.h"
 #include "../object/BrickKit.h"
-
+#include "Space.h"
 
 /********************************************************************
 ** The standard size of game object is 64px * 64px square, and the
@@ -41,7 +40,6 @@ const int UNIT_WIDTH = 64;
 const int UNIT_HEIGHT = 96;
 const Coordinate UNIT_OFFSET = { UNIT_WIDTH, UNIT_WIDTH };
 const Coordinate UNIT_HALF_OFFSET = { UNIT_WIDTH >> 1, UNIT_WIDTH >> 1 };
-
 
 /********************************************************************
 ** Some constants for terrain of campaign mode.
@@ -63,15 +61,14 @@ const int GATE_SIZE = 6;
 
 const int LARGE_MAP_SIZE = MAP_SIZE * SPACE_WRAPPER_SIZE * UNIT_WIDTH;
 const int MINI_MAP_SIZE = 128;
-const float ASPECT_RATIO = (float)MINI_MAP_SIZE / (float)LARGE_MAP_SIZE;
-
+const float ASPECT_RATIO = static_cast<float>(MINI_MAP_SIZE) / static_cast<float>(LARGE_MAP_SIZE);
 
 struct PlainTerrain
 {
-	std::vector<PlainArena> arenas;
-	std::vector<PlainBridge> bridges;
+    std::vector<PlainArena> arenas;
+    std::vector<PlainBridge> bridges;
 
-	PlainArena* GetArena(int id);
+    PlainArena* GetArena(int id);
 };
 
 class Dungeon;
@@ -79,48 +76,65 @@ class Dungeon;
 class Terrain
 {
 public:
-	Terrain();
-	~Terrain();
+    Terrain();
+    ~Terrain();
 
-	void Update();
-	void Draw();
-	void Draw(Camera* camera);
+    void Update();
+    void Draw();
+    void Draw(Camera* camera);
 
-	/*
-	** To generate a map of certain properties.
-	*/
-	bool Load(XMLElement* node);
-	void UnLoad();
+    /*
+    ** To generate a map of certain properties.
+    */
+    bool Load(XMLElement* node);
+    void UnLoad();
 
-	void Generate(int level);
+    void Generate(int level);
 
 public:
-	void SetParent(Dungeon* dungeon) { m_pDungeon = dungeon; }
-	Dungeon* GetParent() { return m_pDungeon; }
+    void SetParent(Dungeon* dungeon)
+    {
+        m_pDungeon = dungeon;
+    }
 
-	Space* GetCurrentSpace() { return m_curSpace; }
-	Arena* GetArena(int id);
+    Dungeon* GetParent()
+    {
+        return m_pDungeon;
+    }
 
-	Symbol* GetMiniMap() { return &m_miniMap; }
+    Space* GetCurrentSpace()
+    {
+        return m_curSpace;
+    }
 
-	BrickKit* GetBrickKit() { return &m_brickKit; }
+    Arena* GetArena(int id);
+
+    Symbol* GetMiniMap()
+    {
+        return &m_miniMap;
+    }
+
+    BrickKit* GetBrickKit()
+    {
+        return &m_brickKit;
+    }
 
 protected:
-	void _Initialize();
-	void _UpdateMiniMap();
-	void _ClearMiniMap();
+    void _Initialize();
+    void _UpdateMiniMap();
+    void _ClearMiniMap();
 
-	void _ClearUp();
-	
+    void _ClearUp();
+
 private:
-	Dungeon* m_pDungeon;
+    Dungeon* m_pDungeon;
 
-	std::vector<Space*> m_spaces;
-	Space* m_curSpace;
+    std::vector<Space*> m_spaces;
+    Space* m_curSpace;
 
-	Symbol m_miniMap;
+    Symbol m_miniMap;
 
-	BrickKit m_brickKit;
+    BrickKit m_brickKit;
 };
 
 #endif

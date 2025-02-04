@@ -12,7 +12,7 @@
  *                    Last Update : December 17, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The sound module of the engine. It manages all sound and music in play.  *
  *   On the one hand, it take possession of play lists in a stack. On the     *
  *   other hand, it can play instant sounds.                                  *
@@ -23,11 +23,9 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/common/Common.h"
 #include "../../inc/device/Speaker.h"
+#include "../../inc/common/Common.h"
 #include "../../inc/device/Sound.h"
-
-
 
 /******************************************************************************
  * Speaker::Create -- Create speaker.                                         *
@@ -45,20 +43,19 @@
  *============================================================================*/
 bool Speaker::Create()
 {
-	if (!m_speaker)
-	{
-		FMOD::System_Create(&m_speaker);
+    if (!m_speaker)
+    {
+        System_Create(&m_speaker);
 
-		if (m_speaker->init(32, FMOD_INIT_NORMAL, nullptr) != FMOD_OK)
-		{
-			LOG_ERROR(CANNOT_INIT_SPEAKER);
-			return false;
-		}
-	}
+        if (m_speaker->init(32, FMOD_INIT_NORMAL, nullptr) != FMOD_OK)
+        {
+            LOG_ERROR(CANNOT_INIT_SPEAKER);
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Speaker::Destroy -- Destroy speaker.                                       *
@@ -76,17 +73,18 @@ bool Speaker::Create()
  *============================================================================*/
 bool Speaker::Destroy()
 {
-	if (m_speaker)
-	{
-		_Destroy();
-		m_speaker = nullptr;
-		if (Logger::Error())
-			return false;
-	}
+    if (m_speaker)
+    {
+        _Destroy();
+        m_speaker = nullptr;
+        if (Logger::Error())
+        {
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Speaker::Play -- Play a sound immediately.                                 *
@@ -105,25 +103,26 @@ bool Speaker::Destroy()
  *============================================================================*/
 void Speaker::Play(DSound* sound)
 {
-	bool isPlaying = false;
+    bool isPlaying = false;
 
-	/*
-	** 2022/08/20 TS:
-	** sound->chl may be invalid!!!
-	*/
-	if (sound->chl)
-		sound->chl->isPlaying(&isPlaying);
+    /*
+    ** 2022/08/20 TS:
+    ** sound->chl may be invalid!!!
+    */
+    if (sound->chl)
+    {
+        sound->chl->isPlaying(&isPlaying);
+    }
 
-	if (!isPlaying)
-	{
-		if (m_soundVolume > 0.0)
-		{
-			m_speaker->playSound(sound->snd, nullptr, false, &(sound->chl));
-			sound->chl->setVolume((float)m_soundVolume);
-		}
-	}
+    if (!isPlaying)
+    {
+        if (m_soundVolume > 0.0)
+        {
+            m_speaker->playSound(sound->snd, nullptr, false, &(sound->chl));
+            sound->chl->setVolume(static_cast<float>(m_soundVolume));
+        }
+    }
 }
-
 
 /******************************************************************************
  * Speaker::PlayShared -- Play sound that shares a common channel.            *
@@ -142,13 +141,12 @@ void Speaker::Play(DSound* sound)
  *============================================================================*/
 void Speaker::PlayShared(DSound* sound)
 {
-	if (m_soundVolume > 0.0)
-	{
-		m_speaker->playSound(sound->snd, nullptr, false, &m_channel);
-		m_channel->setVolume((float)m_soundVolume);
-	}
+    if (m_soundVolume > 0.0)
+    {
+        m_speaker->playSound(sound->snd, nullptr, false, &m_channel);
+        m_channel->setVolume(static_cast<float>(m_soundVolume));
+    }
 }
-
 
 /******************************************************************************
  * Speaker::PlayStream -- Play background music.                              *
@@ -166,10 +164,9 @@ void Speaker::PlayShared(DSound* sound)
  *============================================================================*/
 void Speaker::PlayStream(DSound* sound)
 {
-	m_speaker->playSound(sound->snd, nullptr, false, &(sound->chl));
-	sound->chl->setVolume((float)m_musicVolume);
+    m_speaker->playSound(sound->snd, nullptr, false, &(sound->chl));
+    sound->chl->setVolume(static_cast<float>(m_musicVolume));
 }
-
 
 /******************************************************************************
  * Speaker::Update -- Update fmod system.                                     *
@@ -187,11 +184,12 @@ void Speaker::PlayStream(DSound* sound)
  *============================================================================*/
 void Speaker::Update()
 {
-	if (!m_stack.empty())
-		m_stack.top()->Update();
-	m_speaker->update();
+    if (!m_stack.empty())
+    {
+        m_stack.top()->Update();
+    }
+    m_speaker->update();
 }
-
 
 /******************************************************************************
  * Speaker::Play -- Play current play list.                                   *
@@ -209,10 +207,11 @@ void Speaker::Update()
  *============================================================================*/
 void Speaker::Play()
 {
-	if (!m_stack.empty())
-		m_stack.top()->Play();
+    if (!m_stack.empty())
+    {
+        m_stack.top()->Play();
+    }
 }
-
 
 /******************************************************************************
  * Speaker::Pause -- Pause or continue current play list.                     *
@@ -230,10 +229,11 @@ void Speaker::Play()
  *============================================================================*/
 void Speaker::Pause(bool pause)
 {
-	if (!m_stack.empty())
-		m_stack.top()->Pause(pause);
+    if (!m_stack.empty())
+    {
+        m_stack.top()->Pause(pause);
+    }
 }
-
 
 /******************************************************************************
  * Speaker::Stop -- Stop current play list.                                   *
@@ -251,10 +251,11 @@ void Speaker::Pause(bool pause)
  *============================================================================*/
 void Speaker::Stop()
 {
-	if (!m_stack.empty())
-		m_stack.top()->Stop();
+    if (!m_stack.empty())
+    {
+        m_stack.top()->Stop();
+    }
 }
-
 
 /******************************************************************************
  * Speaker::AddPlayList -- Add play list to the stack.                        *
@@ -273,12 +274,13 @@ void Speaker::Stop()
  *============================================================================*/
 void Speaker::AddPlayList(PlayList* playList)
 {
-	if (!m_stack.empty())
-		m_stack.top()->Pause(true);
-	m_stack.push(playList);
-	Play();
+    if (!m_stack.empty())
+    {
+        m_stack.top()->Pause(true);
+    }
+    m_stack.push(playList);
+    Play();
 }
-
 
 /******************************************************************************
  * Speaker::RemovePlayList -- Remove current play list.                       *
@@ -297,16 +299,17 @@ void Speaker::AddPlayList(PlayList* playList)
  *============================================================================*/
 void Speaker::RemovePlayList()
 {
-	if (!m_stack.empty())
-	{
-		m_stack.top()->Stop();
-		m_stack.pop();
-	}
+    if (!m_stack.empty())
+    {
+        m_stack.top()->Stop();
+        m_stack.pop();
+    }
 
-	if (!m_stack.empty())
-		Pause(false);
+    if (!m_stack.empty())
+    {
+        Pause(false);
+    }
 }
-
 
 /******************************************************************************
  * Speaker::IsPlaying -- Check if there are play list playing.                *
@@ -324,11 +327,12 @@ void Speaker::RemovePlayList()
  *============================================================================*/
 bool Speaker::IsPlaying() const
 {
-	if (m_stack.empty())
-		return false;
-	return m_stack.top()->IsPlaying();
+    if (m_stack.empty())
+    {
+        return false;
+    }
+    return m_stack.top()->IsPlaying();
 }
-
 
 /******************************************************************************
  * PlayList::GetCurrentPlayList -- Get current play list.                     *
@@ -346,11 +350,12 @@ bool Speaker::IsPlaying() const
  *============================================================================*/
 PlayList* Speaker::GetCurrentPlayList()
 {
-	if (m_stack.empty())
-		return nullptr;
-	return m_stack.top();
+    if (m_stack.empty())
+    {
+        return nullptr;
+    }
+    return m_stack.top();
 }
-
 
 /******************************************************************************
  * Speaker::SetMusicVolume -- Set music volume.                               *
@@ -368,12 +373,13 @@ PlayList* Speaker::GetCurrentPlayList()
  *============================================================================*/
 void Speaker::SetMusicVolume(double volume)
 {
-	m_musicVolume = volume;
-	
-	if (!m_stack.empty())
-		m_stack.top()->SetVolume(volume);
-}
+    m_musicVolume = volume;
 
+    if (!m_stack.empty())
+    {
+        m_stack.top()->SetVolume(volume);
+    }
+}
 
 /******************************************************************************
  * Speaker::Speaker -- Constructor of the object.                             *
@@ -389,15 +395,9 @@ void Speaker::SetMusicVolume(double volume)
  * HISTORY:                                                                   *
  *   2022/06/14 Tony : Created.                                               *
  *============================================================================*/
-Speaker::Speaker() :
-	m_speaker(nullptr),
-	m_soundVolume(1.0),
-	m_musicVolume(1.0),
-	m_isPaused(false),
-	m_channel(nullptr)
+Speaker::Speaker() : m_speaker(nullptr), m_channel(nullptr), m_soundVolume(1.0), m_musicVolume(1.0), m_isPaused(false)
 {
 }
-
 
 /******************************************************************************
  * Speaker::~Speaker -- Destructor of the object.                             *
@@ -415,9 +415,8 @@ Speaker::Speaker() :
  *============================================================================*/
 Speaker::~Speaker()
 {
-	_Destroy();
+    _Destroy();
 }
-
 
 /******************************************************************************
  * Speaker::_Destroy -- Close speaker.                                        *
@@ -435,14 +434,13 @@ Speaker::~Speaker()
  *============================================================================*/
 void Speaker::_Destroy()
 {
-	if (m_speaker->close() != FMOD_OK)
-	{
-		LOG_ERROR(CANNOT_CLOSE_SPEAKER);
-		return;
-	}
-	if (m_speaker->release() != FMOD_OK)
-	{
-		LOG_ERROR(CANNOT_RELEASE_SPEAKER);
-		return;
-	}
+    if (m_speaker->close() != FMOD_OK)
+    {
+        LOG_ERROR(CANNOT_CLOSE_SPEAKER);
+        return;
+    }
+    if (m_speaker->release() != FMOD_OK)
+    {
+        LOG_ERROR(CANNOT_RELEASE_SPEAKER);
+    }
 }

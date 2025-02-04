@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Crate behavior.                                                          *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,82 +29,120 @@
 class CrateBehavior : public Behavior
 {
 public:
-	CrateBehavior() {}
-	virtual ~CrateBehavior() {}
+    CrateBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~CrateBehavior() override
+    {
+    }
 
-	virtual CrateBehavior* Clone() const = 0;
-	virtual void Clone(CrateBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    CrateBehavior* Clone() const override = 0;
+    virtual void Clone(CrateBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	enum CrateAnimTag
-	{
-		CRATE_ANIM_INIT,
-		CRATE_ANIM_IDLE,
-		CRATE_ANIM_OPENING,
-		CRATE_ANIM_OPEN
-	};
+    enum CrateAnimTag
+    {
+        CRATE_ANIM_INIT,
+        CRATE_ANIM_IDLE,
+        CRATE_ANIM_OPENING,
+        CRATE_ANIM_OPEN
+    };
 };
 
 class CrateInit final : public CrateBehavior
 {
 public:
-	virtual const char* Name() const { return "Init"; }
+    const char* Name() const override
+    {
+        return "Init";
+    }
 
-	virtual CrateInit* Clone() const;
-	virtual void Clone(CrateInit* clone) const {}
+    CrateInit* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(CrateInit* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class CrateIdle final : public CrateBehavior
 {
 public:
-	virtual const char* Name() const { return "Idle"; }
-	
-	virtual CrateIdle* Clone() const;
-	virtual void Clone(CrateIdle* clone) const {}
+    const char* Name() const override
+    {
+        return "Idle";
+    }
 
-	virtual void Update(Event* evnt);
+    CrateIdle* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(CrateIdle* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class CrateOpening final : public CrateBehavior
 {
 public:
-	virtual const char* Name() const { return "Opening"; }
+    const char* Name() const override
+    {
+        return "Opening";
+    }
 
-	virtual CrateOpening* Clone() const;
-	virtual void Clone(CrateOpening* clone) const {}
+    CrateOpening* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(CrateOpening* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class CrateOpen final : public CrateBehavior
 {
 public:
-	virtual const char* Name() const { return "Open"; }
+    const char* Name() const override
+    {
+        return "Open";
+    }
 
-	virtual CrateOpen* Clone() const;
-	virtual void Clone(CrateOpen* clone) const {}
+    CrateOpen* Clone() const override;
 
-	virtual void Update(Event* evnt) {}
+    virtual void Clone(CrateOpen* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override
+    {
+    }
+
+    void OnEnter() override;
 };
-
 
 #endif

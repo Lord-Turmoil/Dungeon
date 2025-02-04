@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Genie's behavior.                                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -22,16 +22,15 @@
  ******************************************************************************/
 
 #include "../../inc/object/GenieBehavior.h"
+#include "../../inc/object/Component.h"
 #include "../../inc/object/Genie.h"
 #include "../../inc/object/Hero.h"
 #include "../../inc/object/Weapon.h"
-#include "../../inc/object/Component.h"
 
 #include "../../inc/terrain/Terrain.h"
 
 #include "../../inc/game/Dungeon.h"
 #include "../../inc/game/Settings.h"
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -40,41 +39,38 @@
 */
 GenieInit* GenieInit::Clone() const
 {
-	GenieInit* clone = new GenieInit();
-	clone->_MakePrototype(false);
+    GenieInit* clone = new GenieInit();
+    clone->_MakePrototype(false);
 
-	EnemyInit::Clone(clone);
+    EnemyInit::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GenieInit::Clone(GenieInit* clone) const
 {
-	EnemyInit::Clone(clone);
+    EnemyInit::Clone(clone);
 }
 
 void GenieInit::OnEnter()
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
 
-	Animation* anim = genie->GetComponent<AnimComponent>()->GetAnim();
+    Animation* anim = genie->GetComponent<AnimComponent>()->GetAnim();
 
-	anim->SetMotion(ENEMY_ANIM_INIT);
-	anim->SetDir((AnimDirection)Random(2));
+    anim->SetMotion(ENEMY_ANIM_INIT);
+    anim->SetDir(static_cast<AnimDirection>(Random(2)));
 
-	genie->GetComponent<RigidBodyComponent>()
-		->SetID(CollisionID::COLL_ID_SPECTER);
-	genie->GetComponent<WeaponComponent>()->UnEquip();
+    genie->GetComponent<RigidBodyComponent>()->SetID(COLL_ID_SPECTER);
+    genie->GetComponent<WeaponComponent>()->UnEquip();
 }
 
 void GenieInit::OnExit()
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
-	genie->GetComponent<RigidBodyComponent>()
-		->SetID(CollisionID::COLL_ID_ENEMY);
-	genie->GetComponent<WeaponComponent>()->Equip();
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    genie->GetComponent<RigidBodyComponent>()->SetID(COLL_ID_ENEMY);
+    genie->GetComponent<WeaponComponent>()->Equip();
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -83,56 +79,58 @@ void GenieInit::OnExit()
 */
 GenieIdle* GenieIdle::Clone() const
 {
-	GenieIdle* clone = new GenieIdle();
-	clone->_MakePrototype(false);
+    GenieIdle* clone = new GenieIdle();
+    clone->_MakePrototype(false);
 
-	EnemyIdle::Clone(clone);
+    EnemyIdle::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GenieIdle::Clone(GenieIdle* clone) const
 {
-	EnemyIdle::Clone(clone);
+    EnemyIdle::Clone(clone);
 }
 
 void GenieIdle::Update(Event* evnt)
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
-	Dungeon* dungeon = static_cast<Dungeon*>(genie->GetScene());
-	double dist = Distance(genie->GetCoord(), dungeon->GetHero()->GetCoord());
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    Dungeon* dungeon = static_cast<Dungeon*>(genie->GetScene());
+    double dist = Distance(genie->GetCoord(), dungeon->GetHero()->GetCoord());
 
+    Coordinate target = genie->GetCenter();
+    target.x += (genie->GetFacing() == DIR_LEFT) ? (-100) : (100);
+    genie->GetWeapon()->SetTarget(target);
 
-	Coordinate target = genie->GetCenter();
-	target.x += (genie->GetFacing() == DIR_LEFT) ? (-100) : (100);
-	genie->GetWeapon()->SetTarget(target);
+    if (dist < genie->GetScareRadius())
+    {
+        m_parent->ChangeBehavior("Retreat");
+        return;
+    }
+    else if (dist < genie->GetAlertRadius())
+    {
+        m_parent->ChangeBehavior("Engage");
+        return;
+    }
 
-	if (dist < genie->GetScareRadius())
-	{
-		m_parent->ChangeBehavior("Retreat");
-		return;
-	}
-	else if (dist < genie->GetAlertRadius())
-	{
-		m_parent->ChangeBehavior("Engage");
-		return;
-	}
+    m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+    if (m_elapsedTime > DECISION_GAP)
+    {
+        if (Random(3) == 0)
+        {
+            genie->ChangeFacing();
+        }
+        else if (Random(2))
+        {
+            m_parent->ChangeBehavior("Patrol");
+        }
 
-	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
-	if (m_elapsedTime > DECISION_GAP)
-	{
-		if (Random(3) == 0)
-			genie->ChangeFacing();
-		else if (Random(2))
-			m_parent->ChangeBehavior("Patrol");
+        m_elapsedTime = 0L;
+    }
 
-		m_elapsedTime = 0L;
-	}
-
-	// Keep alert.
-	_Alert();
+    // Keep alert.
+    _Alert();
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -141,69 +139,67 @@ void GenieIdle::Update(Event* evnt)
 */
 GeniePatrol* GeniePatrol::Clone() const
 {
-	GeniePatrol* clone = new GeniePatrol();
-	clone->_MakePrototype(false);
+    GeniePatrol* clone = new GeniePatrol();
+    clone->_MakePrototype(false);
 
-	EnemyBehavior::Clone(clone);
+    EnemyBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GeniePatrol::Clone(GeniePatrol* clone) const
 {
-	EnemyBehavior::Clone(clone);
+    EnemyBehavior::Clone(clone);
 }
 
 void GeniePatrol::Update(Event* evnt)
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
-	Dungeon* dungeon = static_cast<Dungeon*>(genie->GetScene());
-	Coordinate center = genie->GetCoord();
-	Coordinate hero = dungeon->GetHero()->GetCoord();
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    Dungeon* dungeon = static_cast<Dungeon*>(genie->GetScene());
+    Coordinate center = genie->GetCoord();
+    Coordinate hero = dungeon->GetHero()->GetCoord();
 
-	if (genie->IsDead())
-	{
-		m_parent->ChangeBehavior("Dead");
-		return;
-	}
+    if (genie->IsDead())
+    {
+        m_parent->ChangeBehavior("Dead");
+        return;
+    }
 
-	// Basic move.
-	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
-	if ((IsTrivia(Distance(center, m_target))) || (m_elapsedTime > DECISION_GAP))
-		m_target = dungeon->GetArena()->Wander(center);
-	_Move((m_target == center) ? VECTOR_ZERO : GetDirection(center, m_target));
-	_Evade(Settings::GetInstance()->Difficulty());
-	_Collide();
+    // Basic move.
+    m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+    if ((IsTrivia(Distance(center, m_target))) || (m_elapsedTime > DECISION_GAP))
+    {
+        m_target = dungeon->GetArena()->Wander(center);
+    }
+    _Move((m_target == center) ? VECTOR_ZERO : GetDirection(center, m_target));
+    _Evade(Settings::GetInstance()->Difficulty());
+    _Collide();
 
-	// Adjust posture.
-	genie->SetFacing((hero.x < center.x) ? DIR_LEFT : DIR_RIGHT);
-	Coordinate target = genie->GetCenter();
-	target.x += (genie->GetFacing() == DIR_LEFT) ? (-100) : (100);
-	genie->GetWeapon()->SetTarget(target);
+    // Adjust posture.
+    genie->SetFacing((hero.x < center.x) ? DIR_LEFT : DIR_RIGHT);
+    Coordinate target = genie->GetCenter();
+    target.x += (genie->GetFacing() == DIR_LEFT) ? (-100) : (100);
+    genie->GetWeapon()->SetTarget(target);
 
-	double dist = Distance(center, hero);
-	if (dist > genie->GetAlertRadius())
-	{
-		m_parent->ChangeBehavior("Idle");
-		return;
-	}
-	else if (dist < genie->GetAttackRadius())
-	{
-		m_parent->ChangeBehavior("Attack");
-		return;
-	}
+    double dist = Distance(center, hero);
+    if (dist > genie->GetAlertRadius())
+    {
+        m_parent->ChangeBehavior("Idle");
+    }
+    else if (dist < genie->GetAttackRadius())
+    {
+        m_parent->ChangeBehavior("Attack");
+    }
 }
 
 void GeniePatrol::OnEnter()
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
 
-	genie->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(ENEMY_ANIM_MOVE);
-	m_target = genie->GetCoord();
-	m_elapsedTime = 0L;
+    genie->GetComponent<AnimComponent>()->GetAnim()->SetMotion(ENEMY_ANIM_MOVE);
+    m_target = genie->GetCoord();
+    m_elapsedTime = 0L;
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -212,60 +208,63 @@ void GeniePatrol::OnEnter()
 */
 GenieEngage* GenieEngage::Clone() const
 {
-	GenieEngage* clone = new GenieEngage();
-	clone->_MakePrototype(false);
+    GenieEngage* clone = new GenieEngage();
+    clone->_MakePrototype(false);
 
-	EnemyEngage::Clone(clone);
+    EnemyEngage::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GenieEngage::Clone(GenieEngage* clone) const
 {
-	EnemyEngage::Clone(clone);
+    EnemyEngage::Clone(clone);
 }
 
 void GenieEngage::Update(Event* evnt)
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
-	Dungeon* dungeon = static_cast<Dungeon*>(genie->GetScene());
-	Coordinate center = genie->GetCoord();
-	Coordinate hero = dungeon->GetHero()->GetCoord();
-	Coordinate target = dungeon->GetArena()->Engage(center, hero);
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    Dungeon* dungeon = static_cast<Dungeon*>(genie->GetScene());
+    Coordinate center = genie->GetCoord();
+    Coordinate hero = dungeon->GetHero()->GetCoord();
+    Coordinate target = dungeon->GetArena()->Engage(center, hero);
 
-	if (genie->IsDead())
-	{
-		m_parent->ChangeBehavior("Dead");
-		return;
-	}
+    if (genie->IsDead())
+    {
+        m_parent->ChangeBehavior("Dead");
+        return;
+    }
 
-	_Move((target == center) ? VECTOR_ZERO : GetDirection(center, target));
-	_Evade(Settings::GetInstance()->Difficulty());
-	_Collide();
+    _Move((target == center) ? VECTOR_ZERO : GetDirection(center, target));
+    _Evade(Settings::GetInstance()->Difficulty());
+    _Collide();
 
-	genie->SetFacing((hero.x < center.x) ? DIR_LEFT : DIR_RIGHT);
-	genie->GetWeapon()->SetTarget(hero);
+    genie->SetFacing((hero.x < center.x) ? DIR_LEFT : DIR_RIGHT);
+    genie->GetWeapon()->SetTarget(hero);
 
-	double dist = Distance(center, hero);
-	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
-	if (m_elapsedTime > DECISION_GAP)
-	{
-		if (dist > genie->GetAlertRadius())
-		{
-			m_parent->ChangeBehavior("Idle");
-			return;
-		}
-		m_elapsedTime = 0;
-	}
-	if (dist < genie->GetScareRadius())
-		m_parent->ChangeBehavior("Retreat");
-	else if (dist < genie->GetAttackRadius())
-	{
-		if (dungeon->GetArena()->InSight(center, hero))
-			m_parent->ChangeBehavior("Attack");
-	}
+    double dist = Distance(center, hero);
+    m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+    if (m_elapsedTime > DECISION_GAP)
+    {
+        if (dist > genie->GetAlertRadius())
+        {
+            m_parent->ChangeBehavior("Idle");
+            return;
+        }
+        m_elapsedTime = 0;
+    }
+    if (dist < genie->GetScareRadius())
+    {
+        m_parent->ChangeBehavior("Retreat");
+    }
+    else if (dist < genie->GetAttackRadius())
+    {
+        if (dungeon->GetArena()->InSight(center, hero))
+        {
+            m_parent->ChangeBehavior("Attack");
+        }
+    }
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -274,61 +273,59 @@ void GenieEngage::Update(Event* evnt)
 */
 GenieRetreat* GenieRetreat::Clone() const
 {
-	GenieRetreat* clone = new GenieRetreat();
-	clone->_MakePrototype(false);
+    GenieRetreat* clone = new GenieRetreat();
+    clone->_MakePrototype(false);
 
-	EnemyBehavior::Clone(clone);
+    EnemyBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GenieRetreat::Clone(GenieRetreat* clone) const
 {
-	EnemyBehavior::Clone(clone);
+    EnemyBehavior::Clone(clone);
 }
 
 void GenieRetreat::Update(Event* evnt)
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
-	Dungeon* dungeon = static_cast<Dungeon*>(genie->GetScene());
-	Coordinate center = genie->GetCoord();
-	Coordinate hero = dungeon->GetHero()->GetCoord();
-	Arena* arena = dungeon->GetArena();
-	Coordinate target = arena->Retreat(center, hero);
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    Dungeon* dungeon = static_cast<Dungeon*>(genie->GetScene());
+    Coordinate center = genie->GetCoord();
+    Coordinate hero = dungeon->GetHero()->GetCoord();
+    Arena* arena = dungeon->GetArena();
+    Coordinate target = arena->Retreat(center, hero);
 
-	if (genie->IsDead())
-	{
-		m_parent->ChangeBehavior("Dead");
-		return;
-	}
+    if (genie->IsDead())
+    {
+        m_parent->ChangeBehavior("Dead");
+        return;
+    }
 
-	_Move((target == center) ? VECTOR_ZERO : GetDirection(center, target));
-	_Evade(Settings::GetInstance()->Difficulty());
-	_Collide();
+    _Move((target == center) ? VECTOR_ZERO : GetDirection(center, target));
+    _Evade(Settings::GetInstance()->Difficulty());
+    _Collide();
 
-	genie->SetFacing((hero.x < center.x) ? DIR_LEFT : DIR_RIGHT);
-	genie->GetWeapon()->SetTarget(hero);
+    genie->SetFacing((hero.x < center.x) ? DIR_LEFT : DIR_RIGHT);
+    genie->GetWeapon()->SetTarget(hero);
 
-	double dist = Distance(center, hero);
-	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
-	if (m_elapsedTime > DECISION_GAP)
-	{
-		if (dist > genie->GetScareRadius() * 1.2)
-		{
-			m_parent->ChangeBehavior("Idle");
-			return;
-		}
-		m_elapsedTime = 0;
-	}
+    double dist = Distance(center, hero);
+    m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+    if (m_elapsedTime > DECISION_GAP)
+    {
+        if (dist > genie->GetScareRadius() * 1.2)
+        {
+            m_parent->ChangeBehavior("Idle");
+            return;
+        }
+        m_elapsedTime = 0;
+    }
 }
 
 void GenieRetreat::OnEnter()
 {
-	m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(ENEMY_ANIM_MOVE);
-	m_elapsedTime = 0L;
+    m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->SetMotion(ENEMY_ANIM_MOVE);
+    m_elapsedTime = 0L;
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -337,66 +334,66 @@ void GenieRetreat::OnEnter()
 */
 GenieAttack* GenieAttack::Clone() const
 {
-	GenieAttack* clone = new GenieAttack();
-	clone->_MakePrototype(false);
+    GenieAttack* clone = new GenieAttack();
+    clone->_MakePrototype(false);
 
-	EnemyAttack::Clone(clone);
+    EnemyAttack::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GenieAttack::Clone(GenieAttack* clone) const
 {
-	EnemyAttack::Clone(clone);
+    EnemyAttack::Clone(clone);
 }
 
 void GenieAttack::Update(Event* evnt)
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
-	Coordinate center = genie->GetCoord();
-	Coordinate hero = static_cast<Dungeon*>(genie->GetScene())->GetHero()->GetCoord();
-	
-	if (genie->IsDead())
-	{
-		m_parent->ChangeBehavior("Dead");
-		return;
-	}
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    Coordinate center = genie->GetCoord();
+    Coordinate hero = static_cast<Dungeon*>(genie->GetScene())->GetHero()->GetCoord();
 
-	_Evade(Settings::GetInstance()->Difficulty());
-	_Collide();
+    if (genie->IsDead())
+    {
+        m_parent->ChangeBehavior("Dead");
+        return;
+    }
 
-	genie->SetFacing((hero.x < center.x) ? DIR_LEFT : DIR_RIGHT);
-	genie->GetWeapon()->SetTarget(hero);
+    _Evade(Settings::GetInstance()->Difficulty());
+    _Collide();
 
-	if (genie->GetComponent<AnimComponent>()
-		->GetAnim()->IsOver())
-	{
-		m_parent->ChangeBehavior("Rest");
-	}
+    genie->SetFacing((hero.x < center.x) ? DIR_LEFT : DIR_RIGHT);
+    genie->GetWeapon()->SetTarget(hero);
+
+    if (genie->GetComponent<AnimComponent>()->GetAnim()->IsOver())
+    {
+        m_parent->ChangeBehavior("Rest");
+    }
 }
 
 void GenieAttack::OnEnter()
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
-	Coordinate hero = static_cast<Dungeon*>(genie->GetScene())->GetHero()->GetCenter();
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    Coordinate hero = static_cast<Dungeon*>(genie->GetScene())->GetHero()->GetCenter();
 
-	genie->GetComponent<AnimComponent>()->GetAnim()
-		->SetMotion(ENEMY_ANIM_ATTACK);
+    genie->GetComponent<AnimComponent>()->GetAnim()->SetMotion(ENEMY_ANIM_ATTACK);
 
-	if (hero.x < genie->GetCoord().x)
-		genie->SetFacing(DIR_LEFT);
-	else
-		genie->SetFacing(DIR_RIGHT);
-	genie->GetWeapon()->SetTarget(hero);
-	genie->GetWeapon()->Trig();
+    if (hero.x < genie->GetCoord().x)
+    {
+        genie->SetFacing(DIR_LEFT);
+    }
+    else
+    {
+        genie->SetFacing(DIR_RIGHT);
+    }
+    genie->GetWeapon()->SetTarget(hero);
+    genie->GetWeapon()->Trig();
 }
 
 void GenieAttack::OnExit()
 {
-	static_cast<Genie*>(m_parent->GetGameObject())
-		->GetWeapon()->UnTrig();
+    static_cast<Genie*>(m_parent->GetGameObject())->GetWeapon()->UnTrig();
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -405,50 +402,49 @@ void GenieAttack::OnExit()
 */
 GenieRest* GenieRest::Clone() const
 {
-	GenieRest* clone = new GenieRest();
-	clone->_MakePrototype(false);
+    GenieRest* clone = new GenieRest();
+    clone->_MakePrototype(false);
 
-	EnemyRest::Clone(clone);
+    EnemyRest::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GenieRest::Clone(GenieRest* clone) const
 {
-	EnemyRest::Clone(clone);
+    EnemyRest::Clone(clone);
 }
 
 void GenieRest::Update(Event* evnt)
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
-	Coordinate center = genie->GetCoord();
-	Coordinate hero = static_cast<Dungeon*>(genie->GetScene())->GetHero()->GetCoord();
-	
-	if (genie->IsDead())
-	{
-		m_parent->ChangeBehavior("Dead");
-		return;
-	}
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    Coordinate center = genie->GetCoord();
+    Coordinate hero = static_cast<Dungeon*>(genie->GetScene())->GetHero()->GetCoord();
 
-	_Evade(Settings::GetInstance()->Difficulty());
-	_Collide();
+    if (genie->IsDead())
+    {
+        m_parent->ChangeBehavior("Dead");
+        return;
+    }
 
-	genie->SetFacing((hero.x < center.x) ? DIR_LEFT : DIR_RIGHT);
+    _Evade(Settings::GetInstance()->Difficulty());
+    _Collide();
 
-	Coordinate target = genie->GetCenter();
-	target.x += (genie->GetFacing() == DIR_LEFT) ? (-100) : (100);
-	genie->GetWeapon()->SetTarget(target);
+    genie->SetFacing((hero.x < center.x) ? DIR_LEFT : DIR_RIGHT);
 
-	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
-	if (m_elapsedTime > m_duration)
-	{
-		m_parent->ChangeBehavior("Idle");
-		return;
-	}
+    Coordinate target = genie->GetCenter();
+    target.x += (genie->GetFacing() == DIR_LEFT) ? (-100) : (100);
+    genie->GetWeapon()->SetTarget(target);
 
-	_Alert();
+    m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+    if (m_elapsedTime > m_duration)
+    {
+        m_parent->ChangeBehavior("Idle");
+        return;
+    }
+
+    _Alert();
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -457,30 +453,28 @@ void GenieRest::Update(Event* evnt)
 */
 GenieDead* GenieDead::Clone() const
 {
-	GenieDead* clone = new GenieDead();
-	clone->_MakePrototype(false);
+    GenieDead* clone = new GenieDead();
+    clone->_MakePrototype(false);
 
-	EnemyDead::Clone(clone);
+    EnemyDead::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GenieDead::Clone(GenieDead* clone) const
 {
-	EnemyDead::Clone(clone);
+    EnemyDead::Clone(clone);
 }
 
 void GenieDead::OnEnter()
 {
-	Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
-	Dungeon* dungeon = static_cast<Dungeon*>(genie->GetScene());
-	genie->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(ENEMY_ANIM_DEAD);
-	genie->GetComponent<RigidBodyComponent>()
-		->SetID(CollisionID::COLL_ID_SPECTER);
-	genie->GetComponent<WeaponComponent>()->UnEquip();
+    Genie* genie = static_cast<Genie*>(m_parent->GetGameObject());
+    Dungeon* dungeon = static_cast<Dungeon*>(genie->GetScene());
+    genie->GetComponent<AnimComponent>()->GetAnim()->SetMotion(ENEMY_ANIM_DEAD);
+    genie->GetComponent<RigidBodyComponent>()->SetID(COLL_ID_SPECTER);
+    genie->GetComponent<WeaponComponent>()->UnEquip();
 
-	dungeon->RemoveEnemy();
+    dungeon->RemoveEnemy();
 
-	_OnDefeat(dungeon, genie);
+    _OnDefeat(dungeon, genie);
 }

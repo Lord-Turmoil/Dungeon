@@ -17,6 +17,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TinyXML2", "TinyXML2\TinyXM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6962933-C05E-4622-B0FC-3E4F73FBFC41}"
 	ProjectSection(SolutionItems) = preProject
+		.clang-format = .clang-format
 		.gitignore = .gitignore
 		LICENSE = LICENSE
 		README.md = README.md

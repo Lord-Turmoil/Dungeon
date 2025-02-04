@@ -12,7 +12,7 @@
  *                    Last Update : August 12, 2022                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Dungine's main loop is encapsulated in the interface mangager, which is  *
  *   also called Application.                                                 *
  * -------------------------------------------------------------------------- *
@@ -22,16 +22,15 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/device/Timer.h"
 #include "../../inc/device/Device.h"
 #include "../../inc/device/Speaker.h"
+#include "../../inc/device/Timer.h"
 
-#include "../../inc/ui/Application.h"
 #include "../../inc/ui/AbstractInterface.h"
+#include "../../inc/ui/Application.h"
 #include "../../inc/ui/Transitor.h"
 
 #include "../../inc/utility/xml.h"
-
 
 /******************************************************************************
  * Application::Application -- Constructor of the object.                     *
@@ -47,14 +46,9 @@
  * HISTORY:                                                                   *
  *   2022/06/02 Tony : Created.                                               *
  *============================================================================*/
-Application::Application() :
-	m_pStartIntf(nullptr),
-	m_pCurIntf(nullptr),
-	m_isRunning(false),
-	m_delay(DUNGINE_DELAY)
+Application::Application() : m_pStartIntf(nullptr), m_pCurIntf(nullptr), m_delay(DUNGINE_DELAY), m_isRunning(false)
 {
 }
-
 
 /******************************************************************************
  * Application::~Application -- Destructor of the object.                     *
@@ -72,9 +66,8 @@ Application::Application() :
  *============================================================================*/
 Application::~Application()
 {
-	UnLoad();
+    UnLoad();
 }
-
 
 /******************************************************************************
  * Application::Load -- Load all interfaces.                                  *
@@ -93,36 +86,35 @@ Application::~Application()
  *============================================================================*/
 bool Application::Load(const char* filename)
 {
-	/*
-	**	<UI>
-	**		<AbstractInterface name="">...</AbstractInterface>
-	**		<AbstractInterface name="">...</AbstractInterface>
-	**		<AbstractInterface name="">...</AbstractInterface>
-	**	</UI>
-	*/
-	XMLFile doc;
+    /*
+    **	<UI>
+    **		<AbstractInterface name="">...</AbstractInterface>
+    **		<AbstractInterface name="">...</AbstractInterface>
+    **		<AbstractInterface name="">...</AbstractInterface>
+    **	</UI>
+    */
+    XMLFile doc;
 
-	if (!doc.Load(filename))
-	{
-		LOG_ERROR(FAILED_TO_LOAD_UI_AT, filename);
-		return false;
-	}
+    if (!doc.Load(filename))
+    {
+        LOG_ERROR(FAILED_TO_LOAD_UI_AT, filename);
+        return false;
+    }
 
-	XMLElement* node = doc.GetRoot()->FirstChildElement();
-	while (node)
-	{
-		if (!AddInterface(LoadInterface(node)))
-		{
-			LOG_ERROR(FAILED_TO_LOAD_UI_AT, filename);
-			return false;
-		}
+    XMLElement* node = doc.GetRoot()->FirstChildElement();
+    while (node)
+    {
+        if (!AddInterface(LoadInterface(node)))
+        {
+            LOG_ERROR(FAILED_TO_LOAD_UI_AT, filename);
+            return false;
+        }
 
-		node = node->NextSiblingElement();
-	}
+        node = node->NextSiblingElement();
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Application::UnLoad -- Unload all interfaces.                              *
@@ -140,17 +132,18 @@ bool Application::Load(const char* filename)
  *============================================================================*/
 void Application::UnLoad()
 {
-	for (auto it = m_interfaces.begin(); it != m_interfaces.end(); it++)
-		delete it->second;
-	m_interfaces.clear();
+    for (auto it = m_interfaces.begin(); it != m_interfaces.end(); it++)
+    {
+        delete it->second;
+    }
+    m_interfaces.clear();
 
-	/*
-	** 2022/08/03 TS:
-	** Ahh... :(
-	*/
-	m_pStartIntf = nullptr;
+    /*
+    ** 2022/08/03 TS:
+    ** Ahh... :(
+    */
+    m_pStartIntf = nullptr;
 }
-
 
 /******************************************************************************
  * Application::Initialize -- Initialize the manager.                         *
@@ -168,20 +161,19 @@ void Application::UnLoad()
  *============================================================================*/
 bool Application::Initialize()
 {
-	if (!m_pStartIntf)
-	{
-		LOG_ERROR(MISSING_STARTUP);
-		return false;
-	}
+    if (!m_pStartIntf)
+    {
+        LOG_ERROR(MISSING_STARTUP);
+        return false;
+    }
 
-	Transitor::Initialize();
+    Transitor::Initialize();
 
-	m_pCurIntf = nullptr;
-	Launch(m_pStartIntf->Name());
+    m_pCurIntf = nullptr;
+    Launch(m_pStartIntf->Name());
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Application::Run -- The main loop of the whole game.                       *
@@ -200,35 +192,36 @@ bool Application::Initialize()
  *============================================================================*/
 void Application::Run()
 {
-	Timer* timer = Timer::GetInstance();
-	Device* device = Device::GetInstance();
-	Event* evnt = Event::GetInstance();
-	Speaker* speaker = Speaker::GetInstance();
+    Timer* timer = Timer::GetInstance();
+    Device* device = Device::GetInstance();
+    Event* evnt = Event::GetInstance();
+    Speaker* speaker = Speaker::GetInstance();
 
-	m_isRunning = true;
-	while (m_isRunning)
-	{
-		timer->Update();
-		evnt->PeekEvent();
+    m_isRunning = true;
+    while (m_isRunning)
+    {
+        timer->Update();
+        evnt->PeekEvent();
 
-		m_pCurIntf->Update(evnt);
-		if (!m_pCurIntf)
-		{
-			m_isRunning = false;
-			break;
-		}
-		m_pCurIntf->Draw();
-		device->Render();
-		
-		if (Logger::Error())
-			break;
+        m_pCurIntf->Update(evnt);
+        if (!m_pCurIntf)
+        {
+            m_isRunning = false;
+            break;
+        }
+        m_pCurIntf->Draw();
+        device->Render();
 
-		speaker->Update();
+        if (Logger::Error())
+        {
+            break;
+        }
 
-		timer->Delay(m_delay);
-	}
+        speaker->Update();
+
+        timer->Delay(m_delay);
+    }
 }
-
 
 /******************************************************************************
  * Application::Exit -- Directly exit the application.                        *
@@ -247,13 +240,14 @@ void Application::Run()
  *============================================================================*/
 void Application::Exit()
 {
-	if (!m_isRunning)
-		return;
+    if (!m_isRunning)
+    {
+        return;
+    }
 
-	m_isRunning = false;
-	m_pCurIntf = nullptr;
+    m_isRunning = false;
+    m_pCurIntf = nullptr;
 }
-
 
 /******************************************************************************
  * Application::Launch -- Launch a new interface.                             *
@@ -271,22 +265,23 @@ void Application::Exit()
  *============================================================================*/
 void Application::Launch(const std::string& name)
 {
-	AbstractInterface* intf = GetInterface(name);
+    AbstractInterface* intf = GetInterface(name);
 
-	if (!intf)
-	{
-		LOG_ERROR(MISSING_INTERFACE, name.c_str());
-		return;
-	}
+    if (!intf)
+    {
+        LOG_ERROR(MISSING_INTERFACE, name.c_str());
+        return;
+    }
 
-	if (m_pCurIntf)
-		m_pCurIntf->Terminate();	// OnExit will be performed.
-	m_pCurIntf = intf;
-	m_pCurIntf->OnEnter();
+    if (m_pCurIntf)
+    {
+        m_pCurIntf->Terminate(); // OnExit will be performed.
+    }
+    m_pCurIntf = intf;
+    m_pCurIntf->OnEnter();
 
-	m_activeInterfaces.push(m_pCurIntf);
+    m_activeInterfaces.push(m_pCurIntf);
 }
-
 
 /******************************************************************************
  * Application::LaunchSubInterface -- Launch a sub interface.                 *
@@ -304,22 +299,23 @@ void Application::Launch(const std::string& name)
  *============================================================================*/
 void Application::Attach(const std::string& name)
 {
-	AbstractInterface* intf = GetInterface(name);
+    AbstractInterface* intf = GetInterface(name);
 
-	if (!intf)
-	{
-		LOG_ERROR(MISSING_INTERFACE, name.c_str());
-		return;
-	}
+    if (!intf)
+    {
+        LOG_ERROR(MISSING_INTERFACE, name.c_str());
+        return;
+    }
 
-	if (m_pCurIntf)
-		m_pCurIntf->OnExit();
-	m_pCurIntf = intf;
-	m_pCurIntf->OnEnter();
+    if (m_pCurIntf)
+    {
+        m_pCurIntf->OnExit();
+    }
+    m_pCurIntf = intf;
+    m_pCurIntf->OnEnter();
 
-	m_activeInterfaces.push(m_pCurIntf);
+    m_activeInterfaces.push(m_pCurIntf);
 }
-
 
 /******************************************************************************
  * Application::Terminate -- Terminate current interface.                     *
@@ -338,15 +334,16 @@ void Application::Attach(const std::string& name)
  *============================================================================*/
 void Application::Terminate()
 {
-	if (!m_pCurIntf)
-		return;
+    if (!m_pCurIntf)
+    {
+        return;
+    }
 
-	m_pCurIntf->OnExit();
-	m_pCurIntf = nullptr;
+    m_pCurIntf->OnExit();
+    m_pCurIntf = nullptr;
 
-	m_activeInterfaces.pop();
+    m_activeInterfaces.pop();
 }
-
 
 /******************************************************************************
  * Application::Detach -- Detach current interface.                           *
@@ -364,19 +361,18 @@ void Application::Terminate()
  *============================================================================*/
 void Application::Detach()
 {
-	Terminate();	// OnExit performed.
-	if (m_activeInterfaces.empty())
-	{
-		// Oh? This shouldn't happen, but can be omitted?
-		LOG_WARNING("Nothing to detach");
-	}
-	else
-	{
-		m_pCurIntf = m_activeInterfaces.top();
-		m_pCurIntf->OnEnter();
-	}
+    Terminate(); // OnExit performed.
+    if (m_activeInterfaces.empty())
+    {
+        // Oh? This shouldn't happen, but can be omitted?
+        LOG_WARNING("Nothing to detach");
+    }
+    else
+    {
+        m_pCurIntf = m_activeInterfaces.top();
+        m_pCurIntf->OnEnter();
+    }
 }
-
 
 /******************************************************************************
  * Application::AddInterface -- Add interface to the manager.                 *
@@ -394,29 +390,32 @@ void Application::Detach()
  *============================================================================*/
 AbstractInterface* Application::AddInterface(AbstractInterface* intf)
 {
-	if (!intf)
-		return nullptr;
+    if (!intf)
+    {
+        return nullptr;
+    }
 
-	const std::string& name = intf->Name();
-	auto it = m_interfaces.find(name);
-	if (it == m_interfaces.end())
-	{
-		intf->SetManager(this);
-		m_interfaces.emplace(name, intf);
+    const std::string& name = intf->Name();
+    auto it = m_interfaces.find(name);
+    if (it == m_interfaces.end())
+    {
+        intf->SetManager(this);
+        m_interfaces.emplace(name, intf);
 
-		if (!m_pStartIntf)
-			m_pStartIntf = intf;
-	}
-	else
-	{
-		LOG_ERROR(NAME_CONFLICT, "interface", name.c_str());
-		delete it->second;
-		it->second = intf;
-	}
+        if (!m_pStartIntf)
+        {
+            m_pStartIntf = intf;
+        }
+    }
+    else
+    {
+        LOG_ERROR(NAME_CONFLICT, "interface", name.c_str());
+        delete it->second;
+        it->second = intf;
+    }
 
-	return intf;
+    return intf;
 }
-
 
 /******************************************************************************
  * Application::GetInterface -- Get an interface in the manager.              *
@@ -434,10 +433,12 @@ AbstractInterface* Application::AddInterface(AbstractInterface* intf)
  *============================================================================*/
 AbstractInterface* Application::GetInterface(const std::string& name)
 {
-	auto it = m_interfaces.find(name);
+    auto it = m_interfaces.find(name);
 
-	if (it == m_interfaces.end())
-		return nullptr;
+    if (it == m_interfaces.end())
+    {
+        return nullptr;
+    }
 
-	return it->second;
+    return it->second;
 }

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide basic components. The components in this files are not complete, *
  *   they must be inherited.                                                  *
  * -------------------------------------------------------------------------- *
@@ -22,13 +22,12 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/device/Timer.h"
 #include "../../inc/device/Explorer.h"
+#include "../../inc/device/Timer.h"
 
 #include "../../inc/game/AbstractComponent.h"
 
 #include "../../inc/utility/Parser.h"
-
 
 /******************************************************************************
  * AbstractComponent::Clone                                                   *
@@ -46,10 +45,9 @@
  *============================================================================*/
 void AbstractComponent::Clone(AbstractComponent* clone) const
 {
-	// clone->m_updateOrder = m_updateOrder;
-	// clone->m_pGameObject = m_pGameObject;
+    // clone->m_updateOrder = m_updateOrder;
+    // clone->m_pGameObject = m_pGameObject;
 }
-
 
 /******************************************************************************
  * AbstractComponent::Load -- Load component's basic info.                    *
@@ -67,15 +65,15 @@ void AbstractComponent::Clone(AbstractComponent* clone) const
  *============================================================================*/
 bool AbstractComponent::Load(XMLElement* node)
 {
-/*
-**	<... order="">
-**		...
-**	</...>
-*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<... order="">
+    **		...
+    **	</...>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_PARSE("order", m_updateOrder, name, m_updateOrder);
+    _PARSE("order", m_updateOrder, name, m_updateOrder);
 
-	return true;
+    return true;
 }

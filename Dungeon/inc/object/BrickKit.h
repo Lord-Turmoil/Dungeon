@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Use factory pattern to generate bricks.                                  *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -37,26 +37,29 @@ class Dungeon;
 class BrickKit
 {
 public:
-	BrickKit() {}
-	~BrickKit();
+    BrickKit()
+    {
+    }
 
-	bool Load(XMLElement* node);
-	void UnLoad();
+    ~BrickKit();
 
-	Wall* GetWall();
-	Gate* GetGate();
-	IMAGE* GetFloorImage();
+    bool Load(XMLElement* node);
+    void UnLoad();
 
-private:
-	bool _LoadWall(XMLElement* node);
-	bool _LoadGate(XMLElement* node);
-	bool _LoadFloorImage(XMLElement* node);
+    Wall* GetWall();
+    Gate* GetGate();
+    IMAGE* GetFloorImage();
 
 private:
-	// Some resources as prototype.
-	std::vector<Wall*> m_walls;
-	std::vector<Gate*> m_gates;
-	std::vector<ImageObject*> m_floors;
+    bool _LoadWall(XMLElement* node);
+    bool _LoadGate(XMLElement* node);
+    bool _LoadFloorImage(XMLElement* node);
+
+private:
+    // Some resources as prototype.
+    std::vector<Wall*> m_walls;
+    std::vector<Gate*> m_gates;
+    std::vector<ImageObject*> m_floors;
 };
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Coin behavior.                                                         *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,75 +29,123 @@
 class CoinBehavior : public Behavior
 {
 public:
-	CoinBehavior() {}
-	virtual ~CoinBehavior() {}
+    CoinBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~CoinBehavior() override
+    {
+    }
 
-	virtual CoinBehavior* Clone() const = 0;
-	virtual void Clone(CoinBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    CoinBehavior* Clone() const override = 0;
+    virtual void Clone(CoinBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	enum CoinAnimTag
-	{
-		COIN_ANIM_FLY,
-		COIN_ANIM_ACTIVE
-	};
+    enum CoinAnimTag
+    {
+        COIN_ANIM_FLY,
+        COIN_ANIM_ACTIVE
+    };
 };
 
 class CoinFly final : public CoinBehavior
 {
 public:
-	CoinFly() {}
-	virtual ~CoinFly() {}
+    CoinFly()
+    {
+    }
 
-	virtual const char* Name() const { return "Fly"; }
+    ~CoinFly() override
+    {
+    }
 
-	virtual CoinFly* Clone() const;
-	virtual void Clone(CoinFly* clone) const {}
+    const char* Name() const override
+    {
+        return "Fly";
+    }
 
-	virtual void Update(Event* evnt);
+    CoinFly* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(CoinFly* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class CoinActive final : public CoinBehavior
 {
 public:
-	CoinActive() {}
-	virtual ~CoinActive() {}
+    CoinActive()
+    {
+    }
 
-	virtual const char* Name() const { return "Active"; }
+    ~CoinActive() override
+    {
+    }
 
-	virtual CoinActive* Clone() const;
-	virtual void Clone(CoinActive* clone) const {}
+    const char* Name() const override
+    {
+        return "Active";
+    }
 
-	virtual void Update(Event* evnt);
+    CoinActive* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(CoinActive* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
-class CoinPerish final  : public CoinBehavior
+class CoinPerish final : public CoinBehavior
 {
 public:
-	CoinPerish() {}
-	virtual ~CoinPerish() {}
+    CoinPerish()
+    {
+    }
 
-	virtual const char* Name() const { return "Perish"; }
+    ~CoinPerish() override
+    {
+    }
 
-	virtual CoinPerish* Clone() const;
-	virtual void Clone(CoinPerish* clone) const {}
+    const char* Name() const override
+    {
+        return "Perish";
+    }
 
-	virtual void Update(Event* evnt) {}
+    CoinPerish* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(CoinPerish* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override
+    {
+    }
+
+    void OnEnter() override;
 };
 
 #endif

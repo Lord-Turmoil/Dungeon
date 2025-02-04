@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   This file provides base class of interface.                              *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,9 +24,9 @@
 #ifndef _ABSTRACT_INTERFACE_H_
 #define _ABSTRACT_INTERFACE_H_
 
+#include <functional>
 #include <stack>
 #include <string>
-#include <functional>
 #include <unordered_map>
 
 #include "../common/Common.h"
@@ -36,7 +36,6 @@
 #include "../device/Sound.h"
 
 #include "Event.h"
-
 
 class XMLElement;
 class Application;
@@ -52,118 +51,170 @@ class WidgetManager;
 class AbstractInterface
 {
 public:
-	AbstractInterface() : m_pApp(nullptr), m_isActive(false), m_pWidgetManager(nullptr),
-		m_pSupIntf(nullptr), m_pSubIntf(nullptr) {}
-	virtual ~AbstractInterface();
+    AbstractInterface()
+        : m_pApp(nullptr), m_pWidgetManager(nullptr), m_pSupIntf(nullptr), m_pSubIntf(nullptr), m_isActive(false)
+    {
+    }
 
-	const std::string& Name() const { return m_name; }
+    virtual ~AbstractInterface();
 
-	/*
-	** Well, it is tricky that sometimes, when we launch a new interface, we
-	** do not want the current interface to be terminated. So... Launch will
-	** terminate the current one, while Attach will keep the current one. :)
-	** Notice that terminate doesn't care about the next interface, however,
-	** sometimes the next interface may not be assigned, which means detach
-	** is needed.
-	**
-	** Excution order:
-	**     New: Launch -> _Initialize                                    -> OnEnter
-	**     Cur:                       -> Terminate -> OnExit -> _Destroy
-	** Manager:                              ^          ^                      ^
-	*/
-	virtual void Launch();
-	virtual void Attach();
-	virtual void Terminate();
-	virtual void Detach();
+    const std::string& Name() const
+    {
+        return m_name;
+    }
 
-	virtual bool Load(XMLElement* node);
+    /*
+    ** Well, it is tricky that sometimes, when we launch a new interface, we
+    ** do not want the current interface to be terminated. So... Launch will
+    ** terminate the current one, while Attach will keep the current one. :)
+    ** Notice that terminate doesn't care about the next interface, however,
+    ** sometimes the next interface may not be assigned, which means detach
+    ** is needed.
+    **
+    ** Excution order:
+    **     New: Launch -> _Initialize                                    ->
+    *OnEnter
+    **     Cur:                       -> Terminate -> OnExit -> _Destroy
+    ** Manager:                              ^          ^                      ^
+    */
+    virtual void Launch();
+    virtual void Attach();
+    virtual void Terminate();
+    virtual void Detach();
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    virtual bool Load(XMLElement* node);
 
-	virtual void Update(Event* evnt);
-	virtual void Draw();
-	virtual void Draw(IMAGE* pDestImage);
+    virtual void OnEnter()
+    {
+    }
 
-	void SetSupInterface(AbstractInterface* intf) { m_pSupIntf = intf; }
-	void ClearSupInterface() { m_pSupIntf = nullptr; }
-	void SetSubInterface(AbstractInterface* intf)
-	{
-		intf->SetSupInterface(this);
-		m_pSubIntf = intf;
-	}
-	void ClearSubInterface()
-	{
-		if (m_pSubIntf)
-		{
-			m_pSubIntf->ClearSupInterface();
-			m_pSubIntf = nullptr;
-		}
-	}
-	AbstractInterface* GetSupInterface() { return m_pSupIntf; }
-	AbstractInterface* GetSubInterface() { return m_pSubIntf; }
+    virtual void OnExit()
+    {
+    }
+
+    virtual void Update(Event* evnt);
+    virtual void Draw();
+    virtual void Draw(IMAGE* pDestImage);
+
+    void SetSupInterface(AbstractInterface* intf)
+    {
+        m_pSupIntf = intf;
+    }
+
+    void ClearSupInterface()
+    {
+        m_pSupIntf = nullptr;
+    }
+
+    void SetSubInterface(AbstractInterface* intf)
+    {
+        intf->SetSupInterface(this);
+        m_pSubIntf = intf;
+    }
+
+    void ClearSubInterface()
+    {
+        if (m_pSubIntf)
+        {
+            m_pSubIntf->ClearSupInterface();
+            m_pSubIntf = nullptr;
+        }
+    }
+
+    AbstractInterface* GetSupInterface()
+    {
+        return m_pSupIntf;
+    }
+
+    AbstractInterface* GetSubInterface()
+    {
+        return m_pSubIntf;
+    }
 
 protected:
-	virtual void _TransitIn() {}
-	virtual void _TransitOut() {}
+    virtual void _TransitIn()
+    {
+    }
 
-	virtual void _Initialize() {}
-	virtual void _Destroy() {}
+    virtual void _TransitOut()
+    {
+    }
+
+    virtual void _Initialize()
+    {
+    }
+
+    virtual void _Destroy()
+    {
+    }
 
 public:
-	bool IsActive() const { return m_isActive; }
+    bool IsActive() const
+    {
+        return m_isActive;
+    }
 
-	void SetManager(Application* pApp) { m_pApp = pApp; }
-	Application* GetManager() { return m_pApp; }
+    void SetManager(Application* pApp)
+    {
+        m_pApp = pApp;
+    }
 
-	void SetWidgetManager(WidgetManager* pWidgetManager) { m_pWidgetManager = pWidgetManager; }
-	WidgetManager* GetWidgetManager() { return m_pWidgetManager; }
-	AbstractWidget* GetWidget(const std::string& name);
+    Application* GetManager()
+    {
+        return m_pApp;
+    }
+
+    void SetWidgetManager(WidgetManager* pWidgetManager)
+    {
+        m_pWidgetManager = pWidgetManager;
+    }
+
+    WidgetManager* GetWidgetManager()
+    {
+        return m_pWidgetManager;
+    }
+
+    AbstractWidget* GetWidget(const std::string& name);
 
 protected:
-	std::string m_name;
-	Application* m_pApp;
-	
-	WidgetManager* m_pWidgetManager;
+    std::string m_name;
+    Application* m_pApp;
 
-	/*
-	** This sub intf won't be added to active interface pool
-	** in application.
-	*/
-	AbstractInterface* m_pSupIntf;
-	AbstractInterface* m_pSubIntf;
+    WidgetManager* m_pWidgetManager;
 
-	/*
-	** Whether the interface is active or not. Parent interface
-	** will remain active if sub-interface activated.
-	*/
-	bool m_isActive;
+    /*
+    ** This sub intf won't be added to active interface pool
+    ** in application.
+    */
+    AbstractInterface* m_pSupIntf;
+    AbstractInterface* m_pSubIntf;
+
+    /*
+    ** Whether the interface is active or not. Parent interface
+    ** will remain active if sub-interface activated.
+    */
+    bool m_isActive;
 };
 
-template<typename IntfType>
-std::function<void(void)> GetLauncher(IntfType* intf)
+template <typename IntfType> std::function<void(void)> GetLauncher(IntfType* intf)
 {
-	return std::bind(&IntfType::Launch, intf);
+    return std::bind(&IntfType::Launch, intf);
 }
 
-template<typename IntfType>
-std::function<void(void)> GetAttacher(IntfType* intf)
+template <typename IntfType> std::function<void(void)> GetAttacher(IntfType* intf)
 {
-	return std::bind(&IntfType::Attach, intf);
+    return std::bind(&IntfType::Attach, intf);
 }
 
-template<typename IntfType>
-std::function<void(void)> GetTerminator(IntfType* intf)
+template <typename IntfType> std::function<void(void)> GetTerminator(IntfType* intf)
 {
-	return std::bind(&IntfType::Terminate, intf);
+    return std::bind(&IntfType::Terminate, intf);
 }
 
-template<typename IntfType>
-std::function<void(void)> GetDetacher(IntfType* intf)
+template <typename IntfType> std::function<void(void)> GetDetacher(IntfType* intf)
 {
-	return std::bind(&IntfType::Detach, intf);
+    return std::bind(&IntfType::Detach, intf);
 }
-
 
 AbstractInterface* LoadInterface(XMLElement* node);
 

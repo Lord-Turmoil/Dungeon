@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For XML data reading and writing.                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,7 +26,6 @@
 #include "../../inc/utility/Auxilliary.h"
 #include "../../inc/utility/Parser.h"
 #include "../../inc/utility/Pipe.h"
-
 
 /******************************************************************************
  * Pipe::Link -- Link Pipe to the file.                                       *
@@ -44,15 +43,14 @@
  *============================================================================*/
 bool Pipe::Link(const char* filename)
 {
-	if (IsValidDirectory(filename))
-	{
-		m_filename = filename;
-		return true;
-	}
+    if (IsValidDirectory(filename))
+    {
+        m_filename = filename;
+        return true;
+    }
 
-	return false;
+    return false;
 }
-
 
 /******************************************************************************
  * Pipe::_IsLinked -- Check if file linked.                                   *
@@ -70,14 +68,15 @@ bool Pipe::Link(const char* filename)
  *============================================================================*/
 bool Pipe::_IsLinked()
 {
-	if (m_filename)
-		return true;
+    if (m_filename)
+    {
+        return true;
+    }
 
-	LOG_ERROR("No file linked to Pipe");
+    LOG_ERROR("No file linked to Pipe");
 
-	return false;
+    return false;
 }
-
 
 /******************************************************************************
  * Pipe::_LoadFile -- Load file.                                              *
@@ -95,18 +94,19 @@ bool Pipe::_IsLinked()
  *============================================================================*/
 bool Pipe::_LoadFile(XMLFile& file)
 {
-	if (!_IsLinked())
-		return false;
+    if (!_IsLinked())
+    {
+        return false;
+    }
 
-	if (!file.Load(m_filename))
-	{
-		LOG_ERROR(FAILED_TO_LOAD, m_filename);
-		return false;
-	}
+    if (!file.Load(m_filename))
+    {
+        LOG_ERROR(FAILED_TO_LOAD, m_filename);
+        return false;
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Pipe::LoadEntry -- Load a setting entry.                                   *
@@ -127,61 +127,82 @@ bool Pipe::_LoadFile(XMLFile& file)
  *============================================================================*/
 void Pipe::_LoadEntry(XMLFile& file, int* val, const char* tag)
 {
-	XMLElement* entry = file.GetElementByTagName(tag);
-	if (!entry)
-		throw EntryError(tag);
+    XMLElement* entry = file.GetElementByTagName(tag);
+    if (!entry)
+    {
+        throw EntryError(tag);
+    }
 
-	const char* str = entry->GetText();
-	if (!(str && ParseAttribute(val, str, 0)))
-		throw EntryError(tag);
+    const char* str = entry->GetText();
+    if (!(str && ParseAttribute(val, str, 0)))
+    {
+        throw EntryError(tag);
+    }
 }
 
 void Pipe::_LoadEntry(XMLFile& file, double* val, const char* tag)
 {
-	XMLElement* entry = file.GetElementByTagName(tag);
-	if (!entry)
-		throw EntryError(tag);
+    XMLElement* entry = file.GetElementByTagName(tag);
+    if (!entry)
+    {
+        throw EntryError(tag);
+    }
 
-	const char* str = entry->GetText();
-	if (!(str && ParseAttribute(val, str, 1.0)))
-		throw EntryError(tag);
+    const char* str = entry->GetText();
+    if (!(str && ParseAttribute(val, str, 1.0)))
+    {
+        throw EntryError(tag);
+    }
 }
 
 void Pipe::_LoadEntry(XMLFile& file, bool* val, const char* tag)
 {
-	XMLElement* entry = file.GetElementByTagName(tag);
-	if (!entry)
-		throw EntryError(tag);
+    XMLElement* entry = file.GetElementByTagName(tag);
+    if (!entry)
+    {
+        throw EntryError(tag);
+    }
 
-	const char* str = entry->GetText();
-	if (!(str && ParseAttribute(val, str, true)))
-		throw EntryError(tag);
+    const char* str = entry->GetText();
+    if (!(str && ParseAttribute(val, str, true)))
+    {
+        throw EntryError(tag);
+    }
 }
 
 void Pipe::_LoadEntry(XMLFile& file, std::string* val, const char* tag)
 {
-	XMLElement* entry = file.GetElementByTagName(tag);
-	if (!entry)
-		throw EntryError(tag);
+    XMLElement* entry = file.GetElementByTagName(tag);
+    if (!entry)
+    {
+        throw EntryError(tag);
+    }
 
-	const char* str = entry->GetText();
-	if (!str)
-		*val = "";
-	else
-		*val = str;
+    const char* str = entry->GetText();
+    if (!str)
+    {
+        *val = "";
+    }
+    else
+    {
+        *val = str;
+    }
 }
 
 void Pipe::_LoadEntry(XMLFile& file, COLORREF* val, const char* tag)
 {
-	XMLElement* entry = file.GetElementByTagName(tag);
-	if (!entry)
-		throw EntryError(tag);
+    XMLElement* entry = file.GetElementByTagName(tag);
+    if (!entry)
+    {
+        throw EntryError(tag);
+    }
 
-	const char* str = entry->GetText();
-	if (!(str && ParsePrivateAttribute(val, str, ParseColor)))
-		throw EntryError(tag);
+    const char* str = entry->GetText();
+    if (!(str && ParsePrivateAttribute(val, str, ParseColor)))
+    {
+        throw EntryError(tag);
+    }
 }
-
 
 /******************************************************************************
  * Pipe::_SaveEntry -- Save a setting entry.                                  *
@@ -202,77 +223,81 @@ void Pipe::_LoadEntry(XMLFile& file, COLORREF* val, const char* tag)
  *============================================================================*/
 void Pipe::_SaveEntry(XMLFile& file, int val, const char* tag)
 {
-	XMLElement* entry = file.GetElementByTagName(tag);
-	char buffer[32];
+    XMLElement* entry = file.GetElementByTagName(tag);
+    char buffer[32];
 
-	sprintf_s(buffer, "%d", val);
+    sprintf_s(buffer, "%d", val);
 
-	if (!entry)
-	{
-		entry = file.Doc().NewElement(tag);
-		entry->SetText(buffer);
-		file.GetRoot()->InsertEndChild(entry);
-	}
-	else
-		entry->SetText(buffer);
+    if (!entry)
+    {
+        entry = file.Doc().NewElement(tag);
+        entry->SetText(buffer);
+        file.GetRoot()->InsertEndChild(entry);
+    }
+    else
+    {
+        entry->SetText(buffer);
+    }
 }
 
 void Pipe::_SaveEntry(XMLFile& file, double val, const char* tag)
 {
-	XMLElement* entry = file.GetElementByTagName(tag);
-	char buffer[32];
+    XMLElement* entry = file.GetElementByTagName(tag);
+    char buffer[32];
 
-	sprintf_s(buffer, "%.2f", val);
+    sprintf_s(buffer, "%.2f", val);
 
-	if (!entry)
-	{
-		entry = file.Doc().NewElement(tag);
-		entry->SetText(buffer);
-		file.GetRoot()->InsertEndChild(entry);
-	}
-	else
-		entry->SetText(buffer);
+    if (!entry)
+    {
+        entry = file.Doc().NewElement(tag);
+        entry->SetText(buffer);
+        file.GetRoot()->InsertEndChild(entry);
+    }
+    else
+    {
+        entry->SetText(buffer);
+    }
 }
 
 void Pipe::_SaveEntry(XMLFile& file, bool val, const char* tag)
 {
-	XMLElement* entry = file.GetElementByTagName(tag);
-	char buffer[32];
+    XMLElement* entry = file.GetElementByTagName(tag);
+    char buffer[32];
 
-	sprintf_s(buffer, "%s", val ? "true" : "false");
+    sprintf_s(buffer, "%s", val ? "true" : "false");
 
-	if (!entry)
-	{
-		entry = file.Doc().NewElement(tag);
-		file.GetRoot()->InsertEndChild(entry);
-	}
-	entry->SetText(buffer);
+    if (!entry)
+    {
+        entry = file.Doc().NewElement(tag);
+        file.GetRoot()->InsertEndChild(entry);
+    }
+    entry->SetText(buffer);
 }
 
 void Pipe::_SaveEntry(XMLFile& file, const std::string& val, const char* tag)
 {
-	XMLElement* entry = file.GetElementByTagName(tag);
+    XMLElement* entry = file.GetElementByTagName(tag);
 
-	if (!entry)
-	{
-		entry = file.Doc().NewElement(tag);
-		file.GetRoot()->InsertEndChild(entry);
-	}
-	entry->SetText(val.c_str());
+    if (!entry)
+    {
+        entry = file.Doc().NewElement(tag);
+        file.GetRoot()->InsertEndChild(entry);
+    }
+    entry->SetText(val.c_str());
 }
 
 void Pipe::_SaveEntry(XMLFile& file, COLORREF val, const char* tag)
 {
-	XMLElement* entry = file.GetElementByTagName(tag);
-	char buffer[32];
+    XMLElement* entry = file.GetElementByTagName(tag);
+    char buffer[32];
 
-	// Convert BGR to RGB.
-	sprintf_s(buffer, "#%x", BGRtoRGB(val));
+    // Convert BGR to RGB.
+    sprintf_s(buffer, "#%x", BGRtoRGB(val));
 
-	if (!entry)
-	{
-		entry = file.Doc().NewElement(tag);
-		file.GetRoot()->InsertEndChild(entry);
-	}
-	entry->SetText(buffer);
+    if (!entry)
+    {
+        entry = file.Doc().NewElement(tag);
+        file.GetRoot()->InsertEndChild(entry);
+    }
+    entry->SetText(buffer);
 }

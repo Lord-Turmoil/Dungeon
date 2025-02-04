@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For XML data reading and writing.                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,41 +29,44 @@
 
 #include "xml.h"
 
-
 /********************************************************************
 ** This is the base class for all classes dealing with XML data
 */
 class Pipe
 {
 public:
-	Pipe() : m_filename(nullptr) {}
-	~Pipe() {}
+    Pipe() : m_filename(nullptr)
+    {
+    }
 
-	bool Link(const char* filename);
-	
-	virtual bool Load() = 0;
-	virtual bool Save() = 0;
+    ~Pipe()
+    {
+    }
+
+    bool Link(const char* filename);
+
+    virtual bool Load() = 0;
+    virtual bool Save() = 0;
 
 protected:
-	bool _IsLinked();
-	bool _LoadFile(XMLFile& file);
+    bool _IsLinked();
+    bool _LoadFile(XMLFile& file);
 
-	void _LoadEntry(XMLFile& file, int* val, const char* tag);
-	void _LoadEntry(XMLFile& file, double* val, const char* tag);
-	void _LoadEntry(XMLFile& file, bool* val, const char* tag);
-	void _LoadEntry(XMLFile& file, std::string* val, const char* tag);
-	void _LoadEntry(XMLFile& file, COLORREF* val, const char* tag);
+    void _LoadEntry(XMLFile& file, int* val, const char* tag);
+    void _LoadEntry(XMLFile& file, double* val, const char* tag);
+    void _LoadEntry(XMLFile& file, bool* val, const char* tag);
+    void _LoadEntry(XMLFile& file, std::string* val, const char* tag);
+    void _LoadEntry(XMLFile& file, COLORREF* val, const char* tag);
 
-	void _SaveEntry(XMLFile& file, int val, const char* tag);
-	void _SaveEntry(XMLFile& file, double val, const char* tag);
-	void _SaveEntry(XMLFile& file, bool val, const char* tag);
-	void _SaveEntry(XMLFile& file, const std::string& val, const char* tag);
-	void _SaveEntry(XMLFile& file, COLORREF val, const char* tag);
+    void _SaveEntry(XMLFile& file, int val, const char* tag);
+    void _SaveEntry(XMLFile& file, double val, const char* tag);
+    void _SaveEntry(XMLFile& file, bool val, const char* tag);
+    void _SaveEntry(XMLFile& file, const std::string& val, const char* tag);
+    void _SaveEntry(XMLFile& file, COLORREF val, const char* tag);
 
 private:
-	const char* m_filename;
+    const char* m_filename;
 };
-
 
 /********************************************************************
 ** I'm not very familiar with try-cath machanism, so... give it a
@@ -72,12 +75,17 @@ private:
 class EntryError
 {
 public:
-	EntryError(const char* entry) : m_entry(entry) {}
+    EntryError(const char* entry) : m_entry(entry)
+    {
+    }
 
-	const char* what() const { return m_entry; }
+    const char* what() const
+    {
+        return m_entry;
+    }
 
 private:
-	const char* m_entry;
+    const char* m_entry;
 };
 
 #endif

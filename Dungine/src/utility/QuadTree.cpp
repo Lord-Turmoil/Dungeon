@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide extra function of quadruple tree for collision check.            *
  * -------------------------------------------------------------------------- *
  * Reference:                                                                 *
@@ -31,31 +31,28 @@
 
 #include "../../inc/game/StandardComponent.h"
 
-
- /******************************************************************************
-  * QuadTreeNode::QuadTreeNode -- Constructor of the object.                   *
-  *                                                                            *
-  *    Just the literal meaning.                                               *
-  *                                                                            *
-  * INPUT:   range                                                             *
-  *          maxPointDesity                                                    *
-  *                                                                            *
-  * OUTPUT:  none                                                              *
-  *                                                                            *
-  * WARNINGS:  none                                                            *
-  *                                                                            *
-  * HISTORY:                                                                   *
-  *   2022/06/09 Tony : Created.                                               *
-  *============================================================================*/
-QuadTreeNode::QuadTreeNode(const Rect& range, int maxDensity) :
-	m_pAlpha(nullptr), m_pBeta(nullptr), m_pGamma(nullptr), m_pDelta(nullptr),
-	m_boxNum(0), m_isSplit(false), m_maxDensity(maxDensity)
+/******************************************************************************
+ * QuadTreeNode::QuadTreeNode -- Constructor of the object.                   *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   range                                                             *
+ *          maxPointDesity                                                    *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/06/09 Tony : Created.                                               *
+ *============================================================================*/
+QuadTreeNode::QuadTreeNode(const Rect& range, int maxDensity)
+    : m_pAlpha(nullptr), m_pBeta(nullptr), m_pGamma(nullptr), m_pDelta(nullptr), m_boxNum(0), m_maxDensity(maxDensity),
+      m_isSplit(false)
 {
-	m_range.Reset(range);
-	m_pObjects = new GameObject * [maxDensity];
+    m_range.Reset(range);
+    m_pObjects = new GameObject*[maxDensity];
 }
-
-
 
 /******************************************************************************
  * QuadTree::QuadTree -- Constructor of the object.                           *
@@ -72,14 +69,15 @@ QuadTreeNode::QuadTreeNode(const Rect& range, int maxDensity) :
  * HISTORY:                                                                   *
  *   2022/06/09 Tony : Created.                                               *
  *============================================================================*/
-QuadTree::QuadTree() : m_pQuadTree(nullptr), m_maxBoxDensity(0) {}
+QuadTree::QuadTree() : m_pQuadTree(nullptr), m_maxBoxDensity(0)
+{
+}
 
 QuadTree::QuadTree(const Rect& range, int maxDensity)
 {
-	m_pQuadTree = new QuadTreeNode(range, maxDensity);
-	m_maxBoxDensity = maxDensity;
+    m_pQuadTree = new QuadTreeNode(range, maxDensity);
+    m_maxBoxDensity = maxDensity;
 }
-
 
 /******************************************************************************
  * QuadTree::~QuadTree -- Destructor of the object.                           *
@@ -97,10 +95,11 @@ QuadTree::QuadTree(const Rect& range, int maxDensity)
  *============================================================================*/
 QuadTree::~QuadTree()
 {
-	if (m_pQuadTree)
-		_Destroy(m_pQuadTree);
+    if (m_pQuadTree)
+    {
+        _Destroy(m_pQuadTree);
+    }
 }
-
 
 /******************************************************************************
  * QuadTree::Initialize -- Initialize the quad tree.                          *
@@ -119,13 +118,14 @@ QuadTree::~QuadTree()
  *============================================================================*/
 void QuadTree::Initialize(const Rect& range, int maxDensity)
 {
-	if (m_pQuadTree)
-		_Destroy(m_pQuadTree);
+    if (m_pQuadTree)
+    {
+        _Destroy(m_pQuadTree);
+    }
 
-	m_pQuadTree = new QuadTreeNode(range, maxDensity);
-	m_maxBoxDensity = maxDensity;
+    m_pQuadTree = new QuadTreeNode(range, maxDensity);
+    m_maxBoxDensity = maxDensity;
 }
-
 
 /******************************************************************************
  * QuadTree::Destroy -- Destroy the quad tree.                                *
@@ -143,13 +143,12 @@ void QuadTree::Initialize(const Rect& range, int maxDensity)
  *============================================================================*/
 void QuadTree::Destroy()
 {
-	if (m_pQuadTree)
-	{
-		_Destroy(m_pQuadTree);
-		m_pQuadTree = nullptr;
-	}
+    if (m_pQuadTree)
+    {
+        _Destroy(m_pQuadTree);
+        m_pQuadTree = nullptr;
+    }
 }
-
 
 /******************************************************************************
  * QuadTree::Insert -- Insert a collide obj to the quad tree.                 *
@@ -168,15 +167,16 @@ void QuadTree::Destroy()
  *============================================================================*/
 void QuadTree::Insert(GameObject* obj)
 {
-	auto rigid = obj->GetComponent<RigidBodyComponent>();
-	auto box = obj->GetComponent<ColliderBoxComponent>();
-	
-	if (!rigid || !box)
-		return;
+    auto rigid = obj->GetComponent<RigidBodyComponent>();
+    auto box = obj->GetComponent<ColliderBoxComponent>();
 
-	_Insert(m_pQuadTree, obj);
+    if (!rigid || !box)
+    {
+        return;
+    }
+
+    _Insert(m_pQuadTree, obj);
 }
-
 
 /******************************************************************************
  * QuadTree::Query -- Query neighboring collide boxes.                        *
@@ -196,17 +196,13 @@ void QuadTree::Insert(GameObject* obj)
  *============================================================================*/
 void QuadTree::Query(const Rect& range, std::vector<GameObject*>& results)
 {
-	_Query(m_pQuadTree, range, results);
+    _Query(m_pQuadTree, range, results);
 }
 
 void QuadTree::Query(GameObject* obj, std::vector<GameObject*>& results)
 {
-	_Query(
-		m_pQuadTree,
-		obj->GetComponent<ColliderBoxComponent>()->GetBorder(),
-		results);
+    _Query(m_pQuadTree, obj->GetComponent<ColliderBoxComponent>()->GetBorder(), results);
 }
-
 
 /******************************************************************************
  * QuadTree::Query -- Query neighboring collide boxes.                        *
@@ -225,25 +221,21 @@ void QuadTree::Query(GameObject* obj, std::vector<GameObject*>& results)
  *============================================================================*/
 std::vector<GameObject*> QuadTree::Query(const Rect& range)
 {
-	std::vector<GameObject*> results;
+    std::vector<GameObject*> results;
 
-	_Query(m_pQuadTree, range, results);
+    _Query(m_pQuadTree, range, results);
 
-	return results;
+    return results;
 }
 
 std::vector<GameObject*> QuadTree::Query(GameObject* obj)
 {
-	std::vector<GameObject*> results;
+    std::vector<GameObject*> results;
 
-	_Query(
-		m_pQuadTree,
-		obj->GetComponent<ColliderBoxComponent>()->GetBorder(),
-		results);
+    _Query(m_pQuadTree, obj->GetComponent<ColliderBoxComponent>()->GetBorder(), results);
 
-	return results;
+    return results;
 }
-
 
 /******************************************************************************
  * QuadTree::Clear -- Clear the quad tree.                                    *
@@ -261,22 +253,23 @@ std::vector<GameObject*> QuadTree::Query(GameObject* obj)
  *============================================================================*/
 void QuadTree::Clear()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		if (m_pQuadTree->m_pSubNode[i])
-		{
-			_Destroy(m_pQuadTree->m_pSubNode[i]);
-			m_pQuadTree->m_pSubNode[i] = nullptr;
-		}
-	}
+    for (int i = 0; i < 4; i++)
+    {
+        if (m_pQuadTree->m_pSubNode[i])
+        {
+            _Destroy(m_pQuadTree->m_pSubNode[i]);
+            m_pQuadTree->m_pSubNode[i] = nullptr;
+        }
+    }
 
-	// If divided, the points will be freed.
-	if (!m_pQuadTree->m_pObjects)
-		m_pQuadTree->m_pObjects = new GameObject * [m_maxBoxDensity];
-	m_pQuadTree->m_isSplit = false;
-	m_pQuadTree->m_boxNum = 0;
+    // If divided, the points will be freed.
+    if (!m_pQuadTree->m_pObjects)
+    {
+        m_pQuadTree->m_pObjects = new GameObject*[m_maxBoxDensity];
+    }
+    m_pQuadTree->m_isSplit = false;
+    m_pQuadTree->m_boxNum = 0;
 }
-
 
 /******************************************************************************
  * QuadTree::_Split -- Split a node.                                          *
@@ -294,39 +287,42 @@ void QuadTree::Clear()
  *============================================================================*/
 bool QuadTree::_Split(QuadTreeNode* node)
 {
-	Rect rect = node->m_range;
-	int halfWidth = rect.width >> 1;
-	int halfHeight = rect.height >> 1;
+    Rect rect = node->m_range;
+    int halfWidth = rect.width >> 1;
+    int halfHeight = rect.height >> 1;
 
-	// Too small...
-	if ((halfWidth == 0) || (halfHeight == 0))
-	{
-		// LOG_MESSAGE("QuadTree::_Split() Failed");
-		return false;
-	}
+    // Too small...
+    if ((halfWidth == 0) || (halfHeight == 0))
+    {
+        // LOG_MESSAGE("QuadTree::_Split() Failed");
+        return false;
+    }
 
-	Rect range;
-	int maxDensity;
+    Rect range;
+    int maxDensity;
 
-	if ((halfWidth < 3) || (halfHeight < 3))
-		maxDensity = MAX_DENSITY;
-	else
-		maxDensity = m_maxBoxDensity;
+    if ((halfWidth < 3) || (halfHeight < 3))
+    {
+        maxDensity = MAX_DENSITY;
+    }
+    else
+    {
+        maxDensity = m_maxBoxDensity;
+    }
 
-	range.Reset(rect.pos.x, rect.pos.y, halfWidth, halfHeight);
-	node->m_pDelta = new QuadTreeNode(range, maxDensity);
-	range.Reset(rect.pos.x, rect.pos.y + halfHeight, halfWidth, rect.height - halfHeight);
-	node->m_pBeta = new QuadTreeNode(range, maxDensity);
-	range.Reset(rect.pos.x + halfWidth, rect.pos.y, rect.width - halfWidth, halfHeight);
-	node->m_pGamma = new QuadTreeNode(range, maxDensity);
-	range.Reset(rect.pos.x + halfWidth, rect.pos.y + halfHeight, rect.width - halfWidth, rect.height - halfHeight);
-	node->m_pAlpha = new QuadTreeNode(range, maxDensity);
+    range.Reset(rect.pos.x, rect.pos.y, halfWidth, halfHeight);
+    node->m_pDelta = new QuadTreeNode(range, maxDensity);
+    range.Reset(rect.pos.x, rect.pos.y + halfHeight, halfWidth, rect.height - halfHeight);
+    node->m_pBeta = new QuadTreeNode(range, maxDensity);
+    range.Reset(rect.pos.x + halfWidth, rect.pos.y, rect.width - halfWidth, halfHeight);
+    node->m_pGamma = new QuadTreeNode(range, maxDensity);
+    range.Reset(rect.pos.x + halfWidth, rect.pos.y + halfHeight, rect.width - halfWidth, rect.height - halfHeight);
+    node->m_pAlpha = new QuadTreeNode(range, maxDensity);
 
-	node->m_isSplit = true;
+    node->m_isSplit = true;
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * QuadTree::_Insert -- Insert a collide obj to the tree.                     *
@@ -345,55 +341,64 @@ bool QuadTree::_Split(QuadTreeNode* node)
  *============================================================================*/
 bool QuadTree::_Insert(QuadTreeNode* node, GameObject* obj)
 {
-	Coordinate pos = obj->GetCenter();
+    Coordinate pos = obj->GetCenter();
 
-	if (!InRectangle(node->m_range, pos))
-		return false;
+    if (!InRectangle(node->m_range, pos))
+    {
+        return false;
+    }
 
-	if (node->m_boxNum < node->m_maxDensity)
-	{
-		node->m_pObjects[node->m_boxNum++] = obj;
-		return true;
-	}
-	else if (node->m_isSplit)
-	{
-		for (int i = 0; i < 4; i++)
-		{
-			if (_Insert(node->m_pSubNode[i], obj))
-				return true;
-		}
-		return false;
-	}
-	else
-	{
-		if (!_Split(node))
-			return false;
+    if (node->m_boxNum < node->m_maxDensity)
+    {
+        node->m_pObjects[node->m_boxNum++] = obj;
+        return true;
+    }
+    else if (node->m_isSplit)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (_Insert(node->m_pSubNode[i], obj))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    else
+    {
+        if (!_Split(node))
+        {
+            return false;
+        }
 
-		// Pass current boxes to sub nodes.
-		for (int i = 0; i < node->m_boxNum; i++)
-		{
-			for (int j = 0; j < 4; j++)
-			{
-				if (_Insert(node->m_pSubNode[j], node->m_pObjects[i]))
-					break;
-			}
-		}
+        // Pass current boxes to sub nodes.
+        for (int i = 0; i < node->m_boxNum; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                if (_Insert(node->m_pSubNode[j], node->m_pObjects[i]))
+                {
+                    break;
+                }
+            }
+        }
 
-		delete[] node->m_pObjects;
-		node->m_pObjects = nullptr;
+        delete[] node->m_pObjects;
+        node->m_pObjects = nullptr;
 
-		// Insert new node.
-		for (int i = 0; i < 4; i++)
-		{
-			if (_Insert(node->m_pSubNode[i], obj))
-				return true;
-		}
-		return false;
-	}
+        // Insert new node.
+        for (int i = 0; i < 4; i++)
+        {
+            if (_Insert(node->m_pSubNode[i], obj))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	return false;	// Never reach here.
+    return false; // Never reach here.
 }
-
 
 /******************************************************************************
  * QuadTree::_Query -- Query neighboring collide boxes.                       *
@@ -415,24 +420,29 @@ bool QuadTree::_Insert(QuadTreeNode* node, GameObject* obj)
  *============================================================================*/
 void QuadTree::_Query(QuadTreeNode* node, const Rect& range, std::vector<GameObject*>& results)
 {
-	if (!HasIntersect(node->m_range, range))
-		return;
+    if (!HasIntersect(node->m_range, range))
+    {
+        return;
+    }
 
-	if (node->m_isSplit)
-	{
-		for (int i = 0; i < 4; i++)
-			_Query(node->m_pSubNode[i], range, results);
-	}
-	else
-	{
-		for (int i = 0; i < node->m_boxNum; i++)
-		{
-			if (InRectangle(range, node->m_pObjects[i]->GetCenter()))
-				results.push_back(node->m_pObjects[i]);
-		}
-	}
+    if (node->m_isSplit)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            _Query(node->m_pSubNode[i], range, results);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < node->m_boxNum; i++)
+        {
+            if (InRectangle(range, node->m_pObjects[i]->GetCenter()))
+            {
+                results.push_back(node->m_pObjects[i]);
+            }
+        }
+    }
 }
-
 
 /******************************************************************************
  * QuadTree::_Destroy -- Destroy a quad tree node and all its children.       *
@@ -450,19 +460,23 @@ void QuadTree::_Query(QuadTreeNode* node, const Rect& range, std::vector<GameObj
  *============================================================================*/
 void QuadTree::_Destroy(QuadTreeNode* node)
 {
-	if (!node)
-		return;
+    if (!node)
+    {
+        return;
+    }
 
-	if (node->m_isSplit)
-	{
-		for (int i = 0; i < 4; i++)
-			_Destroy(node->m_pSubNode[i]);
-	}
-	else
-	{
-		delete[] node->m_pObjects;
-		node->m_pObjects = nullptr;
-	}
+    if (node->m_isSplit)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            _Destroy(node->m_pSubNode[i]);
+        }
+    }
+    else
+    {
+        delete[] node->m_pObjects;
+        node->m_pObjects = nullptr;
+    }
 
-	delete node;
+    delete node;
 }

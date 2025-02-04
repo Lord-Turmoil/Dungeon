@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For global timing.                                                       *
  * -------------------------------------------------------------------------- *
  * Reference:                                                                 *
@@ -28,55 +28,75 @@
 #include "../common/Common.h"
 #include "../template/Singleton.h"
 
-
 /********************************************************************
 ** The global timer of the game. So singleton is used.
 */
 class Timer : public SingletonHungry<Timer>
 {
-	friend class SingletonHungry<Timer>;
+    friend class SingletonHungry<Timer>;
+
 public:
-	void Update();
+    void Update();
 
-	double GetDeltaTime() const { return m_deltaTime; }
-	clock_t GetDeltaTimestamp() const { return m_deltaTimestamp; }
+    double GetDeltaTime() const
+    {
+        return m_deltaTime;
+    }
 
-	double GetTime() const { return m_time; }
-	clock_t GetTimestamp() const { return m_timestamp; }
-	
-	double GetFPS() const { return m_fps; }
+    clock_t GetDeltaTimestamp() const
+    {
+        return m_deltaTimestamp;
+    }
 
-	void Delay(int milliseconds = DUNGINE_DELAY);
+    double GetTime() const
+    {
+        return m_time;
+    }
 
-	void Pause();
-	void Continue();
+    clock_t GetTimestamp() const
+    {
+        return m_timestamp;
+    }
+
+    double GetFPS() const
+    {
+        return m_fps;
+    }
+
+    void Delay(int milliseconds = DUNGINE_DELAY);
+
+    void Pause();
+    void Continue();
 
 private:
-	Timer();
-	~Timer() {}
+    Timer();
 
-	// unit is second
-	double m_time;
-	double m_deltaTime;
+    ~Timer() override
+    {
+    }
 
-	// unit is millisecond
-	clock_t m_timestamp;
-	clock_t m_deltaTimestamp;
+    // unit is second
+    double m_time;
+    double m_deltaTime;
 
-	LARGE_INTEGER m_tickPerSecond;
-	double m_rTickPerSecond;
-	LARGE_INTEGER m_curTick;
-	LARGE_INTEGER m_lastTick;
-	LARGE_INTEGER m_startTick;
-	LARGE_INTEGER m_deltaTick;
+    // unit is millisecond
+    clock_t m_timestamp;
+    clock_t m_deltaTimestamp;
 
-	// for delay
-	LARGE_INTEGER m_clock;
-	LONGLONG m_oldClock;
-	int m_frequency;
+    LARGE_INTEGER m_tickPerSecond;
+    double m_rTickPerSecond;
+    LARGE_INTEGER m_curTick;
+    LARGE_INTEGER m_lastTick;
+    LARGE_INTEGER m_startTick;
+    LARGE_INTEGER m_deltaTick;
 
-	// for fps
-	double m_fps;
+    // for delay
+    LARGE_INTEGER m_clock;
+    LONGLONG m_oldClock;
+    int m_frequency;
 
-	bool m_isPaused;
+    // for fps
+    double m_fps;
+
+    bool m_isPaused;
 };

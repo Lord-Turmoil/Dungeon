@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide base component for the game.                                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,7 +23,6 @@
 
 #include "../../inc/object/ComponentKit.h"
 #include "../../inc/object/Component.h"
-
 
 /******************************************************************************
  * ComponentKit::LoadComponent -- Load component with custom components.      *
@@ -41,24 +40,34 @@
  *============================================================================*/
 AbstractComponent* ComponentKit::LoadComponent(XMLElement* node)
 {
-	if (!node)
-		return nullptr;
+    if (!node)
+    {
+        return nullptr;
+    }
 
-	const char* name = node->Name();
-	AbstractComponent* rv = nullptr;
+    const char* name = node->Name();
+    AbstractComponent* rv = nullptr;
 
-	if (_STR_SAME(name, "WeaponSlot"))
-		rv = new WeaponComponent();
-	else if (_STR_SAME(name, "Sound"))
-		rv = new SoundComponent();
-	else if (_STR_SAME(name, "Indicator"))
-		rv = new IndicatorComponent();
+    if (_STR_SAME(name, "WeaponSlot"))
+    {
+        rv = new WeaponComponent();
+    }
+    else if (_STR_SAME(name, "Sound"))
+    {
+        rv = new SoundComponent();
+    }
+    else if (_STR_SAME(name, "Indicator"))
+    {
+        rv = new IndicatorComponent();
+    }
 
-	if (rv)
-	{
-		rv->Load(node);
-		return rv;
-	}
-	else
-		return StandardComponentKit::LoadComponent(node);
+    if (rv)
+    {
+        rv->Load(node);
+        return rv;
+    }
+    else
+    {
+        return StandardComponentKit::LoadComponent(node);
+    }
 }

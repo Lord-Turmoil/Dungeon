@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Behavior of boss.                                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,12 +21,11 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Boss.h"
 #include "../../inc/object/BossBehavior.h"
+#include "../../inc/object/Boss.h"
 #include "../../inc/object/Component.h"
 
 #include "../../inc/game/Dungeon.h"
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -35,29 +34,27 @@
 */
 BossInit* BossInit::Clone() const
 {
-	BossInit* clone = new BossInit();
-	clone->_MakePrototype(false);
+    BossInit* clone = new BossInit();
+    clone->_MakePrototype(false);
 
-	EnemyInit::Clone(clone);
+    EnemyInit::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void BossInit::Clone(BossInit* clone) const
 {
-	EnemyInit::Clone(clone);
+    EnemyInit::Clone(clone);
 }
 
 void BossInit::OnExit()
 {
-	Boss* boss = static_cast<Boss*>(m_parent->GetGameObject());
+    Boss* boss = static_cast<Boss*>(m_parent->GetGameObject());
 
-	boss->GetComponent<RigidBodyComponent>()
-		->SetID(CollisionID::COLL_ID_ENEMY);
-	boss->GetComponent<SoundComponent>()->Play("init");
-	boss->CostMP(INF_INT);
+    boss->GetComponent<RigidBodyComponent>()->SetID(COLL_ID_ENEMY);
+    boss->GetComponent<SoundComponent>()->Play("init");
+    boss->CostMP(INF_INT);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -66,35 +63,34 @@ void BossInit::OnExit()
 */
 BossDead* BossDead::Clone() const
 {
-	BossDead* clone = new BossDead();
-	clone->_MakePrototype(false);
+    BossDead* clone = new BossDead();
+    clone->_MakePrototype(false);
 
-	EnemyDead::Clone(clone);
+    EnemyDead::Clone(clone);
 
-	// Really? XD
-	// __super::Clone(clone);
+    // Really? XD
+    // __super::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void BossDead::OnEnter()
 {
-	Boss* boss = static_cast<Boss*>(m_parent->GetGameObject());
-	Dungeon* dungeon = static_cast<Dungeon*>(boss->GetScene());
-	boss->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(ENEMY_ANIM_DEAD);
+    Boss* boss = static_cast<Boss*>(m_parent->GetGameObject());
+    Dungeon* dungeon = static_cast<Dungeon*>(boss->GetScene());
+    boss->GetComponent<AnimComponent>()->GetAnim()->SetMotion(ENEMY_ANIM_DEAD);
 
-	dungeon->RemoveBoss();
-	dungeon->KillAllEnemy();
+    dungeon->RemoveBoss();
+    dungeon->KillAllEnemy();
 
-	_OnDefeat(dungeon, boss);
+    _OnDefeat(dungeon, boss);
 }
 
 void BossDead::OnExit()
 {
-	Boss* boss = static_cast<Boss*>(m_parent->GetGameObject());
-	boss->GetComponent<RigidBodyComponent>()->Freeze();
-	boss->GetComponent<RigidBodyComponent>()->SetMass(0.0);
+    Boss* boss = static_cast<Boss*>(m_parent->GetGameObject());
+    boss->GetComponent<RigidBodyComponent>()->Freeze();
+    boss->GetComponent<RigidBodyComponent>()->SetMass(0.0);
 }
 
 /*
@@ -104,10 +100,10 @@ void BossDead::OnExit()
 */
 BossPerish* BossPerish::Clone() const
 {
-	BossPerish* clone = new BossPerish();
-	clone->_MakePrototype(false);
+    BossPerish* clone = new BossPerish();
+    clone->_MakePrototype(false);
 
-	EnemyPerish::Clone(clone);
+    EnemyPerish::Clone(clone);
 
-	return clone;
+    return clone;
 }

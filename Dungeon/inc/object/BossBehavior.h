@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Behavior of boss.                                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,7 +26,6 @@
 
 #include "GenieBehavior.h"
 
-
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ** Boss
@@ -35,32 +34,38 @@
 class BossInit : public EnemyInit
 {
 public:
-	virtual BossInit* Clone() const;
-	virtual void Clone(BossInit* clone) const;
+    BossInit* Clone() const override;
+    virtual void Clone(BossInit* clone) const;
 
-	virtual void OnExit();
+    void OnExit() override;
 };
-
 
 class BossDead : public EnemyDead
 {
 public:
-	virtual BossDead* Clone() const;
-	virtual void Clone(BossDead* clone) const {}
+    BossDead* Clone() const override;
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    virtual void Clone(BossDead* clone) const
+    {
+    }
+
+    void OnEnter() override;
+    void OnExit() override;
 };
 
 class BossPerish : public EnemyPerish
 {
 public:
-	virtual BossPerish* Clone() const;
-	virtual void Clone(BossPerish* clone) const {}
+    BossPerish* Clone() const override;
 
-	virtual void OnEnter() {}
+    virtual void Clone(BossPerish* clone) const
+    {
+    }
+
+    void OnEnter() override
+    {
+    }
 };
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -70,44 +75,55 @@ public:
 class RockIdle : public EnemyIdle
 {
 public:
-	virtual RockIdle* Clone() const;
-	virtual void Clone(RockIdle* clone) const {}
+    RockIdle* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(RockIdle* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
 };
 
 class RockEngage : public GenieEngage
 {
 public:
-	virtual RockEngage* Clone() const;
-	virtual void Clone(RockEngage* clone) const {}
+    RockEngage* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(RockEngage* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
 };
 
 class RockRetreat : public GenieRetreat
 {
 public:
-	virtual RockRetreat* Clone() const;
-	virtual void Clone(RockRetreat* clone) const {}
+    RockRetreat* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(RockRetreat* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
 };
 
 class RockAttack : public EnemyAttack
 {
 public:
-	virtual RockAttack* Clone() const;
-	virtual void Clone(RockAttack* clone) const {}
+    RockAttack* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(RockAttack* clone) const
+    {
+    }
+
+    void OnEnter() override;
 
 private:
-	void _GenerateStone();
+    void _GenerateStone();
 };
 
 // class RockRest = EnemeyRest
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -117,46 +133,61 @@ private:
 class DBKInit : public GenieInit
 {
 public:
-	virtual DBKInit* Clone() const;
-	virtual void Clone(DBKInit* clone) const {}
+    DBKInit* Clone() const override;
 
-	virtual void OnExit();
+    virtual void Clone(DBKInit* clone) const
+    {
+    }
+
+    void OnExit() override;
 };
 
 class DBKIdle : public GenieIdle
 {
 public:
-	virtual DBKIdle* Clone() const;
-	virtual void Clone(DBKIdle* clone) const {}
+    DBKIdle* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(DBKIdle* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
 };
 
 class DBKEngage : public GenieEngage
 {
 public:
-	virtual DBKEngage* Clone() const;
-	virtual void Clone(DBKEngage* clone) const {}
+    DBKEngage* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(DBKEngage* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
 };
 
 class DBKRetreat : public GenieRetreat
 {
 public:
-	virtual DBKRetreat* Clone() const;
-	virtual void Clone(DBKRetreat* clone) const {}
+    DBKRetreat* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(DBKRetreat* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
 };
 
 class DBKDead : public BossDead
 {
 public:
-	virtual DBKDead* Clone() const;
-	virtual void Clone(DBKDead* clone) const {}
+    DBKDead* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(DBKDead* clone) const
+    {
+    }
+
+    void OnEnter() override;
 };
 
 #endif

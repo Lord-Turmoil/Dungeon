@@ -12,7 +12,7 @@
  *                    Last Update : December 9, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Weapon slot.                                                             *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,12 +21,11 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Weapon.h"
 #include "../../inc/object/WeaponComponent.h"
+#include "../../inc/object/Weapon.h"
 #include "../../inc/object/WeaponLibrary.h"
 
 #include "../../inc/object/Figure.h"
-
 
 /******************************************************************************
  * WeaponComponent::WeaponComponent -- Constructor of the object.             *
@@ -42,12 +41,10 @@
  * HISTORY:                                                                   *
  *   2022/07/27 Tony : Created.                                               *
  *============================================================================*/
-WeaponComponent::WeaponComponent(int updateOrder) :
-	AbstractComponent(updateOrder), m_capacity(0), m_isArmed(false)
+WeaponComponent::WeaponComponent(int updateOrder) : AbstractComponent(updateOrder), m_capacity(0), m_isArmed(false)
 {
-	m_current = m_weapons.end();
+    m_current = m_weapons.end();
 }
-
 
 /******************************************************************************
  * WeaponComponent::~WeaponComponent -- Destructor of the object.             *
@@ -66,9 +63,8 @@ WeaponComponent::WeaponComponent(int updateOrder) :
  *============================================================================*/
 WeaponComponent::~WeaponComponent()
 {
-	Clear();
+    Clear();
 }
-
 
 /******************************************************************************
  * WeaponComponent::Clone -- Clone.                                           *
@@ -87,37 +83,38 @@ WeaponComponent::~WeaponComponent()
  *============================================================================*/
 WeaponComponent* WeaponComponent::Clone() const
 {
-	WeaponComponent* clone = new WeaponComponent(m_updateOrder);
-	clone->_MakePrototype(false);
+    WeaponComponent* clone = new WeaponComponent(m_updateOrder);
+    clone->_MakePrototype(false);
 
-	AbstractComponent::Clone(clone);
+    AbstractComponent::Clone(clone);
 
-	clone->m_capacity = m_capacity;
-	clone->m_offset = m_offset;
+    clone->m_capacity = m_capacity;
+    clone->m_offset = m_offset;
 
-	/*
-	** 2022/08/17 TS:
-	** Here, we use vector... unlike map, vector may move its memory
-	** if is full, which will cause clone->m_current invaild. So we
-	** should first reserve the space. :(
-	*/
-	Weapon* weapon;
+    /*
+    ** 2022/08/17 TS:
+    ** Here, we use vector... unlike map, vector may move its memory
+    ** if is full, which will cause clone->m_current invaild. So we
+    ** should first reserve the space. :(
+    */
+    Weapon* weapon;
 
-	// This line is ESSENTIAL!!! :(
-	clone->m_weapons.reserve(m_weapons.size());
+    // This line is ESSENTIAL!!! :(
+    clone->m_weapons.reserve(m_weapons.size());
 
-	for (auto it = m_weapons.begin(); it != m_weapons.end(); it++)
-	{
-		weapon = (*it)->Clone();
-		weapon->SetSlot(clone);
-		clone->m_weapons.push_back(weapon);
-		if (it == m_current)
-			clone->m_current = clone->m_weapons.end() - 1;
-	}
+    for (auto it = m_weapons.begin(); it != m_weapons.end(); it++)
+    {
+        weapon = (*it)->Clone();
+        weapon->SetSlot(clone);
+        clone->m_weapons.push_back(weapon);
+        if (it == m_current)
+        {
+            clone->m_current = clone->m_weapons.end() - 1;
+        }
+    }
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * WeaponComponent::Load -- Load weapon component.                            *
@@ -136,56 +133,55 @@ WeaponComponent* WeaponComponent::Clone() const
  *============================================================================*/
 bool WeaponComponent::Load(XMLElement* node)
 {
-/*
-**	<WeaponSlot capacity="" offset="">
-**		<Weapon></Weapon>
-**		<Weapon></Weapon>
-**		<Weapon></Weapon>
-**	</WeaponSlot>
-*/
-	const char* name = node->Name();
-	const char* attr;
-	const char* text;
-	Weapon* weapon;
-	
-	_CHECK_TAG(StaticName());
-	_RETURN_IF_ERROR();
+    /*
+    **	<WeaponSlot capacity="" offset="">
+    **		<Weapon></Weapon>
+    **		<Weapon></Weapon>
+    **		<Weapon></Weapon>
+    **	</WeaponSlot>
+    */
+    const char* name = node->Name();
+    const char* attr;
+    const char* text;
+    Weapon* weapon;
 
-	AbstractComponent::Load(node);
+    _CHECK_TAG(StaticName());
+    _RETURN_IF_ERROR();
 
-	_PARSE("capacity", m_capacity, name, 0);
-	_PARSE_PRIVATE("offset", m_offset, name, ParseCoord);
+    AbstractComponent::Load(node);
 
-	std::vector<XMLElement*> weaponList = GetElementsByTagName(node, "Weapon");
-	for (auto it = weaponList.begin(); it != weaponList.end(); it++)
-	{
-		text = (*it)->GetText();
-		if (!text)
-		{
-			LOG_ERROR("Missing name of weapon");
-			return false;
-		}
+    _PARSE("capacity", m_capacity, name, 0);
+    _PARSE_PRIVATE("offset", m_offset, name, ParseCoord);
 
-		weapon = WeaponLibrary::GetInstance()->GetWeaponByName(text);
-		if (!weapon)
-		{
-			LOG_ERROR("Missing weapon \"%s\"", text);
-			return false;
-		}
+    std::vector<XMLElement*> weaponList = GetElementsByTagName(node, "Weapon");
+    for (auto it = weaponList.begin(); it != weaponList.end(); it++)
+    {
+        text = (*it)->GetText();
+        if (!text)
+        {
+            LOG_ERROR("Missing name of weapon");
+            return false;
+        }
 
-		if (m_weapons.size() < m_capacity)
-		{
-			weapon = weapon->Clone();
-			weapon->SetSlot(this);
-			m_weapons.push_back(weapon);
-		}
-	}
+        weapon = WeaponLibrary::GetInstance()->GetWeaponByName(text);
+        if (!weapon)
+        {
+            LOG_ERROR("Missing weapon \"%s\"", text);
+            return false;
+        }
 
-	m_current = m_weapons.begin();
+        if (m_weapons.size() < m_capacity)
+        {
+            weapon = weapon->Clone();
+            weapon->SetSlot(this);
+            m_weapons.push_back(weapon);
+        }
+    }
 
-	_RETURN_STATE();
+    m_current = m_weapons.begin();
+
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * WeaponComponent::Update -- Update weapon component.                        *
@@ -203,12 +199,13 @@ bool WeaponComponent::Load(XMLElement* node)
  *============================================================================*/
 void WeaponComponent::Update(Event* evnt)
 {
-	m_center = m_pGameObject->GetCoord() + m_offset;
+    m_center = m_pGameObject->GetCoord() + m_offset;
 
-	if (m_isArmed)
-		(*m_current)->Update(evnt);
+    if (m_isArmed)
+    {
+        (*m_current)->Update(evnt);
+    }
 }
-
 
 /******************************************************************************
  * WeaponComponent::Translate -- Translate weapon slot.                       *
@@ -226,13 +223,12 @@ void WeaponComponent::Update(Event* evnt)
  *============================================================================*/
 void WeaponComponent::Translate(const Coordinate& offset)
 {
-	/*
-	m_center += offset;
-	if (m_isArmed)
-		(*m_current)->Translate(offset);
-	*/
+    /*
+    m_center += offset;
+    if (m_isArmed)
+            (*m_current)->Translate(offset);
+    */
 }
-
 
 /******************************************************************************
  * WeaponComponent::GetWeaponList -- Get all weapon names.                    *
@@ -250,14 +246,15 @@ void WeaponComponent::Translate(const Coordinate& offset)
  *============================================================================*/
 std::vector<std::string> WeaponComponent::GetWeaponList() const
 {
-	std::vector<std::string> list;
+    std::vector<std::string> list;
 
-	for (auto weapon : m_weapons)
-		list.push_back(weapon->Name());
+    for (auto weapon : m_weapons)
+    {
+        list.push_back(weapon->Name());
+    }
 
-	return list;
+    return list;
 }
-
 
 /******************************************************************************
  * WeaponComponent::Equip -- Equip the figure with the current weapon.        *
@@ -275,18 +272,19 @@ std::vector<std::string> WeaponComponent::GetWeaponList() const
  *============================================================================*/
 void WeaponComponent::Equip()
 {
-	if (IsEmpty())
-		return;
+    if (IsEmpty())
+    {
+        return;
+    }
 
-	Figure* figure = static_cast<Figure*>(m_pGameObject);
-	Weapon* weapon = *m_current;
+    Figure* figure = static_cast<Figure*>(m_pGameObject);
+    Weapon* weapon = *m_current;
 
-	figure->GetSymbol()->SetSubSymbol(weapon->GetSymbol());
-	weapon->SetScene(figure->GetScene());
-	weapon->Equip();
-	m_isArmed = true;
+    figure->GetSymbol()->SetSubSymbol(weapon->GetSymbol());
+    weapon->SetScene(figure->GetScene());
+    weapon->Equip();
+    m_isArmed = true;
 }
-
 
 /******************************************************************************
  * WeaponComponent::UnEquip -- Unequip the weapon.                            *
@@ -304,15 +302,14 @@ void WeaponComponent::Equip()
  *============================================================================*/
 void WeaponComponent::UnEquip()
 {
-	m_pGameObject->GetSymbol()->SetSubSymbol(nullptr);
+    m_pGameObject->GetSymbol()->SetSubSymbol(nullptr);
 
-	if (m_isArmed)
-	{
-		(*m_current)->UnEquip();
-		m_isArmed = false;
-	}
+    if (m_isArmed)
+    {
+        (*m_current)->UnEquip();
+        m_isArmed = false;
+    }
 }
-
 
 /******************************************************************************
  * WeaponComponent::PickUpWeapon -- Pick up weapon.                           *
@@ -333,27 +330,26 @@ void WeaponComponent::UnEquip()
  *============================================================================*/
 void WeaponComponent::PickUpWeapon(Weapon* weapon)
 {
-	UnEquip();
+    UnEquip();
 
-	if (IsFull())
-	{
-		(*m_current)->SetSlot(nullptr);
-		(*m_current)->Drop();
-		m_pGameObject->GetScene()->AddObject(*m_current);
+    if (IsFull())
+    {
+        (*m_current)->SetSlot(nullptr);
+        (*m_current)->Drop();
+        m_pGameObject->GetScene()->AddObject(*m_current);
 
-		std::swap(*m_current, *(m_weapons.end() - 1));
-		m_weapons.pop_back();
-	}
+        std::swap(*m_current, *(m_weapons.end() - 1));
+        m_weapons.pop_back();
+    }
 
-	m_pGameObject->GetScene()->RemoveObject(weapon);
+    m_pGameObject->GetScene()->RemoveObject(weapon);
 
-	weapon->SetSlot(this);
-	m_weapons.push_back(weapon);
-	m_current = m_weapons.end() - 1;
+    weapon->SetSlot(this);
+    m_weapons.push_back(weapon);
+    m_current = m_weapons.end() - 1;
 
-	Equip();
+    Equip();
 }
-
 
 /******************************************************************************
  * WeaponComponent::SwitchWeapon -- Switch weapon.                            *
@@ -371,16 +367,19 @@ void WeaponComponent::PickUpWeapon(Weapon* weapon)
  *============================================================================*/
 void WeaponComponent::SwitchWeapon()
 {
-	if (IsEmpty())
-		return;
+    if (IsEmpty())
+    {
+        return;
+    }
 
-	UnEquip();
-	m_current++;
-	if (m_current == m_weapons.end())
-		m_current = m_weapons.begin();
-	Equip();
+    UnEquip();
+    m_current++;
+    if (m_current == m_weapons.end())
+    {
+        m_current = m_weapons.begin();
+    }
+    Equip();
 }
-
 
 /******************************************************************************
  * WeaponComponent::TrigWeapon -- Trig current weapon.                        *
@@ -398,16 +397,19 @@ void WeaponComponent::SwitchWeapon()
  *============================================================================*/
 void WeaponComponent::TrigWeapon()
 {
-	if (m_isArmed)
-		(*m_current)->Trig();
+    if (m_isArmed)
+    {
+        (*m_current)->Trig();
+    }
 }
 
 void WeaponComponent::UnTrigWeapon()
 {
-	if (m_isArmed)
-		(*m_current)->UnTrig();
+    if (m_isArmed)
+    {
+        (*m_current)->UnTrig();
+    }
 }
-
 
 /******************************************************************************
  * WeaponComponent::GetCurrentWeapon -- Get current equipped waepon.          *
@@ -425,12 +427,15 @@ void WeaponComponent::UnTrigWeapon()
  *============================================================================*/
 Weapon* WeaponComponent::GetCurrentWeapon()
 {
-	if (!m_isArmed)
-		return nullptr;
-	else
-		return *m_current;
+    if (!m_isArmed)
+    {
+        return nullptr;
+    }
+    else
+    {
+        return *m_current;
+    }
 }
-
 
 /******************************************************************************
  * WeaponComponent::Clear -- Clear all weapons in the slot.                   *
@@ -448,9 +453,11 @@ Weapon* WeaponComponent::GetCurrentWeapon()
  *============================================================================*/
 void WeaponComponent::Clear()
 {
-	UnEquip();
-	for (auto it = m_weapons.begin(); it != m_weapons.end(); it++)
-		delete (*it);
-	m_weapons.clear();
-	m_current = m_weapons.begin();
+    UnEquip();
+    for (auto it = m_weapons.begin(); it != m_weapons.end(); it++)
+    {
+        delete (*it);
+    }
+    m_weapons.clear();
+    m_current = m_weapons.begin();
 }

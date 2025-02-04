@@ -12,7 +12,7 @@
  *                    Last Update : November 29, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Drawer of the widget.                                                    *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,7 +29,6 @@
 #include "../../inc/device/Symbol.h"
 #include "../../inc/utility/Animation.h"
 
-
 /********************************************************************
 ** Drawer is the basic display element.
 ** 2022/11/25 TS:
@@ -38,111 +37,140 @@
 class Drawer
 {
 public:
-	Drawer() : m_pSubDrawer(nullptr), m_drawerChanged(true) {}
-	virtual ~Drawer();
+    Drawer() : m_pSubDrawer(nullptr), m_drawerChanged(true)
+    {
+    }
 
-	Symbol* GetSymbol() { return &m_symbol; }
+    virtual ~Drawer();
 
-	Drawer* SetSubDrawer(Drawer* drawer);
-	Drawer* GetSubDrawer() { return m_pSubDrawer; }
+    Symbol* GetSymbol()
+    {
+        return &m_symbol;
+    }
 
-	Drawer* SetLayer(int layer);
-	Drawer* SetAlpha(int alpha);
-	Drawer* SetScale(double scale);
-	Drawer* SetRotationAngle(double angle);
-	
+    Drawer* SetSubDrawer(Drawer* drawer);
 
-	/*
-	** Update on every frame.
-	*/
-	virtual void Update() = 0;
+    Drawer* GetSubDrawer()
+    {
+        return m_pSubDrawer;
+    }
 
-	virtual void Draw();
+    Drawer* SetLayer(int layer);
+    Drawer* SetAlpha(int alpha);
+    Drawer* SetScale(double scale);
+    Drawer* SetRotationAngle(double angle);
 
-	/*
-	** Load draw drawer from certain xml node.
-	*/
-	virtual bool Load(XMLElement* node) = 0;
+    /*
+    ** Update on every frame.
+    */
+    virtual void Update() = 0;
+
+    virtual void Draw();
+
+    /*
+    ** Load draw drawer from certain xml node.
+    */
+    virtual bool Load(XMLElement* node) = 0;
 
 protected:
-	void _LoadSubDrawer(XMLElement* node);
+    void _LoadSubDrawer(XMLElement* node);
 
-	/*
-	** If some property changes, drawer should re-render
-	** it self before start another draw.
-	*/
-	virtual void _Render() = 0;
+    /*
+    ** If some property changes, drawer should re-render
+    ** it self before start another draw.
+    */
+    virtual void _Render() = 0;
 
-	Symbol m_symbol;
-	Drawer* m_pSubDrawer;
-	bool m_drawerChanged;
+    Symbol m_symbol;
+    Drawer* m_pSubDrawer;
+    bool m_drawerChanged;
 };
-
 
 /********************************************************************
 ** RawDrawer generate symbol by itself.
 */
 struct RawStyleAttribute
 {
-	RawStyleAttribute()
-		: isFilled(true), lineColor(WHITE), fillColor(WHITE) {}
+    RawStyleAttribute() : isFilled(true), lineColor(WHITE), fillColor(WHITE)
+    {
+    }
 
-	bool		isFilled;
-	COLORREF	lineColor;
-	COLORREF	fillColor;
-	LINESTYLE	lineStyle;
+    bool isFilled;
+    COLORREF lineColor;
+    COLORREF fillColor;
+    LINESTYLE lineStyle;
 };
 
 class RawDrawer : public Drawer
 {
 public:
-	RawDrawer() {}
-	virtual ~RawDrawer() {}
+    RawDrawer()
+    {
+    }
 
-	RawDrawer* Filled(bool isFilled)
-	{
-		m_attribute.isFilled = isFilled;
-		m_drawerChanged = true;
-		return this;
-	}
-	bool IsFilled() const { return m_attribute.isFilled; }
+    ~RawDrawer() override
+    {
+    }
 
-	RawDrawer* SetLineColor(COLORREF color)
-	{
-		m_attribute.lineColor = color;
-		m_drawerChanged = true;
-		return this;
-	}
-	COLORREF GetLineColor() const { return m_attribute.lineColor; };
+    RawDrawer* Filled(bool isFilled)
+    {
+        m_attribute.isFilled = isFilled;
+        m_drawerChanged = true;
+        return this;
+    }
 
-	RawDrawer* SetFillColor(COLORREF color)
-	{
-		m_attribute.fillColor = color;
-		m_drawerChanged = true;
-		return this;
-	}
-	COLORREF GetFillColor() const { return m_attribute.fillColor; }
+    bool IsFilled() const
+    {
+        return m_attribute.isFilled;
+    }
 
-	RawDrawer* SetLineThickness(int thickness)
-	{
-		m_attribute.lineStyle.thickness = thickness;
-		m_drawerChanged = true;
-		return this;
-	}
-	int GetLineThickness() const { return m_attribute.lineStyle.thickness; }
+    RawDrawer* SetLineColor(COLORREF color)
+    {
+        m_attribute.lineColor = color;
+        m_drawerChanged = true;
+        return this;
+    }
 
-	virtual void Update() = 0;
+    COLORREF GetLineColor() const
+    {
+        return m_attribute.lineColor;
+    };
 
-	virtual bool Load(XMLElement* node);
+    RawDrawer* SetFillColor(COLORREF color)
+    {
+        m_attribute.fillColor = color;
+        m_drawerChanged = true;
+        return this;
+    }
+
+    COLORREF GetFillColor() const
+    {
+        return m_attribute.fillColor;
+    }
+
+    RawDrawer* SetLineThickness(int thickness)
+    {
+        m_attribute.lineStyle.thickness = thickness;
+        m_drawerChanged = true;
+        return this;
+    }
+
+    int GetLineThickness() const
+    {
+        return m_attribute.lineStyle.thickness;
+    }
+
+    void Update() override = 0;
+
+    bool Load(XMLElement* node) override;
 
 protected:
-	virtual void _Render() = 0;
+    void _Render() override = 0;
 
-	void _ApplyAttribute();
+    void _ApplyAttribute();
 
-	RawStyleAttribute m_attribute;
+    RawStyleAttribute m_attribute;
 };
-
 
 /********************************************************************
 ** Specific drawers, rectangle, roundrectangle, circle drawer derive
@@ -151,132 +179,184 @@ protected:
 class RectDrawer : public RectCell, public RawDrawer
 {
 public:
-	RectDrawer() {}
-	RectDrawer(int width, int height) : RectCell(width, height) {}
-	virtual ~RectDrawer() {}
+    RectDrawer()
+    {
+    }
 
-	virtual void Update();
-	virtual bool Load(XMLElement* node);
+    RectDrawer(int width, int height) : RectCell(width, height)
+    {
+    }
+
+    ~RectDrawer() override
+    {
+    }
+
+    void Update() override;
+    bool Load(XMLElement* node) override;
 
 private:
-	virtual void _Render();
+    void _Render() override;
 };
 
 class RoundRectDrawer : public RoundRectCell, public RawDrawer
 {
 public:
-	RoundRectDrawer() {}
-	RoundRectDrawer(int width, int height, int radius = 0) : RoundRectCell(width, height, radius) {}
-	virtual ~RoundRectDrawer() {}
+    RoundRectDrawer()
+    {
+    }
 
-	virtual void Update();
-	virtual bool Load(XMLElement* node);
+    RoundRectDrawer(int width, int height, int radius = 0) : RoundRectCell(width, height, radius)
+    {
+    }
+
+    ~RoundRectDrawer() override
+    {
+    }
+
+    void Update() override;
+    bool Load(XMLElement* node) override;
 
 private:
-	virtual void _Render();
+    void _Render() override;
 };
 
 class CircleDrawer : public CircleCell, public RawDrawer
 {
 public:
-	CircleDrawer() {}
-	CircleDrawer(int radius) : CircleCell(radius) {}
-	virtual ~CircleDrawer() {}
+    CircleDrawer()
+    {
+    }
 
-	virtual void Update();
-	virtual bool Load(XMLElement* node);
+    CircleDrawer(int radius) : CircleCell(radius)
+    {
+    }
+
+    ~CircleDrawer() override
+    {
+    }
+
+    void Update() override;
+    bool Load(XMLElement* node) override;
 
 private:
-	virtual void _Render();
+    void _Render() override;
 };
 
 class TextDrawer : public RectCell, public Drawer
 {
 public:
-	TextDrawer() : m_fontColor(WHITE), m_fontHeight(0), m_isJustified(true) {}
-	TextDrawer(int width, int height) : RectCell(width, height),
-		m_fontColor(WHITE), m_fontHeight(0), m_isJustified(true) {}
-	virtual ~TextDrawer() {}
+    TextDrawer() : m_fontHeight(0), m_fontColor(WHITE), m_isJustified(true)
+    {
+    }
 
-	TextDrawer* SetText(const std::string& text)
-	{
-		m_text = text;
-		m_drawerChanged = true;
-		return this;
-	}
-	TextDrawer* SetText(const char* text)
-	{
-		m_text = text;
-		m_drawerChanged = true;
-		return this;
-	}
-	const std::string& GetText() const { return m_text; }
-	const char* GetCText() const { return m_text.c_str(); }
+    TextDrawer(int width, int height)
+        : RectCell(width, height), m_fontHeight(0), m_fontColor(WHITE), m_isJustified(true)
+    {
+    }
 
-	TextDrawer* SetFontSize(int fontHeight)
-	{
-		m_fontHeight = fontHeight;
-		m_drawerChanged = true;
-		return this;
-	}
-	TextDrawer* SetFontColor(COLORREF fontColor)
-	{
-		m_fontColor = fontColor;
-		m_drawerChanged = true;
-		return this;
-	}
-	TextDrawer* SetFontFace(const std::string& font)
-	{
-		m_font = font;
-		m_drawerChanged = true;
-		return this;
-	}
-	TextDrawer* SetFontFace(const char* font)
-	{
-		m_font = font;
-		m_drawerChanged = true;
-		return this;
-	}
-	TextDrawer* Justified(bool isJustified)
-	{
-		m_isJustified = isJustified;
-		m_drawerChanged = true;
-		return this;
-	}
+    ~TextDrawer() override
+    {
+    }
 
-	virtual void Update();
-	virtual bool Load(XMLElement* node);
+    TextDrawer* SetText(const std::string& text)
+    {
+        m_text = text;
+        m_drawerChanged = true;
+        return this;
+    }
+
+    TextDrawer* SetText(const char* text)
+    {
+        m_text = text;
+        m_drawerChanged = true;
+        return this;
+    }
+
+    const std::string& GetText() const
+    {
+        return m_text;
+    }
+
+    const char* GetCText() const
+    {
+        return m_text.c_str();
+    }
+
+    TextDrawer* SetFontSize(int fontHeight)
+    {
+        m_fontHeight = fontHeight;
+        m_drawerChanged = true;
+        return this;
+    }
+
+    TextDrawer* SetFontColor(COLORREF fontColor)
+    {
+        m_fontColor = fontColor;
+        m_drawerChanged = true;
+        return this;
+    }
+
+    TextDrawer* SetFontFace(const std::string& font)
+    {
+        m_font = font;
+        m_drawerChanged = true;
+        return this;
+    }
+
+    TextDrawer* SetFontFace(const char* font)
+    {
+        m_font = font;
+        m_drawerChanged = true;
+        return this;
+    }
+
+    TextDrawer* Justified(bool isJustified)
+    {
+        m_isJustified = isJustified;
+        m_drawerChanged = true;
+        return this;
+    }
+
+    void Update() override;
+    bool Load(XMLElement* node) override;
 
 private:
-	void _ApplyTextAttribute();
-	virtual void _Render();
+    void _ApplyTextAttribute();
+    void _Render() override;
 
-	std::string m_text;
+    std::string m_text;
 
-	int m_fontHeight;
-	COLORREF m_fontColor;
-	std::string m_font;
+    int m_fontHeight;
+    COLORREF m_fontColor;
+    std::string m_font;
 
-	/*
-	** Whether to center the text in the rectangle or not.
-	*/
-	bool m_isJustified;
+    /*
+    ** Whether to center the text in the rectangle or not.
+    */
+    bool m_isJustified;
 };
 
 class ImageDrawer : public RectCell, public Drawer
 {
 public:
-	ImageDrawer() {}
-	ImageDrawer(int width, int height) : RectCell(width, height) {}
-	virtual ~ImageDrawer() {}
+    ImageDrawer()
+    {
+    }
 
-	virtual void Update();
-	virtual bool Load(XMLElement* node);
+    ImageDrawer(int width, int height) : RectCell(width, height)
+    {
+    }
+
+    ~ImageDrawer() override
+    {
+    }
+
+    void Update() override;
+    bool Load(XMLElement* node) override;
 
 private:
-	virtual void _Render();
+    void _Render() override;
 };
-
 
 /********************************************************************
 ** 2022/11/29 TS:
@@ -287,18 +367,18 @@ class MotionResource;
 class AnimDrawer : public RectCell, public Drawer
 {
 public:
-	AnimDrawer();
-	AnimDrawer(int width, int height);
-	virtual ~AnimDrawer();
+    AnimDrawer();
+    AnimDrawer(int width, int height);
+    ~AnimDrawer() override;
 
-	virtual void Update();
-	virtual bool Load(XMLElement* node);
+    void Update() override;
+    bool Load(XMLElement* node) override;
 
 private:
-	virtual void _Render();
+    void _Render() override;
 
-	Animation m_anim;
-	MotionResource* m_pResource;
+    Animation m_anim;
+    MotionResource* m_pResource;
 };
 
 Drawer* LoadDrawer(XMLElement* node);

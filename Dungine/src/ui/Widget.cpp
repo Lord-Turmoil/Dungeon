@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   All concrete widgets.                                                    *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,17 +23,16 @@
 
 #include <cstring>
 
-#include "../../inc/ui/Widget.h"
 #include "../../inc/ui/Event.h"
 #include "../../inc/ui/Transition.h"
+#include "../../inc/ui/Widget.h"
 
+#include "../../inc/device/Explorer.h"
 #include "../../inc/device/Sound.h"
 #include "../../inc/device/Speaker.h"
-#include "../../inc/device/Explorer.h"
 
 #include "../../inc/utility/Auxilliary.h"
 #include "../../inc/utility/Parser.h"
-
 
 /******************************************************************************
  * Button::Button -- Constructor of the object.                               *
@@ -49,20 +48,12 @@
  * HISTORY:                                                                   *
  *   2022/05/21 Tony : Created.                                               *
  *============================================================================*/
-Button::Button() : VisualWidget(WidgetType::BUTTON),
-	m_pUpDrawer(nullptr),
-	m_pDownDrawer(nullptr),
-	m_pHoverDrawer(nullptr),
-	m_pDisabledDrawer(nullptr),
-	m_pTrigger(nullptr),
-	m_pClickSound(nullptr),
-	m_pHoverSound(nullptr),
-	m_isHover(false),
-	m_isPressed(false),
-	m_isDisabled(false)
+Button::Button()
+    : VisualWidget(WidgetType::BUTTON), m_pUpDrawer(nullptr), m_pDownDrawer(nullptr), m_pHoverDrawer(nullptr),
+      m_pDisabledDrawer(nullptr), m_pHoverSound(nullptr), m_pClickSound(nullptr), m_pTrigger(nullptr), m_isHover(false),
+      m_isPressed(false), m_isDisabled(false)
 {
 }
-
 
 /******************************************************************************
  * Button::~Button -- Destructor of the object.                               *
@@ -80,16 +71,15 @@ Button::Button() : VisualWidget(WidgetType::BUTTON),
  *============================================================================*/
 Button::~Button()
 {
-	_DELETE(m_pUpDrawer);
-	_DELETE(m_pDownDrawer);
-	_DELETE(m_pHoverDrawer);
-	_DELETE(m_pDisabledDrawer);
+    _DELETE(m_pUpDrawer);
+    _DELETE(m_pDownDrawer);
+    _DELETE(m_pHoverDrawer);
+    _DELETE(m_pDisabledDrawer);
 
-	_DELETE(m_pTrigger);
+    _DELETE(m_pTrigger);
 
-	_DELETE(m_pClickSound);
+    _DELETE(m_pClickSound);
 }
-
 
 /******************************************************************************
  * Button::Update -- Update the button.                                       *
@@ -107,29 +97,41 @@ Button::~Button()
  *============================================================================*/
 void Button::Update(Event* evnt)
 {
-	if (m_isDisabled || !m_isActivated)
-		return;
+    if (m_isDisabled || !m_isActivated)
+    {
+        return;
+    }
 
-	// Update drawer and trigger.
-	if (m_pUpDrawer)
-		m_pUpDrawer->Update();
-	if (m_pDownDrawer)
-		m_pDownDrawer->Update();
-	if (m_pHoverDrawer)
-		m_pHoverDrawer->Update();
-	if (m_pDisabledDrawer)
-		m_pDisabledDrawer->Update();
+    // Update drawer and trigger.
+    if (m_pUpDrawer)
+    {
+        m_pUpDrawer->Update();
+    }
+    if (m_pDownDrawer)
+    {
+        m_pDownDrawer->Update();
+    }
+    if (m_pHoverDrawer)
+    {
+        m_pHoverDrawer->Update();
+    }
+    if (m_pDisabledDrawer)
+    {
+        m_pDisabledDrawer->Update();
+    }
 
-	if (m_pTrigger)
-		m_pTrigger->Update();
+    if (m_pTrigger)
+    {
+        m_pTrigger->Update();
+    }
 
+    _UpdateTransition();
 
-	_UpdateTransition();
-
-	if (evnt)
-		_ProcessInput(*evnt);
+    if (evnt)
+    {
+        _ProcessInput(*evnt);
+    }
 }
-
 
 /******************************************************************************
  * Button::Draw -- Draw the button.                                           *
@@ -147,19 +149,28 @@ void Button::Update(Event* evnt)
  *============================================================================*/
 void Button::Draw()
 {
-	if (!m_isActivated)
-		return;
+    if (!m_isActivated)
+    {
+        return;
+    }
 
-	if (m_isDisabled && m_pDisabledDrawer)
-		m_pDisabledDrawer->Draw();
-	else if (m_isPressed && m_pDownDrawer)
-		m_pDownDrawer->Draw();
-	else if (m_isHover && m_pHoverDrawer)
-		m_pHoverDrawer->Draw();
-	else if (m_pUpDrawer)
-		m_pUpDrawer->Draw();
+    if (m_isDisabled && m_pDisabledDrawer)
+    {
+        m_pDisabledDrawer->Draw();
+    }
+    else if (m_isPressed && m_pDownDrawer)
+    {
+        m_pDownDrawer->Draw();
+    }
+    else if (m_isHover && m_pHoverDrawer)
+    {
+        m_pHoverDrawer->Draw();
+    }
+    else if (m_pUpDrawer)
+    {
+        m_pUpDrawer->Draw();
+    }
 }
-
 
 /******************************************************************************
  * Button::Load -- Load button.                                               *
@@ -177,56 +188,69 @@ void Button::Draw()
  *============================================================================*/
 bool Button::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
-	XMLElement* tag;
-	bool value;
+    const char* name = node->Name();
+    const char* attr;
+    XMLElement* tag;
+    bool value;
 
-	_CHECK_TAG("Button");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Button");
+    _RETURN_IF_ERROR();
 
-	VisualWidget::Load(node);
+    VisualWidget::Load(node);
 
-	value = false;
-	_PARSE("disabled", value, name, "false");
-	m_isDisabled = value;
+    value = false;
+    _PARSE("disabled", value, name, "false");
+    m_isDisabled = value;
 
-	tag = node->FirstChildElement();
-	while (tag)
-	{
-		attr = tag->Name();
-		if (_STR_SAME(attr, "Up"))
-			SetUpDrawer(LoadDrawer(tag->FirstChildElement()));
-		else if (_STR_SAME(attr, "Down"))
-			SetDownDrawer(LoadDrawer(tag->FirstChildElement()));
-		else if (_STR_SAME(attr, "Hover"))
-			SetHoverDrawer(LoadDrawer(tag->FirstChildElement()));
-		else if (_STR_SAME(attr, "Disabled"))
-			SetDisabledDrawer(LoadDrawer(tag->FirstChildElement()));
-		else if (_STR_SAME(attr, "Trigger"))
-			SetTrigger(LoadTrigger(tag->FirstChildElement()));
-		else if (_STR_SAME(attr, "ClickSound"))
-			SetClickSound(LoadBuzzer(tag->FirstChildElement()));
-		else if (_STR_SAME(attr, "HoverSound"))
-			SetHoverSound(LoadBuzzer(tag->FirstChildElement()));
+    tag = node->FirstChildElement();
+    while (tag)
+    {
+        attr = tag->Name();
+        if (_STR_SAME(attr, "Up"))
+        {
+            SetUpDrawer(LoadDrawer(tag->FirstChildElement()));
+        }
+        else if (_STR_SAME(attr, "Down"))
+        {
+            SetDownDrawer(LoadDrawer(tag->FirstChildElement()));
+        }
+        else if (_STR_SAME(attr, "Hover"))
+        {
+            SetHoverDrawer(LoadDrawer(tag->FirstChildElement()));
+        }
+        else if (_STR_SAME(attr, "Disabled"))
+        {
+            SetDisabledDrawer(LoadDrawer(tag->FirstChildElement()));
+        }
+        else if (_STR_SAME(attr, "Trigger"))
+        {
+            SetTrigger(LoadTrigger(tag->FirstChildElement()));
+        }
+        else if (_STR_SAME(attr, "ClickSound"))
+        {
+            SetClickSound(LoadBuzzer(tag->FirstChildElement()));
+        }
+        else if (_STR_SAME(attr, "HoverSound"))
+        {
+            SetHoverSound(LoadBuzzer(tag->FirstChildElement()));
+        }
 
-		tag = tag->NextSiblingElement();
-	}
+        tag = tag->NextSiblingElement();
+    }
 
-	SetLayer(m_layer);
+    SetLayer(m_layer);
 
-	/*
-	** Here... I took a shortcut. :P
-	*/
-	Coordinate offset = m_coord;
-	m_coord = COORD_ZERO;
-	Translate(offset);
+    /*
+    ** Here... I took a shortcut. :P
+    */
+    Coordinate offset = m_coord;
+    m_coord = COORD_ZERO;
+    Translate(offset);
 
-	VisualWidget::LoadAttribute(node);
+    VisualWidget::LoadAttribute(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * Button::SetLayer -- Set the layer of the button.                           *
@@ -244,18 +268,25 @@ bool Button::Load(XMLElement* node)
  *============================================================================*/
 Button* Button::SetLayer(int layer)
 {
-	if (m_pUpDrawer)
-		m_pUpDrawer->SetLayer(layer);
-	if (m_pDownDrawer)
-		m_pDownDrawer->SetLayer(layer);
-	if (m_pHoverDrawer)
-		m_pHoverDrawer->SetLayer(layer);
-	if (m_pDisabledDrawer)
-		m_pDisabledDrawer->SetLayer(layer);
+    if (m_pUpDrawer)
+    {
+        m_pUpDrawer->SetLayer(layer);
+    }
+    if (m_pDownDrawer)
+    {
+        m_pDownDrawer->SetLayer(layer);
+    }
+    if (m_pHoverDrawer)
+    {
+        m_pHoverDrawer->SetLayer(layer);
+    }
+    if (m_pDisabledDrawer)
+    {
+        m_pDisabledDrawer->SetLayer(layer);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetCoord -- Set the coordinate of the button.                      *
@@ -273,12 +304,13 @@ Button* Button::SetLayer(int layer)
  *============================================================================*/
 Button* Button::SetCoord(const Coordinate& coord)
 {
-	if (coord != m_coord)
-		Translate(coord - m_coord);
+    if (coord != m_coord)
+    {
+        Translate(coord - m_coord);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetAlpha -- Set the alpha of the widget.                           *
@@ -296,18 +328,25 @@ Button* Button::SetCoord(const Coordinate& coord)
  *============================================================================*/
 Button* Button::SetAlpha(int alpha)
 {
-	if (m_pUpDrawer)
-		m_pUpDrawer->SetAlpha(alpha);
-	if (m_pDownDrawer)
-		m_pDownDrawer->SetAlpha(alpha);
-	if (m_pHoverDrawer)
-		m_pHoverDrawer->SetAlpha(alpha);
-	if (m_pDisabledDrawer)
-		m_pDisabledDrawer->SetAlpha(alpha);
+    if (m_pUpDrawer)
+    {
+        m_pUpDrawer->SetAlpha(alpha);
+    }
+    if (m_pDownDrawer)
+    {
+        m_pDownDrawer->SetAlpha(alpha);
+    }
+    if (m_pHoverDrawer)
+    {
+        m_pHoverDrawer->SetAlpha(alpha);
+    }
+    if (m_pDisabledDrawer)
+    {
+        m_pDisabledDrawer->SetAlpha(alpha);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetScale -- Set the scale of button.                               *
@@ -325,18 +364,25 @@ Button* Button::SetAlpha(int alpha)
  *============================================================================*/
 Button* Button::SetScale(double scale)
 {
-	if (m_pUpDrawer)
-		m_pUpDrawer->SetScale(scale);
-	if (m_pDownDrawer)
-		m_pDownDrawer->SetScale(scale);
-	if (m_pHoverDrawer)
-		m_pHoverDrawer->SetScale(scale);
-	if (m_pDisabledDrawer)
-		m_pDisabledDrawer->SetScale(scale);
+    if (m_pUpDrawer)
+    {
+        m_pUpDrawer->SetScale(scale);
+    }
+    if (m_pDownDrawer)
+    {
+        m_pDownDrawer->SetScale(scale);
+    }
+    if (m_pHoverDrawer)
+    {
+        m_pHoverDrawer->SetScale(scale);
+    }
+    if (m_pDisabledDrawer)
+    {
+        m_pDisabledDrawer->SetScale(scale);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetRotationAngle -- Set the rotatoin angle of button.              *
@@ -354,18 +400,25 @@ Button* Button::SetScale(double scale)
  *============================================================================*/
 Button* Button::SetRotationAngle(double angle)
 {
-	if (m_pUpDrawer)
-		m_pUpDrawer->SetRotationAngle(angle);
-	if (m_pDownDrawer)
-		m_pDownDrawer->SetRotationAngle(angle);
-	if (m_pHoverDrawer)
-		m_pHoverDrawer->SetRotationAngle(angle);
-	if (m_pDisabledDrawer)
-		m_pDisabledDrawer->SetRotationAngle(angle);
+    if (m_pUpDrawer)
+    {
+        m_pUpDrawer->SetRotationAngle(angle);
+    }
+    if (m_pDownDrawer)
+    {
+        m_pDownDrawer->SetRotationAngle(angle);
+    }
+    if (m_pHoverDrawer)
+    {
+        m_pHoverDrawer->SetRotationAngle(angle);
+    }
+    if (m_pDisabledDrawer)
+    {
+        m_pDisabledDrawer->SetRotationAngle(angle);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::Translate -- Translate the button.                                 *
@@ -383,41 +436,42 @@ Button* Button::SetRotationAngle(double angle)
  *============================================================================*/
 Button* Button::Translate(const Coordinate& offset)
 {
-	Drawer* drawer;
+    Drawer* drawer;
 
-	m_coord += offset;
+    m_coord += offset;
 
-	drawer = m_pUpDrawer;
-	while (drawer)
-	{
-		dynamic_cast<Cell*>(drawer)->Translate(offset);
-		drawer = drawer->GetSubDrawer();
-	}
-	drawer = m_pDownDrawer;
-	while (drawer)
-	{
-		dynamic_cast<Cell*>(drawer)->Translate(offset);
-		drawer = drawer->GetSubDrawer();
-	}
-	drawer = m_pHoverDrawer;
-	while (drawer)
-	{
-		dynamic_cast<Cell*>(drawer)->Translate(offset);
-		drawer = drawer->GetSubDrawer();
-	}
-	drawer = m_pDisabledDrawer;
-	while (drawer)
-	{
-		dynamic_cast<Cell*>(drawer)->Translate(offset);
-		drawer = drawer->GetSubDrawer();
-	}
+    drawer = m_pUpDrawer;
+    while (drawer)
+    {
+        dynamic_cast<Cell*>(drawer)->Translate(offset);
+        drawer = drawer->GetSubDrawer();
+    }
+    drawer = m_pDownDrawer;
+    while (drawer)
+    {
+        dynamic_cast<Cell*>(drawer)->Translate(offset);
+        drawer = drawer->GetSubDrawer();
+    }
+    drawer = m_pHoverDrawer;
+    while (drawer)
+    {
+        dynamic_cast<Cell*>(drawer)->Translate(offset);
+        drawer = drawer->GetSubDrawer();
+    }
+    drawer = m_pDisabledDrawer;
+    while (drawer)
+    {
+        dynamic_cast<Cell*>(drawer)->Translate(offset);
+        drawer = drawer->GetSubDrawer();
+    }
 
-	if (m_pTrigger)
-		dynamic_cast<Cell*>(m_pTrigger)->Translate(offset);
+    if (m_pTrigger)
+    {
+        dynamic_cast<Cell*>(m_pTrigger)->Translate(offset);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetUpDrawer -- Set the drawer when button is up.                   *
@@ -436,12 +490,11 @@ Button* Button::Translate(const Coordinate& offset)
  *============================================================================*/
 Button* Button::SetUpDrawer(Drawer* drawer)
 {
-	_DELETE(m_pUpDrawer);
-	m_pUpDrawer = drawer;
+    _DELETE(m_pUpDrawer);
+    m_pUpDrawer = drawer;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetDownDrawer -- Set the style when button is down.                *
@@ -459,12 +512,11 @@ Button* Button::SetUpDrawer(Drawer* drawer)
  *============================================================================*/
 Button* Button::SetDownDrawer(Drawer* drawer)
 {
-	_DELETE(m_pDownDrawer);
-	m_pDownDrawer = drawer;
+    _DELETE(m_pDownDrawer);
+    m_pDownDrawer = drawer;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetHoverDrawer -- Set the drawer when button is hovered.           *
@@ -482,12 +534,11 @@ Button* Button::SetDownDrawer(Drawer* drawer)
  *============================================================================*/
 Button* Button::SetHoverDrawer(Drawer* drawer)
 {
-	_DELETE(m_pHoverDrawer);
-	m_pHoverDrawer = drawer;
+    _DELETE(m_pHoverDrawer);
+    m_pHoverDrawer = drawer;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetDisabledDrawer -- Set the drawer when button is disabled.       *
@@ -506,12 +557,11 @@ Button* Button::SetHoverDrawer(Drawer* drawer)
  *============================================================================*/
 Button* Button::SetDisabledDrawer(Drawer* drawer)
 {
-	_DELETE(m_pDisabledDrawer);
-	m_pDisabledDrawer = drawer;
+    _DELETE(m_pDisabledDrawer);
+    m_pDisabledDrawer = drawer;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetTrigger -- Set the trigger of the button.                       *
@@ -529,12 +579,11 @@ Button* Button::SetDisabledDrawer(Drawer* drawer)
  *============================================================================*/
 Button* Button::SetTrigger(Trigger* trigger)
 {
-	_DELETE(m_pTrigger);
-	m_pTrigger = trigger;
+    _DELETE(m_pTrigger);
+    m_pTrigger = trigger;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetHoverSound -- Set the buzzer of the button when hover.          *
@@ -552,12 +601,11 @@ Button* Button::SetTrigger(Trigger* trigger)
  *============================================================================*/
 Button* Button::SetHoverSound(Buzzer* buzzer)
 {
-	_DELETE(m_pHoverSound);
-	m_pHoverSound = buzzer;
+    _DELETE(m_pHoverSound);
+    m_pHoverSound = buzzer;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::SetClickSound -- Set the buzzer of the button.                     *
@@ -575,12 +623,11 @@ Button* Button::SetHoverSound(Buzzer* buzzer)
  *============================================================================*/
 Button* Button::SetClickSound(Buzzer* buzzer)
 {
-	_DELETE(m_pClickSound);
-	m_pClickSound = buzzer;
+    _DELETE(m_pClickSound);
+    m_pClickSound = buzzer;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Button::_ProcessInput -- Process event.                                    *
@@ -599,49 +646,58 @@ Button* Button::SetClickSound(Buzzer* buzzer)
  *============================================================================*/
 void Button::_ProcessInput(Event& evnt)
 {
-	if (!m_pTrigger)	// nothing will happen... :(
-		return;
+    if (!m_pTrigger) // nothing will happen... :(
+    {
+        return;
+    }
 
-	switch (m_pTrigger->Detect(evnt))
-	{
-		// outside
-	case TriggerValue::TV_MOVE:
-		m_isHover = false;
-		break;
-	case TriggerValue::TV_HOLD:
-		m_isPressed = false;
-		break;
-	case TriggerValue::TV_RELEASE:
-		m_isPressed = false;
-		break;
-		// inside
-	case TriggerValue::TV_HOVER:
-		if (!m_isHover)
-		{
-			if (!m_isPressed && !evnt.Instant(MK_LBUTTON) && m_pHoverSound)
-				m_pHoverSound->Play();
-			m_isHover = true;
-		}
-		break;
-	case TriggerValue::TV_PRESS:
-		m_isPressed = true;
-		if (m_pClickSound)
-			m_pClickSound->Play();
-		break;
-	case TriggerValue::TV_KEYDOWN:
-		if (m_pOnClick)
-			m_pOnClick();
-		break;
-	case TriggerValue::TV_CLICK:
-		if (m_isPressed && m_pOnClick)
-			m_pOnClick();
-		m_isPressed = false;
-		break;
-	default:
-		break;
-	}
+    switch (m_pTrigger->Detect(evnt))
+    {
+        // outside
+    case TriggerValue::TV_MOVE:
+        m_isHover = false;
+        break;
+    case TriggerValue::TV_HOLD:
+        m_isPressed = false;
+        break;
+    case TriggerValue::TV_RELEASE:
+        m_isPressed = false;
+        break;
+        // inside
+    case TriggerValue::TV_HOVER:
+        if (!m_isHover)
+        {
+            if (!m_isPressed && !evnt.Instant(MK_LBUTTON) && m_pHoverSound)
+            {
+                m_pHoverSound->Play();
+            }
+            m_isHover = true;
+        }
+        break;
+    case TriggerValue::TV_PRESS:
+        m_isPressed = true;
+        if (m_pClickSound)
+        {
+            m_pClickSound->Play();
+        }
+        break;
+    case TriggerValue::TV_KEYDOWN:
+        if (m_pOnClick)
+        {
+            m_pOnClick();
+        }
+        break;
+    case TriggerValue::TV_CLICK:
+        if (m_isPressed && m_pOnClick)
+        {
+            m_pOnClick();
+        }
+        m_isPressed = false;
+        break;
+    default:
+        break;
+    }
 }
-
 
 /******************************************************************************
  * Slider::Slider -- Constructor of the object.                               *
@@ -657,16 +713,11 @@ void Button::_ProcessInput(Event& evnt)
  * HISTORY:                                                                   *
  *   2022/05/22 Tony : Created.                                               *
  *============================================================================*/
-Slider::Slider() : VisualWidget(WidgetType::SLIDER),
-	m_pBlock(nullptr),
-	m_pBarDrawer(nullptr),
-	m_pBarTrigger(nullptr),
-	m_value(0.0),
-	m_barWidth(0),
-	m_barHeight(0)
+Slider::Slider()
+    : VisualWidget(WidgetType::SLIDER), m_pBlock(nullptr), m_pBarDrawer(nullptr), m_pBarTrigger(nullptr), m_barWidth(0),
+      m_barHeight(0), m_value(0.0)
 {
 }
-
 
 /******************************************************************************
  * Slider::~Slider -- Deconstructor of the object.                            *
@@ -684,11 +735,10 @@ Slider::Slider() : VisualWidget(WidgetType::SLIDER),
  *============================================================================*/
 Slider::~Slider()
 {
-	_DELETE(m_pBlock);
-	_DELETE(m_pBarDrawer);
-	_DELETE(m_pBarTrigger);
+    _DELETE(m_pBlock);
+    _DELETE(m_pBarDrawer);
+    _DELETE(m_pBarTrigger);
 }
-
 
 /******************************************************************************
  * Slider::Update -- Update slider.                                           *
@@ -706,26 +756,33 @@ Slider::~Slider()
  *============================================================================*/
 void Slider::Update(Event* evnt)
 {
-	if (!m_isActivated)
-		return;
+    if (!m_isActivated)
+    {
+        return;
+    }
 
-	if (m_pBlock)
-		m_pBlock->Update(evnt);
-	if (m_pBarDrawer)
-		m_pBarDrawer->Update();
-	if (m_pBarTrigger)
-		m_pBarTrigger->Update();
+    if (m_pBlock)
+    {
+        m_pBlock->Update(evnt);
+    }
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->Update();
+    }
+    if (m_pBarTrigger)
+    {
+        m_pBarTrigger->Update();
+    }
 
-	_UpdateTransition();
+    _UpdateTransition();
 
-	if (evnt)
-	{
-		_ProcessInput(*evnt);
+    if (evnt)
+    {
+        _ProcessInput(*evnt);
 
-		_AdjustBarCoord();
-	}
+        _AdjustBarCoord();
+    }
 }
-
 
 /******************************************************************************
  * Slider::Draw -- Draw the slider.                                           *
@@ -743,15 +800,20 @@ void Slider::Update(Event* evnt)
  *============================================================================*/
 void Slider::Draw()
 {
-	if (!m_isActivated)
-		return;
+    if (!m_isActivated)
+    {
+        return;
+    }
 
-	if (m_pBlock)
-		m_pBlock->Draw();
-	if (m_pBarDrawer)
-		m_pBarDrawer->Draw();
+    if (m_pBlock)
+    {
+        m_pBlock->Draw();
+    }
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->Draw();
+    }
 }
-
 
 /******************************************************************************
  * Slider::Load -- Load the slider.                                           *
@@ -769,42 +831,47 @@ void Slider::Draw()
  *============================================================================*/
 bool Slider::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
-	XMLElement* tag;
+    const char* name = node->Name();
+    const char* attr;
+    XMLElement* tag;
 
-	_CHECK_TAG("Slider");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Slider");
+    _RETURN_IF_ERROR();
 
-	VisualWidget::Load(node);
+    VisualWidget::Load(node);
 
-	_PARSE("value", m_value, name, 0.0);
+    _PARSE("value", m_value, name, 0.0);
 
-	tag = node->FirstChildElement();
-	while (tag)
-	{
-		attr = tag->Name();
-		if (_STR_SAME(attr, "Block"))
-			SetBlock(dynamic_cast<Button*>(StandardWidgetKit().LoadWidget(tag->FirstChildElement())));
-		else if (_STR_SAME(attr, "Bar"))
-			SetBarDrawer(LoadDrawer(tag->FirstChildElement()));
-		else if (_STR_SAME(attr, "BarTrigger"))
-			SetBarTrigger(LoadTrigger(tag->FirstChildElement()));
+    tag = node->FirstChildElement();
+    while (tag)
+    {
+        attr = tag->Name();
+        if (_STR_SAME(attr, "Block"))
+        {
+            SetBlock(dynamic_cast<Button*>(StandardWidgetKit().LoadWidget(tag->FirstChildElement())));
+        }
+        else if (_STR_SAME(attr, "Bar"))
+        {
+            SetBarDrawer(LoadDrawer(tag->FirstChildElement()));
+        }
+        else if (_STR_SAME(attr, "BarTrigger"))
+        {
+            SetBarTrigger(LoadTrigger(tag->FirstChildElement()));
+        }
 
-		tag = tag->NextSiblingElement();
-	}
+        tag = tag->NextSiblingElement();
+    }
 
-	SetLayer(m_layer);
+    SetLayer(m_layer);
 
-	Coordinate offset = m_coord;
-	m_coord = COORD_ZERO;
-	Translate(offset);
+    Coordinate offset = m_coord;
+    m_coord = COORD_ZERO;
+    Translate(offset);
 
-	VisualWidget::LoadAttribute(node);
+    VisualWidget::LoadAttribute(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * Slider::SetLayer -- Set the layer of the slider.                           *
@@ -822,14 +889,17 @@ bool Slider::Load(XMLElement* node)
  *============================================================================*/
 Slider* Slider::SetLayer(int layer)
 {
-	if (m_pBlock)
-		m_pBlock->SetLayer(layer + 1);
-	if (m_pBarDrawer)
-		m_pBarDrawer->SetLayer(layer);
+    if (m_pBlock)
+    {
+        m_pBlock->SetLayer(layer + 1);
+    }
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->SetLayer(layer);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Slider::SetCoord -- Set the coordinate of the slider.                      *
@@ -847,12 +917,13 @@ Slider* Slider::SetLayer(int layer)
  *============================================================================*/
 Slider* Slider::SetCoord(const Coordinate& coord)
 {
-	if (coord != m_coord)
-		Translate(coord - m_coord);
+    if (coord != m_coord)
+    {
+        Translate(coord - m_coord);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Slider::SetAlpha -- Set the alpha value of the slider.                     *
@@ -870,15 +941,18 @@ Slider* Slider::SetCoord(const Coordinate& coord)
  *============================================================================*/
 Slider* Slider::SetAlpha(int alpha)
 {
-	if (m_pBlock)
-		m_pBlock->SetAlpha(alpha);
+    if (m_pBlock)
+    {
+        m_pBlock->SetAlpha(alpha);
+    }
 
-	if (m_pBarDrawer)
-		m_pBarDrawer->SetAlpha(alpha);
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->SetAlpha(alpha);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Slider::SetScale -- Set the scale of the slider.                           *
@@ -896,15 +970,18 @@ Slider* Slider::SetAlpha(int alpha)
  *============================================================================*/
 Slider* Slider::SetScale(double scale)
 {
-	if (m_pBlock)
-		m_pBlock->SetScale(scale);
+    if (m_pBlock)
+    {
+        m_pBlock->SetScale(scale);
+    }
 
-	if (m_pBarDrawer)
-		m_pBarDrawer->SetScale(scale);
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->SetScale(scale);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Slider::SetRotationAngle -- Set the rotatoin angle of slider.              *
@@ -922,15 +999,18 @@ Slider* Slider::SetScale(double scale)
  *============================================================================*/
 Slider* Slider::SetRotationAngle(double angle)
 {
-	if (m_pBlock)
-		m_pBlock->SetRotationAngle(angle);
+    if (m_pBlock)
+    {
+        m_pBlock->SetRotationAngle(angle);
+    }
 
-	if (m_pBarDrawer)
-		m_pBarDrawer->SetRotationAngle(angle);
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->SetRotationAngle(angle);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Slider::Translate -- Translate the slider.                                 *
@@ -948,24 +1028,27 @@ Slider* Slider::SetRotationAngle(double angle)
  *============================================================================*/
 Slider* Slider::Translate(const Coordinate& offset)
 {
-	Drawer* drawer;
+    Drawer* drawer;
 
-	m_coord += offset;
+    m_coord += offset;
 
-	if (m_pBlock)
-		m_pBlock->Translate(offset);
-	drawer = m_pBarDrawer;
-	while (drawer)
-	{
-		dynamic_cast<Cell*>(drawer)->Translate(offset);
-		drawer = drawer->GetSubDrawer();
-	}
-	if (m_pBarTrigger)
-		dynamic_cast<Cell*>(m_pBarTrigger)->Translate(offset);
+    if (m_pBlock)
+    {
+        m_pBlock->Translate(offset);
+    }
+    drawer = m_pBarDrawer;
+    while (drawer)
+    {
+        dynamic_cast<Cell*>(drawer)->Translate(offset);
+        drawer = drawer->GetSubDrawer();
+    }
+    if (m_pBarTrigger)
+    {
+        dynamic_cast<Cell*>(m_pBarTrigger)->Translate(offset);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Slider::SetBlock -- Set the block of the slider.                           *
@@ -983,12 +1066,11 @@ Slider* Slider::Translate(const Coordinate& offset)
  *============================================================================*/
 Slider* Slider::SetBlock(Button* block)
 {
-	_DELETE(m_pBlock);
-	m_pBlock = block;
+    _DELETE(m_pBlock);
+    m_pBlock = block;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Slider::SetBarDrawer -- Set the bar drawer of the slider.                  *
@@ -1006,18 +1088,17 @@ Slider* Slider::SetBlock(Button* block)
  *============================================================================*/
 Slider* Slider::SetBarDrawer(Drawer* drawer)
 {
-	_DELETE(m_pBarDrawer);
-	m_pBarDrawer = drawer;
+    _DELETE(m_pBarDrawer);
+    m_pBarDrawer = drawer;
 
-	if (m_pBarDrawer)
-	{
-		m_barWidth = dynamic_cast<Cell*>(m_pBarDrawer)->GetWidth();
-		m_barHeight = dynamic_cast<Cell*>(m_pBarDrawer)->GetHeight();
-	}
+    if (m_pBarDrawer)
+    {
+        m_barWidth = dynamic_cast<Cell*>(m_pBarDrawer)->GetWidth();
+        m_barHeight = dynamic_cast<Cell*>(m_pBarDrawer)->GetHeight();
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Slider::SetBarTrigger -- Set the trigger of the bar.                       *
@@ -1035,12 +1116,11 @@ Slider* Slider::SetBarDrawer(Drawer* drawer)
  *============================================================================*/
 Slider* Slider::SetBarTrigger(Trigger* trigger)
 {
-	_DELETE(m_pBarTrigger);
-	m_pBarTrigger = trigger;
+    _DELETE(m_pBarTrigger);
+    m_pBarTrigger = trigger;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * Slider::SetValue -- Set the value of slider.                               *
@@ -1058,17 +1138,18 @@ Slider* Slider::SetBarTrigger(Trigger* trigger)
  *============================================================================*/
 void Slider::SetValue(double value)
 {
-	value = max(value, 0.0);
-	value = min(value, 1.0);
+    value = max(value, 0.0);
+    value = min(value, 1.0);
 
-	m_value = value;
+    m_value = value;
 
-	if (m_pOnChange)
-		m_pOnChange(m_value);
+    if (m_pOnChange)
+    {
+        m_pOnChange(m_value);
+    }
 
-	_AdjustBarCoord();
+    _AdjustBarCoord();
 }
-
 
 /******************************************************************************
  * Slider::_AdjustBarCoord -- Adjust bar's position.                          *
@@ -1086,10 +1167,11 @@ void Slider::SetValue(double value)
  *============================================================================*/
 void Slider::_AdjustBarCoord()
 {
-	if (m_pBlock)
-		m_pBlock->SetCoord({ m_coord.x + (int)(m_barWidth * m_value), m_coord.y + (m_barHeight >> 1) });
+    if (m_pBlock)
+    {
+        m_pBlock->SetCoord({ m_coord.x + static_cast<int>(m_barWidth * m_value), m_coord.y + (m_barHeight >> 1) });
+    }
 }
-
 
 /******************************************************************************
  * Slider::_ProcessInput -- Process input of slider.                          *
@@ -1108,33 +1190,38 @@ void Slider::_AdjustBarCoord()
  *============================================================================*/
 void Slider::_ProcessInput(Event& evnt)
 {
-	// If both m_pBlock and trigger are missing, nothing will happen.
-	if (!m_pBlock && !m_pBarTrigger)
-		return;
+    // If both m_pBlock and trigger are missing, nothing will happen.
+    if (!m_pBlock && !m_pBarTrigger)
+    {
+        return;
+    }
 
-	Coordinate mouse = evnt.Mouse();
+    Coordinate mouse = evnt.Mouse();
 
-	if (m_pBlock)
-	{
-		// Here, button already processed input in Update().
-		if (m_pBlock->IsPressed())
-			SetValue((double)(mouse.x - m_coord.x) / (double)m_barWidth);
-	}
+    if (m_pBlock)
+    {
+        // Here, button already processed input in Update().
+        if (m_pBlock->IsPressed())
+        {
+            SetValue(static_cast<double>(mouse.x - m_coord.x) / static_cast<double>(m_barWidth));
+        }
+    }
 
-	if (!m_pBarTrigger)
-		return;
+    if (!m_pBarTrigger)
+    {
+        return;
+    }
 
-	// only respond to press
-	switch (m_pBarTrigger->Detect(evnt))
-	{
-	case TriggerValue::TV_PRESS:
-		SetValue((double)(mouse.x - m_coord.x) / (double)m_barWidth);
-		break;
-	default:
-		break;
-	}
+    // only respond to press
+    switch (m_pBarTrigger->Detect(evnt))
+    {
+    case TriggerValue::TV_PRESS:
+        SetValue(static_cast<double>(mouse.x - m_coord.x) / static_cast<double>(m_barWidth));
+        break;
+    default:
+        break;
+    }
 }
-
 
 /******************************************************************************
  * ProgressBar::ProgressBar -- Constructor of the object.                     *
@@ -1150,13 +1237,10 @@ void Slider::_ProcessInput(Event& evnt)
  * HISTORY:                                                                   *
  *   2022/05/22 Tony : Created.                                               *
  *============================================================================*/
-ProgressBar::ProgressBar() : VisualWidget(WidgetType::PROGRESSBAR),
-	m_pBarDrawer(nullptr),
-	m_pStuffDrawer(nullptr),
-	m_padding(1)
+ProgressBar::ProgressBar()
+    : VisualWidget(WidgetType::PROGRESSBAR), m_pBarDrawer(nullptr), m_pStuffDrawer(nullptr), m_padding(1)
 {
 }
-
 
 /******************************************************************************
  * ProgressBar::~ProgressBar -- Deconstructor of the objecet.                 *
@@ -1174,10 +1258,9 @@ ProgressBar::ProgressBar() : VisualWidget(WidgetType::PROGRESSBAR),
  *============================================================================*/
 ProgressBar::~ProgressBar()
 {
-	_DELETE(m_pBarDrawer);
-	_DELETE(m_pStuffDrawer);
+    _DELETE(m_pBarDrawer);
+    _DELETE(m_pStuffDrawer);
 }
-
 
 /******************************************************************************
  * ProgressBar::Update -- Update progress bar.                                *
@@ -1195,20 +1278,23 @@ ProgressBar::~ProgressBar()
  *============================================================================*/
 void ProgressBar::Update(Event* evnt)
 {
-	if (!m_isActivated)
-		return;
+    if (!m_isActivated)
+    {
+        return;
+    }
 
-	if (m_pBarDrawer)
-		m_pBarDrawer->Update();
-	if (m_pStuffDrawer)
-	{
-		dynamic_cast<Cell*>(m_pStuffDrawer)->SetWidth((int)(m_barWidth * m_value));
-		m_pStuffDrawer->Update();
-	}
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->Update();
+    }
+    if (m_pStuffDrawer)
+    {
+        dynamic_cast<Cell*>(m_pStuffDrawer)->SetWidth(static_cast<int>(m_barWidth * m_value));
+        m_pStuffDrawer->Update();
+    }
 
-	_UpdateTransition();
+    _UpdateTransition();
 }
-
 
 /******************************************************************************
  * ProgressBar::Draw -- Draw progressbar.                                     *
@@ -1226,15 +1312,20 @@ void ProgressBar::Update(Event* evnt)
  *============================================================================*/
 void ProgressBar::Draw()
 {
-	if (!m_isActivated)
-		return;
+    if (!m_isActivated)
+    {
+        return;
+    }
 
-	if (m_pBarDrawer)
-		m_pBarDrawer->Draw();
-	if (m_pStuffDrawer)
-		m_pStuffDrawer->Draw();
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->Draw();
+    }
+    if (m_pStuffDrawer)
+    {
+        m_pStuffDrawer->Draw();
+    }
 }
-
 
 /******************************************************************************
  * ProgressBar::Load -- Load progressbar.                                     *
@@ -1252,40 +1343,43 @@ void ProgressBar::Draw()
  *============================================================================*/
 bool ProgressBar::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
-	XMLElement* tag;
+    const char* name = node->Name();
+    const char* attr;
+    XMLElement* tag;
 
-	_CHECK_TAG("Progress");
+    _CHECK_TAG("Progress");
 
-	VisualWidget::Load(node);
-	_RETURN_IF_ERROR();
+    VisualWidget::Load(node);
+    _RETURN_IF_ERROR();
 
-	_PARSE("value", m_value, name, 0.0);
+    _PARSE("value", m_value, name, 0.0);
 
-	tag = node->FirstChildElement();
-	while (tag)
-	{
-		attr = tag->Name();
-		if (_STR_SAME(attr, "Bar"))
-			SetBarDrawer(LoadDrawer(tag->FirstChildElement()));
-		else if (_STR_SAME(attr, "Stuff"))
-			SetStuffDrawer(LoadDrawer(tag->FirstChildElement()));
+    tag = node->FirstChildElement();
+    while (tag)
+    {
+        attr = tag->Name();
+        if (_STR_SAME(attr, "Bar"))
+        {
+            SetBarDrawer(LoadDrawer(tag->FirstChildElement()));
+        }
+        else if (_STR_SAME(attr, "Stuff"))
+        {
+            SetStuffDrawer(LoadDrawer(tag->FirstChildElement()));
+        }
 
-		tag = tag->NextSiblingElement();
-	}
+        tag = tag->NextSiblingElement();
+    }
 
-	SetLayer(m_layer);
+    SetLayer(m_layer);
 
-	Coordinate offset = m_coord;
-	m_coord = COORD_ZERO;
-	Translate(offset);
+    Coordinate offset = m_coord;
+    m_coord = COORD_ZERO;
+    Translate(offset);
 
-	VisualWidget::LoadAttribute(node);
+    VisualWidget::LoadAttribute(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * ProgressBar::SetLayer -- Set the layer of progressbar.                     *
@@ -1303,14 +1397,17 @@ bool ProgressBar::Load(XMLElement* node)
  *============================================================================*/
 ProgressBar* ProgressBar::SetLayer(int layer)
 {
-	if (m_pBarDrawer)
-		m_pBarDrawer->SetLayer(layer + 1);
-	if (m_pStuffDrawer)
-		m_pStuffDrawer->SetLayer(layer);
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->SetLayer(layer + 1);
+    }
+    if (m_pStuffDrawer)
+    {
+        m_pStuffDrawer->SetLayer(layer);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * ProgressBar::SetCoord -- Set the coord of the progressbar.                 *
@@ -1328,12 +1425,13 @@ ProgressBar* ProgressBar::SetLayer(int layer)
  *============================================================================*/
 ProgressBar* ProgressBar::SetCoord(const Coordinate& coord)
 {
-	if (coord != m_coord)
-		Translate(coord - m_coord);
+    if (coord != m_coord)
+    {
+        Translate(coord - m_coord);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * ProgressBar::SetAlpha -- Set the alpha value of progressbar.               *
@@ -1351,14 +1449,17 @@ ProgressBar* ProgressBar::SetCoord(const Coordinate& coord)
  *============================================================================*/
 ProgressBar* ProgressBar::SetAlpha(int alpha)
 {
-	if (m_pBarDrawer)
-		m_pBarDrawer->SetAlpha(alpha);
-	if (m_pStuffDrawer)
-		m_pStuffDrawer->SetAlpha(alpha);
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->SetAlpha(alpha);
+    }
+    if (m_pStuffDrawer)
+    {
+        m_pStuffDrawer->SetAlpha(alpha);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * ProgressBar::SetScale -- Set the scale of the progressbar.                 *
@@ -1376,14 +1477,17 @@ ProgressBar* ProgressBar::SetAlpha(int alpha)
  *============================================================================*/
 ProgressBar* ProgressBar::SetScale(double scale)
 {
-	if (m_pBarDrawer)
-		m_pBarDrawer->SetScale(scale);
-	if (m_pStuffDrawer)
-		m_pStuffDrawer->SetScale(scale);
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->SetScale(scale);
+    }
+    if (m_pStuffDrawer)
+    {
+        m_pStuffDrawer->SetScale(scale);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * ProgressBar::SetRotationAngle -- Set the rotatoin angle of progressbar.    *
@@ -1401,14 +1505,17 @@ ProgressBar* ProgressBar::SetScale(double scale)
  *============================================================================*/
 ProgressBar* ProgressBar::SetRotationAngle(double angle)
 {
-	if (m_pBarDrawer)
-		m_pBarDrawer->SetRotationAngle(angle);
-	if (m_pStuffDrawer)
-		m_pStuffDrawer->SetRotationAngle(angle);
+    if (m_pBarDrawer)
+    {
+        m_pBarDrawer->SetRotationAngle(angle);
+    }
+    if (m_pStuffDrawer)
+    {
+        m_pStuffDrawer->SetRotationAngle(angle);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * ProgressBar::Translate -- Translate progressbar.                           *
@@ -1426,26 +1533,25 @@ ProgressBar* ProgressBar::SetRotationAngle(double angle)
  *============================================================================*/
 ProgressBar* ProgressBar::Translate(const Coordinate& offset)
 {
-	Drawer* drawer;
+    Drawer* drawer;
 
-	m_coord += offset;
+    m_coord += offset;
 
-	drawer = m_pBarDrawer;
-	while (drawer)
-	{
-		dynamic_cast<Cell*>(drawer)->Translate(offset);
-		drawer = drawer->GetSubDrawer();
-	}
-	drawer = m_pStuffDrawer;
-	while (drawer)
-	{
-		dynamic_cast<Cell*>(drawer)->Translate(offset);
-		drawer = drawer->GetSubDrawer();
-	}
+    drawer = m_pBarDrawer;
+    while (drawer)
+    {
+        dynamic_cast<Cell*>(drawer)->Translate(offset);
+        drawer = drawer->GetSubDrawer();
+    }
+    drawer = m_pStuffDrawer;
+    while (drawer)
+    {
+        dynamic_cast<Cell*>(drawer)->Translate(offset);
+        drawer = drawer->GetSubDrawer();
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * ProgressBar::SetBarDrawer -- Set bar drawer of progressbar.                *
@@ -1463,17 +1569,16 @@ ProgressBar* ProgressBar::Translate(const Coordinate& offset)
  *============================================================================*/
 ProgressBar* ProgressBar::SetBarDrawer(Drawer* drawer)
 {
-	_DELETE(m_pBarDrawer);
-	m_pBarDrawer = drawer;
-	if (m_pBarDrawer)
-	{
-		m_barWidth = dynamic_cast<Cell*>(m_pBarDrawer)->GetWidth();
-		m_barHeight = dynamic_cast<Cell*>(m_pBarDrawer)->GetHeight();
-	}
+    _DELETE(m_pBarDrawer);
+    m_pBarDrawer = drawer;
+    if (m_pBarDrawer)
+    {
+        m_barWidth = dynamic_cast<Cell*>(m_pBarDrawer)->GetWidth();
+        m_barHeight = dynamic_cast<Cell*>(m_pBarDrawer)->GetHeight();
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * ProgressBar::SetStuffDrawer -- Set stuff drawer of progressbar.            *
@@ -1491,12 +1596,11 @@ ProgressBar* ProgressBar::SetBarDrawer(Drawer* drawer)
  *============================================================================*/
 ProgressBar* ProgressBar::SetStuffDrawer(Drawer* drawer)
 {
-	_DELETE(m_pStuffDrawer);
-	m_pStuffDrawer = drawer;
+    _DELETE(m_pStuffDrawer);
+    m_pStuffDrawer = drawer;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * ProgressBar::SetPadding -- Set the padding of ProgressBar.                 *
@@ -1514,16 +1618,17 @@ ProgressBar* ProgressBar::SetStuffDrawer(Drawer* drawer)
  *============================================================================*/
 ProgressBar* ProgressBar::SetPadding(int padding)
 {
-	if (m_pBarDrawer)
-	{
-		RawDrawer* drawer = dynamic_cast<RawDrawer*>(m_pBarDrawer);
-		if (drawer)
-			drawer->SetLineThickness(padding);
-	}
+    if (m_pBarDrawer)
+    {
+        RawDrawer* drawer = dynamic_cast<RawDrawer*>(m_pBarDrawer);
+        if (drawer)
+        {
+            drawer->SetLineThickness(padding);
+        }
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioBox::RadioBox -- Constructor of the object.                           *
@@ -1539,16 +1644,11 @@ ProgressBar* ProgressBar::SetPadding(int padding)
  * HISTORY:                                                                   *
  *   2022/05/22 Tony : Created.                                               *
  *============================================================================*/
-RadioBox::RadioBox() : VisualWidget(WidgetType::RADIO),
-	m_pBox(nullptr),
-	m_pMarkDrawer(nullptr),
-	m_parent(nullptr),
-	m_isCancelable(true),
-	m_isPressed(false),
-	m_isChecked(false)
+RadioBox::RadioBox()
+    : VisualWidget(WidgetType::RADIO), m_pBox(nullptr), m_pMarkDrawer(nullptr), m_parent(nullptr), m_isCancelable(true),
+      m_isPressed(false), m_isChecked(false)
 {
 }
-
 
 /******************************************************************************
  * RadioBox::~RadioBox -- Deconstructor of the object.                        *
@@ -1566,10 +1666,9 @@ RadioBox::RadioBox() : VisualWidget(WidgetType::RADIO),
  *============================================================================*/
 RadioBox::~RadioBox()
 {
-	_DELETE(m_pBox);
-	_DELETE(m_pMarkDrawer);
+    _DELETE(m_pBox);
+    _DELETE(m_pMarkDrawer);
 }
-
 
 /******************************************************************************
  * RadioBox::Update -- Update radio box.                                      *
@@ -1587,20 +1686,27 @@ RadioBox::~RadioBox()
  *============================================================================*/
 void RadioBox::Update(Event* evnt)
 {
-	if (!m_isActivated)
-		return;
+    if (!m_isActivated)
+    {
+        return;
+    }
 
-	if (m_pBox)
-		m_pBox->Update(evnt);
-	if (m_pMarkDrawer)
-		m_pMarkDrawer->Update();
+    if (m_pBox)
+    {
+        m_pBox->Update(evnt);
+    }
+    if (m_pMarkDrawer)
+    {
+        m_pMarkDrawer->Update();
+    }
 
-	_UpdateTransition();
+    _UpdateTransition();
 
-	if (evnt)
-		_ProcessInput(*evnt);
+    if (evnt)
+    {
+        _ProcessInput(*evnt);
+    }
 }
-
 
 /******************************************************************************
  * RadioBox::Draw -- Draw radio box.                                          *
@@ -1618,15 +1724,20 @@ void RadioBox::Update(Event* evnt)
  *============================================================================*/
 void RadioBox::Draw()
 {
-	if (!m_isActivated)
-		return;
+    if (!m_isActivated)
+    {
+        return;
+    }
 
-	if (m_pBox)
-		m_pBox->Draw();
-	if (m_pMarkDrawer && m_isChecked && !m_isPressed)
-		m_pMarkDrawer->Draw();
+    if (m_pBox)
+    {
+        m_pBox->Draw();
+    }
+    if (m_pMarkDrawer && m_isChecked && !m_isPressed)
+    {
+        m_pMarkDrawer->Draw();
+    }
 }
-
 
 /******************************************************************************
  * RadioBox::Load -- Load radio box.                                          *
@@ -1644,41 +1755,44 @@ void RadioBox::Draw()
  *============================================================================*/
 bool RadioBox::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
-	XMLElement* tag;
-	bool value = false;
+    const char* name = node->Name();
+    const char* attr;
+    XMLElement* tag;
+    bool value = false;
 
-	_CHECK_TAG("Radio");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Radio");
+    _RETURN_IF_ERROR();
 
-	VisualWidget::Load(node);
-	_PARSE("cancelable", value, name, false);
-	m_isCancelable = value;
+    VisualWidget::Load(node);
+    _PARSE("cancelable", value, name, false);
+    m_isCancelable = value;
 
-	tag = node->FirstChildElement();
-	while (tag)
-	{
-		attr = tag->Name();
-		if (_STR_SAME(attr, "Box"))
-			SetBox(dynamic_cast<Button*>(StandardWidgetKit().LoadWidget(tag->FirstChildElement())));
-		else if (_STR_SAME(attr, "Mark"))
-			SetMarkDrawer(LoadDrawer(tag->FirstChildElement()));
+    tag = node->FirstChildElement();
+    while (tag)
+    {
+        attr = tag->Name();
+        if (_STR_SAME(attr, "Box"))
+        {
+            SetBox(dynamic_cast<Button*>(StandardWidgetKit().LoadWidget(tag->FirstChildElement())));
+        }
+        else if (_STR_SAME(attr, "Mark"))
+        {
+            SetMarkDrawer(LoadDrawer(tag->FirstChildElement()));
+        }
 
-		tag = tag->NextSiblingElement();
-	}
+        tag = tag->NextSiblingElement();
+    }
 
-	SetLayer(m_layer);
+    SetLayer(m_layer);
 
-	Coordinate offset = m_coord;
-	m_coord = COORD_ZERO;
-	Translate(offset);
+    Coordinate offset = m_coord;
+    m_coord = COORD_ZERO;
+    Translate(offset);
 
-	VisualWidget::LoadAttribute(node);
+    VisualWidget::LoadAttribute(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * RadioBox::SetLayer -- Set the layer of the radio box.                      *
@@ -1696,14 +1810,17 @@ bool RadioBox::Load(XMLElement* node)
  *============================================================================*/
 RadioBox* RadioBox::SetLayer(int layer)
 {
-	if (m_pBox)
-		m_pBox->SetLayer(layer);
-	if (m_pMarkDrawer)
-		m_pMarkDrawer->SetLayer(layer + 1);
+    if (m_pBox)
+    {
+        m_pBox->SetLayer(layer);
+    }
+    if (m_pMarkDrawer)
+    {
+        m_pMarkDrawer->SetLayer(layer + 1);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioBox::SetCoord -- Set the coordinate of the radio box.                 *
@@ -1721,12 +1838,13 @@ RadioBox* RadioBox::SetLayer(int layer)
  *============================================================================*/
 RadioBox* RadioBox::SetCoord(const Coordinate& coord)
 {
-	if (coord != m_coord)
-		Translate(coord - m_coord);
+    if (coord != m_coord)
+    {
+        Translate(coord - m_coord);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioBox::SetAlpha -- Set the alpha value of the radio box.                *
@@ -1744,14 +1862,17 @@ RadioBox* RadioBox::SetCoord(const Coordinate& coord)
  *============================================================================*/
 RadioBox* RadioBox::SetAlpha(int alpha)
 {
-	if (m_pBox)
-		m_pBox->SetAlpha(alpha);
-	if (m_pMarkDrawer)
-		m_pMarkDrawer->SetAlpha(alpha);
+    if (m_pBox)
+    {
+        m_pBox->SetAlpha(alpha);
+    }
+    if (m_pMarkDrawer)
+    {
+        m_pMarkDrawer->SetAlpha(alpha);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioBox::SetScale -- Set the scale of the radio box.                      *
@@ -1769,14 +1890,17 @@ RadioBox* RadioBox::SetAlpha(int alpha)
  *============================================================================*/
 RadioBox* RadioBox::SetScale(double scale)
 {
-	if (m_pBox)
-		m_pBox->SetScale(scale);
-	if (m_pMarkDrawer)
-		m_pMarkDrawer->SetScale(scale);
+    if (m_pBox)
+    {
+        m_pBox->SetScale(scale);
+    }
+    if (m_pMarkDrawer)
+    {
+        m_pMarkDrawer->SetScale(scale);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioBox::SetRotationAngle -- Set the rotatoin angle of radio box.         *
@@ -1794,14 +1918,17 @@ RadioBox* RadioBox::SetScale(double scale)
  *============================================================================*/
 RadioBox* RadioBox::SetRotationAngle(double angle)
 {
-	if (m_pBox)
-		m_pBox->SetRotationAngle(angle);
-	if (m_pMarkDrawer)
-		m_pMarkDrawer->SetRotationAngle(angle);
+    if (m_pBox)
+    {
+        m_pBox->SetRotationAngle(angle);
+    }
+    if (m_pMarkDrawer)
+    {
+        m_pMarkDrawer->SetRotationAngle(angle);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioBox::Translate -- Translate the radio box.                            *
@@ -1819,25 +1946,26 @@ RadioBox* RadioBox::SetRotationAngle(double angle)
  *============================================================================*/
 RadioBox* RadioBox::Translate(const Coordinate& offset)
 {
-	Drawer* drawer;
+    Drawer* drawer;
 
-	m_coord += offset;
+    m_coord += offset;
 
-	if (m_pBox)
-		m_pBox->Translate(offset);
-	if (m_pMarkDrawer)
-	{
-		drawer = m_pMarkDrawer;
-		while (drawer)
-		{
-			dynamic_cast<Cell*>(drawer)->Translate(offset);
-			drawer = drawer->GetSubDrawer();
-		}
-	}
+    if (m_pBox)
+    {
+        m_pBox->Translate(offset);
+    }
+    if (m_pMarkDrawer)
+    {
+        drawer = m_pMarkDrawer;
+        while (drawer)
+        {
+            dynamic_cast<Cell*>(drawer)->Translate(offset);
+            drawer = drawer->GetSubDrawer();
+        }
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioBox::SetBox -- Set the box of the radio.                              *
@@ -1855,12 +1983,11 @@ RadioBox* RadioBox::Translate(const Coordinate& offset)
  *============================================================================*/
 RadioBox* RadioBox::SetBox(Button* box)
 {
-	_DELETE(m_pBox);
-	m_pBox = box;
+    _DELETE(m_pBox);
+    m_pBox = box;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioBox::SetMarkDrawer -- Set the mark if checked.                        *
@@ -1878,12 +2005,11 @@ RadioBox* RadioBox::SetBox(Button* box)
  *============================================================================*/
 RadioBox* RadioBox::SetMarkDrawer(Drawer* drawer)
 {
-	_DELETE(m_pMarkDrawer);
-	m_pMarkDrawer = drawer;
+    _DELETE(m_pMarkDrawer);
+    m_pMarkDrawer = drawer;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioBox::SetState -- Set the state of the radio box.                      *
@@ -1901,11 +2027,12 @@ RadioBox* RadioBox::SetMarkDrawer(Drawer* drawer)
  *============================================================================*/
 void RadioBox::SetState(bool isChecked)
 {
-	m_isChecked = isChecked;
-	if (m_pOnCheck)
-		m_pOnCheck(m_isChecked);
+    m_isChecked = isChecked;
+    if (m_pOnCheck)
+    {
+        m_pOnCheck(m_isChecked);
+    }
 }
-
 
 /******************************************************************************
  * RadioBox::_ProcessInput -- Process input of check box.                     *
@@ -1923,29 +2050,35 @@ void RadioBox::SetState(bool isChecked)
  *============================================================================*/
 void RadioBox::_ProcessInput(Event& evnt)
 {
-	if (!m_pBox)
-		return;
+    if (!m_pBox)
+    {
+        return;
+    }
 
-	if (m_pBox->IsPressed())
-		m_isPressed = true;
-	else if (m_isPressed)
-	{
-		if (m_pBox->IsHover())
-		{
-			if (m_isChecked && m_isCancelable)
-				SetState(false);
-			else if (!m_isChecked)
-			{
-				SetState(true);
-				if (m_parent)
-					m_parent->Check(this);
-			}
-		}
-		m_isPressed = false;
-	}
+    if (m_pBox->IsPressed())
+    {
+        m_isPressed = true;
+    }
+    else if (m_isPressed)
+    {
+        if (m_pBox->IsHover())
+        {
+            if (m_isChecked && m_isCancelable)
+            {
+                SetState(false);
+            }
+            else if (!m_isChecked)
+            {
+                SetState(true);
+                if (m_parent)
+                {
+                    m_parent->Check(this);
+                }
+            }
+        }
+        m_isPressed = false;
+    }
 }
-
-
 
 /******************************************************************************
  * RadioList::RadioList -- Constructor of the object.                         *
@@ -1965,7 +2098,6 @@ RadioList::RadioList() : VisualWidget(WidgetType::RADIOLIST)
 {
 }
 
-
 /******************************************************************************
  * RadioList::~RadioList -- Destructor of the objecet.                        *
  *                                                                            *
@@ -1982,10 +2114,11 @@ RadioList::RadioList() : VisualWidget(WidgetType::RADIOLIST)
  *============================================================================*/
 RadioList::~RadioList()
 {
-	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
-		delete it->second;
+    for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+    {
+        delete it->second;
+    }
 }
-
 
 /******************************************************************************
  * RadioList::Update -- Update radio list.                                    *
@@ -2003,13 +2136,16 @@ RadioList::~RadioList()
  *============================================================================*/
 void RadioList::Update(Event* evnt)
 {
-	if (!m_isActivated)
-		return;
+    if (!m_isActivated)
+    {
+        return;
+    }
 
-	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
-		it->second->Update(evnt);
+    for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+    {
+        it->second->Update(evnt);
+    }
 }
-
 
 /******************************************************************************
  * RadioList::Draw -- Draw radio list.                                        *
@@ -2027,10 +2163,11 @@ void RadioList::Update(Event* evnt)
  *============================================================================*/
 void RadioList::Draw()
 {
-	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
-		it->second->Draw();
+    for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+    {
+        it->second->Draw();
+    }
 }
-
 
 /******************************************************************************
  * RadioList::Load -- Load radio list.                                        *
@@ -2048,42 +2185,41 @@ void RadioList::Draw()
  *============================================================================*/
 bool RadioList::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	XMLElement* tag;
-	RadioBox* radio;
+    const char* name = node->Name();
+    XMLElement* tag;
+    RadioBox* radio;
 
-	_CHECK_TAG("RadioList");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("RadioList");
+    _RETURN_IF_ERROR();
 
-	VisualWidget::Load(node);
+    VisualWidget::Load(node);
 
-	StandardWidgetKit kit;
-	tag = node->FirstChildElement();
-	while (tag)
-	{
-		radio = dynamic_cast<RadioBox*>(kit.LoadWidget(tag));
-		if (Logger::Error())
-		{
-			LOG_ERROR(CANNOT_LOAD, "radio");
-			return false;
-		}
-		AddRadio(radio->Name(), radio);
+    StandardWidgetKit kit;
+    tag = node->FirstChildElement();
+    while (tag)
+    {
+        radio = dynamic_cast<RadioBox*>(kit.LoadWidget(tag));
+        if (Logger::Error())
+        {
+            LOG_ERROR(CANNOT_LOAD, "radio");
+            return false;
+        }
+        AddRadio(radio->Name(), radio);
 
-		tag = tag->NextSiblingElement();
-	}
+        tag = tag->NextSiblingElement();
+    }
 
-	SetLayer(m_layer);
+    SetLayer(m_layer);
 
-	/*
-	** 2022/06/01 Tony: RadioList... no need for this.
-	** Coordinate offset = m_coord - COORD_ZERO;
-	** m_coord = COORD_ZERO;
-	** Translate(offset);
-	*/
+    /*
+    ** 2022/06/01 Tony: RadioList... no need for this.
+    ** Coordinate offset = m_coord - COORD_ZERO;
+    ** m_coord = COORD_ZERO;
+    ** Translate(offset);
+    */
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * RadioList::ResetTransition -- Reset transition.                            *
@@ -2101,12 +2237,13 @@ bool RadioList::Load(XMLElement* node)
  *============================================================================*/
 RadioList* RadioList::ResetTransition()
 {
-	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
-		it->second->ResetTransition();
+    for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+    {
+        it->second->ResetTransition();
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioList::SetLayer -- Set the layer of radio list.                        *
@@ -2124,12 +2261,13 @@ RadioList* RadioList::ResetTransition()
  *============================================================================*/
 RadioList* RadioList::SetLayer(int layer)
 {
-	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
-		it->second->SetLayer(layer);
+    for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+    {
+        it->second->SetLayer(layer);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioList::SetCoord -- Set the coordinate of the radio list.               *
@@ -2147,12 +2285,13 @@ RadioList* RadioList::SetLayer(int layer)
  *============================================================================*/
 RadioList* RadioList::SetCoord(const Coordinate& coord)
 {
-	if (coord != m_coord)
-		Translate(coord - m_coord);
+    if (coord != m_coord)
+    {
+        Translate(coord - m_coord);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioList::SetAlpha -- Set the alpha value of radio list.                  *
@@ -2170,12 +2309,13 @@ RadioList* RadioList::SetCoord(const Coordinate& coord)
  *============================================================================*/
 RadioList* RadioList::SetAlpha(int alpha)
 {
-	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
-		it->second->SetAlpha(alpha);
+    for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+    {
+        it->second->SetAlpha(alpha);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioList::SetScale -- Set the scale of radio list.                        *
@@ -2193,12 +2333,13 @@ RadioList* RadioList::SetAlpha(int alpha)
  *============================================================================*/
 RadioList* RadioList::SetScale(double scale)
 {
-	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
-		it->second->SetScale(scale);
+    for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+    {
+        it->second->SetScale(scale);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioList::SetRotationAngle -- Set the rotatoin angle of radio list.      *
@@ -2216,12 +2357,13 @@ RadioList* RadioList::SetScale(double scale)
  *============================================================================*/
 RadioList* RadioList::SetRotationAngle(double angle)
 {
-	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
-		it->second->SetRotationAngle(angle);
+    for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+    {
+        it->second->SetRotationAngle(angle);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * RadioList::Translate -- Translate radio list.                              *
@@ -2239,12 +2381,14 @@ RadioList* RadioList::SetRotationAngle(double angle)
  *============================================================================*/
 RadioList* RadioList::Translate(const Coordinate& offset)
 {
-	m_coord += offset;
+    m_coord += offset;
 
-	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
-		it->second->Translate(offset);
+    for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+    {
+        it->second->Translate(offset);
+    }
 
-	return this;
+    return this;
 }
 
 /******************************************************************************
@@ -2264,25 +2408,26 @@ RadioList* RadioList::Translate(const Coordinate& offset)
  *============================================================================*/
 RadioBox* RadioList::AddRadio(const std::string& name, RadioBox* radio)
 {
-	if (!radio)
-		return nullptr;
+    if (!radio)
+    {
+        return nullptr;
+    }
 
-	auto it = m_radios.find(name);
-	if (it == m_radios.end())
-	{
-		radio->SetParentList(this);
-		m_radios.emplace(name, radio);
-	}
-	else
-	{
-		LOG_ERROR(NAME_CONFLICT, "Radio", name.c_str());
-		delete it->second;
-		it->second = radio;
-	}
+    auto it = m_radios.find(name);
+    if (it == m_radios.end())
+    {
+        radio->SetParentList(this);
+        m_radios.emplace(name, radio);
+    }
+    else
+    {
+        LOG_ERROR(NAME_CONFLICT, "Radio", name.c_str());
+        delete it->second;
+        it->second = radio;
+    }
 
-	return radio;
+    return radio;
 }
-
 
 /******************************************************************************
  * RadioList::GetRadio -- Get a radio in the radio list.                      *
@@ -2300,14 +2445,15 @@ RadioBox* RadioList::AddRadio(const std::string& name, RadioBox* radio)
  *============================================================================*/
 RadioBox* RadioList::GetRadio(const std::string& name)
 {
-	auto it = m_radios.find(name);
+    auto it = m_radios.find(name);
 
-	if (it == m_radios.end())
-		return nullptr;
+    if (it == m_radios.end())
+    {
+        return nullptr;
+    }
 
-	return it->second;
+    return it->second;
 }
-
 
 /******************************************************************************
  * RadioList::Check -- Check default radio box.                               *
@@ -2325,13 +2471,14 @@ RadioBox* RadioList::GetRadio(const std::string& name)
  *============================================================================*/
 void RadioList::Check()
 {
-	if (m_radios.size() == 0)
-		return;
+    if (m_radios.size() == 0)
+    {
+        return;
+    }
 
-	m_radios.begin()->second->SetState(true);
-	Check(m_radios.begin()->second);
+    m_radios.begin()->second->SetState(true);
+    Check(m_radios.begin()->second);
 }
-
 
 /******************************************************************************
  * RadioList::Check -- Check a radio box in the list.                         *
@@ -2350,13 +2497,14 @@ void RadioList::Check()
  *============================================================================*/
 void RadioList::Check(RadioBox* radio)
 {
-	for (auto it = m_radios.begin(); it != m_radios.end(); it++)
-	{
-		if (it->second != radio)
-			it->second->SetState(false);
-	}
+    for (auto it = m_radios.begin(); it != m_radios.end(); it++)
+    {
+        if (it->second != radio)
+        {
+            it->second->SetState(false);
+        }
+    }
 }
-
 
 /******************************************************************************
  * StaticWidget::StaticWidget -- Constructor of the object.                   *
@@ -2372,11 +2520,9 @@ void RadioList::Check(RadioBox* radio)
  * HISTORY:                                                                   *
  *   2022/05/24 Tony : Created.                                               *
  *============================================================================*/
-StaticWidget::StaticWidget() : VisualWidget(WidgetType::STATIC),
-	m_pDrawer(nullptr)
+StaticWidget::StaticWidget() : VisualWidget(WidgetType::STATIC), m_pDrawer(nullptr)
 {
 }
-
 
 /******************************************************************************
  * StaticWidget::~StaticWidget -- Destructor of the object.                   *
@@ -2394,9 +2540,8 @@ StaticWidget::StaticWidget() : VisualWidget(WidgetType::STATIC),
  *============================================================================*/
 StaticWidget::~StaticWidget()
 {
-	_DELETE(m_pDrawer);
+    _DELETE(m_pDrawer);
 }
-
 
 /******************************************************************************
  * StaticWidget::Update -- Update static widget.                              *
@@ -2414,15 +2559,18 @@ StaticWidget::~StaticWidget()
  *============================================================================*/
 void StaticWidget::Update(Event* evnt)
 {
-	if (!m_isActivated)
-		return;
+    if (!m_isActivated)
+    {
+        return;
+    }
 
-	if (m_pDrawer)
-		m_pDrawer->Update();
+    if (m_pDrawer)
+    {
+        m_pDrawer->Update();
+    }
 
-	_UpdateTransition();
+    _UpdateTransition();
 }
-
 
 /******************************************************************************
  * StaticWidget::Draw -- Draw static widget.                                  *
@@ -2440,10 +2588,11 @@ void StaticWidget::Update(Event* evnt)
  *============================================================================*/
 void StaticWidget::Draw()
 {
-	if (m_isActivated && m_pDrawer)
-		m_pDrawer->Draw();
+    if (m_isActivated && m_pDrawer)
+    {
+        m_pDrawer->Draw();
+    }
 }
-
 
 /******************************************************************************
  * StaticWidget::Load -- Load static widget.                                  *
@@ -2461,36 +2610,37 @@ void StaticWidget::Draw()
  *============================================================================*/
 bool StaticWidget::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
-	XMLElement* tag;
+    const char* name = node->Name();
+    const char* attr;
+    XMLElement* tag;
 
-	_CHECK_TAG("Static");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Static");
+    _RETURN_IF_ERROR();
 
-	VisualWidget::Load(node);
+    VisualWidget::Load(node);
 
-	tag = node->FirstChildElement();
-	while (tag)
-	{
-		attr = tag->Name();
-		if (_STR_SAME(attr, "Drawer"))
-			SetDrawer(LoadDrawer(tag->FirstChildElement()));
+    tag = node->FirstChildElement();
+    while (tag)
+    {
+        attr = tag->Name();
+        if (_STR_SAME(attr, "Drawer"))
+        {
+            SetDrawer(LoadDrawer(tag->FirstChildElement()));
+        }
 
-		tag = tag->NextSiblingElement();
-	}
+        tag = tag->NextSiblingElement();
+    }
 
-	SetLayer(m_layer);
+    SetLayer(m_layer);
 
-	Coordinate offset = m_coord;
-	m_coord = COORD_ZERO;
-	Translate(offset);
+    Coordinate offset = m_coord;
+    m_coord = COORD_ZERO;
+    Translate(offset);
 
-	VisualWidget::LoadAttribute(node);
+    VisualWidget::LoadAttribute(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * StaticWidget::SetLayer -- Set the layer of static widget.                  *
@@ -2508,12 +2658,13 @@ bool StaticWidget::Load(XMLElement* node)
  *============================================================================*/
 StaticWidget* StaticWidget::SetLayer(int layer)
 {
-	if (m_pDrawer)
-		m_pDrawer->SetLayer(layer);
+    if (m_pDrawer)
+    {
+        m_pDrawer->SetLayer(layer);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * StaticWidget::SetCoord -- Set the coordinate of static widget.             *
@@ -2531,12 +2682,13 @@ StaticWidget* StaticWidget::SetLayer(int layer)
  *============================================================================*/
 StaticWidget* StaticWidget::SetCoord(const Coordinate& coord)
 {
-	if (coord != m_coord)
-		Translate(coord - m_coord);
+    if (coord != m_coord)
+    {
+        Translate(coord - m_coord);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * StaticWidget::SetAlpha -- Set the alpha value of static widget.            *
@@ -2554,12 +2706,13 @@ StaticWidget* StaticWidget::SetCoord(const Coordinate& coord)
  *============================================================================*/
 StaticWidget* StaticWidget::SetAlpha(int alpha)
 {
-	if (m_pDrawer)
-		m_pDrawer->SetAlpha(alpha);
+    if (m_pDrawer)
+    {
+        m_pDrawer->SetAlpha(alpha);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * StaticWidget::SetScale -- Set the scale of static widget.                  *
@@ -2577,12 +2730,13 @@ StaticWidget* StaticWidget::SetAlpha(int alpha)
  *============================================================================*/
 StaticWidget* StaticWidget::SetScale(double scale)
 {
-	if (m_pDrawer)
-		m_pDrawer->SetScale(scale);
+    if (m_pDrawer)
+    {
+        m_pDrawer->SetScale(scale);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * StaticWidget::SetRotationAngle -- Set the rotatoin angle of static widget. *
@@ -2600,12 +2754,13 @@ StaticWidget* StaticWidget::SetScale(double scale)
  *============================================================================*/
 StaticWidget* StaticWidget::SetRotationAngle(double angle)
 {
-	if (m_pDrawer)
-		m_pDrawer->SetRotationAngle(angle);
+    if (m_pDrawer)
+    {
+        m_pDrawer->SetRotationAngle(angle);
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * StaticWidget::Translate -- Translate static widget.                        *
@@ -2623,20 +2778,19 @@ StaticWidget* StaticWidget::SetRotationAngle(double angle)
  *============================================================================*/
 StaticWidget* StaticWidget::Translate(const Coordinate& offset)
 {
-	Drawer* drawer;
+    Drawer* drawer;
 
-	m_coord += offset;
+    m_coord += offset;
 
-	drawer = m_pDrawer;
-	while (drawer)
-	{
-		dynamic_cast<Cell*>(drawer)->Translate(offset);
-		drawer = drawer->GetSubDrawer();
-	}
+    drawer = m_pDrawer;
+    while (drawer)
+    {
+        dynamic_cast<Cell*>(drawer)->Translate(offset);
+        drawer = drawer->GetSubDrawer();
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * StaticWidget::SetDrawer -- Set the drawer of static widget.                *
@@ -2654,12 +2808,11 @@ StaticWidget* StaticWidget::Translate(const Coordinate& offset)
  *============================================================================*/
 StaticWidget* StaticWidget::SetDrawer(Drawer* drawer)
 {
-	_DELETE(m_pDrawer);
-	m_pDrawer = drawer;
+    _DELETE(m_pDrawer);
+    m_pDrawer = drawer;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * KeyboardDetector::KeyboardDetector -- Constructor of the object.           *
@@ -2675,12 +2828,9 @@ StaticWidget* StaticWidget::SetDrawer(Drawer* drawer)
  * HISTORY:                                                                   *
  *   2022/05/24 Tony : Created.                                               *
  *============================================================================*/
-KeyboardDetector::KeyboardDetector() : AbstractWidget(WidgetType::DETECTOR),
-	m_pTrigger(nullptr),
-	m_isTriggered(false)
+KeyboardDetector::KeyboardDetector() : AbstractWidget(WidgetType::DETECTOR), m_pTrigger(nullptr), m_isTriggered(false)
 {
 }
-
 
 /******************************************************************************
  * KeyboardDetector::~KeyboardDetector -- Destructor of the object.           *
@@ -2698,9 +2848,8 @@ KeyboardDetector::KeyboardDetector() : AbstractWidget(WidgetType::DETECTOR),
  *============================================================================*/
 KeyboardDetector::~KeyboardDetector()
 {
-	_DELETE(m_pTrigger);
+    _DELETE(m_pTrigger);
 }
-
 
 /******************************************************************************
  * KeyboardDetector::Update --- Update keyboard detector.                     *
@@ -2718,16 +2867,21 @@ KeyboardDetector::~KeyboardDetector()
  *============================================================================*/
 void KeyboardDetector::Update(Event* evnt)
 {
-	if (!m_isActivated)
-		return;
+    if (!m_isActivated)
+    {
+        return;
+    }
 
-	if (m_pTrigger)
-		m_pTrigger->Update();
+    if (m_pTrigger)
+    {
+        m_pTrigger->Update();
+    }
 
-	if (evnt)
-		_ProcessInput(*evnt);
+    if (evnt)
+    {
+        _ProcessInput(*evnt);
+    }
 }
-
 
 /******************************************************************************
  * KeyboardDetector::Load -- Load keyboard detector.                          *
@@ -2745,30 +2899,33 @@ void KeyboardDetector::Update(Event* evnt)
  *============================================================================*/
 bool KeyboardDetector::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
-	XMLElement* tag;
+    const char* name = node->Name();
+    const char* attr;
+    XMLElement* tag;
 
-	_CHECK_TAG("Detector");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Detector");
+    _RETURN_IF_ERROR();
 
-	AbstractWidget::Load(node);
+    AbstractWidget::Load(node);
 
-	tag = node->FirstChildElement();
-	while (tag)
-	{
-		attr = tag->Name();
-		if (_STR_SAME(attr, "Trigger"))
-			SetTrigger(dynamic_cast<KeyboardTrigger*>(LoadTrigger(tag)));
-		else
-			LOG_WARNING(UNKNOWN_TAG, attr);
+    tag = node->FirstChildElement();
+    while (tag)
+    {
+        attr = tag->Name();
+        if (_STR_SAME(attr, "Trigger"))
+        {
+            SetTrigger(dynamic_cast<KeyboardTrigger*>(LoadTrigger(tag)));
+        }
+        else
+        {
+            LOG_WARNING(UNKNOWN_TAG, attr);
+        }
 
-		tag = tag->NextSiblingElement();
-	}
+        tag = tag->NextSiblingElement();
+    }
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * KeyboardDetector::SetTrigger -- Set trigger of keyboard detector.          *
@@ -2786,12 +2943,11 @@ bool KeyboardDetector::Load(XMLElement* node)
  *============================================================================*/
 KeyboardDetector* KeyboardDetector::SetTrigger(KeyboardTrigger* trigger)
 {
-	_DELETE(m_pTrigger);
-	m_pTrigger = trigger;
+    _DELETE(m_pTrigger);
+    m_pTrigger = trigger;
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * KeyboardDetector::_ProcessInput -- Handle keyboard event.                  *
@@ -2809,23 +2965,27 @@ KeyboardDetector* KeyboardDetector::SetTrigger(KeyboardTrigger* trigger)
  *============================================================================*/
 void KeyboardDetector::_ProcessInput(Event& evnt)
 {
-	if (!m_pTrigger)	// nothing will happen... :(
-		return;
+    if (!m_pTrigger) // nothing will happen... :(
+    {
+        return;
+    }
 
-	if (m_pTrigger->Detect(evnt) == TriggerValue::TV_KEYDOWN)
-	{
-		if (!m_isTriggered)
-		{
-			if (m_pOnTriggered)
-				m_pOnTriggered();
-			m_isTriggered = true;
-		}
-	}
-	else
-		m_isTriggered = false;
+    if (m_pTrigger->Detect(evnt) == TriggerValue::TV_KEYDOWN)
+    {
+        if (!m_isTriggered)
+        {
+            if (m_pOnTriggered)
+            {
+                m_pOnTriggered();
+            }
+            m_isTriggered = true;
+        }
+    }
+    else
+    {
+        m_isTriggered = false;
+    }
 }
-
-
 
 /******************************************************************************
  * AudioPlayer::AudioPlayer -- Constructor of the object.                     *
@@ -2845,7 +3005,6 @@ AudioPlayer::AudioPlayer() : AbstractWidget(WidgetType::AUDIO), m_playList(nullp
 {
 }
 
-
 /******************************************************************************
  * AudioPlayer::~AudioPlayer -- Destructor of the object.                     *
  *                                                                            *
@@ -2863,7 +3022,6 @@ AudioPlayer::AudioPlayer() : AbstractWidget(WidgetType::AUDIO), m_playList(nullp
 AudioPlayer::~AudioPlayer()
 {
 }
-
 
 /******************************************************************************
  * AudioPlayer::Update -- Update play list.                                   *
@@ -2883,7 +3041,6 @@ void AudioPlayer::Update(Event* evnt)
 {
 }
 
-
 /******************************************************************************
  * AudioPlayer::Load -- Load resource.                                        *
  *                                                                            *
@@ -2900,37 +3057,38 @@ void AudioPlayer::Update(Event* evnt)
  *============================================================================*/
 bool AudioPlayer::Load(XMLElement* node)
 {
-/*
-**	<Audio src=""></Audio>
-*/
-	const char* name = node->Name();
-	const char* src;
+    /*
+    **	<Audio src=""></Audio>
+    */
+    const char* name = node->Name();
+    const char* src;
 
-	_CHECK_TAG("Audio");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Audio");
+    _RETURN_IF_ERROR();
 
-	AbstractWidget::Load(node);
+    AbstractWidget::Load(node);
 
-	src = node->Attribute("src");
-	if (!src)
-	{
-		LOG_ERROR(MISSING_ATTRIBUTE, "src");
-		return false;
-	}
+    src = node->Attribute("src");
+    if (!src)
+    {
+        LOG_ERROR(MISSING_ATTRIBUTE, "src");
+        return false;
+    }
 
-	AudioResource* res = LoadResource<AudioResource>(src);
-	if (!res)
-		return false;
-	m_playList = dynamic_cast<PlayList*>(res->GetResource());
-	if (!m_playList)
-	{
-		LOG_ERROR(RESOURCE_MISMATCH, src);
-		return false;
-	}
+    AudioResource* res = LoadResource<AudioResource>(src);
+    if (!res)
+    {
+        return false;
+    }
+    m_playList = dynamic_cast<PlayList*>(res->GetResource());
+    if (!m_playList)
+    {
+        LOG_ERROR(RESOURCE_MISMATCH, src);
+        return false;
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * AudioPlayer::Play -- Start to play.                                        *
@@ -2948,10 +3106,11 @@ bool AudioPlayer::Load(XMLElement* node)
  *============================================================================*/
 void AudioPlayer::Play()
 {
-	if (m_playList)
-		Speaker::GetInstance()->AddPlayList(m_playList);
+    if (m_playList)
+    {
+        Speaker::GetInstance()->AddPlayList(m_playList);
+    }
 }
-
 
 /******************************************************************************
  * AudioPlayer::Pause -- Pause or un-pause.                                   *
@@ -2969,10 +3128,11 @@ void AudioPlayer::Play()
  *============================================================================*/
 void AudioPlayer::Pause(bool isPaused)
 {
-	if (m_playList)
-		Speaker::GetInstance()->Pause(isPaused);
+    if (m_playList)
+    {
+        Speaker::GetInstance()->Pause(isPaused);
+    }
 }
-
 
 /******************************************************************************
  * AudioPlayer::Stop -- Stop playing.                                         *
@@ -2991,11 +3151,12 @@ void AudioPlayer::Pause(bool isPaused)
  *============================================================================*/
 void AudioPlayer::Stop()
 {
-	Speaker* speaker = Speaker::GetInstance();
-	if (m_playList && (speaker->GetCurrentPlayList() == m_playList))
-		speaker->RemovePlayList();
+    Speaker* speaker = Speaker::GetInstance();
+    if (m_playList && (speaker->GetCurrentPlayList() == m_playList))
+    {
+        speaker->RemovePlayList();
+    }
 }
-
 
 /******************************************************************************
  * StandardWidgetKit::LoadWidget -- Load standard widgets.                    *
@@ -3013,34 +3174,55 @@ void AudioPlayer::Stop()
  *============================================================================*/
 AbstractWidget* StandardWidgetKit::LoadWidget(XMLElement* node)
 {
-	if (!node)
-		return nullptr;
+    if (!node)
+    {
+        return nullptr;
+    }
 
-	const char* name = node->Name();
-	AbstractWidget* rv = nullptr;
+    const char* name = node->Name();
+    AbstractWidget* rv = nullptr;
 
+    if (_STR_SAME(name, "Button"))
+    {
+        rv = new Button();
+    }
+    else if (_STR_SAME(name, "Slider"))
+    {
+        rv = new Slider();
+    }
+    else if (_STR_SAME(name, "Progress"))
+    {
+        rv = new ProgressBar();
+    }
+    else if (_STR_SAME(name, "Radio"))
+    {
+        rv = new RadioBox();
+    }
+    else if (_STR_SAME(name, "RadioList"))
+    {
+        rv = new RadioList();
+    }
+    else if (_STR_SAME(name, "Static"))
+    {
+        rv = new StaticWidget();
+    }
+    else if (_STR_SAME(name, "Detector"))
+    {
+        rv = new KeyboardDetector();
+    }
+    else if (_STR_SAME(name, "Audio"))
+    {
+        rv = new AudioPlayer();
+    }
 
-	if (_STR_SAME(name, "Button"))
-		rv = new Button();
-	else if (_STR_SAME(name, "Slider"))
-		rv = new Slider();
-	else if (_STR_SAME(name, "Progress"))
-		rv = new ProgressBar();
-	else if (_STR_SAME(name, "Radio"))
-		rv = new RadioBox();
-	else if (_STR_SAME(name, "RadioList"))
-		rv = new RadioList();
-	else if (_STR_SAME(name, "Static"))
-		rv = new StaticWidget();
-	else if (_STR_SAME(name, "Detector"))
-		rv = new KeyboardDetector();
-	else if (_STR_SAME(name, "Audio"))
-		rv = new AudioPlayer();
+    if (rv)
+    {
+        rv->Load(node);
+    }
+    else
+    {
+        LOG_ERROR(UNKNOWN_TAG, name);
+    }
 
-	if (rv)
-		rv->Load(node);
-	else
-		LOG_ERROR(UNKNOWN_TAG, name);
-
-	return rv;
+    return rv;
 }

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Buff is some accessaries to the game.                                    *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -32,29 +32,36 @@
 class Buff : public Object
 {
 public:
-	Buff(Scene* scene) : Object(ObjectType::OBJ_BUFF, scene), m_value(0)
-	{
-		m_symbol.SetLayer(LAYER_BUFF);
-	}
-	virtual ~Buff() {}
+    Buff(Scene* scene) : Object(OBJ_BUFF, scene), m_value(0)
+    {
+        m_symbol.SetLayer(LAYER_BUFF);
+    }
 
-	virtual const char* Name() const = 0;
+    ~Buff() override
+    {
+    }
 
-	virtual Buff* Clone() const = 0;
-	virtual void Clone(Buff* clone) const;
+    virtual const char* Name() const = 0;
 
-	virtual bool Load(XMLElement* node);
+    Buff* Clone() const override = 0;
+    virtual void Clone(Buff* clone) const;
+
+    bool Load(XMLElement* node) override;
 
 public:
-	int GetValue() const { return m_value; }
+    int GetValue() const
+    {
+        return m_value;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr) {}
+    void _InitBehavior(XMLElement* node = nullptr) override
+    {
+    }
 
 private:
-	int m_value;
+    int m_value;
 };
-
 
 /********************************************************************
 ** Energy flies towards the hero and restore mp.
@@ -62,28 +69,41 @@ private:
 class Energy final : public Buff
 {
 public:
-	Energy(Scene* scene) : Buff(scene), m_radius(0.0) {}
-	virtual ~Energy() {}
+    Energy(Scene* scene) : Buff(scene), m_radius(0.0)
+    {
+    }
 
-	virtual const char* Name() const { return "Energy"; }
+    ~Energy() override
+    {
+    }
 
-	virtual Energy* Clone() const;
-	virtual void Clone(Energy* clone) const {}
+    const char* Name() const override
+    {
+        return "Energy";
+    }
 
-	virtual bool Load(XMLElement* node);
+    Energy* Clone() const override;
 
-	void Activate();
+    virtual void Clone(Energy* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    void Activate();
 
 public:
-	double GetRadius() const { return m_radius; }
+    double GetRadius() const
+    {
+        return m_radius;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 
 private:
-	double m_radius;
+    double m_radius;
 };
-
 
 /********************************************************************
 ** Coin is almost the same as Energy.
@@ -91,28 +111,41 @@ private:
 class Coin final : public Buff
 {
 public:
-	Coin(Scene* scene) : Buff(scene), m_radius(0.0) {}
-	virtual ~Coin() {}
+    Coin(Scene* scene) : Buff(scene), m_radius(0.0)
+    {
+    }
 
-	virtual const char* Name() const { return "Coin"; }
+    ~Coin() override
+    {
+    }
 
-	virtual Coin* Clone() const;
-	virtual void Clone(Coin* clone) const {}
+    const char* Name() const override
+    {
+        return "Coin";
+    }
 
-	virtual bool Load(XMLElement* node);
+    Coin* Clone() const override;
 
-	virtual void Activate();
+    virtual void Clone(Coin* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    virtual void Activate();
 
 public:
-	double GetRadius() const { return m_radius; }
+    double GetRadius() const
+    {
+        return m_radius;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 
 private:
-	double m_radius;
+    double m_radius;
 };
-
 
 /********************************************************************
 ** Drug restores hero's mp or hp.
@@ -120,57 +153,89 @@ private:
 class Drug : public Buff
 {
 public:
-	Drug(Scene* scene) : Buff(scene) {}
-	virtual ~Drug() {}
+    Drug(Scene* scene) : Buff(scene)
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~Drug() override
+    {
+    }
 
-	virtual Drug* Clone() const = 0;
-	virtual void Clone(Drug* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node);
+    Drug* Clone() const override = 0;
+    virtual void Clone(Drug* clone) const;
+
+    bool Load(XMLElement* node) override;
 
 public:
-	double GetRadius() const { return m_radius; }
+    double GetRadius() const
+    {
+        return m_radius;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr) {}
+    void _InitBehavior(XMLElement* node = nullptr) override
+    {
+    }
 
-	double m_radius;
+    double m_radius;
 };
 
 class HPDrug : public Drug
 {
 public:
-	HPDrug(Scene* scene) : Drug(scene) {}
-	virtual ~HPDrug() {}
+    HPDrug(Scene* scene) : Drug(scene)
+    {
+    }
 
-	virtual const char* Name() const { return "HPDrug"; }
+    ~HPDrug() override
+    {
+    }
 
-	virtual HPDrug* Clone() const;
-	virtual void Clone(HPDrug* clone) const {}
+    const char* Name() const override
+    {
+        return "HPDrug";
+    }
 
-	virtual bool Load(XMLElement* node);
+    HPDrug* Clone() const override;
+
+    virtual void Clone(HPDrug* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 };
 
 class MPDrug : public Drug
 {
 public:
-	MPDrug(Scene* scene) : Drug(scene) {}
-	virtual ~MPDrug() {}
+    MPDrug(Scene* scene) : Drug(scene)
+    {
+    }
 
-	virtual const char* Name() const { return "MPDrug"; }
+    ~MPDrug() override
+    {
+    }
 
-	virtual MPDrug* Clone() const;
-	virtual void Clone(MPDrug* clone) const {}
+    const char* Name() const override
+    {
+        return "MPDrug";
+    }
 
-	virtual bool Load(XMLElement* node);
+    MPDrug* Clone() const override;
+
+    virtual void Clone(MPDrug* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 };
 
 #endif

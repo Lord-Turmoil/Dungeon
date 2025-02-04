@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Gun behavior.                                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -22,17 +22,15 @@
  ******************************************************************************/
 
 #include "../../inc/object/GunBehavior.h"
-#include "../../inc/object/Weapon.h"
-#include "../../inc/object/Figure.h"
-#include "../../inc/object/Component.h"
 #include "../../inc/common/Math.h"
-
+#include "../../inc/object/Component.h"
+#include "../../inc/object/Figure.h"
+#include "../../inc/object/Weapon.h"
 
 void GunBehavior::Clone(GunBehavior* clone) const
 {
-	WeaponBehavior::Clone(clone);
+    WeaponBehavior::Clone(clone);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -41,32 +39,31 @@ void GunBehavior::Clone(GunBehavior* clone) const
 */
 GunReady* GunReady::Clone() const
 {
-	GunReady* clone = new GunReady();
-	clone->_MakePrototype(false);
+    GunReady* clone = new GunReady();
+    clone->_MakePrototype(false);
 
-	GunBehavior::Clone(clone);
+    GunBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GunReady::Update(Event* evnt)
-{	
-	Gun* gun = static_cast<Gun*>(m_parent->GetGameObject());
-	
-	gun->AdjustPosture();
-	if (gun->IsTriggered())
-	{
-		Figure* figure = static_cast<Figure*>(gun->GetSlot()->GetGameObject());
-		if (figure->GetMP() >= gun->GetCost())
-		{
-			figure->CostMP(gun->GetCost());
-			m_parent->ChangeBehavior("Fire");
-		}
-	}
+{
+    Gun* gun = static_cast<Gun*>(m_parent->GetGameObject());
+
+    gun->AdjustPosture();
+    if (gun->IsTriggered())
+    {
+        Figure* figure = static_cast<Figure*>(gun->GetSlot()->GetGameObject());
+        if (figure->GetMP() >= gun->GetCost())
+        {
+            figure->CostMP(gun->GetCost());
+            m_parent->ChangeBehavior("Fire");
+        }
+    }
 }
 
 void GunReady::OnEnter()
 {
-	m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(WEAPON_ANIM_READY);
+    m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->SetMotion(WEAPON_ANIM_READY);
 }

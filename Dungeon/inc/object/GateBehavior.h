@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For gate component.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,96 +26,156 @@
 
 #include <dungine.h>
 
-
 /********************************************************************
 ** Behaviors of gate.
 */
 class GateBehavior : public Behavior
 {
 public:
-	GateBehavior() {}
-	virtual ~GateBehavior() {}
+    GateBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~GateBehavior() override
+    {
+    }
 
-	virtual GateBehavior* Clone() const = 0;
-	virtual void Clone(GateBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    GateBehavior* Clone() const override = 0;
+    virtual void Clone(GateBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	enum GateAnimTag
-	{
-		GATE_ANIM_CLOSED = 0,
-		GATE_ANIM_OPENING,
-		GATE_ANIM_OPEN,
-		GATE_ANIM_CLOSING
-	};
+    enum GateAnimTag
+    {
+        GATE_ANIM_CLOSED = 0,
+        GATE_ANIM_OPENING,
+        GATE_ANIM_OPEN,
+        GATE_ANIM_CLOSING
+    };
 };
 
 class GateOpen : public GateBehavior
 {
 public:
-	GateOpen() {}
-	virtual ~GateOpen() {}
+    GateOpen()
+    {
+    }
 
-	virtual const char* Name() const { return "Open"; }
-	virtual GateOpen* Clone() const;
-	virtual void Clone(GateOpen* clone) const {}
+    ~GateOpen() override
+    {
+    }
 
-	virtual void Update(Event* evnt);
+    const char* Name() const override
+    {
+        return "Open";
+    }
 
-	virtual void OnEnter();
+    GateOpen* Clone() const override;
+
+    virtual void Clone(GateOpen* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class GateClosed : public GateBehavior
 {
 public:
-	GateClosed() {}
-	virtual ~GateClosed() {}
+    GateClosed()
+    {
+    }
 
-	virtual const char* Name() const { return "Closed"; }
-	virtual GateClosed* Clone() const;
-	virtual void Clone(GateClosed* clone) const {}
+    ~GateClosed() override
+    {
+    }
 
-	virtual void Update(Event* evnt);
+    const char* Name() const override
+    {
+        return "Closed";
+    }
 
-	virtual void OnEnter();
+    GateClosed* Clone() const override;
+
+    virtual void Clone(GateClosed* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class GateOpening : public GateBehavior
 {
 public:
-	GateOpening() {}
-	virtual ~GateOpening() {}
+    GateOpening()
+    {
+    }
 
-	virtual const char* Name() const { return "Opening"; }
-	virtual GateOpening* Clone() const;
-	virtual void Clone(GateOpening* clone) const {}
+    ~GateOpening() override
+    {
+    }
 
-	virtual void Update(Event* evnt);
+    const char* Name() const override
+    {
+        return "Opening";
+    }
 
-	virtual void OnEnter();
+    GateOpening* Clone() const override;
+
+    virtual void Clone(GateOpening* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class GateClosing : public GateBehavior
 {
 public:
-	GateClosing() {}
-	virtual ~GateClosing() {}
+    GateClosing()
+    {
+    }
 
-	virtual const char* Name() const { return "Closing"; }
-	virtual GateClosing* Clone() const;
-	virtual void Clone(GateClosing* clone) const {}
+    ~GateClosing() override
+    {
+    }
 
-	virtual void Update(Event* evnt);
+    const char* Name() const override
+    {
+        return "Closing";
+    }
 
-	virtual void OnEnter();
+    GateClosing* Clone() const override;
+
+    virtual void Clone(GateClosing* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 #endif

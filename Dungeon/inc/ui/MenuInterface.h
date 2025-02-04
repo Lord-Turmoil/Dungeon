@@ -12,7 +12,7 @@
  *                    Last Update : December 13, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Menu interfaces.                                                         *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,156 +29,195 @@
 class LogoInterface final : public TimeInterface
 {
 public:
-	LogoInterface() {}
-	virtual ~LogoInterface() {}
+    LogoInterface()
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~LogoInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 
 protected:
-	virtual void _SelfTerminate();
+    void _SelfTerminate() override;
 
 private:
-	static void _OnSkip();
+    static void _OnSkip();
 };
 
 class MainInterface final : public PlainInterface
 {
 public:
-	MainInterface() {}
-	virtual ~MainInterface() {}
+    MainInterface()
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~MainInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 
 protected:
-	virtual void _Initialize();
-	virtual void _Destroy();
+    void _Initialize() override;
+    void _Destroy() override;
 
-	static void _OnPlay();
-	static void _OnSetting();
-	static void _OnHelp();
-	static void _OnAbout();
-	static void _OnVersion();
+    static void _OnPlay();
+    static void _OnSetting();
+    static void _OnHelp();
+    static void _OnAbout();
+    static void _OnVersion();
 };
 
 class SettingInterface final : public PlainInterface
 {
 public:
-	SettingInterface() {}
-	virtual ~SettingInterface() {}
+    SettingInterface()
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~SettingInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 
 protected:
-	virtual void _Initialize();
-	virtual void _Destroy();
+    void _Initialize() override;
+    void _Destroy() override;
 
 private:
-	void _SaveSettings();
-	void _LoadSettings();
-	void _SetDifficulty(int difficulty);
-	void _SetFullscreen(bool fullscreen);
+    void _SaveSettings();
+    void _LoadSettings();
+    void _SetDifficulty(int difficulty);
+    void _SetFullscreen(bool fullscreen);
 
-	void _OnDifficultyIncrease();
-	void _OnDifficultyDecrease();
-	void _OnFullscreenChange();
-	static void _OnMusicVolume(double volume);
-	static void _OnSoundVolume(double volume);
+    void _OnDifficultyIncrease();
+    void _OnDifficultyDecrease();
+    void _OnFullscreenChange();
+    static void _OnMusicVolume(double volume);
+    static void _OnSoundVolume(double volume);
 };
 
 class SelectInterface final : public PlainInterface
 {
 public:
-	SelectInterface() {}
-	virtual ~SelectInterface() {}
+    SelectInterface()
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~SelectInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 
 protected:
-	virtual void _Initialize();
+    void _Initialize() override;
 
 private:
-	void _ResetState();
-	void _InitWidget();
+    void _ResetState();
+    void _InitWidget();
 
-	void _OnPurchaseBlackHand();
+    void _OnPurchaseBlackHand();
 
-	static void _OnYony(bool isSelected);
-	static void _OnSpecter(bool isSelected);
-	static void _OnBlackHand(bool isSelected);
-	static void _OnChangeMode(bool isSelected);
-	static void _OnStart();
+    static void _OnYony(bool isSelected);
+    static void _OnSpecter(bool isSelected);
+    static void _OnBlackHand(bool isSelected);
+    static void _OnChangeMode(bool isSelected);
+    static void _OnStart();
 
-	static bool m_selected;
+    static bool m_selected;
 };
 
 class HelpInterface final : public PlainInterface
 {
 public:
-	HelpInterface() {}
-	virtual ~HelpInterface() {}
+    HelpInterface()
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~HelpInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 };
 
 // Pause interface as a pop up.
 class PauseInterface final : public PlainInterface
 {
 public:
-	PauseInterface() {}
-	virtual ~PauseInterface() {}
+    PauseInterface()
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~PauseInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 
 private:
-	void _OnResume();
-	static void _OnSetting();
+    void _OnResume();
+    static void _OnSetting();
 };
 
 class QuitInterface final : public PlainInterface
 {
-public: 
-	QuitInterface() {}
-	virtual ~QuitInterface() {}
+public:
+    QuitInterface()
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~QuitInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 
 private:
-	void _OnConfirm();
-	void _OnCancel();
+    void _OnConfirm();
+    void _OnCancel();
 };
 
 class AboutInterface final : public PlainInterface
 {
 public:
-	AboutInterface() {}
-	virtual ~AboutInterface() {}
+    AboutInterface()
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~AboutInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 
 private:
-	static void _OnOpenUrl(std::string url);
-	static bool _LoadLink(XMLElement* root, const char* link, std::string& url);
+    static void _OnOpenUrl(std::string url);
+    static bool _LoadLink(XMLElement* root, const char* link, std::string& url);
 
-	static std::string m_studioUrl;	// studio url
-	static std::string m_githubUrl;	// github url
+    static std::string m_studioUrl; // studio url
+    static std::string m_githubUrl; // github url
 };
-
 
 /*
 ** 2022/11/25 TS:
@@ -187,27 +226,32 @@ private:
 class VictoryInterface final : public TimeInterface
 {
 public:
-	VictoryInterface() : m_isVictory(false) {}
-	virtual ~VictoryInterface() {}
+    VictoryInterface() : m_isVictory(false)
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~VictoryInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 
 private:
-	/*
-	** 2022/11/27 TS:
-	** If it is the first time to complete the game,
-	** it will jump to credits interface.
-	*/
-	virtual void _SelfTerminate();
+    /*
+     ** 2022/11/27 TS:
+     ** If it is the first time to complete the game,
+     ** it will jump to credits interface.
+     */
+    void _SelfTerminate() override;
 
-	/*
-	** 2022/11/27 TS:
-	** Since both victory and lost interface use this class,
-	** a flag is needed to tell them apart.
-	*/
-	bool m_isVictory;
+    /*
+    ** 2022/11/27 TS:
+    ** Since both victory and lost interface use this class,
+    ** a flag is needed to tell them apart.
+    */
+    bool m_isVictory;
 };
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Factory of weapons.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -31,10 +31,15 @@ class Weapon;
 class WeaponKit : public AbstractKit<Weapon>
 {
 public:
-	WeaponKit() {}
-	~WeaponKit() {}
+    WeaponKit()
+    {
+    }
 
-	virtual Weapon* LoadObject(XMLElement* node);
+    ~WeaponKit() override
+    {
+    }
+
+    Weapon* LoadObject(XMLElement* node) override;
 };
 
 #endif

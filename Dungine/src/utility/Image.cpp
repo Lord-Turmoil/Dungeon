@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide some image operations.                                           *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -48,96 +48,76 @@
  *============================================================================*/
 void ResizeImage(IMAGE* pDestImage, IMAGE* pSrcImage, double scale)
 {
-	unsigned long srcWidth = (unsigned long)pSrcImage->getwidth();
-	unsigned long srcHeight = (unsigned long)pSrcImage->getheight();
-	unsigned long destWidth = (unsigned long)(srcWidth * scale) + 1ul;
-	unsigned long destHeight = (unsigned long)(srcHeight * scale) + 1ul;
+    unsigned long srcWidth = static_cast<unsigned long>(pSrcImage->getwidth());
+    unsigned long srcHeight = static_cast<unsigned long>(pSrcImage->getheight());
+    unsigned long destWidth = static_cast<unsigned long>(srcWidth * scale) + 1ul;
+    unsigned long destHeight = static_cast<unsigned long>(srcHeight * scale) + 1ul;
 
-	ResizeImage(pDestImage, pSrcImage, destWidth, destHeight, srcWidth, srcHeight);
+    ResizeImage(pDestImage, pSrcImage, destWidth, destHeight, srcWidth, srcHeight);
 }
 
-void ResizeImage(
-	IMAGE* pDestImage,
-	IMAGE* pSrcImage,
-	unsigned long destWidth,
-	unsigned long destHeight)
+void ResizeImage(IMAGE* pDestImage, IMAGE* pSrcImage, unsigned long destWidth, unsigned long destHeight)
 {
-	ResizeImage(
-		pDestImage,
-		pSrcImage,
-		destWidth,
-		destHeight,
-		(unsigned long)pSrcImage->getwidth(),
-		(unsigned long)pSrcImage->getheight());
+    ResizeImage(pDestImage, pSrcImage, destWidth, destHeight, static_cast<unsigned long>(pSrcImage->getwidth()),
+                static_cast<unsigned long>(pSrcImage->getheight()));
 }
 
-void ResizeImage(
-	IMAGE* pDestImage,
-	IMAGE* pSrcImage,
-	unsigned long destWidth,
-	unsigned long destHeight,
-	unsigned long srcWidth,
-	unsigned long srcHeight)
+void ResizeImage(IMAGE* pDestImage, IMAGE* pSrcImage, unsigned long destWidth, unsigned long destHeight,
+                 unsigned long srcWidth, unsigned long srcHeight)
 {
-	if ((destWidth == srcWidth) && (destHeight == srcHeight))
-	{
-		*pDestImage = *pSrcImage;
-		return;
-	}
-	destWidth = max(destWidth, 1);
-	destHeight = max(destHeight, 1);
+    if ((destWidth == srcWidth) && (destHeight == srcHeight))
+    {
+        *pDestImage = *pSrcImage;
+        return;
+    }
+    destWidth = max(destWidth, 1);
+    destHeight = max(destHeight, 1);
 
-	unsigned long rx_f16 = (srcWidth << 16ul) / destWidth + 1ul;
-	unsigned long ry_f16 = (srcHeight << 16ul) / destHeight + 1ul;
-	unsigned long srcX_f16, srcY_f16;
+    unsigned long rx_f16 = (srcWidth << 16ul) / destWidth + 1ul;
+    unsigned long ry_f16 = (srcHeight << 16ul) / destHeight + 1ul;
+    unsigned long srcX_f16, srcY_f16;
 
-	pDestImage->Resize(destWidth, destHeight);
-	DWORD* pSrcBuffer = GetImageBuffer(pSrcImage);
-	DWORD* pDestRow = GetImageBuffer(pDestImage);
-	DWORD* pSrcRow;
+    pDestImage->Resize(destWidth, destHeight);
+    DWORD* pSrcBuffer = GetImageBuffer(pSrcImage);
+    DWORD* pDestRow = GetImageBuffer(pDestImage);
+    DWORD* pSrcRow;
 
-	srcY_f16 = 0ul;
-	for (unsigned long y = 0; y < destHeight; ++y)
-	{
-		pSrcRow = pSrcBuffer + srcWidth * (srcY_f16 >> 16);
-		srcX_f16 = 0;
-		for (unsigned long x = 0; x < destWidth; ++x)
-		{
-			pDestRow[x] = pSrcRow[srcX_f16 >> 16];
-			srcX_f16 += rx_f16;
-		}
-		srcY_f16 += ry_f16;
-		pDestRow += destWidth;
-	}
+    srcY_f16 = 0ul;
+    for (unsigned long y = 0; y < destHeight; ++y)
+    {
+        pSrcRow = pSrcBuffer + srcWidth * (srcY_f16 >> 16);
+        srcX_f16 = 0;
+        for (unsigned long x = 0; x < destWidth; ++x)
+        {
+            pDestRow[x] = pSrcRow[srcX_f16 >> 16];
+            srcX_f16 += rx_f16;
+        }
+        srcY_f16 += ry_f16;
+        pDestRow += destWidth;
+    }
 }
-
 
 static IMAGE tempImage;
 
 void ResizeImage(IMAGE* pImage, double scale)
 {
-	ResizeImage(&tempImage, pImage, scale);
-	*pImage = tempImage;
+    ResizeImage(&tempImage, pImage, scale);
+    *pImage = tempImage;
 }
 
-void ResizeImage(
-	IMAGE* pImage,
-	unsigned long destWidth,
-	unsigned long destHeight)
+void ResizeImage(IMAGE* pImage, unsigned long destWidth, unsigned long destHeight)
 {
-	ResizeImage(pImage, destWidth, destHeight, pImage->getwidth(), pImage->getheight());
+    ResizeImage(pImage, destWidth, destHeight, pImage->getwidth(), pImage->getheight());
 }
 
-void ResizeImage(
-	IMAGE* pImage,
-	unsigned long destWidth,
-	unsigned long destHeight,
-	unsigned long srcWidth,
-	unsigned long srcHeight)
+void ResizeImage(IMAGE* pImage, unsigned long destWidth, unsigned long destHeight, unsigned long srcWidth,
+                 unsigned long srcHeight)
 {
-	if ((destWidth == srcWidth) && (destHeight == srcHeight))
-		return;
+    if ((destWidth == srcWidth) && (destHeight == srcHeight))
+    {
+        return;
+    }
 
-	ResizeImage(&tempImage, pImage, destWidth, destHeight, srcWidth, srcHeight);
-	*pImage = tempImage;
+    ResizeImage(&tempImage, pImage, destWidth, destHeight, srcWidth, srcHeight);
+    *pImage = tempImage;
 }

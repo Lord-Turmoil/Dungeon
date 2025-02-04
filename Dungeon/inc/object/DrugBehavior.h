@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Drug behavior.                                                           *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,104 +29,165 @@
 class DrugBehavior : public Behavior
 {
 public:
-	DrugBehavior() {}
-	virtual ~DrugBehavior() {}
+    DrugBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~DrugBehavior() override
+    {
+    }
 
-	virtual DrugBehavior* Clone() const = 0;
-	virtual void Clone(DrugBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    DrugBehavior* Clone() const override = 0;
+    virtual void Clone(DrugBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	enum DrugAnimTag
-	{
-		DRUG_ANIM_IDLE,
-		DRUG_ANIM_ACTIVE
-	};
+    enum DrugAnimTag
+    {
+        DRUG_ANIM_IDLE,
+        DRUG_ANIM_ACTIVE
+    };
 };
 
 class DrugIdle : public DrugBehavior
 {
 public:
-	DrugIdle() {}
-	virtual ~DrugIdle() {}
+    DrugIdle()
+    {
+    }
 
-	virtual const char* Name() const { return "Idle"; }
+    ~DrugIdle() override
+    {
+    }
 
-	virtual DrugIdle* Clone() const;
-	virtual void Clone(DrugIdle* clone) const {}
+    const char* Name() const override
+    {
+        return "Idle";
+    }
 
-	virtual void Update(Event* evnt);
+    DrugIdle* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(DrugIdle* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class DrugActive : public DrugBehavior
 {
 public:
-	DrugActive() {}
-	virtual ~DrugActive() {}
+    DrugActive()
+    {
+    }
 
-	virtual const char* Name() const { return "Active"; }
+    ~DrugActive() override
+    {
+    }
 
-	virtual DrugActive* Clone() const = 0;
-	virtual void Clone(DrugActive* clone) const;
+    const char* Name() const override
+    {
+        return "Active";
+    }
 
-	virtual void Update(Event* evnt);
+    DrugActive* Clone() const override = 0;
+    virtual void Clone(DrugActive* clone) const;
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 protected:
-	virtual void _Activate() = 0;
+    virtual void _Activate() = 0;
 };
 
 class HPDrugActive : public DrugActive
 {
 public:
-	HPDrugActive() {}
-	virtual ~HPDrugActive() {}
+    HPDrugActive()
+    {
+    }
 
-	virtual HPDrugActive* Clone() const;
-	virtual void Clone(HPDrugActive* clone) const {}
+    ~HPDrugActive() override
+    {
+    }
+
+    HPDrugActive* Clone() const override;
+
+    virtual void Clone(HPDrugActive* clone) const
+    {
+    }
 
 protected:
-	virtual void _Activate();
+    void _Activate() override;
 };
 
 class MPDrugActive : public DrugActive
 {
 public:
-	MPDrugActive() {}
-	virtual ~MPDrugActive() {}
+    MPDrugActive()
+    {
+    }
 
-	virtual MPDrugActive* Clone() const;
-	virtual void Clone(MPDrugActive* clone) const {}
+    ~MPDrugActive() override
+    {
+    }
+
+    MPDrugActive* Clone() const override;
+
+    virtual void Clone(MPDrugActive* clone) const
+    {
+    }
 
 protected:
-	virtual void _Activate();
+    void _Activate() override;
 };
 
 class DrugPerish : public DrugBehavior
 {
 public:
-	DrugPerish() {}
-	virtual ~DrugPerish() {}
+    DrugPerish()
+    {
+    }
 
-	virtual const char* Name() const { return "Perish"; }
+    ~DrugPerish() override
+    {
+    }
 
-	virtual DrugPerish* Clone() const;
-	virtual void Clone(DrugPerish* clone) const {}
+    const char* Name() const override
+    {
+        return "Perish";
+    }
 
-	virtual void Update(Event* evnt) {}
+    DrugPerish* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(DrugPerish* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override
+    {
+    }
+
+    void OnEnter() override;
 };
 
 #endif

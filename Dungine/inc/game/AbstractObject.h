@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   This file provides the base class of all objects that have an existance  *
  *   on the battlefield. :P                                                   *
  * -------------------------------------------------------------------------- *
@@ -26,9 +26,8 @@
 #define _ABSTRACT_OBJECT_H_
 
 #include "../common/Common.h"
-#include "../utility/tinyxml.h"
 #include "../template/Prototype.h"
-
+#include "../utility/tinyxml.h"
 
 /********************************************************************
 ** AbstractObject provides basic info of all "actual" objects, it
@@ -37,23 +36,31 @@
 class AbstractObject : public Prototype<AbstractObject>
 {
 public:
-	AbstractObject(RTTIType RTTI) : m_RTTI(RTTI) {}
-	virtual ~AbstractObject() {}
+    AbstractObject(RTTIType RTTI) : m_RTTI(RTTI)
+    {
+    }
 
-	// :P
-	RTTIType WhatAmI() const { return m_RTTI; }
-	
-	/*
-	** Load is only for the prototype, the others are get
-	** from Clone().
-	*/
-	virtual AbstractObject* Clone() const = 0;
-	virtual void Clone(AbstractObject* clone) const;
+    virtual ~AbstractObject()
+    {
+    }
 
-	virtual bool Load(XMLElement* node) = 0;
+    // :P
+    RTTIType WhatAmI() const
+    {
+        return m_RTTI;
+    }
+
+    /*
+    ** Load is only for the prototype, the others are get
+    ** from Clone().
+    */
+    AbstractObject* Clone() const override = 0;
+    void Clone(AbstractObject* clone) const override;
+
+    virtual bool Load(XMLElement* node) = 0;
 
 private:
-	RTTIType m_RTTI;
+    RTTIType m_RTTI;
 };
 
 #endif

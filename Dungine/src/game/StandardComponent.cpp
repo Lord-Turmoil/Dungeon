@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Some standard components.                                                *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,45 +23,43 @@
 
 #include "../../inc/game/StandardComponent.h"
 
-#include "../../inc/device/Timer.h"
 #include "../../inc/device/Explorer.h"
+#include "../../inc/device/Timer.h"
 
-#include "../../inc/utility/Parser.h"
 #include "../../inc/utility/DMath.h"
+#include "../../inc/utility/Parser.h"
 
-
- /******************************************************************************
-  * RigidBodyComponent::Clone                                                  *
-  *                                                                            *
-  *    Just the literal meaning.                                               *
-  *                                                                            *
-  * INPUT:   none                                                              *
-  *                                                                            *
-  * OUTPUT:  none                                                              *
-  *                                                                            *
-  * WARNINGS:  none                                                            *
-  *                                                                            *
-  * HISTORY:                                                                   *
-  *   2022/06/24 Tony : Created.                                               *
-  *============================================================================*/
+/******************************************************************************
+ * RigidBodyComponent::Clone                                                  *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/06/24 Tony : Created.                                               *
+ *============================================================================*/
 RigidBodyComponent* RigidBodyComponent::Clone() const
 {
-	RigidBodyComponent* clone = new RigidBodyComponent(m_updateOrder);
-	clone->_MakePrototype(false);
+    RigidBodyComponent* clone = new RigidBodyComponent(m_updateOrder);
+    clone->_MakePrototype(false);
 
-	AbstractComponent::Clone(clone);
+    AbstractComponent::Clone(clone);
 
-	clone->m_id = m_id;
-	clone->m_mass = m_mass;
-	clone->m_ratio = m_ratio;
-	clone->m_force = m_force;
-	clone->m_velocity = m_velocity;
-	clone->m_maxVelocity = m_maxVelocity;
-	clone->m_strength = m_strength;
+    clone->m_id = m_id;
+    clone->m_mass = m_mass;
+    clone->m_ratio = m_ratio;
+    clone->m_force = m_force;
+    clone->m_velocity = m_velocity;
+    clone->m_maxVelocity = m_maxVelocity;
+    clone->m_strength = m_strength;
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * RigidBodyComponent::Load                                                   *
@@ -79,29 +77,28 @@ RigidBodyComponent* RigidBodyComponent::Clone() const
  *============================================================================*/
 bool RigidBodyComponent::Load(XMLElement* node)
 {
-	/*
-	**	<RigidBody mass="" ratio="" max-velocity="" strength="" id="">
-	**	</RigidBody>
-	*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<RigidBody mass="" ratio="" max-velocity="" strength="" id="">
+    **	</RigidBody>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG("RigidBody");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("RigidBody");
+    _RETURN_IF_ERROR();
 
-	AbstractComponent::Load(node);
+    AbstractComponent::Load(node);
 
-	_PARSE("mass", m_mass, name, 0.0);
-	_PARSE("ratio", m_ratio, name, 0.0);
-	_PARSE("max-velocity", m_maxVelocity, name, 0.0);
-	_PARSE("strength", m_strength, name, 0.0);
-	_PARSE("id", m_id, name, 0);
+    _PARSE("mass", m_mass, name, 0.0);
+    _PARSE("ratio", m_ratio, name, 0.0);
+    _PARSE("max-velocity", m_maxVelocity, name, 0.0);
+    _PARSE("strength", m_strength, name, 0.0);
+    _PARSE("id", m_id, name, 0);
 
-	m_force = m_velocity = VECTOR_ZERO;
+    m_force = m_velocity = VECTOR_ZERO;
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * RigidBodyComponent::Update -- Update rigid body.                           *
@@ -119,24 +116,33 @@ bool RigidBodyComponent::Load(XMLElement* node)
  *============================================================================*/
 void RigidBodyComponent::Update(Event* evnt)
 {
-	if (IsZero(m_mass))
-		return;
+    if (IsZero(m_mass))
+    {
+        return;
+    }
 
-	if (IsZero(m_force))
-	{
-		if (!IsTrivia(m_velocity))
-			m_velocity *= m_ratio;
-		else
-			m_velocity.Init(0.0, 0.0);
-	}
-	else
-		m_velocity += m_force / m_mass;
+    if (IsZero(m_force))
+    {
+        if (!IsTrivia(m_velocity))
+        {
+            m_velocity *= m_ratio;
+        }
+        else
+        {
+            m_velocity.Init(0.0, 0.0);
+        }
+    }
+    else
+    {
+        m_velocity += m_force / m_mass;
+    }
 
-	double v = Module(m_velocity);
-	if (v > m_maxVelocity)
-		m_velocity *= m_maxVelocity / v;
+    double v = Module(m_velocity);
+    if (v > m_maxVelocity)
+    {
+        m_velocity *= m_maxVelocity / v;
+    }
 }
-
 
 /******************************************************************************
  * RigidBody::Freeze -- Freeze the object.                                    *
@@ -154,10 +160,9 @@ void RigidBodyComponent::Update(Event* evnt)
  *============================================================================*/
 void RigidBodyComponent::Freeze()
 {
-	m_force.Init(VECTOR_ZERO);
-	m_velocity.Init(VECTOR_ZERO);
+    m_force.Init(VECTOR_ZERO);
+    m_velocity.Init(VECTOR_ZERO);
 }
-
 
 /******************************************************************************
  * RigidBody::Scatter -- Hmm... Scatter?                                      *
@@ -176,15 +181,14 @@ void RigidBodyComponent::Freeze()
  *============================================================================*/
 void RigidBodyComponent::Scatter()
 {
-	Scatter(Random(m_maxVelocity));
+    Scatter(Random(m_maxVelocity));
 }
 
 void RigidBodyComponent::Scatter(double speed)
 {
-	// m_velocity += Rotate(VECTOR_NX, Random(TWO_PI)) * speed;
-	m_velocity += Rotate(VECTOR_NX, Random(TWO_PI)) * Random(speed * 0.5, speed);
+    // m_velocity += Rotate(VECTOR_NX, Random(TWO_PI)) * speed;
+    m_velocity += Rotate(VECTOR_NX, Random(TWO_PI)) * Random(speed * 0.5, speed);
 }
-
 
 /******************************************************************************
  * ColliderBoxComponent::Clone                                                 *
@@ -202,19 +206,18 @@ void RigidBodyComponent::Scatter(double speed)
  *============================================================================*/
 ColliderBoxComponent* ColliderBoxComponent::Clone() const
 {
-	ColliderBoxComponent* clone = new ColliderBoxComponent(m_updateOrder);
-	clone->_MakePrototype(false);
+    ColliderBoxComponent* clone = new ColliderBoxComponent(m_updateOrder);
+    clone->_MakePrototype(false);
 
-	AbstractComponent::Clone(clone);
+    AbstractComponent::Clone(clone);
 
-	clone->m_offset = m_offset;
-	clone->m_center = m_center;
-	clone->m_box = m_box;
-	clone->m_border = m_border;
+    clone->m_offset = m_offset;
+    clone->m_center = m_center;
+    clone->m_box = m_box;
+    clone->m_border = m_border;
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * ColliderBoxComponent::Load                                                 *
@@ -233,35 +236,34 @@ ColliderBoxComponent* ColliderBoxComponent::Clone() const
  *============================================================================*/
 bool ColliderBoxComponent::Load(XMLElement* node)
 {
-	/*
-	**	<ColliderBox offset="" box-size="" border-size="">
-	**	</ColliderBox>
-	*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<ColliderBox offset="" box-size="" border-size="">
+    **	</ColliderBox>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG("ColliderBox");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("ColliderBox");
+    _RETURN_IF_ERROR();
 
-	AbstractComponent::Load(node);
+    AbstractComponent::Load(node);
 
-	Coordinate pair;
-	_PARSE_PRIVATE("offset", m_offset, name, ParseCoord);
+    Coordinate pair;
+    _PARSE_PRIVATE("offset", m_offset, name, ParseCoord);
 
-	_PARSE_PRIVATE_ESSENTIAL("box-size", pair, name, ParseCoord);
-	_RETURN_IF_ERROR();
-	m_box.width = pair.x;
-	m_box.height = pair.y;
+    _PARSE_PRIVATE_ESSENTIAL("box-size", pair, name, ParseCoord);
+    _RETURN_IF_ERROR();
+    m_box.width = pair.x;
+    m_box.height = pair.y;
 
-	_PARSE_PRIVATE("border-size", pair, name, ParseCoord);
-	m_border.width = pair.x;
-	m_border.height = pair.y;
+    _PARSE_PRIVATE("border-size", pair, name, ParseCoord);
+    m_border.width = pair.x;
+    m_border.height = pair.y;
 
-	// Update(nullptr);
+    // Update(nullptr);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * ColliderBoxComponent::Update                                               *
@@ -279,15 +281,14 @@ bool ColliderBoxComponent::Load(XMLElement* node)
  *============================================================================*/
 void ColliderBoxComponent::Update(Event* evnt)
 {
-	m_center = m_pGameObject->GetCoord() + m_offset;
+    m_center = m_pGameObject->GetCoord() + m_offset;
 
-	m_box.x = m_center.x - (m_box.width >> 1);
-	m_box.y = m_center.y - (m_box.height >> 1);
+    m_box.x = m_center.x - (m_box.width >> 1);
+    m_box.y = m_center.y - (m_box.height >> 1);
 
-	m_border.x = m_center.x - (m_border.width >> 1);
-	m_border.y = m_center.y - (m_border.height >> 1);
+    m_border.x = m_center.x - (m_border.width >> 1);
+    m_border.y = m_center.y - (m_border.height >> 1);
 }
-
 
 /******************************************************************************
  * ColliderBoxComponent::Translate -- Translate collide box.                  *
@@ -305,12 +306,10 @@ void ColliderBoxComponent::Update(Event* evnt)
  *============================================================================*/
 void ColliderBoxComponent::Translate(const Coordinate& offset)
 {
-	m_center += offset;
-	m_box.pos += offset;
-	m_border.pos += offset;
+    m_center += offset;
+    m_box.pos += offset;
+    m_border.pos += offset;
 }
-
-
 
 /******************************************************************************
  * MoveComponent::Clone -- Clone move component.                              *
@@ -328,14 +327,13 @@ void ColliderBoxComponent::Translate(const Coordinate& offset)
  *============================================================================*/
 MoveComponent* MoveComponent::Clone() const
 {
-	MoveComponent* clone = new MoveComponent(m_updateOrder);
-	clone->_MakePrototype(false);
+    MoveComponent* clone = new MoveComponent(m_updateOrder);
+    clone->_MakePrototype(false);
 
-	AbstractComponent::Clone(clone);
+    AbstractComponent::Clone(clone);
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * MoveComponent::Load -- Load move component.                                *
@@ -353,15 +351,14 @@ MoveComponent* MoveComponent::Clone() const
  *============================================================================*/
 bool MoveComponent::Load(XMLElement* node)
 {
-/*
-**	<Move>
-**	</Move>
-*/
-	AbstractComponent::Load(node);
+    /*
+    **	<Move>
+    **	</Move>
+    */
+    AbstractComponent::Load(node);
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * MoveComponent::Update -- Update move component.                            *
@@ -380,15 +377,13 @@ bool MoveComponent::Load(XMLElement* node)
  *============================================================================*/
 void MoveComponent::Update(Event* evnt)
 {
-	RigidBodyComponent* rigid = m_pGameObject->GetComponent<RigidBodyComponent>();
-	auto& v = rigid->GetVelocity();
+    RigidBodyComponent* rigid = m_pGameObject->GetComponent<RigidBodyComponent>();
+    auto& v = rigid->GetVelocity();
 
-	m_pGameObject->Translate({ (int)v.x, (int)v.y });
+    m_pGameObject->Translate({ static_cast<int>(v.x), static_cast<int>(v.y) });
 
-	rigid->GetForce().Init(VECTOR_ZERO);
+    rigid->GetForce().Init(VECTOR_ZERO);
 }
-
-
 
 /******************************************************************************
  * AnimComponent::~AnimComponent -- Destructor of the object.                 *
@@ -406,13 +401,14 @@ void MoveComponent::Update(Event* evnt)
  *============================================================================*/
 AnimComponent::~AnimComponent()
 {
-	if (_IsPrototype())
-	{
-		if (m_pResource)
-			m_pResource->Release();
-	}
+    if (_IsPrototype())
+    {
+        if (m_pResource)
+        {
+            m_pResource->Release();
+        }
+    }
 }
-
 
 /******************************************************************************
  * AnimComponent::Clone -- Clone it.                                          *
@@ -430,17 +426,16 @@ AnimComponent::~AnimComponent()
  *============================================================================*/
 AnimComponent* AnimComponent::Clone() const
 {
-	AnimComponent* clone = new AnimComponent(m_updateOrder);
-	clone->_MakePrototype(false);
+    AnimComponent* clone = new AnimComponent(m_updateOrder);
+    clone->_MakePrototype(false);
 
-	AbstractComponent::Clone(clone);
+    AbstractComponent::Clone(clone);
 
-	clone->m_anim = m_anim;
-	clone->m_offset = m_offset;
+    clone->m_anim = m_anim;
+    clone->m_offset = m_offset;
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * AnimComponent::Load -- Load anim component.                                *
@@ -458,32 +453,31 @@ AnimComponent* AnimComponent::Clone() const
  *============================================================================*/
 bool AnimComponent::Load(XMLElement* node)
 {
-	/*
-	**	<Anim src=""></Anim>
-	*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<Anim src=""></Anim>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG("Anim");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Anim");
+    _RETURN_IF_ERROR();
 
-	AbstractComponent::Load(node);
+    AbstractComponent::Load(node);
 
-	attr = node->Attribute("src");
-	if (!attr)
-	{
-		LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
-		return false;
-	}
+    attr = node->Attribute("src");
+    if (!attr)
+    {
+        LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
+        return false;
+    }
 
-	m_pResource = LoadResource<MotionResource>(attr);
-	m_anim.Initialize(m_pResource->GetResource());
+    m_pResource = LoadResource<MotionResource>(attr);
+    m_anim.Initialize(m_pResource->GetResource());
 
-	_PARSE_PRIVATE("offset", m_offset, name, ParseCoord);
+    _PARSE_PRIVATE("offset", m_offset, name, ParseCoord);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * AnimComponent::Update -- Update animation.                                 *
@@ -501,13 +495,10 @@ bool AnimComponent::Load(XMLElement* node)
  *============================================================================*/
 void AnimComponent::Update(Event* evnt)
 {
-	m_anim.Update();
+    m_anim.Update();
 
-	m_pGameObject->GetSymbol()
-		->SetImage(m_anim.GetFrame())
-		->SetCoord(m_pGameObject->GetCoord());
+    m_pGameObject->GetSymbol()->SetImage(m_anim.GetFrame())->SetCoord(m_pGameObject->GetCoord());
 }
-
 
 /******************************************************************************
  * AnimComponent::Translate -- Translate animation.                           *
@@ -525,9 +516,8 @@ void AnimComponent::Update(Event* evnt)
  *============================================================================*/
 void AnimComponent::Translate(const Coordinate& offset)
 {
-	m_pGameObject->GetSymbol()->Translate(offset);
+    m_pGameObject->GetSymbol()->Translate(offset);
 }
-
 
 /******************************************************************************
  * AnimComponent::SetGameObject -- Set game object.                           *
@@ -545,11 +535,9 @@ void AnimComponent::Translate(const Coordinate& offset)
  *============================================================================*/
 void AnimComponent::SetGameObject(GameObject* object)
 {
-	m_pGameObject = object;
-	m_pGameObject->GetSymbol()->SetOffset(m_offset);
+    m_pGameObject = object;
+    m_pGameObject->GetSymbol()->SetOffset(m_offset);
 }
-
-
 
 /******************************************************************************
  * Behavior::Clone -- Clone behavior.                                         *
@@ -567,9 +555,8 @@ void AnimComponent::SetGameObject(GameObject* object)
  *============================================================================*/
 void Behavior::Clone(Behavior* clone) const
 {
-	AbstractObject::Clone(clone);
+    AbstractObject::Clone(clone);
 }
-
 
 /******************************************************************************
  * Behavior::Load -- Load behavior.                                           *
@@ -587,9 +574,8 @@ void Behavior::Clone(Behavior* clone) const
  *============================================================================*/
 bool Behavior::Load(XMLElement* node)
 {
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * BehaviorComponent::~BehaviorComponent -- Destructor of the object.         *
@@ -607,13 +593,14 @@ bool Behavior::Load(XMLElement* node)
  *============================================================================*/
 BehaviorComponent::~BehaviorComponent()
 {
-	for (auto it = m_behaviors.begin(); it != m_behaviors.end(); it++)
-		delete it->second;
+    for (auto it = m_behaviors.begin(); it != m_behaviors.end(); it++)
+    {
+        delete it->second;
+    }
 }
 
-
 /******************************************************************************
- * BehaviorComponent::Clone -- Clone behavior component.                         *
+ * BehaviorComponent::Clone -- Clone behavior component. *
  *                                                                            *
  *    Just the literal meaning.                                               *
  *                                                                            *
@@ -628,28 +615,29 @@ BehaviorComponent::~BehaviorComponent()
  *============================================================================*/
 BehaviorComponent* BehaviorComponent::Clone() const
 {
-	BehaviorComponent* clone = new BehaviorComponent(m_updateOrder);
-	clone->_MakePrototype(false);
+    BehaviorComponent* clone = new BehaviorComponent(m_updateOrder);
+    clone->_MakePrototype(false);
 
-	AbstractComponent::Clone(clone);
+    AbstractComponent::Clone(clone);
 
-	for (auto it = m_behaviors.begin(); it != m_behaviors.end(); it++)
-	{
-		if (it->second == m_pCurBehavior)
-		{
-			clone->m_pCurBehavior = it->second->Clone();
-			clone->AddBehavior(clone->m_pCurBehavior);
-		}
-		else
-			clone->AddBehavior(it->second->Clone());
-	}
+    for (auto it = m_behaviors.begin(); it != m_behaviors.end(); it++)
+    {
+        if (it->second == m_pCurBehavior)
+        {
+            clone->m_pCurBehavior = it->second->Clone();
+            clone->AddBehavior(clone->m_pCurBehavior);
+        }
+        else
+        {
+            clone->AddBehavior(it->second->Clone());
+        }
+    }
 
-	return clone;
+    return clone;
 }
 
-
 /******************************************************************************
- * BehaviorComponent::Load -- Load behavior component                            *
+ * BehaviorComponent::Load -- Load behavior component *
  *                                                                            *
  *    Just the literal meaning.                                               *
  *                                                                            *
@@ -664,14 +652,13 @@ BehaviorComponent* BehaviorComponent::Clone() const
  *============================================================================*/
 bool BehaviorComponent::Load(XMLElement* node)
 {
-	AbstractComponent::Load(node);
+    AbstractComponent::Load(node);
 
-	return true;
+    return true;
 }
 
-
 /******************************************************************************
- * BehaviorComponent::Update -- Update behavior.                                 *
+ * BehaviorComponent::Update -- Update behavior. *
  *                                                                            *
  *    Well, the main behavior logic is done here.                             *
  *                                                                            *
@@ -686,17 +673,18 @@ bool BehaviorComponent::Load(XMLElement* node)
  *============================================================================*/
 void BehaviorComponent::Update(Event* evnt)
 {
-	if (m_pCurBehavior)
-		m_pCurBehavior->Update(evnt);
+    if (m_pCurBehavior)
+    {
+        m_pCurBehavior->Update(evnt);
+    }
 }
 
-
 /******************************************************************************
- * BehaviorComponent::AddBehavior -- Add behavior.                               *
+ * BehaviorComponent::AddBehavior -- Add behavior. *
  *                                                                            *
  *    Just the literal meaning.                                               *
  *                                                                            *
- * INPUT:   behavior                                                             *
+ * INPUT:   behavior *
  *                                                                            *
  * OUTPUT:  none                                                              *
  *                                                                            *
@@ -707,13 +695,12 @@ void BehaviorComponent::Update(Event* evnt)
  *============================================================================*/
 void BehaviorComponent::AddBehavior(Behavior* behavior)
 {
-	behavior->SetParent(this);
-	m_behaviors.emplace(behavior->Name(), behavior);
+    behavior->SetParent(this);
+    m_behaviors.emplace(behavior->Name(), behavior);
 }
 
-
 /******************************************************************************
- * BehaviorComponent::ChangeBehavior -- Change behavior.                         *
+ * BehaviorComponent::ChangeBehavior -- Change behavior. *
  *                                                                            *
  *    Just the literal meaning.                                               *
  *                                                                            *
@@ -728,25 +715,26 @@ void BehaviorComponent::AddBehavior(Behavior* behavior)
  *============================================================================*/
 void BehaviorComponent::ChangeBehavior(const char* name)
 {
-	Behavior* behavior = _GetBehavior(name);
+    Behavior* behavior = _GetBehavior(name);
 
 #ifdef DUNGINE_DEBUG
-	if (!behavior)
-	{
-		LOG_ERROR(CRITICAL_ERROR);
-		return;
-	}
+    if (!behavior)
+    {
+        LOG_ERROR(CRITICAL_ERROR);
+        return;
+    }
 #endif
 
-	if (behavior != m_pCurBehavior)
-	{
-		if (m_pCurBehavior)
-			m_pCurBehavior->OnExit();
-		behavior->OnEnter();
-		m_pCurBehavior = behavior;
-	}
+    if (behavior != m_pCurBehavior)
+    {
+        if (m_pCurBehavior)
+        {
+            m_pCurBehavior->OnExit();
+        }
+        behavior->OnEnter();
+        m_pCurBehavior = behavior;
+    }
 }
-
 
 /******************************************************************************
  * BehaviorComponent::_GetBehavior -- Get behavior by name.                   *
@@ -764,18 +752,18 @@ void BehaviorComponent::ChangeBehavior(const char* name)
  *============================================================================*/
 Behavior* BehaviorComponent::_GetBehavior(const char* name)
 {
-	auto it = m_behaviors.find(name);
+    auto it = m_behaviors.find(name);
 
-	if (it == m_behaviors.end())
-	{
-		LOG_ERROR(R"(Missing Behavior "%s")", name);
-		return nullptr;
-	}
-	else
-		return it->second;
+    if (it == m_behaviors.end())
+    {
+        LOG_ERROR(R"(Missing Behavior "%s")", name);
+        return nullptr;
+    }
+    else
+    {
+        return it->second;
+    }
 }
-
-
 
 /******************************************************************************
  * State::Clone -- Clone state.                                               *
@@ -793,12 +781,11 @@ Behavior* BehaviorComponent::_GetBehavior(const char* name)
  *============================================================================*/
 void State::Clone(State* clone) const
 {
-	AbstractObject::Clone(clone);
+    AbstractObject::Clone(clone);
 
-	clone->m_duration = m_duration;
-	clone->m_elapsedTime = m_elapsedTime;
+    clone->m_duration = m_duration;
+    clone->m_elapsedTime = m_elapsedTime;
 }
-
 
 /******************************************************************************
  * State::Load -- Load state.                                                 *
@@ -816,9 +803,8 @@ void State::Clone(State* clone) const
  *============================================================================*/
 bool State::Load(XMLElement* node)
 {
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * StateComponent::~StateComponent -- Destructor of the object.               *
@@ -836,10 +822,11 @@ bool State::Load(XMLElement* node)
  *============================================================================*/
 StateComponent::~StateComponent()
 {
-	for (auto it = m_states.begin(); it != m_states.end(); it++)
-		delete it->second;
+    for (auto it = m_states.begin(); it != m_states.end(); it++)
+    {
+        delete it->second;
+    }
 }
-
 
 /******************************************************************************
  * StateComponent::Clone -- Clone state component.                            *
@@ -857,25 +844,26 @@ StateComponent::~StateComponent()
  *============================================================================*/
 StateComponent* StateComponent::Clone() const
 {
-	StateComponent* clone = new StateComponent(m_updateOrder);
-	clone->_MakePrototype(false);
+    StateComponent* clone = new StateComponent(m_updateOrder);
+    clone->_MakePrototype(false);
 
-	AbstractComponent::Clone(clone);
+    AbstractComponent::Clone(clone);
 
-	for (auto it = m_states.begin(); it != m_states.end(); it++)
-	{
-		if (it->second == m_pCurState)
-		{
-			clone->m_pCurState = it->second->Clone();
-			clone->AddState(clone->m_pCurState);
-		}
-		else
-			clone->AddState(it->second->Clone());
-	}
+    for (auto it = m_states.begin(); it != m_states.end(); it++)
+    {
+        if (it->second == m_pCurState)
+        {
+            clone->m_pCurState = it->second->Clone();
+            clone->AddState(clone->m_pCurState);
+        }
+        else
+        {
+            clone->AddState(it->second->Clone());
+        }
+    }
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * StateComponent::Load -- Load state component.                              *
@@ -893,11 +881,10 @@ StateComponent* StateComponent::Clone() const
  *============================================================================*/
 bool StateComponent::Load(XMLElement* node)
 {
-	AbstractComponent::Load(node);
+    AbstractComponent::Load(node);
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * StateComponent::Update -- Update state component.                          *
@@ -915,10 +902,11 @@ bool StateComponent::Load(XMLElement* node)
  *============================================================================*/
 void StateComponent::Update(Event* evnt)
 {
-	if (m_pCurState)
-		m_pCurState->Update(evnt);
+    if (m_pCurState)
+    {
+        m_pCurState->Update(evnt);
+    }
 }
-
 
 /******************************************************************************
  * StateComponent::AddState -- Add state to the component.                    *
@@ -936,10 +924,9 @@ void StateComponent::Update(Event* evnt)
  *============================================================================*/
 void StateComponent::AddState(State* state)
 {
-	state->SetParent(this);
-	m_states.emplace(state->Name(), state);
+    state->SetParent(this);
+    m_states.emplace(state->Name(), state);
 }
-
 
 /******************************************************************************
  * StateComponent::ChangeState -- Change state.                               *
@@ -957,25 +944,26 @@ void StateComponent::AddState(State* state)
  *============================================================================*/
 void StateComponent::ChangeState(const char* name)
 {
-	State* state = _GetState(name);
+    State* state = _GetState(name);
 
 #ifdef DUNGINE_DEBUG
-	if (!state)
-	{
-		LOG_ERROR(CRITICAL_ERROR);
-		return;
-	}
+    if (!state)
+    {
+        LOG_ERROR(CRITICAL_ERROR);
+        return;
+    }
 #endif
 
-	if (state != m_pCurState)
-	{
-		if (m_pCurState)
-			m_pCurState->OnExit();
-		state->OnEnter();
-		m_pCurState = state;
-	}
+    if (state != m_pCurState)
+    {
+        if (m_pCurState)
+        {
+            m_pCurState->OnExit();
+        }
+        state->OnEnter();
+        m_pCurState = state;
+    }
 }
-
 
 /******************************************************************************
  * StateComponent::_GetState -- Get state.                                    *
@@ -993,15 +981,17 @@ void StateComponent::ChangeState(const char* name)
  *============================================================================*/
 State* StateComponent::_GetState(const char* name)
 {
-	auto it = m_states.find(name);
+    auto it = m_states.find(name);
 
-	if (it == m_states.end())
-		return nullptr;
-	else
-		return it->second;
+    if (it == m_states.end())
+    {
+        return nullptr;
+    }
+    else
+    {
+        return it->second;
+    }
 }
-
-
 
 /******************************************************************************
  * StandardComponentKit::LoadComponent -- Load basic components.              *
@@ -1019,29 +1009,47 @@ State* StateComponent::_GetState(const char* name)
  *============================================================================*/
 AbstractComponent* StandardComponentKit::LoadComponent(XMLElement* node)
 {
-	if (!node)
-		return nullptr;
+    if (!node)
+    {
+        return nullptr;
+    }
 
-	const char* name = node->Name();
-	AbstractComponent* rv = nullptr;
+    const char* name = node->Name();
+    AbstractComponent* rv = nullptr;
 
-	if (_STR_SAME(name, "Anim"))
-		rv = new AnimComponent();
-	else if (_STR_SAME(name, "RigidBody"))
-		rv = new RigidBodyComponent();
-	else if (_STR_SAME(name, "ColliderBox"))
-		rv = new ColliderBoxComponent();
-	else if (_STR_SAME(name, "Behavior"))
-		rv = new BehaviorComponent();
-	else if (_STR_SAME(name, "State"))
-		rv = new StateComponent();
-	else if (_STR_SAME(name, "Move"))
-		rv = new MoveComponent();
+    if (_STR_SAME(name, "Anim"))
+    {
+        rv = new AnimComponent();
+    }
+    else if (_STR_SAME(name, "RigidBody"))
+    {
+        rv = new RigidBodyComponent();
+    }
+    else if (_STR_SAME(name, "ColliderBox"))
+    {
+        rv = new ColliderBoxComponent();
+    }
+    else if (_STR_SAME(name, "Behavior"))
+    {
+        rv = new BehaviorComponent();
+    }
+    else if (_STR_SAME(name, "State"))
+    {
+        rv = new StateComponent();
+    }
+    else if (_STR_SAME(name, "Move"))
+    {
+        rv = new MoveComponent();
+    }
 
-	if (rv)
-		rv->Load(node);
-	else
-		LOG_ERROR(UNKNOWN_TAG, name);
+    if (rv)
+    {
+        rv->Load(node);
+    }
+    else
+    {
+        LOG_ERROR(UNKNOWN_TAG, name);
+    }
 
-	return rv;
+    return rv;
 }

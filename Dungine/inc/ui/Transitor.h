@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Transitor handle the transit between two interfaces.                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -27,7 +27,6 @@
 #include "../common/Common.h"
 #include "../device/Symbol.h"
 
-
 class AbstractInterface;
 
 /********************************************************************
@@ -37,17 +36,22 @@ class AbstractInterface;
 class Transitor
 {
 public:
-	Transitor() {}
-	~Transitor() {}
+    Transitor()
+    {
+    }
 
-	static void Initialize();
-	static void FadeIn(AbstractInterface* intf, clock_t duration = DEFAULT_TRANSIT_DURATION);
-	static void FadeOut(AbstractInterface* intf, clock_t duration = DEFAULT_TRANSIT_DURATION);
+    ~Transitor()
+    {
+    }
+
+    static void Initialize();
+    static void FadeIn(AbstractInterface* intf, clock_t duration = DEFAULT_TRANSIT_DURATION);
+    static void FadeOut(AbstractInterface* intf, clock_t duration = DEFAULT_TRANSIT_DURATION);
 
 private:
-	static void _Fade(AbstractInterface* intf, clock_t duration, int begin, int end);
+    static void _Fade(AbstractInterface* intf, clock_t duration, int begin, int end);
 
-	static Symbol m_symbol;
+    static Symbol m_symbol;
 };
 
 #endif

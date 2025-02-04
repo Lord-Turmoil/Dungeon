@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Trigger of widgets.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,33 +26,31 @@
 
 #include "Cell.h"
 
-
 /********************************************************************
 ** Forward declaration. Class of user event, including keyboard and
 ** mouse. All triggers can respond to at most one virtual key.
 */
 class Event;
 
-#ifndef VK_NONE	// it will be defined in event.h
+#ifndef VK_NONE // it will be defined in event.h
 #define VK_NONE -1
 #endif
 
 enum class TriggerValue
 {
-	TV_NONE,
+    TV_NONE,
 
-	TV_MOVE,	// mouse outside of trigger and not down
-	TV_HOVER,	// mouse in trigger but not down
+    TV_MOVE,  // mouse outside of trigger and not down
+    TV_HOVER, // mouse in trigger but not down
 
-	TV_HOLD,	// mouse down outside of trigger
-	TV_PRESS,	// mouse down in trigger
+    TV_HOLD,  // mouse down outside of trigger
+    TV_PRESS, // mouse down in trigger
 
-	TV_CLICK,	// mouse up in trigger
-	TV_RELEASE,	// mouse up outside of trigger
+    TV_CLICK,   // mouse up in trigger
+    TV_RELEASE, // mouse up outside of trigger
 
-	TV_KEYDOWN,
+    TV_KEYDOWN,
 };
-
 
 /********************************************************************
 ** Trigger is the base element to detect events.
@@ -60,32 +58,40 @@ enum class TriggerValue
 class Trigger
 {
 public:
-	Trigger() : m_vKey(VK_NONE) {}
-	virtual ~Trigger() {}
+    Trigger() : m_vKey(VK_NONE)
+    {
+    }
 
-	Trigger* SetVirtualKey(int vKey)
-	{
-		m_vKey = vKey;
-		return this;
-	}
-	int GetVirtualKey() const { return m_vKey; }
+    virtual ~Trigger()
+    {
+    }
 
-	/*
-	** event is a keyword??? So "evnt" instead.
-	*/
-	virtual TriggerValue Detect(Event& evnt) = 0;
+    Trigger* SetVirtualKey(int vKey)
+    {
+        m_vKey = vKey;
+        return this;
+    }
 
-	virtual void Update() = 0;
+    int GetVirtualKey() const
+    {
+        return m_vKey;
+    }
 
-	virtual bool Load(XMLElement* node);
+    /*
+    ** event is a keyword??? So "evnt" instead.
+    */
+    virtual TriggerValue Detect(Event& evnt) = 0;
+
+    virtual void Update() = 0;
+
+    virtual bool Load(XMLElement* node);
 
 protected:
-	/*
-	** The virtual key to response. VK_NONE(-1) for none.
-	*/
-	int m_vKey;
+    /*
+    ** The virtual key to response. VK_NONE(-1) for none.
+    */
+    int m_vKey;
 };
-
 
 /********************************************************************
 ** KeyboardTrigger only react to keyboard event.
@@ -93,17 +99,24 @@ protected:
 class KeyboardTrigger : public Trigger
 {
 public:
-	KeyboardTrigger() {}
-	virtual ~KeyboardTrigger() {}
+    KeyboardTrigger()
+    {
+    }
 
-	virtual TriggerValue Detect(Event& evnt);
-	virtual void Update() {}	// Nothing for it to update. :)
-	virtual bool Load(XMLElement* node);
+    ~KeyboardTrigger() override
+    {
+    }
+
+    TriggerValue Detect(Event& evnt) override;
+
+    void Update() override
+    {
+    } // Nothing for it to update. :)
+
+    bool Load(XMLElement* node) override;
 
 protected:
-
 };
-
 
 /********************************************************************
 ** Mouse trigger detects mouse events.
@@ -111,87 +124,124 @@ protected:
 class MouseTrigger : public Trigger
 {
 public:
-	MouseTrigger() {}
-	virtual ~MouseTrigger() {}
+    MouseTrigger()
+    {
+    }
 
-	virtual TriggerValue Detect(Event& evnt) = 0;
+    ~MouseTrigger() override
+    {
+    }
 
-	/*
-	** Update range for loose detect.
-	*/
-	virtual void Update() = 0;
+    TriggerValue Detect(Event& evnt) override = 0;
 
-	// Same as Trigger.
-	// virtual bool Load(XMLElement* node);	
+    /*
+     ** Update range for loose detect.
+     */
+    void Update() override = 0;
+
+    // Same as Trigger.
+    // virtual bool Load(XMLElement* node);
 
 protected:
-	Rect m_range;
+    Rect m_range;
 };
 
 class RectTrigger : public RectCell, public MouseTrigger
 {
 public:
-	RectTrigger() {}
-	RectTrigger(int width, int height) : RectCell(width, height) {}
-	virtual ~RectTrigger() {}
+    RectTrigger()
+    {
+    }
 
-	virtual TriggerValue Detect(Event& evnt);
-	virtual void Update();
-	virtual bool Load(XMLElement* node);
+    RectTrigger(int width, int height) : RectCell(width, height)
+    {
+    }
+
+    ~RectTrigger() override
+    {
+    }
+
+    TriggerValue Detect(Event& evnt) override;
+    void Update() override;
+    bool Load(XMLElement* node) override;
 
 protected:
-
 };
 
 class RoundRectTrigger : public RoundRectCell, public MouseTrigger
 {
 public:
-	RoundRectTrigger() {}
-	RoundRectTrigger(int width, int height, int radius)
-		: RoundRectCell(width, height, radius) {}
-	virtual ~RoundRectTrigger() {}
+    RoundRectTrigger()
+    {
+    }
 
-	virtual TriggerValue Detect(Event& evnt);
-	virtual void Update();
-	virtual bool Load(XMLElement* node);
+    RoundRectTrigger(int width, int height, int radius) : RoundRectCell(width, height, radius)
+    {
+    }
+
+    ~RoundRectTrigger() override
+    {
+    }
+
+    TriggerValue Detect(Event& evnt) override;
+    void Update() override;
+    bool Load(XMLElement* node) override;
 
 protected:
-
 };
 
 class CircleTrigger : public CircleCell, public MouseTrigger
 {
 public:
-	CircleTrigger() {}
-	CircleTrigger(int radius) : CircleCell(radius) {}
-	virtual ~CircleTrigger() {}
+    CircleTrigger()
+    {
+    }
 
-	virtual TriggerValue Detect(Event& evnt);
-	virtual void Update();
-	virtual bool Load(XMLElement* node);
+    CircleTrigger(int radius) : CircleCell(radius)
+    {
+    }
+
+    ~CircleTrigger() override
+    {
+    }
+
+    TriggerValue Detect(Event& evnt) override;
+    void Update() override;
+    bool Load(XMLElement* node) override;
 
 protected:
-	Coordinate m_center;
+    Coordinate m_center;
 };
 
 class MaskTrigger : public RectCell, public MouseTrigger
 {
 public:
-	MaskTrigger() {}
-	MaskTrigger(int width, int height) : RectCell(width, height) {}
-	virtual ~MaskTrigger() {}
+    MaskTrigger()
+    {
+    }
 
-	MaskTrigger* SetMask(const IMAGE* mask);
-	const IMAGE* GetMask() const { return &m_mask; }
+    MaskTrigger(int width, int height) : RectCell(width, height)
+    {
+    }
 
-	virtual TriggerValue Detect(Event& evnt);
-	virtual void Update();
-	virtual bool Load(XMLElement* node);
+    ~MaskTrigger() override
+    {
+    }
+
+    MaskTrigger* SetMask(const IMAGE* mask);
+
+    const IMAGE* GetMask() const
+    {
+        return &m_mask;
+    }
+
+    TriggerValue Detect(Event& evnt) override;
+    void Update() override;
+    bool Load(XMLElement* node) override;
 
 protected:
-	IMAGE m_mask;
+    IMAGE m_mask;
 };
-
 
 Trigger* LoadTrigger(XMLElement* node);
 

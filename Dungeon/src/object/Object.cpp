@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For the base class of all game objects.                                  *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,7 +23,6 @@
 
 #include "../../inc/object/Object.h"
 #include "../../inc/object/ComponentKit.h"
-
 
 /******************************************************************************
  * Object::Clone -- Clone object.                                             *
@@ -41,11 +40,10 @@
  *============================================================================*/
 void Object::Clone(Object* clone) const
 {
-	GameObject::Clone(clone);
-	clone->m_type = m_type;
-	clone->m_centerOffset = m_centerOffset;
+    GameObject::Clone(clone);
+    clone->m_type = m_type;
+    clone->m_centerOffset = m_centerOffset;
 }
-
 
 /******************************************************************************
  * Object::Load                                                               *
@@ -63,47 +61,48 @@ void Object::Clone(Object* clone) const
  *============================================================================*/
 bool Object::Load(XMLElement* node)
 {
-/*
-**	<...>					<- node
-**		<Components>
-**			<...></...>
-**			<...></...>
-**		</Components>
-**	</...>
-*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<...>					<- node
+    **		<Components>
+    **			<...></...>
+    **			<...></...>
+    **		</Components>
+    **	</...>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	XMLElement* tag = node->FirstChildElement("Components");
-	if (!tag)
-		_RETURN_STATE();
+    XMLElement* tag = node->FirstChildElement("Components");
+    if (!tag)
+    {
+        _RETURN_STATE();
+    }
 
-	_PARSE_PRIVATE("center", m_centerOffset, name, ParseCoord);
+    _PARSE_PRIVATE("center", m_centerOffset, name, ParseCoord);
 
-	ComponentKit kit;
-	AbstractComponent* cmpt;
+    ComponentKit kit;
+    AbstractComponent* cmpt;
 
-	tag = tag->FirstChildElement();
-	while (tag)
-	{
-		cmpt = kit.LoadComponent(tag);
+    tag = tag->FirstChildElement();
+    while (tag)
+    {
+        cmpt = kit.LoadComponent(tag);
 
 #ifdef DUNGEON_DEBUG
-		if (!cmpt)
-		{
-			LOG_ERROR(R"(Failed to load components of "%s")", name);
-			return false;
-		}
+        if (!cmpt)
+        {
+            LOG_ERROR(R"(Failed to load components of "%s")", name);
+            return false;
+        }
 #endif
 
-		AddComponent(cmpt);
+        AddComponent(cmpt);
 
-		tag = tag->NextSiblingElement();
-	}
+        tag = tag->NextSiblingElement();
+    }
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * Object::Translate -- Translate object.                                     *
@@ -121,7 +120,9 @@ bool Object::Load(XMLElement* node)
  *============================================================================*/
 void Object::Translate(const Coordinate& offset)
 {
-	m_coord += offset;
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-		it->second->Translate(offset);
+    m_coord += offset;
+    for (auto it = m_components.begin(); it != m_components.end(); it++)
+    {
+        it->second->Translate(offset);
+    }
 }

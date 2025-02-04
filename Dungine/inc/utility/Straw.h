@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Load external resources.                                                 *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -28,77 +28,29 @@
 
 #include "Auxilliary.h"
 
-
 bool FetchImage(IMAGE* pDestImage, const char* filename);
 bool FetchImage(IMAGE* pDestImage, const wchar_t* filename);
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const char* filename,
-	int destWidth,
-	int destHeight);
+bool FetchImage(IMAGE* pDestImage, const char* filename, int destWidth, int destHeight);
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const wchar_t* filename,
-	int destWidth,
-	int destHeight);
+bool FetchImage(IMAGE* pDestImage, const wchar_t* filename, int destWidth, int destHeight);
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const char* filename,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight);
+bool FetchImage(IMAGE* pDestImage, const char* filename, int srcX, int srcY, int srcWidth, int srcHeight);
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const wchar_t* filename,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight);
+bool FetchImage(IMAGE* pDestImage, const wchar_t* filename, int srcX, int srcY, int srcWidth, int srcHeight);
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const char* filename,
-	int destWidth,
-	int destHeight,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight);
+bool FetchImage(IMAGE* pDestImage, const char* filename, int destWidth, int destHeight, int srcX, int srcY,
+                int srcWidth, int srcHeight);
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const wchar_t* filename,
-	int destWidth,
-	int destHeight,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight);
+bool FetchImage(IMAGE* pDestImage, const wchar_t* filename, int destWidth, int destHeight, int srcX, int srcY,
+                int srcWidth, int srcHeight);
 
 bool FetchImage(IMAGE* pDestImage, IMAGE* pSrcImage);
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	IMAGE* pSrcImage,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight);
+bool FetchImage(IMAGE* pDestImage, IMAGE* pSrcImage, int srcX, int srcY, int srcWidth, int srcHeight);
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	IMAGE* pSrcImage,
-	int destWidth,
-	int destHeight,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight);
+bool FetchImage(IMAGE* pDestImage, IMAGE* pSrcImage, int destWidth, int destHeight, int srcX, int srcY, int srcWidth,
+                int srcHeight);
 
 struct DSound;
 

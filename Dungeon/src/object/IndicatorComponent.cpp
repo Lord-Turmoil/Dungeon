@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   To indicate target direction.                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,9 +23,8 @@
 
 #include "../../inc/common/Math.h"
 
-#include "../../inc/object/IndicatorComponent.h"
 #include "../../inc/object/Hero.h"
-
+#include "../../inc/object/IndicatorComponent.h"
 
 /******************************************************************************
  * IndicatorComponent::~IndicatorComponent -- Destructor of the object.       *
@@ -43,10 +42,9 @@
  *============================================================================*/
 IndicatorComponent::~IndicatorComponent()
 {
-	_DELETE(m_images[0]);
-	_DELETE(m_images[1]);
+    _DELETE(m_images[0]);
+    _DELETE(m_images[1]);
 }
-
 
 /******************************************************************************
  * IndicatorComponent::Clone -- Clone indicator component.                    *
@@ -64,18 +62,17 @@ IndicatorComponent::~IndicatorComponent()
  *============================================================================*/
 IndicatorComponent* IndicatorComponent::Clone() const
 {
-	auto clone = new IndicatorComponent(m_updateOrder);
-	clone->_MakePrototype(false);
+    auto clone = new IndicatorComponent(m_updateOrder);
+    clone->_MakePrototype(false);
 
-	AbstractComponent::Clone(clone);
+    AbstractComponent::Clone(clone);
 
-	clone->m_offset = m_offset;
-	clone->m_images[0] = m_images[0]->Clone();
-	clone->m_images[1] = m_images[1]->Clone();
+    clone->m_offset = m_offset;
+    clone->m_images[0] = m_images[0]->Clone();
+    clone->m_images[1] = m_images[1]->Clone();
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * IndicatorComponent::Load -- Load indicator component.                      *
@@ -93,37 +90,36 @@ IndicatorComponent* IndicatorComponent::Clone() const
  *============================================================================*/
 bool IndicatorComponent::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG(StaticName());
-	_RETURN_IF_ERROR();
+    _CHECK_TAG(StaticName());
+    _RETURN_IF_ERROR();
 
-	AbstractComponent::Load(node);
+    AbstractComponent::Load(node);
 
-	_PARSE_PRIVATE("offset", m_offset, name, ParseCoord);
+    _PARSE_PRIVATE("offset", m_offset, name, ParseCoord);
 
-	XMLElement* li = node->FirstChildElement();
-	if (!li)
-	{
-		LOG_ERROR(MISSING_CHILD_ELEMENT, name);
-		return false;
-	}
-	m_images[0] = new ImageObject();
-	m_images[0]->Load(li);
+    XMLElement* li = node->FirstChildElement();
+    if (!li)
+    {
+        LOG_ERROR(MISSING_CHILD_ELEMENT, name);
+        return false;
+    }
+    m_images[0] = new ImageObject();
+    m_images[0]->Load(li);
 
-	li = li->NextSiblingElement();
-	if (!li)
-	{
-		LOG_ERROR(MISSING_CHILD_ELEMENT, name);
-		return false;
-	}
-	m_images[1] = new ImageObject();
-	m_images[1]->Load(li);
+    li = li->NextSiblingElement();
+    if (!li)
+    {
+        LOG_ERROR(MISSING_CHILD_ELEMENT, name);
+        return false;
+    }
+    m_images[1] = new ImageObject();
+    m_images[1]->Load(li);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * IndicatorComponent::Update -- Update indicator component.                  *
@@ -141,21 +137,21 @@ bool IndicatorComponent::Load(XMLElement* node)
  *============================================================================*/
 void IndicatorComponent::Update(Event* evnt)
 {
-	Symbol* pSymbol = m_pGameObject->GetSymbol();
-	m_coord = m_pGameObject->GetCoord();
-	
-	if (m_type == IND_NONE)
-		pSymbol->SetSupSymbol(nullptr);
-	else
-	{
-		m_symbol.SetCoord(m_coord + m_offset);
-		m_symbol.SetImage(m_images[m_type]->GetImage());
-		m_symbol.GetAttribute()->rotationAngle =
-			GetRotationRadian(m_target - m_coord);
-		pSymbol->SetSupSymbol(&m_symbol);
-	}
-}
+    Symbol* pSymbol = m_pGameObject->GetSymbol();
+    m_coord = m_pGameObject->GetCoord();
 
+    if (m_type == IND_NONE)
+    {
+        pSymbol->SetSupSymbol(nullptr);
+    }
+    else
+    {
+        m_symbol.SetCoord(m_coord + m_offset);
+        m_symbol.SetImage(m_images[m_type]->GetImage());
+        m_symbol.GetAttribute()->rotationAngle = GetRotationRadian(m_target - m_coord);
+        pSymbol->SetSupSymbol(&m_symbol);
+    }
+}
 
 /******************************************************************************
  * IndicatorComponent::SetTarget -- Set target of indicator.                  *
@@ -174,40 +170,40 @@ void IndicatorComponent::Update(Event* evnt)
  *============================================================================*/
 void IndicatorComponent::SetTarget(const Coordinate& target, IndicatorType type)
 {
-	if (m_type == IND_NONE)
-	{
-		m_type = type;
-		m_target = target;
-		m_dist = Distance(m_coord, m_target);
-	}
-	else if (m_type == IND_CRATE)
-	{
-		if (type == IND_ENEMY)
-		{
-			m_type = type;
-			m_target = target;
-			m_dist = Distance(m_coord, m_target);
-		}
-		else	// type == IND_CRATE
-		{
-			double dist = Distance(m_coord, target);
-			if (dist < m_dist)
-			{
-				m_dist = dist;
-				m_target = target;
-			}
-		}
-	}
-	else		// m_type == IND_ENEMY
-	{
-		if (type == IND_ENEMY)
-		{
-			double dist = Distance(m_coord, target);
-			if (dist < m_dist)
-			{
-				m_dist = dist;
-				m_target = target;
-			}
-		}
-	}
+    if (m_type == IND_NONE)
+    {
+        m_type = type;
+        m_target = target;
+        m_dist = Distance(m_coord, m_target);
+    }
+    else if (m_type == IND_CRATE)
+    {
+        if (type == IND_ENEMY)
+        {
+            m_type = type;
+            m_target = target;
+            m_dist = Distance(m_coord, m_target);
+        }
+        else // type == IND_CRATE
+        {
+            double dist = Distance(m_coord, target);
+            if (dist < m_dist)
+            {
+                m_dist = dist;
+                m_target = target;
+            }
+        }
+    }
+    else // m_type == IND_ENEMY
+    {
+        if (type == IND_ENEMY)
+        {
+            double dist = Distance(m_coord, target);
+            if (dist < m_dist)
+            {
+                m_dist = dist;
+                m_target = target;
+            }
+        }
+    }
 }

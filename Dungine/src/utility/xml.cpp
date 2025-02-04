@@ -12,7 +12,7 @@
  *                    Last Update : December 9, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The xml file class to load xml file. Since tinyxml2 does not support     *
  *   unicode, while Windows API has to use wide char, here I made a compromise*
  *   to use xml files only.                                                   *
@@ -25,12 +25,11 @@
 
 #include <string.h>
 
-#include "../../inc/utility/xml.h"
 #include "../../inc/utility/Auxilliary.h"
+#include "../../inc/utility/xml.h"
 
-#include "../../inc/common/Logger.h"
 #include "../../inc/common/Common.h"
-
+#include "../../inc/common/Logger.h"
 
 /******************************************************************************
  * XMLFile::~XMLFile -- Destructor of the object.                             *
@@ -48,9 +47,8 @@
  *============================================================================*/
 XMLFile::~XMLFile()
 {
-	UnLoad();
+    UnLoad();
 }
-
 
 /******************************************************************************
  * XMLFile::Load -- Load XML file from memory.                                *
@@ -68,44 +66,47 @@ XMLFile::~XMLFile()
  *============================================================================*/
 bool XMLFile::Load(const char* filename)
 {
-	int ret;
+    int ret;
 
-	if (m_isLoaded)
-		UnLoad();
+    if (m_isLoaded)
+    {
+        UnLoad();
+    }
 
-	ret = m_doc.LoadFile(filename);
-	if (ret != tinyxml2::XML_SUCCESS)
-	{
-		LOG_ERROR(CANNOT_LOAD_XML, filename, ret);
-		return false;
-	}
+    ret = m_doc.LoadFile(filename);
+    if (ret != tinyxml2::XML_SUCCESS)
+    {
+        LOG_ERROR(CANNOT_LOAD_XML, filename, ret);
+        return false;
+    }
 
-	m_isLoaded = true;
-	m_filename = filename;
+    m_isLoaded = true;
+    m_filename = filename;
 
-	return true;
+    return true;
 }
 
 bool XMLFile::Save()
 {
-	return Save(m_filename);
+    return Save(m_filename);
 }
 
 bool XMLFile::Save(const char* filename)
 {
-	if (!m_isLoaded)
-		return false;
+    if (!m_isLoaded)
+    {
+        return false;
+    }
 
-	int ret = m_doc.SaveFile(filename);
-	if (ret != tinyxml2::XML_SUCCESS)
-	{
-		LOG_ERROR(CANNOT_SAVE_XML, filename, ret);
-		return false;
-	}
+    int ret = m_doc.SaveFile(filename);
+    if (ret != tinyxml2::XML_SUCCESS)
+    {
+        LOG_ERROR(CANNOT_SAVE_XML, filename, ret);
+        return false;
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * XMLFile::Clear -- Clear the xml file.                                      *
@@ -123,14 +124,15 @@ bool XMLFile::Save(const char* filename)
  *============================================================================*/
 bool XMLFile::Clear()
 {
-	if (!m_isLoaded)
-		return false;
+    if (!m_isLoaded)
+    {
+        return false;
+    }
 
-	m_doc.RootElement()->DeleteChildren();
+    m_doc.RootElement()->DeleteChildren();
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * XMLFile::UnLoad -- Unload the current xml file.                            *
@@ -148,12 +150,11 @@ bool XMLFile::Clear()
  *============================================================================*/
 bool XMLFile::UnLoad()
 {
-	m_doc.Clear();
-	m_isLoaded = false;
+    m_doc.Clear();
+    m_isLoaded = false;
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * XMLFile::GetRoot -- Get the root of the XML file.                          *
@@ -173,12 +174,13 @@ bool XMLFile::UnLoad()
  *============================================================================*/
 XMLElement* XMLFile::GetRoot()
 {
-	if (!m_isLoaded)
-		return nullptr;
+    if (!m_isLoaded)
+    {
+        return nullptr;
+    }
 
-	return m_doc.RootElement();
+    return m_doc.RootElement();
 }
-
 
 /******************************************************************************
  * XMLFile::GetElementByTagName -- Literally.                                 *
@@ -198,9 +200,8 @@ XMLElement* XMLFile::GetRoot()
  *============================================================================*/
 XMLElement* XMLFile::GetElementByTagName(const char* tag)
 {
-	return ::GetElementByTagName(GetRoot(), tag);
+    return ::GetElementByTagName(GetRoot(), tag);
 }
-
 
 /******************************************************************************
  * XMLFile::GetElementByAttrName -- Literally.                                *
@@ -221,9 +222,8 @@ XMLElement* XMLFile::GetElementByTagName(const char* tag)
  *============================================================================*/
 XMLElement* XMLFile::GetElementByAttrName(const char* attr, const char* name)
 {
-	return ::GetElementByAttrName(GetRoot(), attr, name);
+    return ::GetElementByAttrName(GetRoot(), attr, name);
 }
-
 
 /******************************************************************************
  * XMLFile::GetElementsByTagName -- Literally.                                *
@@ -241,14 +241,13 @@ XMLElement* XMLFile::GetElementByAttrName(const char* attr, const char* name)
  *============================================================================*/
 std::vector<XMLElement*> XMLFile::GetElementsByTagName(const char* tag)
 {
-	return ::GetElementsByTagName(GetRoot(), tag);
+    return ::GetElementsByTagName(GetRoot(), tag);
 }
 
 std::vector<XMLElement*> XMLFile::GetElementsByAttrName(const char* attr, const char* name)
 {
-	return ::GetElementsByAttrName(GetRoot(), attr, name);
+    return ::GetElementsByAttrName(GetRoot(), attr, name);
 }
-
 
 /******************************************************************************
  * funcName                                                                   *
@@ -266,102 +265,122 @@ std::vector<XMLElement*> XMLFile::GetElementsByAttrName(const char* attr, const 
  *============================================================================*/
 XMLElement* GetElementByTagName(XMLElement* node, const char* tag)
 {
-	if (!node)
-		return nullptr;
+    if (!node)
+    {
+        return nullptr;
+    }
 
-	XMLElement* elem = node->FirstChildElement();
-	XMLElement* rv;
-	while (elem)
-	{
-		if (_STR_SAME(elem->Name(), tag))
-			return elem;
+    XMLElement* elem = node->FirstChildElement();
+    XMLElement* rv;
+    while (elem)
+    {
+        if (_STR_SAME(elem->Name(), tag))
+        {
+            return elem;
+        }
 
-		rv = GetElementByTagName(elem, tag);
-		if (rv)
-			return rv;
+        rv = GetElementByTagName(elem, tag);
+        if (rv)
+        {
+            return rv;
+        }
 
-		elem = elem->NextSiblingElement();
-	}
+        elem = elem->NextSiblingElement();
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
 XMLElement* GetElementByAttrName(XMLElement* node, const char* attr, const char* name)
 {
-	if (!node)
-		return nullptr;
+    if (!node)
+    {
+        return nullptr;
+    }
 
-	XMLElement* elem = node->FirstChildElement();
-	XMLElement* rv;
-	while (elem)
-	{
-		if (elem->Attribute(attr))
-		{
-			if (_STR_SAME(elem->Attribute(attr), name))
-				return elem;
-		}
+    XMLElement* elem = node->FirstChildElement();
+    XMLElement* rv;
+    while (elem)
+    {
+        if (elem->Attribute(attr))
+        {
+            if (_STR_SAME(elem->Attribute(attr), name))
+            {
+                return elem;
+            }
+        }
 
-		rv = GetElementByAttrName(elem, attr, name);
-		if (rv)
-			return rv;
+        rv = GetElementByAttrName(elem, attr, name);
+        if (rv)
+        {
+            return rv;
+        }
 
-		elem = elem->NextSiblingElement();
-	}
+        elem = elem->NextSiblingElement();
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
 std::vector<XMLElement*> GetElementsByTagName(XMLElement* node, const char* tag)
 {
-	std::vector<XMLElement*> results;
+    std::vector<XMLElement*> results;
 
-	_GetElementsByTagName(node, tag, results);
+    _GetElementsByTagName(node, tag, results);
 
-	return results;
+    return results;
 }
 
 std::vector<XMLElement*> GetElementsByAttrName(XMLElement* node, const char* attr, const char* name)
 {
-	std::vector<XMLElement*> results;
+    std::vector<XMLElement*> results;
 
-	_GetElementsByAttrName(node, attr, name, results);
+    _GetElementsByAttrName(node, attr, name, results);
 
-	return results;
+    return results;
 }
 
 void _GetElementsByTagName(XMLElement* node, const char* tag, std::vector<XMLElement*>& results)
 {
-	if (!node)
-		return;
+    if (!node)
+    {
+        return;
+    }
 
-	XMLElement* elem = node->FirstChildElement();
-	while (elem)
-	{
-		if (_STR_SAME(elem->Name(), tag))
-			results.push_back(elem);
+    XMLElement* elem = node->FirstChildElement();
+    while (elem)
+    {
+        if (_STR_SAME(elem->Name(), tag))
+        {
+            results.push_back(elem);
+        }
 
-		_GetElementsByTagName(elem, tag, results);
+        _GetElementsByTagName(elem, tag, results);
 
-		elem = elem->NextSiblingElement();
-	}
+        elem = elem->NextSiblingElement();
+    }
 }
 
 void _GetElementsByAttrName(XMLElement* node, const char* attr, const char* name, std::vector<XMLElement*>& results)
 {
-	if (!node)
-		return;
+    if (!node)
+    {
+        return;
+    }
 
-	XMLElement* elem = node->FirstChildElement();
-	while (elem)
-	{
-		if (elem->Attribute(attr))
-		{
-			if (_STR_SAME(elem->Attribute(attr), name))
-				results.push_back(elem);
-		}
+    XMLElement* elem = node->FirstChildElement();
+    while (elem)
+    {
+        if (elem->Attribute(attr))
+        {
+            if (_STR_SAME(elem->Attribute(attr), name))
+            {
+                results.push_back(elem);
+            }
+        }
 
-		_GetElementsByAttrName(elem, attr, name, results);
+        _GetElementsByAttrName(elem, attr, name, results);
 
-		elem = elem->NextSiblingElement();
-	}
+        elem = elem->NextSiblingElement();
+    }
 }

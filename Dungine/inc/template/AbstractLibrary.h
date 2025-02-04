@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide a template for library. Library is used to store prototypes.     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -27,91 +27,106 @@
 #include <map>
 #include <string>
 
-
 /********************************************************************
 ** Notice that, the item got from library is the prototype itself,
 ** client should clone manually.
 */
-template<typename ProtoType, typename KeyType = std::string>
-class AbstractLibrary
+template <typename ProtoType, typename KeyType = std::string> class AbstractLibrary
 {
 public:
-	AbstractLibrary() {}
-	virtual ~AbstractLibrary() {}
+    AbstractLibrary()
+    {
+    }
 
-	ProtoType* AddItem(const KeyType& name, ProtoType* item)
-	{
-		auto it = m_pool.find(name);
-		if (it == m_pool.end())
-			m_pool.emplace(name, item);
-		else
-		{
-			LOG_ERROR(NAME_CONFLICT, "Library", name.c_str());
-			delete it->second;
-			it->second = item;
-		}
+    virtual ~AbstractLibrary()
+    {
+    }
 
-		return item;
-	}
+    ProtoType* AddItem(const KeyType& name, ProtoType* item)
+    {
+        auto it = m_pool.find(name);
+        if (it == m_pool.end())
+        {
+            m_pool.emplace(name, item);
+        }
+        else
+        {
+            LOG_ERROR(NAME_CONFLICT, "Library", name.c_str());
+            delete it->second;
+            it->second = item;
+        }
 
-	ProtoType* GetItem(const KeyType& name)
-	{
-		auto it = m_pool.find(name);
-		if (it == m_pool.end())
-		{
-			LOG_ERROR("\"%s\" doesn't exist in library", name.c_str());
-			return nullptr;
-		}
-		else
-			return it->second;
-	}
+        return item;
+    }
 
-	virtual bool Load(XMLElement* node) = 0;
-	virtual void UnLoad() = 0;
+    ProtoType* GetItem(const KeyType& name)
+    {
+        auto it = m_pool.find(name);
+        if (it == m_pool.end())
+        {
+            LOG_ERROR("\"%s\" doesn't exist in library", name.c_str());
+            return nullptr;
+        }
+        else
+        {
+            return it->second;
+        }
+    }
+
+    virtual bool Load(XMLElement* node) = 0;
+    virtual void UnLoad() = 0;
 
 protected:
-	std::map<KeyType, ProtoType*> m_pool;
+    std::map<KeyType, ProtoType*> m_pool;
 };
 
-template<typename ProtoType, typename KeyType>
-class AbstractLibrary<ProtoType, KeyType*>
+template <typename ProtoType, typename KeyType> class AbstractLibrary<ProtoType, KeyType*>
 {
 public:
-	AbstractLibrary() {}
-	virtual ~AbstractLibrary() {}
+    AbstractLibrary()
+    {
+    }
 
-	ProtoType* AddItem(const KeyType* name, ProtoType* item)
-	{
-		auto it = m_pool.find(name);
-		if (it == m_pool.end())
-			m_pool.emplace(name, item);
-		else
-		{
-			LOG_ERROR(NAME_CONFLICT, "Library", name.c_str());
-			delete it->second;
-			it->second = item;
-		}
+    virtual ~AbstractLibrary()
+    {
+    }
 
-		return item;
-	}
+    ProtoType* AddItem(const KeyType* name, ProtoType* item)
+    {
+        auto it = m_pool.find(name);
+        if (it == m_pool.end())
+        {
+            m_pool.emplace(name, item);
+        }
+        else
+        {
+            LOG_ERROR(NAME_CONFLICT, "Library", name.c_str());
+            delete it->second;
+            it->second = item;
+        }
 
-	ProtoType* GetItem(const KeyType* name)
-	{
-		auto it = m_pool.find(name);
-		if (it == m_pool.end())
-		{
-			LOG_ERROR("\"%s\" doesn't exist in library", name.c_str());
-			return nullptr;
-		}
-		else
-			return it->second;
-	}
+        return item;
+    }
 
-	virtual bool Load(XMLElement* node) = 0;
-	virtual void UnLoad() = 0;
+    ProtoType* GetItem(const KeyType* name)
+    {
+        auto it = m_pool.find(name);
+        if (it == m_pool.end())
+        {
+            LOG_ERROR("\"%s\" doesn't exist in library", name.c_str());
+            return nullptr;
+        }
+        else
+        {
+            return it->second;
+        }
+    }
+
+    virtual bool Load(XMLElement* node) = 0;
+    virtual void UnLoad() = 0;
 
 protected:
-	std::map<KeyType*, ProtoType*> m_pool;
+    std::map<KeyType*, ProtoType*> m_pool;
 };
 
 #endif

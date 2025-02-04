@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For common weapon behaviors.                                             *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,105 +29,146 @@
 class WeaponBehavior : public Behavior
 {
 public:
-	WeaponBehavior() {}
-	virtual ~WeaponBehavior() {}
+    WeaponBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~WeaponBehavior() override
+    {
+    }
 
-	virtual WeaponBehavior* Clone() const = 0;
-	virtual void Clone(WeaponBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    WeaponBehavior* Clone() const override = 0;
+    virtual void Clone(WeaponBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	virtual void _Fire();
+    virtual void _Fire();
 
 protected:
-	enum WeaponAnimTag
-	{
-		WEAPON_ANIM_IDLE = 0,
-		WEAPON_ANIM_READY,
-		WEAPON_ANIM_FIRE,
-		WEAPON_ANIM_COOLING,
-		WEAPON_ANIM_CUSTOM_START
-	};
+    enum WeaponAnimTag
+    {
+        WEAPON_ANIM_IDLE = 0,
+        WEAPON_ANIM_READY,
+        WEAPON_ANIM_FIRE,
+        WEAPON_ANIM_COOLING,
+        WEAPON_ANIM_CUSTOM_START
+    };
 };
 
 class WeaponIdle : public WeaponBehavior
 {
 public:
-	virtual const char* Name() const { return "Idle"; }
+    const char* Name() const override
+    {
+        return "Idle";
+    }
 
-	virtual WeaponIdle* Clone() const;
-	virtual void Clone(WeaponIdle* clone) const {}
+    WeaponIdle* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(WeaponIdle* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class WeaponUnequipped : public WeaponBehavior
 {
 public:
-	virtual const char* Name() const { return "Unequipped"; }
+    const char* Name() const override
+    {
+        return "Unequipped";
+    }
 
-	virtual WeaponUnequipped* Clone() const;
-	virtual void Clone(WeaponUnequipped* clone) const {}
+    WeaponUnequipped* Clone() const override;
 
-	virtual void Update(Event* evnt) {}
+    virtual void Clone(WeaponUnequipped* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override
+    {
+    }
+
+    void OnEnter() override;
 };
-
 
 // This is uncertain.
 class WeaponReady : public WeaponBehavior
 {
 public:
-	virtual const char* Name() const { return "Ready"; }
+    const char* Name() const override
+    {
+        return "Ready";
+    }
 
-	virtual WeaponReady* Clone() const = 0;
-	virtual void Clone(WeaponReady* clone) const;
+    WeaponReady* Clone() const override = 0;
+    virtual void Clone(WeaponReady* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    void Update(Event* evnt) override = 0;
 
-	virtual void OnEnter();
+    void OnEnter() override;
 };
 
 class WeaponFire : public WeaponBehavior
 {
 public:
-	virtual const char* Name() const { return "Fire"; }
+    const char* Name() const override
+    {
+        return "Fire";
+    }
 
-	virtual WeaponFire* Clone() const;
-	virtual void Clone(WeaponFire* clone) const {}
+    WeaponFire* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(WeaponFire* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class WeaponCooling : public WeaponBehavior
 {
 public:
-	virtual const char* Name() const { return "Cooling"; }
+    const char* Name() const override
+    {
+        return "Cooling";
+    }
 
-	virtual WeaponCooling* Clone() const;
-	virtual void Clone(WeaponCooling* clone) const {}
+    WeaponCooling* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(WeaponCooling* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 private:
-	// No need to clone.
-	clock_t m_coolingTime;
-	clock_t m_elapsedTime;
+    // No need to clone.
+    clock_t m_coolingTime;
+    clock_t m_elapsedTime;
 };
 
 #endif

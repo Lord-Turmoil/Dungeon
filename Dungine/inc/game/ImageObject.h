@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Wrap image to an object linked with resource.                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,26 +24,34 @@
 #ifndef _IMAGE_OBJECT_H_
 #define _IMAGE_OBJECT_H_
 
-#include "AbstractObject.h"
 #include "../device/Explorer.h"
+#include "AbstractObject.h"
 
 class ImageObject : public AbstractObject
 {
 public:
-	ImageObject() : AbstractObject(RTTIType::RTTI_IMAGE),
-		m_pImage(nullptr), m_pResource(nullptr) {}
-	virtual ~ImageObject();
+    ImageObject() : AbstractObject(RTTIType::RTTI_IMAGE), m_pImage(nullptr), m_pResource(nullptr)
+    {
+    }
 
-	virtual ImageObject* Clone() const;
-	virtual void Clone(ImageObject* clone) const {}
+    ~ImageObject() override;
 
-	virtual bool Load(XMLElement* node);
+    ImageObject* Clone() const override;
 
-	IMAGE* GetImage() { return m_pImage; }
+    virtual void Clone(ImageObject* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    IMAGE* GetImage()
+    {
+        return m_pImage;
+    }
 
 private:
-	IMAGE* m_pImage;
-	ImageResource* m_pResource;
+    IMAGE* m_pImage;
+    ImageResource* m_pResource;
 };
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Hero factory.                                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,8 +21,8 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Hero.h"
 #include "../../inc/object/HeroKit.h"
+#include "../../inc/object/Hero.h"
 
 /******************************************************************************
  * HeroKit::LoadObject -- Load hero.                                          *
@@ -40,20 +40,30 @@
  *============================================================================*/
 Hero* HeroKit::LoadObject(XMLElement* node)
 {
-	const char* name = node->Name();
-	Hero* hero = nullptr;
+    const char* name = node->Name();
+    Hero* hero = nullptr;
 
-	if (_STR_SAME(name, "Yony"))
-		hero = new HYony(nullptr);
-	else if (_STR_SAME(name, "Specter"))
-		hero = new HSpecter(nullptr);
-	else if (_STR_SAME(name, "BlackHand"))
-		hero = new HBlackHand(nullptr);
+    if (_STR_SAME(name, "Yony"))
+    {
+        hero = new HYony(nullptr);
+    }
+    else if (_STR_SAME(name, "Specter"))
+    {
+        hero = new HSpecter(nullptr);
+    }
+    else if (_STR_SAME(name, "BlackHand"))
+    {
+        hero = new HBlackHand(nullptr);
+    }
 
-	if (hero)
-		hero->Load(node);
-	else
-		LOG_ERROR(UNKNOWN_TAG, name);
+    if (hero)
+    {
+        hero->Load(node);
+    }
+    else
+    {
+        LOG_ERROR(UNKNOWN_TAG, name);
+    }
 
-	return hero;
+    return hero;
 }

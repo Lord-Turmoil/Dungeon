@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   None                                                                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,8 +24,8 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-#include "Macros.h"
 #include "DDefines.h"
 #include "Logger.h"
+#include "Macros.h"
 
 #endif

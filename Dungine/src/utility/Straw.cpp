@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Load external resources.                                                 *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -25,10 +25,9 @@
 
 #include "../../inc/common/Logger.h"
 #include "../../inc/device/Device.h"
-#include "../../inc/utility/Straw.h"
 #include "../../inc/utility/Image.h"
+#include "../../inc/utility/Straw.h"
 #include "../../inc/utility/fmodcore.h"
-
 
 /******************************************************************************
  * FetchImage -- Load external image resource.                                *
@@ -55,178 +54,122 @@ static IMAGE tempImage;
 
 bool FetchImage(IMAGE* pDestImage, const char* filename)
 {
-	if (!IsValidDirectory(filename))
-	{
-		LOG_ERROR(CANNOT_ACCESS_DIR, filename);
-		return false;
-	}
+    if (!IsValidDirectory(filename))
+    {
+        LOG_ERROR(CANNOT_ACCESS_DIR, filename);
+        return false;
+    }
 
-	loadimage(pDestImage, widen(filename));
+    loadimage(pDestImage, widen(filename));
 
-	return true;
+    return true;
 }
 
 bool FetchImage(IMAGE* pDestImage, const wchar_t* filename)
 {
-	if (!IsValidDirectory(filename))
-	{
-		LOG_ERROR(CANNOT_ACCESS_DIR, narrow(filename));
-		return false;
-	}
+    if (!IsValidDirectory(filename))
+    {
+        LOG_ERROR(CANNOT_ACCESS_DIR, narrow(filename));
+        return false;
+    }
 
-	loadimage(pDestImage, filename);
+    loadimage(pDestImage, filename);
 
-	return true;
+    return true;
 }
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const char* filename,
-	int destWidth,
-	int destHeight)
+bool FetchImage(IMAGE* pDestImage, const char* filename, int destWidth, int destHeight)
 {
-	return FetchImage(pDestImage, widen(filename), destWidth, destHeight);
+    return FetchImage(pDestImage, widen(filename), destWidth, destHeight);
 }
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const wchar_t* filename,
-	int destWidth,
-	int destHeight)
+bool FetchImage(IMAGE* pDestImage, const wchar_t* filename, int destWidth, int destHeight)
 {
-	if (!IsValidDirectory(filename))
-	{
-		LOG_ERROR(CANNOT_ACCESS_DIR, narrow(filename));
-		return false;
-	}
+    if (!IsValidDirectory(filename))
+    {
+        LOG_ERROR(CANNOT_ACCESS_DIR, narrow(filename));
+        return false;
+    }
 
-	loadimage(pDestImage, filename, destWidth, destHeight);
+    loadimage(pDestImage, filename, destWidth, destHeight);
 
-	return true;
+    return true;
 }
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const char* filename,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight)
+bool FetchImage(IMAGE* pDestImage, const char* filename, int srcX, int srcY, int srcWidth, int srcHeight)
 {
-	return FetchImage(pDestImage, widen(filename), srcX, srcY, srcWidth, srcHeight);
+    return FetchImage(pDestImage, widen(filename), srcX, srcY, srcWidth, srcHeight);
 }
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const wchar_t* filename,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight)
+bool FetchImage(IMAGE* pDestImage, const wchar_t* filename, int srcX, int srcY, int srcWidth, int srcHeight)
 {
-	if (!IsValidDirectory(filename))
-	{
-		LOG_ERROR(CANNOT_ACCESS_DIR, narrow(filename));
-		return false;
-	}
+    if (!IsValidDirectory(filename))
+    {
+        LOG_ERROR(CANNOT_ACCESS_DIR, narrow(filename));
+        return false;
+    }
 
-	loadimage(&tempImage, filename, 0, 0, true);
+    loadimage(&tempImage, filename, 0, 0, true);
 
-	Device::GetInstance()->SetTargetImage(&tempImage);
-	getimage(pDestImage, srcX, srcY, srcWidth, srcHeight);
-	Device::GetInstance()->SetTargetImage();
+    Device::GetInstance()->SetTargetImage(&tempImage);
+    getimage(pDestImage, srcX, srcY, srcWidth, srcHeight);
+    Device::GetInstance()->SetTargetImage();
 
-	return true;
+    return true;
 }
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const char* filename,
-	int destWidth,
-	int destHeight,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight)
+bool FetchImage(IMAGE* pDestImage, const char* filename, int destWidth, int destHeight, int srcX, int srcY,
+                int srcWidth, int srcHeight)
 {
-	return FetchImage(
-		pDestImage,
-		widen(filename),
-		destWidth,
-		destHeight,
-		srcX,
-		srcY,
-		srcWidth,
-		srcHeight);
+    return FetchImage(pDestImage, widen(filename), destWidth, destHeight, srcX, srcY, srcWidth, srcHeight);
 }
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	const wchar_t* filename,
-	int destWidth,
-	int destHeight,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight)
+bool FetchImage(IMAGE* pDestImage, const wchar_t* filename, int destWidth, int destHeight, int srcX, int srcY,
+                int srcWidth, int srcHeight)
 {
-	if (!IsValidDirectory(filename))
-	{
-		LOG_ERROR(FAILED_TO_LOAD_RESOURCE, narrow(filename));
-		return false;
-	}
+    if (!IsValidDirectory(filename))
+    {
+        LOG_ERROR(FAILED_TO_LOAD_RESOURCE, narrow(filename));
+        return false;
+    }
 
-	loadimage(&tempImage, filename, 0, 0, true);
+    loadimage(&tempImage, filename, 0, 0, true);
 
-	Device::GetInstance()->SetTargetImage(&tempImage);
-	getimage(pDestImage, srcX, srcY, srcWidth, srcHeight);
-	Device::GetInstance()->SetTargetImage();
+    Device::GetInstance()->SetTargetImage(&tempImage);
+    getimage(pDestImage, srcX, srcY, srcWidth, srcHeight);
+    Device::GetInstance()->SetTargetImage();
 
-	ResizeImage(pDestImage, destWidth, destHeight, srcWidth, srcHeight);
-	
-	return true;
+    ResizeImage(pDestImage, destWidth, destHeight, srcWidth, srcHeight);
+
+    return true;
 }
 
 bool FetchImage(IMAGE* pDestImage, IMAGE* pSrcImage)
 {
-	(*pDestImage) = (*pSrcImage);
-	return true;
+    (*pDestImage) = (*pSrcImage);
+    return true;
 }
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	IMAGE* pSrcImage,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight)
+bool FetchImage(IMAGE* pDestImage, IMAGE* pSrcImage, int srcX, int srcY, int srcWidth, int srcHeight)
 {
-	Device::GetInstance()->SetTargetImage(pSrcImage);
-	getimage(pDestImage, srcX, srcY, srcWidth, srcHeight);
-	Device::GetInstance()->SetTargetImage();
+    Device::GetInstance()->SetTargetImage(pSrcImage);
+    getimage(pDestImage, srcX, srcY, srcWidth, srcHeight);
+    Device::GetInstance()->SetTargetImage();
 
-	return true;
+    return true;
 }
 
-bool FetchImage(
-	IMAGE* pDestImage,
-	IMAGE* pSrcImage,
-	int destWidth,
-	int destHeight,
-	int srcX,
-	int srcY,
-	int srcWidth,
-	int srcHeight)
+bool FetchImage(IMAGE* pDestImage, IMAGE* pSrcImage, int destWidth, int destHeight, int srcX, int srcY, int srcWidth,
+                int srcHeight)
 {
-	Device::GetInstance()->SetTargetImage(pSrcImage);
-	getimage(pDestImage, srcX, srcY, srcWidth, srcHeight);
-	Device::GetInstance()->SetTargetImage();
+    Device::GetInstance()->SetTargetImage(pSrcImage);
+    getimage(pDestImage, srcX, srcY, srcWidth, srcHeight);
+    Device::GetInstance()->SetTargetImage();
 
-	ResizeImage(pDestImage, destWidth, destHeight, srcWidth, srcHeight);
-	
-	return true;
+    ResizeImage(pDestImage, destWidth, destHeight, srcWidth, srcHeight);
+
+    return true;
 }
-
 
 /******************************************************************************
  * FetchSound -- Load an external sound.                                      *
@@ -245,9 +188,8 @@ bool FetchImage(
  *============================================================================*/
 bool FetchSound(DSound* sound, const char* filename)
 {
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * FetchStream -- Load an external stream.                                    *
@@ -266,5 +208,5 @@ bool FetchSound(DSound* sound, const char* filename)
  *============================================================================*/
 bool FetchStream(DSound* stream, const char* filename)
 {
-	return true;
+    return true;
 }

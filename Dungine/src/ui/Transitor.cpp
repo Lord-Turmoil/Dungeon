@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Transitor handle the transit between two interfaces.                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,11 +24,10 @@
 #include "../../inc/device/Device.h"
 #include "../../inc/device/Timer.h"
 
-#include "../../inc/ui/Transitor.h"
 #include "../../inc/ui/AbstractInterface.h"
+#include "../../inc/ui/Transitor.h"
 
 #include "../../inc/utility/Auxilliary.h"
-
 
 Symbol Transitor::m_symbol;
 
@@ -48,9 +47,8 @@ Symbol Transitor::m_symbol;
  *============================================================================*/
 void Transitor::Initialize()
 {
-	m_symbol.GetImage()->Resize(deviceInfo.clientWidth, deviceInfo.clientHeight);
+    m_symbol.GetImage()->Resize(deviceInfo.clientWidth, deviceInfo.clientHeight);
 }
-
 
 /******************************************************************************
  * Transitor::FadeIn -- From dark to light.                                   *
@@ -69,9 +67,8 @@ void Transitor::Initialize()
  *============================================================================*/
 void Transitor::FadeIn(AbstractInterface* intf, clock_t duration)
 {
-	_Fade(intf, duration, 0, 255);
+    _Fade(intf, duration, 0, 255);
 }
-
 
 /******************************************************************************
  * Transitor::FadeOut -- From light to dark.                                  *
@@ -90,9 +87,8 @@ void Transitor::FadeIn(AbstractInterface* intf, clock_t duration)
  *============================================================================*/
 void Transitor::FadeOut(AbstractInterface* intf, clock_t duration)
 {
-	_Fade(intf, duration, 255, 0);
+    _Fade(intf, duration, 255, 0);
 }
-
 
 /******************************************************************************
  * Transitor::_Fade -- Perform fade.                                          *
@@ -113,25 +109,28 @@ void Transitor::FadeOut(AbstractInterface* intf, clock_t duration)
  *============================================================================*/
 void Transitor::_Fade(AbstractInterface* intf, clock_t duration, int start, int end)
 {
-	clock_t elapsedTime = 0;
-	Device* device = Device::GetInstance();
-	Timer* timer = Timer::GetInstance();
+    clock_t elapsedTime = 0;
+    Device* device = Device::GetInstance();
+    Timer* timer = Timer::GetInstance();
 
-	device->Abandon();
-	intf->Draw(m_symbol.GetImage());
-	while (elapsedTime < duration)
-	{
-		timer->Update();
+    device->Abandon();
+    intf->Draw(m_symbol.GetImage());
+    while (elapsedTime < duration)
+    {
+        timer->Update();
 
-		elapsedTime += timer->GetDeltaTimestamp();
-		if (elapsedTime > duration)
-			elapsedTime = duration;
+        elapsedTime += timer->GetDeltaTimestamp();
+        if (elapsedTime > duration)
+        {
+            elapsedTime = duration;
+        }
 
-		m_symbol.GetAttribute()->alpha = BlendValue(start, end, (double)elapsedTime / (double)duration);
+        m_symbol.GetAttribute()->alpha =
+            BlendValue(start, end, static_cast<double>(elapsedTime) / static_cast<double>(duration));
 
-		device->AddSymbol(&m_symbol);
-		device->Render();
+        device->AddSymbol(&m_symbol);
+        device->Render();
 
-		timer->Delay();
-	}
+        timer->Delay();
+    }
 }

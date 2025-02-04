@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Implementation of Collider to get  collision type.                       *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,10 +21,10 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/common/Defines.h"
 #include "../../inc/game/Collision.h"
+#include "../../inc/common/Defines.h"
 
 CollisionType GetCollisionType(int idA, int idB)
 {
-	return COLLISION_MAP[idA][idB];
+    return COLLISION_MAP[idA][idB];
 }

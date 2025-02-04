@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Hero library.                                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,26 +24,32 @@
 #ifndef _HERO_LIBRARY_H_
 #define _HERO_LIBRARY_H_
 
-#include <vector>
 #include <dungine.h>
+#include <vector>
 
 class Hero;
 
 class HeroLibrary : private AbstractLibrary<Hero>, public Singleton<HeroLibrary>
 {
-	friend class Singleton<HeroLibrary>;
+    friend class Singleton<HeroLibrary>;
+
 public:
-	bool Load(const char* filename);
+    bool Load(const char* filename);
 
-	virtual bool Load(XMLElement* node);
-	virtual void UnLoad();
+    bool Load(XMLElement* node) override;
+    void UnLoad() override;
 
-	Hero* AddHero(Hero* enemy);
-	Hero* GetHeroByName(const std::string& name);
+    Hero* AddHero(Hero* enemy);
+    Hero* GetHeroByName(const std::string& name);
 
 private:
-	HeroLibrary() {}
-	virtual ~HeroLibrary() {}
+    HeroLibrary()
+    {
+    }
+
+    ~HeroLibrary() override
+    {
+    }
 };
 
 #endif

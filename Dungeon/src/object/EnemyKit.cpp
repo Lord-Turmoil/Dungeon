@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Factory of enemies.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,11 +21,10 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Enemy.h"
-#include "../../inc/object/Genie.h"
 #include "../../inc/object/EnemyKit.h"
 #include "../../inc/object/Boss.h"
-
+#include "../../inc/object/Enemy.h"
+#include "../../inc/object/Genie.h"
 
 /******************************************************************************
  * EnemyKit::LoadObject -- Load enemy.                                        *
@@ -43,22 +42,34 @@
  *============================================================================*/
 Enemy* EnemyKit::LoadObject(XMLElement* node)
 {
-	const char* name = node->Name();
-	Enemy* enemy = nullptr;
+    const char* name = node->Name();
+    Enemy* enemy = nullptr;
 
-	if (_STR_SAME(name, "Enemy"))
-		enemy = new Enemy(nullptr);
-	else if (_STR_SAME(name, "Genie"))
-		enemy = new Genie(nullptr);
-	else if (_STR_SAME(name, "Rock"))
-		enemy = new ERock(nullptr);
-	else if (_STR_SAME(name, "DBlackHand"))
-		enemy = new EBlackHand(nullptr);
+    if (_STR_SAME(name, "Enemy"))
+    {
+        enemy = new Enemy(nullptr);
+    }
+    else if (_STR_SAME(name, "Genie"))
+    {
+        enemy = new Genie(nullptr);
+    }
+    else if (_STR_SAME(name, "Rock"))
+    {
+        enemy = new ERock(nullptr);
+    }
+    else if (_STR_SAME(name, "DBlackHand"))
+    {
+        enemy = new EBlackHand(nullptr);
+    }
 
-	if (enemy)
-		enemy->Load(node);
-	else
-		LOG_ERROR(UNKNOWN_TAG, name);
+    if (enemy)
+    {
+        enemy->Load(node);
+    }
+    else
+    {
+        LOG_ERROR(UNKNOWN_TAG, name);
+    }
 
-	return enemy;
+    return enemy;
 }

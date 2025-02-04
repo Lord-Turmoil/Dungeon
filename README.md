@@ -1,6 +1,6 @@
 # Dungeon
 
-Copyright © New Desire Studios 2022 - 2023
+Copyright © New Desire Studios 2022 - 2025
 
 ---
 

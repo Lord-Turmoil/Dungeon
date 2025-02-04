@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide terrain generation algorithm.                                    *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -38,36 +38,34 @@
 ** The other is death mode, which is one large room.
 */
 
-
 /********************************************************************
 ** Prim. The edge info will be declared in source file.
 */
 struct PrimEdge
 {
-	int u;
-	int v;
-	int weight;
-	int id;		// used to identify same edge with inverted u, v
-	int next;
+    int u;
+    int v;
+    int weight;
+    int id; // used to identify same edge with inverted u, v
+    int next;
 };
 
 struct PrimToken
 {
-	int u;
-	int v;
-	int weight;
-	int id;
+    int u;
+    int v;
+    int weight;
+    int id;
 };
 
 struct ComparePrimToken
 {
-	bool operator()(const PrimToken& t1, const PrimToken& t2) const
-	{
-		// decreasing
-		return t1.weight > t2.weight;
-	};
+    bool operator()(const PrimToken& t1, const PrimToken& t2) const
+    {
+        // decreasing
+        return t1.weight > t2.weight;
+    };
 };
-
 
 const int EDGE_NUM = 2 * MAP_SIZE * (MAP_SIZE - 1);
 const int VERTEX_NUM = MAP_SIZE * MAP_SIZE;
@@ -76,17 +74,19 @@ const int MAX_EDGE_WEIGHT = EDGE_NUM * EDGE_NUM;
 class Prim
 {
 public:
-	static void Generate(int vertexNum);
-	
-	static PlainTerrain* GetPlainTerrain() { return &m_plain; }
+    static void Generate(int vertexNum);
+
+    static PlainTerrain* GetPlainTerrain()
+    {
+        return &m_plain;
+    }
 
 private:
-	static void _Initialize();
-	static void _AddEdge(int u, int v, int id);
-	static void _AddSingleEdge(int u, int v, int id);
-	
-	static PlainTerrain m_plain;
-};
+    static void _Initialize();
+    static void _AddEdge(int u, int v, int id);
+    static void _AddSingleEdge(int u, int v, int id);
 
+    static PlainTerrain m_plain;
+};
 
 #endif

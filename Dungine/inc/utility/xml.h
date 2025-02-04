@@ -12,7 +12,7 @@
  *                    Last Update : December 9, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The xml file class to load xml file. Since tinyxml2 does not support     *
  *   unicode, while Windows API has to use wide char, here I made a compromise*
  *   to use xml files only.                                                   *
@@ -30,7 +30,6 @@
 
 #include "tinyxml.h"
 
-
 /********************************************************************
 ** There is a embarrassing situation that... Windows API supports
 ** wide char while tinyxml only support char... :(
@@ -38,52 +37,62 @@
 class XMLFile
 {
 public:
-	XMLFile() : m_filename(nullptr), m_isLoaded(false) {}
-	~XMLFile();
+    XMLFile() : m_filename(nullptr), m_isLoaded(false)
+    {
+    }
 
-	/*
-	** Load the file from memory. This will close the previous file.
-	*/
-	bool Load(const char* filename);
-	bool Save();
-	bool Save(const char* filename);
+    ~XMLFile();
 
-	/*
-	** 2022/12/09 TS:
-	**   Clear current document.
-	*/
-	bool Clear();
+    /*
+    ** Load the file from memory. This will close the previous file.
+    */
+    bool Load(const char* filename);
+    bool Save();
+    bool Save(const char* filename);
 
-	/*
-	** Unload the current file.
-	*/
-	bool UnLoad();
+    /*
+    ** 2022/12/09 TS:
+    **   Clear current document.
+    */
+    bool Clear();
 
-	/*
-	** Get the root, or a specific node of the XML file.
-	*/
-	XMLElement* GetRoot();
+    /*
+    ** Unload the current file.
+    */
+    bool UnLoad();
 
-	XMLElement* GetElementByTagName(const char* tag);
-	XMLElement* GetElementByAttrName(const char* attr, const char* name);
+    /*
+    ** Get the root, or a specific node of the XML file.
+    */
+    XMLElement* GetRoot();
 
-	std::vector<XMLElement*> GetElementsByTagName(const char* tag);
-	std::vector<XMLElement*> GetElementsByAttrName(const char* attr, const char* name);
+    XMLElement* GetElementByTagName(const char* tag);
+    XMLElement* GetElementByAttrName(const char* attr, const char* name);
+
+    std::vector<XMLElement*> GetElementsByTagName(const char* tag);
+    std::vector<XMLElement*> GetElementsByAttrName(const char* attr, const char* name);
 
 public:
-	XMLDoc& Doc() { return m_doc; }
-	bool IsLoaded() const { return m_isLoaded; }
+    XMLDoc& Doc()
+    {
+        return m_doc;
+    }
+
+    bool IsLoaded() const
+    {
+        return m_isLoaded;
+    }
 
 private:
-	XMLDoc m_doc;
+    XMLDoc m_doc;
 
-	const char* m_filename;
+    const char* m_filename;
 
-	/*
-	** The straw's current state, whether a file has been loaded
-	** or not.
-	*/
-	bool m_isLoaded;
+    /*
+    ** The straw's current state, whether a file has been loaded
+    ** or not.
+    */
+    bool m_isLoaded;
 };
 
 XMLElement* GetElementByTagName(XMLElement* node, const char* tag);
