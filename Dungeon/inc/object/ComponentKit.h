@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide base component for the game.                                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,10 +29,15 @@
 class ComponentKit : public StandardComponentKit
 {
 public:
-	ComponentKit() {}
-	virtual ~ComponentKit() {}
+    ComponentKit()
+    {
+    }
 
-	virtual AbstractComponent* LoadComponent(XMLElement* node);
+    ~ComponentKit() override
+    {
+    }
+
+    AbstractComponent* LoadComponent(XMLElement* node) override;
 };
 
 #endif

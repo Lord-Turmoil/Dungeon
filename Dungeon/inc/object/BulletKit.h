@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Factory of bullets.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -31,10 +31,15 @@ class Bullet;
 class BulletKit : public AbstractKit<Bullet>
 {
 public:
-	BulletKit() {}
-	virtual ~BulletKit() {}
+    BulletKit()
+    {
+    }
 
-	virtual Bullet* LoadObject(XMLElement* node);
+    ~BulletKit() override
+    {
+    }
+
+    Bullet* LoadObject(XMLElement* node) override;
 };
 
 #endif

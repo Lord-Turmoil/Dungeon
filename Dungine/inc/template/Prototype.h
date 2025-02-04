@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Prototype pattern.                                                       *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,24 +29,33 @@
 ** none-prototype in Clone().
 ** Why private? Just for fun. :)
 */
-template<typename T>
-class Prototype
+template <typename T> class Prototype
 {
 public:
-	Prototype() : m_isPrototype(true) {}
-	Prototype(const Prototype&) = delete;
-	Prototype& operator=(const Prototype&) = delete;
-	~Prototype() = default;
+    Prototype() : m_isPrototype(true)
+    {
+    }
 
-	virtual T* Clone() const = 0;
-	virtual void Clone(T* clone) const = 0;
+    Prototype(const Prototype&) = delete;
+    Prototype& operator=(const Prototype&) = delete;
+    ~Prototype() = default;
+
+    virtual T* Clone() const = 0;
+    virtual void Clone(T* clone) const = 0;
 
 protected:
-	void _MakePrototype(bool isPrototype) { m_isPrototype = isPrototype; }
-	bool _IsPrototype() { return m_isPrototype; }
+    void _MakePrototype(bool isPrototype)
+    {
+        m_isPrototype = isPrototype;
+    }
+
+    bool _IsPrototype()
+    {
+        return m_isPrototype;
+    }
 
 private:
-	bool m_isPrototype;
+    bool m_isPrototype;
 };
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Bow behavior.                                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -36,81 +36,118 @@
 class BowBehavior : public WeaponBehavior
 {
 public:
-	BowBehavior() {}
-	virtual ~BowBehavior() {}
+    BowBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~BowBehavior() override
+    {
+    }
 
-	virtual BowBehavior* Clone() const = 0;
-	virtual void Clone(BowBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    BowBehavior* Clone() const override = 0;
+    virtual void Clone(BowBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	enum BowAnimTag
-	{
-		BOW_ANIM_CHARGE = WEAPON_ANIM_CUSTOM_START,
-		BOW_ANIM_DISCHARGE,
-		BOW_ANIM_HOLD,		// fully charged
-	};
+    enum BowAnimTag
+    {
+        BOW_ANIM_CHARGE = WEAPON_ANIM_CUSTOM_START,
+        BOW_ANIM_DISCHARGE,
+        BOW_ANIM_HOLD, // fully charged
+    };
 };
 
 class BowReady : public BowBehavior
 {
 public:
-	virtual const char* Name() const { return "Ready"; }
+    const char* Name() const override
+    {
+        return "Ready";
+    }
 
-	virtual BowReady* Clone() const;
-	virtual void Clone(BowReady* clone) const {}
+    BowReady* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(BowReady* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class BowCharge : public BowBehavior
 {
 public:
-	virtual const char* Name() const { return "Charge"; }
+    const char* Name() const override
+    {
+        return "Charge";
+    }
 
-	virtual BowCharge* Clone() const;
-	virtual void Clone(BowCharge* clone) const {}
+    BowCharge* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(BowCharge* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class BowDischarge : public BowBehavior
 {
 public:
-	virtual const char* Name() const { return "Discharge"; }
+    const char* Name() const override
+    {
+        return "Discharge";
+    }
 
-	virtual BowDischarge* Clone() const;
-	virtual void Clone(BowDischarge* clone) const {}
+    BowDischarge* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(BowDischarge* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class BowHold : public BowBehavior
 {
 public:
-	virtual const char* Name() const { return "Hold"; }
+    const char* Name() const override
+    {
+        return "Hold";
+    }
 
-	virtual BowHold* Clone() const;
-	virtual void Clone(BowHold* clone) const {}
+    BowHold* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(BowHold* clone) const
+    {
+    }
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
+    void OnExit() override;
 };
 
 #endif

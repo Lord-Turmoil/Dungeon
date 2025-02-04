@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Genie's behavior.                                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -41,88 +41,94 @@
 class GenieInit : public EnemyInit
 {
 public:
-	virtual GenieInit* Clone() const;
-	virtual void Clone(GenieInit* clone) const;
+    GenieInit* Clone() const override;
+    virtual void Clone(GenieInit* clone) const;
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    void OnEnter() override;
+    void OnExit() override;
 };
 
 class GenieIdle : public EnemyIdle
 {
 public:
-	virtual GenieIdle* Clone() const;
-	virtual void Clone(GenieIdle* clone) const;
+    GenieIdle* Clone() const override;
+    virtual void Clone(GenieIdle* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 };
 
 class GeniePatrol : public EnemyBehavior
 {
 public:
-	virtual const char* Name() const { return "Patrol"; }
+    const char* Name() const override
+    {
+        return "Patrol";
+    }
 
-	virtual GeniePatrol* Clone() const;
-	virtual void Clone(GeniePatrol* clone) const;
+    GeniePatrol* Clone() const override;
+    virtual void Clone(GeniePatrol* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 
-	virtual void OnEnter();
+    void OnEnter() override;
 
 private:
-	Coordinate m_target;
+    Coordinate m_target;
 };
 
 class GenieEngage : public EnemyEngage
 {
 public:
-	virtual GenieEngage* Clone() const;
-	virtual void Clone(GenieEngage* clone) const;
+    GenieEngage* Clone() const override;
+    virtual void Clone(GenieEngage* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 };
 
 class GenieRetreat : public EnemyBehavior
 {
 public:
-	virtual const char* Name() const { return "Retreat"; }
+    const char* Name() const override
+    {
+        return "Retreat";
+    }
 
-	virtual GenieRetreat* Clone() const;
-	virtual void Clone(GenieRetreat* clone) const;
+    GenieRetreat* Clone() const override;
+    virtual void Clone(GenieRetreat* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 
-	virtual void OnEnter();
+    void OnEnter() override;
 };
 
 class GenieAttack : public EnemyAttack
 {
 public:
-	virtual GenieAttack* Clone() const;
-	virtual void Clone(GenieAttack* clone) const;
+    GenieAttack* Clone() const override;
+    virtual void Clone(GenieAttack* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    void OnEnter() override;
+    void OnExit() override;
 };
 
 class GenieRest : public EnemyRest
 {
 public:
-	virtual GenieRest* Clone() const;
-	virtual void Clone(GenieRest* clone) const;
+    GenieRest* Clone() const override;
+    virtual void Clone(GenieRest* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 };
 
 class GenieDead : public EnemyDead
 {
 public:
-	virtual GenieDead* Clone() const;
-	virtual void Clone(GenieDead* clone) const;
+    GenieDead* Clone() const override;
+    virtual void Clone(GenieDead* clone) const;
 
-	virtual void OnEnter();
+    void OnEnter() override;
 };
 
 #endif

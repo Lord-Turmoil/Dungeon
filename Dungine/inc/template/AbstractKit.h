@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Base class of factory for object creation.                               *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,18 +24,22 @@
 #ifndef _ABSTRACT_KIT_H_
 #define _ABSTRACT_KIT_H_
 
-template<typename ObjType>
-class AbstractKit
+template <typename ObjType> class AbstractKit
 {
 public:
-	AbstractKit() {}
-	virtual ~AbstractKit() {}
+    AbstractKit()
+    {
+    }
 
-	/*
-	** The constructor of the object need to know the parent scene,
-	** but the scene is not a prototype. :(
-	*/
-	virtual ObjType* LoadObject(XMLElement* node) = 0;
+    virtual ~AbstractKit()
+    {
+    }
+
+    /*
+    ** The constructor of the object need to know the parent scene,
+    ** but the scene is not a prototype. :(
+    */
+    virtual ObjType* LoadObject(XMLElement* node) = 0;
 };
 
 #endif

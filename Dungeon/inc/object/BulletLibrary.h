@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Bullet library.                                                          *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -30,19 +30,25 @@ class Bullet;
 
 class BulletLibrary : private AbstractLibrary<Bullet>, public Singleton<BulletLibrary>
 {
-	friend class Singleton<BulletLibrary>;
+    friend class Singleton<BulletLibrary>;
+
 public:
-	bool Load(const char* filename);
+    bool Load(const char* filename);
 
-	virtual bool Load(XMLElement* node);
-	virtual void UnLoad();
+    bool Load(XMLElement* node) override;
+    void UnLoad() override;
 
-	Bullet* AddBullet(Bullet* bullet);
-	Bullet* GetBulletByName(const std::string& name);
+    Bullet* AddBullet(Bullet* bullet);
+    Bullet* GetBulletByName(const std::string& name);
 
 private:
-	BulletLibrary() {}
-	virtual ~BulletLibrary() {}
+    BulletLibrary()
+    {
+    }
+
+    ~BulletLibrary() override
+    {
+    }
 };
 
 #endif

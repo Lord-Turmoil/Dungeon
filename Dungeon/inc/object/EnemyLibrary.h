@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Library of enemy.                                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -32,20 +32,26 @@ class Enemy;
 
 class EnemyLibrary : private AbstractLibrary<Enemy>, public Singleton<EnemyLibrary>
 {
-	friend class Singleton<EnemyLibrary>;
+    friend class Singleton<EnemyLibrary>;
+
 public:
-	virtual bool Load(XMLElement* node);
-	virtual void UnLoad();
-	
-	Enemy* AddEnemy(Enemy* enemy);
-	Enemy* GetEnemyByName(const std::string& name);
-	const std::vector<Enemy*>& GetEnemyByLevel(int level);
+    bool Load(XMLElement* node) override;
+    void UnLoad() override;
+
+    Enemy* AddEnemy(Enemy* enemy);
+    Enemy* GetEnemyByName(const std::string& name);
+    const std::vector<Enemy*>& GetEnemyByLevel(int level);
 
 private:
-	EnemyLibrary() {}
-	virtual ~EnemyLibrary() {}
+    EnemyLibrary()
+    {
+    }
 
-	std::map<int, std::vector<Enemy*>> m_categoryPool;
+    ~EnemyLibrary() override
+    {
+    }
+
+    std::map<int, std::vector<Enemy*>> m_categoryPool;
 };
 
 #endif

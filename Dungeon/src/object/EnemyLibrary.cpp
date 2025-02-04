@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Library of enemy.                                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,10 +21,9 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
+#include "../../inc/object/EnemyLibrary.h"
 #include "../../inc/object/Enemy.h"
 #include "../../inc/object/EnemyKit.h"
-#include "../../inc/object/EnemyLibrary.h"
-
 
 /******************************************************************************
  * EnemyLibrary::Load -- Load enemy library.                                  *
@@ -42,31 +41,30 @@
  *============================================================================*/
 bool EnemyLibrary::Load(XMLElement* node)
 {
-/*
-**	<EnemyLibrary>
-**		<EnemyName ...>...</EnemyName>
-**		<EnemyName ...>...</EnemyName>
-**		<EnemyName ...>...</EnemyName>
-**	</EnemyLibrary>
-*/
-	UnLoad();
+    /*
+    **	<EnemyLibrary>
+    **		<EnemyName ...>...</EnemyName>
+    **		<EnemyName ...>...</EnemyName>
+    **		<EnemyName ...>...</EnemyName>
+    **	</EnemyLibrary>
+    */
+    UnLoad();
 
-	const char* name = node->Name();
-	
-	_CHECK_TAG("EnemyLibrary");
-	_RETURN_IF_ERROR();
+    const char* name = node->Name();
 
-	EnemyKit kit;
-	XMLElement* elem = node->FirstChildElement();
-	while (elem)
-	{
-		AddEnemy(kit.LoadObject(elem));
-		elem = elem->NextSiblingElement();
-	}
+    _CHECK_TAG("EnemyLibrary");
+    _RETURN_IF_ERROR();
 
-	_RETURN_STATE();
+    EnemyKit kit;
+    XMLElement* elem = node->FirstChildElement();
+    while (elem)
+    {
+        AddEnemy(kit.LoadObject(elem));
+        elem = elem->NextSiblingElement();
+    }
+
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * EnemyLibrary::UnLoad -- Unload enemy library.                              *
@@ -84,12 +82,13 @@ bool EnemyLibrary::Load(XMLElement* node)
  *============================================================================*/
 void EnemyLibrary::UnLoad()
 {
-	for (auto it = m_pool.begin(); it != m_pool.end(); it++)
-		delete it->second;
-	m_pool.clear();
-	m_categoryPool.clear();
+    for (auto it = m_pool.begin(); it != m_pool.end(); it++)
+    {
+        delete it->second;
+    }
+    m_pool.clear();
+    m_categoryPool.clear();
 }
-
 
 /******************************************************************************
  * EnemyLibrary::AddEnemy -- Add enemy to the library.                        *
@@ -107,19 +106,18 @@ void EnemyLibrary::UnLoad()
  *============================================================================*/
 Enemy* EnemyLibrary::AddEnemy(Enemy* enemy)
 {
-	auto it = m_pool.find(enemy->Name());
-	if (it != m_pool.end())
-	{
-		LOG_ERROR(NAME_CONFLICT, "Enemy Library", enemy->Name().c_str());
-		return nullptr;
-	}
+    auto it = m_pool.find(enemy->Name());
+    if (it != m_pool.end())
+    {
+        LOG_ERROR(NAME_CONFLICT, "Enemy Library", enemy->Name().c_str());
+        return nullptr;
+    }
 
-	m_pool.emplace(enemy->Name(), enemy);
-	m_categoryPool[enemy->Level()].push_back(enemy);
+    m_pool.emplace(enemy->Name(), enemy);
+    m_categoryPool[enemy->Level()].push_back(enemy);
 
-	return enemy;
+    return enemy;
 }
-
 
 /******************************************************************************
  * EnemyLibrary::GetEnemyByName -- Get enemy by name.                         *
@@ -138,9 +136,8 @@ Enemy* EnemyLibrary::AddEnemy(Enemy* enemy)
  *============================================================================*/
 Enemy* EnemyLibrary::GetEnemyByName(const std::string& name)
 {
-	return GetItem(name);
+    return GetItem(name);
 }
-
 
 /******************************************************************************
  * EnemyLibrary::GetEnemyByLevel -- Get enemy by level.                       *
@@ -158,17 +155,19 @@ Enemy* EnemyLibrary::GetEnemyByName(const std::string& name)
  *============================================================================*/
 const std::vector<Enemy*>& EnemyLibrary::GetEnemyByLevel(int level)
 {
-	auto it = m_categoryPool.find(level);
+    auto it = m_categoryPool.find(level);
 
-	if (it != m_categoryPool.end())
-		return it->second;
+    if (it != m_categoryPool.end())
+    {
+        return it->second;
+    }
 
-	/*
-	** This shouldn't happen, but as it will. :)
-	*/
-	LOG_EXTRA_WARNING("Missing enemy of level %d", level);
+    /*
+    ** This shouldn't happen, but as it will. :)
+    */
+    LOG_EXTRA_WARNING("Missing enemy of level %d", level);
 
-	static std::vector<Enemy*> dummy;
+    static std::vector<Enemy*> dummy;
 
-	return dummy;
+    return dummy;
 }

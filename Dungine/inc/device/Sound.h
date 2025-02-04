@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide basic sound types.                                               *
  * -------------------------------------------------------------------------- *
  * Reference:                                                                 *
@@ -32,23 +32,26 @@
 #include "../utility/fmodcore.h"
 #include "../utility/tinyxml.h"
 
-
 /********************************************************************
 ** The actual sound object. 'D' means Dungine.
 */
 struct DSound
 {
-	FMOD::Sound* snd;	// sound
-	FMOD::Channel* chl;	// channel
+    FMOD::Sound* snd;   // sound
+    FMOD::Channel* chl; // channel
 
-	DSound() : snd(nullptr), chl(nullptr) {}
-	~DSound()
-	{
-		if (snd)
-			snd->release();
-	}
+    DSound() : snd(nullptr), chl(nullptr)
+    {
+    }
+
+    ~DSound()
+    {
+        if (snd)
+        {
+            snd->release();
+        }
+    }
 };
-
 
 /********************************************************************
 ** There are two types of sounds, one is in-game sound effect, which
@@ -58,21 +61,25 @@ struct DSound
 class AbstractSound
 {
 public:
-	AbstractSound() : m_isPaused(false) {}
-	virtual ~AbstractSound() {}
+    AbstractSound() : m_isPaused(false)
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
-	
-	virtual void Update() = 0;
+    virtual ~AbstractSound()
+    {
+    }
 
-	virtual void Play() = 0;
-	virtual void Pause(bool isPaused) = 0;
-	virtual void Stop() = 0;
+    virtual bool Load(XMLElement* node);
+
+    virtual void Update() = 0;
+
+    virtual void Play() = 0;
+    virtual void Pause(bool isPaused) = 0;
+    virtual void Stop() = 0;
 
 protected:
-	bool m_isPaused;
+    bool m_isPaused;
 };
-
 
 /********************************************************************
 ** All sounds that aren't background music which will play a long
@@ -82,22 +89,24 @@ protected:
 class MonoSound : public AbstractSound
 {
 public:
-	MonoSound() : m_pSound(nullptr), m_isShared(false) {}
-	virtual ~MonoSound();
+    MonoSound() : m_pSound(nullptr), m_isShared(false)
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~MonoSound() override;
 
-	virtual void Update();
+    bool Load(XMLElement* node) override;
 
-	virtual void Play();
-	virtual void Pause(bool isPaused);
-	virtual void Stop();
+    void Update() override;
+
+    void Play() override;
+    void Pause(bool isPaused) override;
+    void Stop() override;
 
 private:
-	DSound* m_pSound;
-	bool m_isShared;	// Whether share channel with other sounds.
+    DSound* m_pSound;
+    bool m_isShared; // Whether share channel with other sounds.
 };
-
 
 /********************************************************************
 ** Background music should all be contained in playlists. Even there
@@ -107,38 +116,53 @@ private:
 class PlayList : public AbstractSound
 {
 public:
-	PlayList();
-	virtual ~PlayList();
+    PlayList();
+    ~PlayList() override;
 
-	virtual bool Load(XMLElement* node);
+    bool Load(XMLElement* node) override;
 
-	virtual void Update();
+    void Update() override;
 
-	virtual void Play();
-	virtual void Pause(bool isPaused);
-	virtual void Stop();
+    void Play() override;
+    void Pause(bool isPaused) override;
+    void Stop() override;
 
-	void SetVolume(double volume);
+    void SetVolume(double volume);
 
 public:
-	bool IsPlaying() const;
-	bool IsLoop() const { return m_isLoop; }
-	void Loop(bool isLoop) { m_isLoop = isLoop; }
-	bool IsShuffle() const { return m_isShuffle; }
-	void Shuffle(bool isShuffle) { m_isShuffle = isShuffle; }
+    bool IsPlaying() const;
+
+    bool IsLoop() const
+    {
+        return m_isLoop;
+    }
+
+    void Loop(bool isLoop)
+    {
+        m_isLoop = isLoop;
+    }
+
+    bool IsShuffle() const
+    {
+        return m_isShuffle;
+    }
+
+    void Shuffle(bool isShuffle)
+    {
+        m_isShuffle = isShuffle;
+    }
 
 private:
-	void _Release();
-	void _PlayNext();
-	void _Shuffle();
+    void _Release();
+    void _PlayNext();
+    void _Shuffle();
 
-	std::vector<DSound*> m_queue;
-	std::vector<DSound*>::iterator m_current;
-	
-	bool m_isLoop;
-	bool m_isShuffle;
+    std::vector<DSound*> m_queue;
+    std::vector<DSound*>::iterator m_current;
+
+    bool m_isLoop;
+    bool m_isShuffle;
 };
-
 
 DSound* LoadSound(const char* filename);
 DSound* LoadStream(const char* filename);

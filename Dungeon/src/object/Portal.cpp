@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Portal.                                                                  *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -30,60 +30,59 @@
 ** Portal
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
-Portal::Portal(Scene* scene) : Object(ObjectType::OBJ_PORTAL, scene),
-	m_radius(0.0), m_pFlashback(nullptr)
+Portal::Portal(Scene* scene) : Object(OBJ_PORTAL, scene), m_radius(0.0), m_pFlashback(nullptr)
 {
-	m_symbol.SetLayer(LAYER_FIGURE);
+    m_symbol.SetLayer(LAYER_FIGURE);
 }
 
 Portal* Portal::Clone() const
 {
-	Portal* clone = new Portal(m_pScene);
-	clone->_MakePrototype(false);
+    Portal* clone = new Portal(m_pScene);
+    clone->_MakePrototype(false);
 
-	Object::Clone(clone);
+    Object::Clone(clone);
 
-	clone->m_radius = m_radius;
+    clone->m_radius = m_radius;
 
-	return clone;
+    return clone;
 }
 
 bool Portal::Load(XMLElement* node)
 {
-	/*
-	**	<Portal	radius="">
-	**		<Components>
-	**		</Components>
-	**	</Portal>
-	*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<Portal	radius="">
+    **		<Components>
+    **		</Components>
+    **	</Portal>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG("Portal");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Portal");
+    _RETURN_IF_ERROR();
 
-	Object::Load(node);
+    Object::Load(node);
 
-	_PARSE_ESSENTIAL("radius", m_radius, name, 0.0);
+    _PARSE_ESSENTIAL("radius", m_radius, name, 0.0);
 
-	_InitBehavior();
+    _InitBehavior();
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
 
 void Portal::Initialize()
 {
-	GetComponent<BehaviorComponent>()->ChangeBehavior("Init");
-	GetComponent<SoundComponent>()->Play("init");
+    GetComponent<BehaviorComponent>()->ChangeBehavior("Init");
+    GetComponent<SoundComponent>()->Play("init");
 }
 
 void Portal::_InitBehavior(XMLElement* node)
 {
-	auto parent = GetComponent<BehaviorComponent>();
+    auto parent = GetComponent<BehaviorComponent>();
 
-	parent->AddBehavior(new PortalIdle());
-	parent->AddBehavior(new PortalInit());
-	parent->AddBehavior(new PortalReady());
+    parent->AddBehavior(new PortalIdle());
+    parent->AddBehavior(new PortalInit());
+    parent->AddBehavior(new PortalReady());
 
-	parent->ChangeBehavior("Idle");
+    parent->ChangeBehavior("Idle");
 }

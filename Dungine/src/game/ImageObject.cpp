@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Wrap image to an object linked with resource.                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,9 +21,8 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/common/Common.h"
 #include "../../inc/game/ImageObject.h"
-
+#include "../../inc/common/Common.h"
 
 /******************************************************************************
  * ImageObject::~ImageObject -- Destructor of the object.                     *
@@ -41,13 +40,14 @@
  *============================================================================*/
 ImageObject::~ImageObject()
 {
-	if (_IsPrototype())
-	{
-		if (m_pResource)
-			m_pResource->Release();
-	}
+    if (_IsPrototype())
+    {
+        if (m_pResource)
+        {
+            m_pResource->Release();
+        }
+    }
 }
-
 
 /******************************************************************************
  * ImageObject::Clone -- Clone image object.                                  *
@@ -65,17 +65,16 @@ ImageObject::~ImageObject()
  *============================================================================*/
 ImageObject* ImageObject::Clone() const
 {
-	ImageObject* clone = new ImageObject();
-	clone->_MakePrototype(false);
+    ImageObject* clone = new ImageObject();
+    clone->_MakePrototype(false);
 
-	AbstractObject::Clone(clone);
+    AbstractObject::Clone(clone);
 
-	clone->m_pImage = m_pImage;
-	clone->m_pResource = m_pResource;
+    clone->m_pImage = m_pImage;
+    clone->m_pResource = m_pResource;
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * ImageObject::Load -- Load image object.                                    *
@@ -94,31 +93,33 @@ ImageObject* ImageObject::Clone() const
  *============================================================================*/
 bool ImageObject::Load(XMLElement* node)
 {
-/*
-**	<TagName src=""></TagName>
-*/
-	if (!node)
-		return false;
+    /*
+    **	<TagName src=""></TagName>
+    */
+    if (!node)
+    {
+        return false;
+    }
 
-	if (m_pResource)
-	{
-		m_pResource->Release();
-		m_pImage = nullptr;
-		m_pResource = nullptr;
-	}
+    if (m_pResource)
+    {
+        m_pResource->Release();
+        m_pImage = nullptr;
+        m_pResource = nullptr;
+    }
 
-	const char* name = node->Name();
-	const char* src;
+    const char* name = node->Name();
+    const char* src;
 
-	src = node->Attribute("src");
-	if (!src)
-	{
-		LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
-		return false;
-	}
+    src = node->Attribute("src");
+    if (!src)
+    {
+        LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
+        return false;
+    }
 
-	m_pResource = LoadResource<ImageResource>(src);
-	m_pImage = m_pResource->GetResource();
+    m_pResource = LoadResource<ImageResource>(src);
+    m_pImage = m_pResource->GetResource();
 
-	return true;
+    return true;
 }

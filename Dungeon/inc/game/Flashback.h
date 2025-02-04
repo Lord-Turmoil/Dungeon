@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                  *
  *   For game flashback. Hmm... Save current progress. :)                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,62 +26,139 @@
 
 #include <dungine.h>
 
-
 class Flashback : public Pipe
 {
 public:
-	Flashback();
-	virtual ~Flashback() {}
+    Flashback();
 
-	virtual bool Load();
-	virtual bool Save();
+    virtual ~Flashback()
+    {
+    }
+
+    bool Load() override;
+    bool Save() override;
 
 public:
-	void SetHeroName(const std::string& name) { m_heroName = name; }
-	const std::string& GetHeroName() const { return m_heroName; }
+    void SetHeroName(const std::string& name)
+    {
+        m_heroName = name;
+    }
 
-	void SetHP(int hp)			{ m_hp = hp; }
-	int	 GetHP() const			{ return m_hp; }
-	void SetMP(int mp)			{ m_mp = mp; }
-	int	 GetMP() const			{ return m_mp; }
-	void SetArmor(int armor)	{ m_armor = armor; }
-	int	 GetArmor() const		{ return m_armor; }
-	void SetChi(int chi)		{ m_chi = chi; }
-	int	 GetChi() const			{ return m_chi; }
-	void SetWeaponList(std::vector<std::string> weaponList) { m_weaponList = weaponList; }
-	std::vector<std::string>& GetWeaponList() { return m_weaponList; }
+    const std::string& GetHeroName() const
+    {
+        return m_heroName;
+    }
 
-	void SetChapter	(int chapter)		{ m_chapter = chapter; }
-	int	 GetChapter() const				{ return m_chapter; }
-	void SetLevel(int level)			{ m_level = level; }
-	int	 GetLevel() const				{ return m_level; }
-	void SetInfinite(bool isInfinite)	{ m_isInfinite = isInfinite; }
-	bool GetInfinite() const			{ return m_isInfinite; }
+    void SetHP(int hp)
+    {
+        m_hp = hp;
+    }
 
-	void IsValid(bool isValid)	{ m_isValid = isValid; }
-	bool IsValid() const		{ return m_isValid; }
+    int GetHP() const
+    {
+        return m_hp;
+    }
+
+    void SetMP(int mp)
+    {
+        m_mp = mp;
+    }
+
+    int GetMP() const
+    {
+        return m_mp;
+    }
+
+    void SetArmor(int armor)
+    {
+        m_armor = armor;
+    }
+
+    int GetArmor() const
+    {
+        return m_armor;
+    }
+
+    void SetChi(int chi)
+    {
+        m_chi = chi;
+    }
+
+    int GetChi() const
+    {
+        return m_chi;
+    }
+
+    void SetWeaponList(std::vector<std::string> weaponList)
+    {
+        m_weaponList = weaponList;
+    }
+
+    std::vector<std::string>& GetWeaponList()
+    {
+        return m_weaponList;
+    }
+
+    void SetChapter(int chapter)
+    {
+        m_chapter = chapter;
+    }
+
+    int GetChapter() const
+    {
+        return m_chapter;
+    }
+
+    void SetLevel(int level)
+    {
+        m_level = level;
+    }
+
+    int GetLevel() const
+    {
+        return m_level;
+    }
+
+    void SetInfinite(bool isInfinite)
+    {
+        m_isInfinite = isInfinite;
+    }
+
+    bool GetInfinite() const
+    {
+        return m_isInfinite;
+    }
+
+    void IsValid(bool isValid)
+    {
+        m_isValid = isValid;
+    }
+
+    bool IsValid() const
+    {
+        return m_isValid;
+    }
 
 private:
-	void _LoadWeaponList(XMLFile& file);
-	void _SaveWeaponList(XMLFile& file);
+    void _LoadWeaponList(XMLFile& file);
+    void _SaveWeaponList(XMLFile& file);
 
 private:
-	// Hero status.
-	std::string m_heroName;
-	int m_hp;
-	int m_mp;
-	int m_armor;
-	int m_chi;
-	std::vector<std::string> m_weaponList;
+    // Hero status.
+    std::string m_heroName;
+    int m_hp;
+    int m_mp;
+    int m_armor;
+    int m_chi;
+    std::vector<std::string> m_weaponList;
 
-	// Chapter info.
-	int m_chapter;
-	int m_level;
-	bool m_isInfinite;
+    // Chapter info.
+    int m_chapter;
+    int m_level;
+    bool m_isInfinite;
 
-	// Valid flag.
-	bool m_isValid;
+    // Valid flag.
+    bool m_isValid;
 };
-
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Factory of enemies.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -31,10 +31,15 @@ class Enemy;
 class EnemyKit : public AbstractKit<Enemy>
 {
 public:
-	EnemyKit() {}
-	virtual ~EnemyKit() {}
+    EnemyKit()
+    {
+    }
 
-	virtual Enemy* LoadObject(XMLElement* node);
+    ~EnemyKit() override
+    {
+    }
+
+    Enemy* LoadObject(XMLElement* node) override;
 };
 
 #endif

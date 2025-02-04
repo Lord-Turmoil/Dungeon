@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide basic math functions.                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -44,60 +44,84 @@
  *============================================================================*/
 double GetRotationRadian(const Coordinate& dir, bool mirror)
 {
-	double radian;
+    double radian;
 
-	if (dir.x == 0)
-		radian = (dir.y > 0) ? (-HALF_PI) : HALF_PI;
-	else if (dir.x > 0)
-		radian = atan(-(double)dir.y / (double)dir.x);
-	else
-		radian = atan(-(double)dir.y / (double)dir.x) + (mirror ? 0.0 : PI);
+    if (dir.x == 0)
+    {
+        radian = (dir.y > 0) ? (-HALF_PI) : HALF_PI;
+    }
+    else if (dir.x > 0)
+    {
+        radian = atan(-static_cast<double>(dir.y) / static_cast<double>(dir.x));
+    }
+    else
+    {
+        radian = atan(-static_cast<double>(dir.y) / static_cast<double>(dir.x)) + (mirror ? 0.0 : PI);
+    }
 
-	return radian;
+    return radian;
 }
 
 double GetRotationRadian(const Vector& dir, bool mirror)
 {
-	double radian;
+    double radian;
 
-	if (dabs(dir.x) < EPSILON)
-		radian = (dir.y > 0.0) ? (-HALF_PI) : HALF_PI;
-	else if (dir.x > 0.0)
-		radian = atan(-dir.y / dir.x);
-	else
-		radian = atan(-dir.y / dir.x) + (mirror ? 0.0 : PI);
+    if (dabs(dir.x) < EPSILON)
+    {
+        radian = (dir.y > 0.0) ? (-HALF_PI) : HALF_PI;
+    }
+    else if (dir.x > 0.0)
+    {
+        radian = atan(-dir.y / dir.x);
+    }
+    else
+    {
+        radian = atan(-dir.y / dir.x) + (mirror ? 0.0 : PI);
+    }
 
-	return radian;
+    return radian;
 }
 
 double GetRotationRadian(const Coordinate& dir, int radius, bool mirror)
 {
-	double r1 = GetRotationRadian(dir, mirror);
-	if (radius == 0)
-		return r1;
+    double r1 = GetRotationRadian(dir, mirror);
+    if (radius == 0)
+    {
+        return r1;
+    }
 
-	double dist = Distance(COORD_ZERO, dir);
-	if ((dist < (double)radius) || IsZero(dist))
-		return r1;
+    double dist = Distance(COORD_ZERO, dir);
+    if ((dist < static_cast<double>(radius)) || IsZero(dist))
+    {
+        return r1;
+    }
 
-	double r2 = asin((double)radius / dist);
-	if (mirror && (dir.x < 0))
-		return r1 + r2;
-	return r1 - r2;
+    double r2 = asin(static_cast<double>(radius) / dist);
+    if (mirror && (dir.x < 0))
+    {
+        return r1 + r2;
+    }
+    return r1 - r2;
 }
 
 double GetRotationRadian(const Vector& dir, double radius, bool mirror)
 {
-	double r1 = GetRotationRadian(dir, mirror);
-	if (radius == 0)
-		return r1;
+    double r1 = GetRotationRadian(dir, mirror);
+    if (radius == 0)
+    {
+        return r1;
+    }
 
-	double dist = Module(dir);
-	if ((dist < radius) || IsZero(dist))
-		return r1;
+    double dist = Module(dir);
+    if ((dist < radius) || IsZero(dist))
+    {
+        return r1;
+    }
 
-	double r2 = asin(radius / dist);
-	if (mirror && (dir.x < 0))
-		return r1 + r2;
-	return r1 - r2;
+    double r2 = asin(radius / dist);
+    if (mirror && (dir.x < 0))
+    {
+        return r1 + r2;
+    }
+    return r1 - r2;
 }

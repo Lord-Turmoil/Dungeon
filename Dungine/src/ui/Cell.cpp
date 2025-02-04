@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Shape info of widgets.                                                   *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,7 +24,6 @@
 #include "../../inc/ui/Cell.h"
 #include "../../inc/device/Device.h"
 #include "../../inc/utility/Parser.h"
-
 
 /********************************************************************
 ** Cell is the basic deviceInfo info of drawer and trigger. Since It
@@ -39,9 +38,12 @@
 ** percentage... :( Notice that pos and focus should consider border
 ** since border doesn't auto adjust and won't change based on aspect
 ** ratio.
-** e.g. (...) means default value is passed to the attribute, which can be omitted.
-** <tag pos="30 20" width="128" height="64" focus="64 32" float="true" left="false" (top="true")>
-** <tag (pos="0 0") width="256" height="64" (focus="0 0") float="true" left="false" border="4">
+** e.g. (...) means default value is passed to the attribute, which can be
+*omitted.
+** <tag pos="30 20" width="128" height="64" focus="64 32" float="true"
+*left="false" (top="true")>
+** <tag (pos="0 0") width="256" height="64" (focus="0 0") float="true"
+*left="false" border="4">
 */
 
 /******************************************************************************
@@ -60,12 +62,11 @@
  *============================================================================*/
 void Cell::LoadProperty(XMLElement* node)
 {
-	_LoadProperty(node);
-	_AdjustProperty(node);
+    _LoadProperty(node);
+    _AdjustProperty(node);
 
-	m_cellChanged = true;
+    m_cellChanged = true;
 }
-
 
 /******************************************************************************
  * Cell::_LoadProperty -- Only load the property of Cell.                     *
@@ -83,16 +84,15 @@ void Cell::LoadProperty(XMLElement* node)
  *============================================================================*/
 void Cell::_LoadProperty(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	_PARSE("width", m_width, name, 0);
-	_PARSE("height", m_height, name, 0);
+    _PARSE("width", m_width, name, 0);
+    _PARSE("height", m_height, name, 0);
 
-	_PARSE_PRIVATE("pos", m_coord, name, ParseCoord);
-	_PARSE_PRIVATE("focus", m_focus, name, ParseCoord);
+    _PARSE_PRIVATE("pos", m_coord, name, ParseCoord);
+    _PARSE_PRIVATE("focus", m_focus, name, ParseCoord);
 }
-
 
 /******************************************************************************
  * Cell::_AdjustProperty -- Only adjust properties of Cell.                   *
@@ -110,11 +110,10 @@ void Cell::_LoadProperty(XMLElement* node)
  *============================================================================*/
 void Cell::_AdjustProperty(XMLElement* node)
 {
-	m_width = (int)(m_width * deviceInfo.aspectRatio);
-	m_height = (int)(m_height * deviceInfo.aspectRatio);
-	m_focus *= deviceInfo.aspectRatio;
+    m_width = static_cast<int>(m_width * deviceInfo.aspectRatio);
+    m_height = static_cast<int>(m_height * deviceInfo.aspectRatio);
+    m_focus *= deviceInfo.aspectRatio;
 }
-
 
 /******************************************************************************
  * RectCell::_LoadProperty -- Load property of a rectangle.                   *
@@ -132,9 +131,8 @@ void Cell::_AdjustProperty(XMLElement* node)
  *============================================================================*/
 void RectCell::_LoadProperty(XMLElement* node)
 {
-	Cell::_LoadProperty(node);
+    Cell::_LoadProperty(node);
 }
-
 
 /******************************************************************************
  * RectCell::_AdjustProperty -- Adjust to fit screen.                         *
@@ -152,9 +150,8 @@ void RectCell::_LoadProperty(XMLElement* node)
  *============================================================================*/
 void RectCell::_AdjustProperty(XMLElement* node)
 {
-	Cell::_AdjustProperty(node);
+    Cell::_AdjustProperty(node);
 }
-
 
 /******************************************************************************
  * RoundRectCell::_LoadProperty -- Load property.                             *
@@ -172,13 +169,12 @@ void RectCell::_AdjustProperty(XMLElement* node)
  *============================================================================*/
 void RoundRectCell::_LoadProperty(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	RectCell::_LoadProperty(node);
-	_PARSE("radius", m_radius, name, 0);
+    RectCell::_LoadProperty(node);
+    _PARSE("radius", m_radius, name, 0);
 }
-
 
 /******************************************************************************
  * RoundRectCell::_AdjustProperty -- Adjust to fit screen.                    *
@@ -196,10 +192,9 @@ void RoundRectCell::_LoadProperty(XMLElement* node)
  *============================================================================*/
 void RoundRectCell::_AdjustProperty(XMLElement* node)
 {
-	RectCell::_AdjustProperty(node);
-	m_radius = (int)(m_radius * deviceInfo.aspectRatio);
+    RectCell::_AdjustProperty(node);
+    m_radius = static_cast<int>(m_radius * deviceInfo.aspectRatio);
 }
-
 
 /******************************************************************************
  * CircleCell::_LoadProperty -- Load property.                                *
@@ -217,15 +212,14 @@ void RoundRectCell::_AdjustProperty(XMLElement* node)
  *============================================================================*/
 void CircleCell::_LoadProperty(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	_PARSE("radius", m_radius, name, m_radius);
+    _PARSE("radius", m_radius, name, m_radius);
 
-	_PARSE_PRIVATE("pos", m_coord, name, ParseCoord);
-	_PARSE_PRIVATE("focus", m_focus, name, ParseCoord);
+    _PARSE_PRIVATE("pos", m_coord, name, ParseCoord);
+    _PARSE_PRIVATE("focus", m_focus, name, ParseCoord);
 }
-
 
 /******************************************************************************
  * CircleCell::_AdjustProperty -- Adjust...                                   *
@@ -243,6 +237,6 @@ void CircleCell::_LoadProperty(XMLElement* node)
  *============================================================================*/
 void CircleCell::_AdjustProperty(XMLElement* node)
 {
-	Cell::_AdjustProperty(node);
-	m_radius = (int)(m_radius * deviceInfo.aspectRatio);
+    Cell::_AdjustProperty(node);
+    m_radius = static_cast<int>(m_radius * deviceInfo.aspectRatio);
 }

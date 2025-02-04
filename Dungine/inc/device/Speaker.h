@@ -12,7 +12,7 @@
  *                    Last Update : December 17, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The sound module of the engine. It manages all sound and music in play.  *
  *   On the one hand, it take possession of play lists in a stack. On the     *
  *   other hand, it can play instant sounds.                                  *
@@ -36,60 +36,74 @@ class PlayList;
 
 class Speaker : public Singleton<Speaker>
 {
-	friend class Singleton<Speaker>;
-public:
-	bool Create();
-	bool Destroy();
-
-	void Play(DSound* sound);		// mono sound in differnt channel
-	void PlayShared(DSound* sound);	// mono sound in shared channel
-	void PlayStream(DSound* sound);	// background music
-
-	/*
-	** 2022/08/12 TS:
-	** FMOD system must update on each frame!!! :(
-	*/
-	void Update();
-
-	// For play list
-	void Play();
-	void Pause(bool pause);
-	void Stop();
-	void AddPlayList(PlayList* playList);
-	void RemovePlayList();
-	bool IsPlaying() const;
-
-	PlayList* GetCurrentPlayList();
+    friend class Singleton<Speaker>;
 
 public:
-	void SetSoundVolume(double volume) { m_soundVolume = volume; }
-	void SetMusicVolume(double volume);
+    bool Create();
+    bool Destroy();
 
-	double GetSoundVolume() const { return m_soundVolume; }
-	// double GetMusicVolume() const { return m_soundVolume; }
-	double GetMusicVolume() const { return m_musicVolume; }	// Be careful...
+    void Play(DSound* sound);       // mono sound in differnt channel
+    void PlayShared(DSound* sound); // mono sound in shared channel
+    void PlayStream(DSound* sound); // background music
 
-	FMOD::System* System() { return m_speaker; }
+    /*
+    ** 2022/08/12 TS:
+    ** FMOD system must update on each frame!!! :(
+    */
+    void Update();
+
+    // For play list
+    void Play();
+    void Pause(bool pause);
+    void Stop();
+    void AddPlayList(PlayList* playList);
+    void RemovePlayList();
+    bool IsPlaying() const;
+
+    PlayList* GetCurrentPlayList();
+
+public:
+    void SetSoundVolume(double volume)
+    {
+        m_soundVolume = volume;
+    }
+
+    void SetMusicVolume(double volume);
+
+    double GetSoundVolume() const
+    {
+        return m_soundVolume;
+    }
+
+    // double GetMusicVolume() const { return m_soundVolume; }
+    double GetMusicVolume() const
+    {
+        return m_musicVolume;
+    } // Be careful...
+
+    FMOD::System* System()
+    {
+        return m_speaker;
+    }
 
 private:
-	Speaker();
-	~Speaker();
+    Speaker();
+    ~Speaker() override;
 
-	void _Destroy();
+    void _Destroy();
 
-	FMOD::System* m_speaker;
-	FMOD::Channel* m_channel;
+    FMOD::System* m_speaker;
+    FMOD::Channel* m_channel;
 
-	std::stack<PlayList*> m_stack;
+    std::stack<PlayList*> m_stack;
 
-	/*
-	** FMOD uses float as volume, however, for compatibility with
-	** widgets' callback, here use double.
-	*/
-	double m_soundVolume;	// Sound effect, such as explosion...
-	double m_musicVolume;	// Background music.
-	bool m_isPaused;
+    /*
+    ** FMOD uses float as volume, however, for compatibility with
+    ** widgets' callback, here use double.
+    */
+    double m_soundVolume; // Sound effect, such as explosion...
+    double m_musicVolume; // Background music.
+    bool m_isPaused;
 };
-
 
 #endif

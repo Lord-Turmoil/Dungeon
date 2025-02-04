@@ -12,7 +12,7 @@
  *                    Last Update : November 29, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   All macros.                                                              *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -39,7 +39,6 @@
 // #define DGE_INTERNAL_VERSION
 #define DGE_RELEASE_VERSION
 
-
 #ifdef DGE_RELEASE_VERSION
 #define DUNGINE_NO_LOG
 #else
@@ -58,7 +57,6 @@
 */
 #define DGE_NO_CLOSE
 
-
 /********************************************************************
 ** If this is defined, then the delay will be more accurate but may
 ** take more CPU resource.
@@ -66,7 +64,6 @@
 // #define HIGH_PRECISION_DELAY
 
 #define NO_FPS
-
 
 // If this is defined, then roundrect trigger will perform loose check.
 // #define LOOSE_ROUND_RECT_CHECK
@@ -76,6 +73,6 @@
 /*
 ** warning C4390 : ';' : empty controlled statement found; is this the intent ?
 */
-#pragma warning(disable: 4390)
+#pragma warning(disable : 4390)
 
 #endif

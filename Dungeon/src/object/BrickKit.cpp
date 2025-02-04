@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Use factory pattern to generate bricks.                                  *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,7 +23,6 @@
 
 #include "../../inc/object/BrickKit.h"
 #include "../../inc/game/Dungeon.h"
-
 
 /******************************************************************************
  * BrickKit::~BrickKit -- Destructor of the object.                           *
@@ -41,9 +40,8 @@
  *============================================================================*/
 BrickKit::~BrickKit()
 {
-	UnLoad();
+    UnLoad();
 }
-
 
 /******************************************************************************
  * BrickKit::Load -- Load brick resource in a chapter.                        *
@@ -61,75 +59,80 @@ BrickKit::~BrickKit()
  *============================================================================*/
 bool BrickKit::Load(XMLElement* node)
 {
-	/*
-	**	<Terrain>
-	**		<Wall src="">...</Wall>
-	**		<Wall src="">...</Wall>
-	**		<Gate src="">...</Gate>
-	**		<Gate src="">...</Gate>
-	**		<Floor src="">..</Floor>
-	*		...
-	**	</Terrain>
-	*/
-	UnLoad();
+    /*
+    **	<Terrain>
+    **		<Wall src="">...</Wall>
+    **		<Wall src="">...</Wall>
+    **		<Gate src="">...</Gate>
+    **		<Gate src="">...</Gate>
+    **		<Floor src="">..</Floor>
+    *		...
+    **	</Terrain>
+    */
+    UnLoad();
 
-	if (!_LoadWall(node) || !_LoadGate(node) || !_LoadFloorImage(node))
-	{
-		UnLoad();
-		return false;
-	}
+    if (!_LoadWall(node) || !_LoadGate(node) || !_LoadFloorImage(node))
+    {
+        UnLoad();
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 bool BrickKit::_LoadWall(XMLElement* node)
 {
-	std::vector<XMLElement*> wallList = GetElementsByTagName(node, "Wall");
-	Wall* wall;
+    std::vector<XMLElement*> wallList = GetElementsByTagName(node, "Wall");
+    Wall* wall;
 
-	for (auto it = wallList.begin(); it != wallList.end(); it++)
-	{
-		wall = new Wall(nullptr);
-		if (!wall->Load(*it))
-			return false;
-		m_walls.push_back(wall);
-	}
+    for (auto it = wallList.begin(); it != wallList.end(); it++)
+    {
+        wall = new Wall(nullptr);
+        if (!wall->Load(*it))
+        {
+            return false;
+        }
+        m_walls.push_back(wall);
+    }
 
-	return true;
+    return true;
 }
 
 bool BrickKit::_LoadGate(XMLElement* node)
 {
-	std::vector<XMLElement*> gateList = GetElementsByTagName(node, "Gate");
-	Gate* gate;
+    std::vector<XMLElement*> gateList = GetElementsByTagName(node, "Gate");
+    Gate* gate;
 
-	for (auto it = gateList.begin(); it != gateList.end(); it++)
-	{
-		gate = new Gate(nullptr);
-		if (!gate->Load(*it))
-			return false;
-		m_gates.push_back(gate);
-	}
+    for (auto it = gateList.begin(); it != gateList.end(); it++)
+    {
+        gate = new Gate(nullptr);
+        if (!gate->Load(*it))
+        {
+            return false;
+        }
+        m_gates.push_back(gate);
+    }
 
-	return true;
+    return true;
 }
 
 bool BrickKit::_LoadFloorImage(XMLElement* node)
 {
-	std::vector<XMLElement*> floorList = GetElementsByTagName(node, "Floor");
-	ImageObject* floor;
+    std::vector<XMLElement*> floorList = GetElementsByTagName(node, "Floor");
+    ImageObject* floor;
 
-	for (auto it = floorList.begin(); it != floorList.end(); it++)
-	{
-		floor = new ImageObject();
-		if (!floor->Load(*it))
-			return false;
-		m_floors.push_back(floor);
-	}
+    for (auto it = floorList.begin(); it != floorList.end(); it++)
+    {
+        floor = new ImageObject();
+        if (!floor->Load(*it))
+        {
+            return false;
+        }
+        m_floors.push_back(floor);
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * BrickKit::UnLoad -- Unload all resources.                                  *
@@ -147,19 +150,24 @@ bool BrickKit::_LoadFloorImage(XMLElement* node)
  *============================================================================*/
 void BrickKit::UnLoad()
 {
-	for (auto it = m_walls.begin(); it != m_walls.end(); it++)
-		delete (*it);
-	m_walls.clear();
+    for (auto it = m_walls.begin(); it != m_walls.end(); it++)
+    {
+        delete (*it);
+    }
+    m_walls.clear();
 
-	for (auto it = m_gates.begin(); it != m_gates.end(); it++)
-		delete (*it);
-	m_gates.clear();
+    for (auto it = m_gates.begin(); it != m_gates.end(); it++)
+    {
+        delete (*it);
+    }
+    m_gates.clear();
 
-	for (auto it = m_floors.begin(); it != m_floors.end(); it++)
-		delete (*it);
-	m_floors.clear();
+    for (auto it = m_floors.begin(); it != m_floors.end(); it++)
+    {
+        delete (*it);
+    }
+    m_floors.clear();
 }
-
 
 /******************************************************************************
  * BrickKit::GetWall -- Get cloned wall.                                      *
@@ -177,9 +185,8 @@ void BrickKit::UnLoad()
  *============================================================================*/
 Wall* BrickKit::GetWall()
 {
-	return m_walls[Random((int)m_walls.size())];
+    return m_walls[Random(static_cast<int>(m_walls.size()))];
 }
-
 
 /******************************************************************************
  * BrickKit::GetGate -- Get a cloned gate.                                    *
@@ -197,9 +204,8 @@ Wall* BrickKit::GetWall()
  *============================================================================*/
 Gate* BrickKit::GetGate()
 {
-	return m_gates[Random((int)m_gates.size())];
+    return m_gates[Random(static_cast<int>(m_gates.size()))];
 }
-
 
 /******************************************************************************
  * BrickKit::GetFloorImage -- Get a single image of floor.                    *
@@ -217,5 +223,5 @@ Gate* BrickKit::GetGate()
  *============================================================================*/
 IMAGE* BrickKit::GetFloorImage()
 {
-	return m_floors[Random((int)m_floors.size())]->GetImage();
+    return m_floors[Random(static_cast<int>(m_floors.size()))]->GetImage();
 }

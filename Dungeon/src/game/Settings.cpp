@@ -12,7 +12,7 @@
  *                    Last Update : November 27, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Game settings is a singleton.                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -28,7 +28,6 @@
 // Hmm... well, just load these two externally.
 int CHAPTER_NUM;
 int LEVEL_NUM;
-
 
 /******************************************************************************
  * Settings::Load -- Load settings from the linked file.                      *
@@ -47,44 +46,43 @@ int LEVEL_NUM;
  *============================================================================*/
 bool Settings::Load()
 {
-	XMLFile file;
-	if (!_LoadFile(file))
-	{
-		LOG_ERROR(FAILED_TO_LOAD, "Settings");
-		return false;
-	}
+    XMLFile file;
+    if (!_LoadFile(file))
+    {
+        LOG_ERROR(FAILED_TO_LOAD, "Settings");
+        return false;
+    }
 
-/*
-**	<Settings>
-**		<Difficulty></Difficulty>
-**		...
-**	</Settings>
-*/
-	try
-	{
-		_LoadEntry(file, &m_difficulty, "Difficulty");
-		_LoadEntry(file, &m_soundVolume, "SoundVolume");
-		_LoadEntry(file, &m_musicVolume, "MusicVolume");
-		_LoadEntry(file, &m_isFullscreen, "Fullscreen");
+    /*
+    **	<Settings>
+    **		<Difficulty></Difficulty>
+    **		...
+    **	</Settings>
+    */
+    try
+    {
+        _LoadEntry(file, &m_difficulty, "Difficulty");
+        _LoadEntry(file, &m_soundVolume, "SoundVolume");
+        _LoadEntry(file, &m_musicVolume, "MusicVolume");
+        _LoadEntry(file, &m_isFullscreen, "Fullscreen");
 
-		_LoadEntry(file, &m_coin, "Coin");
-		_LoadEntry(file, &m_showCredits, "ShowCredits");
-		_LoadEntry(file, &CHAPTER_NUM, "ChapterNum");
-		_LoadEntry(file, &LEVEL_NUM, "LevelNum");
+        _LoadEntry(file, &m_coin, "Coin");
+        _LoadEntry(file, &m_showCredits, "ShowCredits");
+        _LoadEntry(file, &CHAPTER_NUM, "ChapterNum");
+        _LoadEntry(file, &LEVEL_NUM, "LevelNum");
 
-		_LoadEntry(file, &m_beginColor, "BeginColor");
-		_LoadEntry(file, &m_endColor, "EndColor");
+        _LoadEntry(file, &m_beginColor, "BeginColor");
+        _LoadEntry(file, &m_endColor, "EndColor");
 
-		_LoadHeroInfo(file);
-	}
-	catch (EntryError)
-	{
-		Save();
-	}
+        _LoadHeroInfo(file);
+    }
+    catch (EntryError)
+    {
+        Save();
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Settings::Save -- Save settings to the linked file.                        *
@@ -103,48 +101,47 @@ bool Settings::Load()
  *============================================================================*/
 bool Settings::Save()
 {
-	return SaveSettings() && SaveConfig();
+    return SaveSettings() && SaveConfig();
 }
 
 bool Settings::SaveSettings()
 {
-	XMLFile file;
-	if (!_LoadFile(file))
-	{
-		LOG_ERROR(FAILED_TO_LOAD, "Settings");
-		return false;
-	}
+    XMLFile file;
+    if (!_LoadFile(file))
+    {
+        LOG_ERROR(FAILED_TO_LOAD, "Settings");
+        return false;
+    }
 
-	_SaveEntry(file, m_difficulty, "Difficulty");
-	_SaveEntry(file, m_isFullscreen, "Fullscreen");
-	_SaveEntry(file, m_soundVolume, "SoundVolume");
-	_SaveEntry(file, m_musicVolume, "MusicVolume");
+    _SaveEntry(file, m_difficulty, "Difficulty");
+    _SaveEntry(file, m_isFullscreen, "Fullscreen");
+    _SaveEntry(file, m_soundVolume, "SoundVolume");
+    _SaveEntry(file, m_musicVolume, "MusicVolume");
 
-	file.Save();
+    file.Save();
 
-	return true;
+    return true;
 }
 
 bool Settings::SaveConfig()
 {
-	XMLFile file;
-	if (!_LoadFile(file))
-	{
-		LOG_ERROR(FAILED_TO_LOAD, "Settings");
-		return false;
-	}
+    XMLFile file;
+    if (!_LoadFile(file))
+    {
+        LOG_ERROR(FAILED_TO_LOAD, "Settings");
+        return false;
+    }
 
-	_SaveEntry(file, m_coin, "Coin");
-	_SaveEntry(file, m_showCredits, "ShowCredits");
-	_SaveEntry(file, m_beginColor, "BeginColor");
-	_SaveEntry(file, m_endColor, "EndColor");
-	_SaveHeroInfo(file);
+    _SaveEntry(file, m_coin, "Coin");
+    _SaveEntry(file, m_showCredits, "ShowCredits");
+    _SaveEntry(file, m_beginColor, "BeginColor");
+    _SaveEntry(file, m_endColor, "EndColor");
+    _SaveHeroInfo(file);
 
-	file.Save();
+    file.Save();
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Settings::IsAvailable -- Check if hero is available or not.                *
@@ -162,13 +159,14 @@ bool Settings::SaveConfig()
  *============================================================================*/
 bool Settings::IsAvailable(const std::string& name) const
 {
-	auto it = m_heroInfo.find(name);
-	if (it == m_heroInfo.end())
-		return false;
+    auto it = m_heroInfo.find(name);
+    if (it == m_heroInfo.end())
+    {
+        return false;
+    }
 
-	return it->second.isAvailable;
+    return it->second.isAvailable;
 }
-
 
 /******************************************************************************
  * Settings::CanBeAvailable -- If the hero can be available or not.           *
@@ -186,14 +184,15 @@ bool Settings::IsAvailable(const std::string& name) const
  *============================================================================*/
 bool Settings::CanBeAvailable(const std::string& name) const
 {
-	auto it = m_heroInfo.find(name);
-	if (it == m_heroInfo.end())
-		return false;
-	HeroInfo info = it->second;
+    auto it = m_heroInfo.find(name);
+    if (it == m_heroInfo.end())
+    {
+        return false;
+    }
+    HeroInfo info = it->second;
 
-	return info.isAvailable ? true : (m_coin >= info.price);
+    return info.isAvailable ? true : (m_coin >= info.price);
 }
-
 
 /******************************************************************************
  * Settings::MakeAvailable -- Try to make hero available.                     *
@@ -211,22 +210,27 @@ bool Settings::CanBeAvailable(const std::string& name) const
  *============================================================================*/
 bool Settings::MakeAvailable(const std::string& name)
 {
-	auto it = m_heroInfo.find(name);
-	if (it == m_heroInfo.end())
-		return false;
-	HeroInfo& info = it->second;
+    auto it = m_heroInfo.find(name);
+    if (it == m_heroInfo.end())
+    {
+        return false;
+    }
+    HeroInfo& info = it->second;
 
-	if (info.isAvailable)
-		return true;
-	if (m_coin < info.price)
-		return false;
+    if (info.isAvailable)
+    {
+        return true;
+    }
+    if (m_coin < info.price)
+    {
+        return false;
+    }
 
-	m_coin -= info.price;
-	info.isAvailable = true;
+    m_coin -= info.price;
+    info.isAvailable = true;
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Settings::Settings -- Constructor of the object.                           *
@@ -242,19 +246,11 @@ bool Settings::MakeAvailable(const std::string& name)
  * HISTORY:                                                                   *
  *   2022/07/10 Tony : Created.                                               *
  *============================================================================*/
-Settings::Settings() :
-	m_difficulty(0),
-	m_soundVolume(1.0),
-	m_musicVolume(1.0),
-	m_isFullscreen(true),
-	m_coin(0),
-	m_showCredits(false),
-	m_isInfinite(false),
-	m_beginColor(RGB(41, 182, 246)),
-	m_endColor(RGB(128, 222, 234))
+Settings::Settings()
+    : m_difficulty(0), m_soundVolume(1.0), m_musicVolume(1.0), m_isFullscreen(true), m_coin(0), m_showCredits(false),
+      m_isInfinite(false), m_beginColor(RGB(41, 182, 246)), m_endColor(RGB(128, 222, 234))
 {
 }
-
 
 /******************************************************************************
  * Settings::_LoadHeroInfo -- Load hero info.                                 *
@@ -274,25 +270,26 @@ Settings::Settings() :
  *============================================================================*/
 void Settings::_LoadHeroInfo(XMLFile& file)
 {
-	XMLElement* entry = file.GetElementByTagName("Hero");
-	if (!entry)
-		throw EntryError("Hero");
+    XMLElement* entry = file.GetElementByTagName("Hero");
+    if (!entry)
+    {
+        throw EntryError("Hero");
+    }
 
-	XMLElement* node = entry->FirstChildElement();
-	const char* name;
-	const char* attr;
-	HeroInfo info;
-	while (node)
-	{
-		name = node->Name();
-		_PARSE("available", info.isAvailable, name, false);
-		_PARSE("price", info.price, name, false);
-		m_heroInfo.emplace(name, info);
+    XMLElement* node = entry->FirstChildElement();
+    const char* name;
+    const char* attr;
+    HeroInfo info;
+    while (node)
+    {
+        name = node->Name();
+        _PARSE("available", info.isAvailable, name, false);
+        _PARSE("price", info.price, name, false);
+        m_heroInfo.emplace(name, info);
 
-		node = node->NextSiblingElement();
-	}
+        node = node->NextSiblingElement();
+    }
 }
-
 
 /******************************************************************************
  * Settings::_SaveHeroInfo -- Save hero info.                                 *
@@ -310,19 +307,19 @@ void Settings::_LoadHeroInfo(XMLFile& file)
  *============================================================================*/
 void Settings::_SaveHeroInfo(XMLFile& file)
 {
-	XMLElement* entry = file.GetElementByTagName("Hero");
-	XMLElement* node;
-	std::string name;
+    XMLElement* entry = file.GetElementByTagName("Hero");
+    XMLElement* node;
+    std::string name;
 
-	for (auto it = m_heroInfo.begin(); it != m_heroInfo.end(); it++)
-	{
-		node = entry->FirstChildElement(it->first.c_str());
-		if (!node)
-		{
-			node = file.Doc().NewElement(it->first.c_str());
-			entry->InsertEndChild(node);
-		}
-		node->SetAttribute("available", it->second.isAvailable);
-		node->SetAttribute("price", it->second.price);
-	}
+    for (auto it = m_heroInfo.begin(); it != m_heroInfo.end(); it++)
+    {
+        node = entry->FirstChildElement(it->first.c_str());
+        if (!node)
+        {
+            node = file.Doc().NewElement(it->first.c_str());
+            entry->InsertEndChild(node);
+        }
+        node->SetAttribute("available", it->second.isAvailable);
+        node->SetAttribute("price", it->second.price);
+    }
 }

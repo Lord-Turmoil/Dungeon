@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For the base class of all game object. Game objects are the... physical  *
  *   objects that you can actually see one the battlefield, including walls,  *
  *   weapons, figures and so on. Components, animations are not one of it.    *
@@ -27,8 +27,8 @@
 
 #include "../../inc/device/Device.h"
 
-#include "../../inc/game/GameObject.h"
 #include "../../inc/game/AbstractComponent.h"
+#include "../../inc/game/GameObject.h"
 #include "../../inc/game/Scene.h"
 
 /******************************************************************************
@@ -46,24 +46,17 @@
  *   2022/06/16 Tony : Created.                                               *
  *   2022/07/03 Tony : Symbol of game objects should be static.               *
  *============================================================================*/
-GameObject::GameObject(RTTIType RTTI) : AbstractObject(RTTI),
-	m_pScene(nullptr),
-	m_isActive(true),
-	m_isValid(true),
-	m_isToDisplay(true)
+GameObject::GameObject(RTTIType RTTI)
+    : AbstractObject(RTTI), m_pScene(nullptr), m_isActive(true), m_isValid(true), m_isToDisplay(true)
 {
-	m_symbol.SetStatic(true);
+    m_symbol.SetStatic(true);
 }
 
-GameObject::GameObject(RTTIType RTTI, Scene* scene) : AbstractObject(RTTI),
-	m_pScene(scene),
-	m_isActive(true),
-	m_isValid(true),
-	m_isToDisplay(true)
+GameObject::GameObject(RTTIType RTTI, Scene* scene)
+    : AbstractObject(RTTI), m_pScene(scene), m_isActive(true), m_isValid(true), m_isToDisplay(true)
 {
-	m_symbol.SetStatic(true);
+    m_symbol.SetStatic(true);
 }
-
 
 /******************************************************************************
  * GameObject::~GameObject -- Destructor of the object.                       *
@@ -81,10 +74,11 @@ GameObject::GameObject(RTTIType RTTI, Scene* scene) : AbstractObject(RTTI),
  *============================================================================*/
 GameObject::~GameObject()
 {
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-		delete it->second;
+    for (auto it = m_components.begin(); it != m_components.end(); it++)
+    {
+        delete it->second;
+    }
 }
-
 
 /******************************************************************************
  * GameObject::Clone -- Clone game object.                                    *
@@ -102,20 +96,21 @@ GameObject::~GameObject()
  *============================================================================*/
 void GameObject::Clone(GameObject* clone) const
 {
-	AbstractObject::Clone(clone);
-	
-	clone->m_coord = m_coord;
-	clone->m_pScene = m_pScene;
+    AbstractObject::Clone(clone);
 
-	clone->m_symbol = m_symbol;
-	clone->m_isActive = m_isActive;
-	clone->m_isValid = m_isValid;
-	clone->m_isToDisplay = m_isToDisplay;
+    clone->m_coord = m_coord;
+    clone->m_pScene = m_pScene;
 
-	for (auto it = m_components.begin(); it != m_components.end(); it++)
-		clone->AddComponent(it->second->Clone());
+    clone->m_symbol = m_symbol;
+    clone->m_isActive = m_isActive;
+    clone->m_isValid = m_isValid;
+    clone->m_isToDisplay = m_isToDisplay;
+
+    for (auto it = m_components.begin(); it != m_components.end(); it++)
+    {
+        clone->AddComponent(it->second->Clone());
+    }
 }
-
 
 /******************************************************************************
  * GameObject::Update -- Update game object.                                  *
@@ -133,13 +128,14 @@ void GameObject::Clone(GameObject* clone) const
  *============================================================================*/
 void GameObject::Update(Event* evnt)
 {
-	if (m_isActive)
-	{
-		for (auto it = m_cmptUpdateQueue.begin(); it != m_cmptUpdateQueue.end(); it++)
-			it->second->Update(evnt);
-	}
+    if (m_isActive)
+    {
+        for (auto it = m_cmptUpdateQueue.begin(); it != m_cmptUpdateQueue.end(); it++)
+        {
+            it->second->Update(evnt);
+        }
+    }
 }
-
 
 /******************************************************************************
  * GameObject::Draw -- Draw game object.                                      *
@@ -157,8 +153,10 @@ void GameObject::Update(Event* evnt)
  *============================================================================*/
 void GameObject::Draw()
 {
-	if (m_isToDisplay)
-		Device::GetInstance()->AddSymbol(&m_symbol);
+    if (m_isToDisplay)
+    {
+        Device::GetInstance()->AddSymbol(&m_symbol);
+    }
 }
 
 /******************************************************************************
@@ -177,11 +175,10 @@ void GameObject::Draw()
  *============================================================================*/
 void GameObject::AddComponent(AbstractComponent* cmpt)
 {
-	cmpt->SetGameObject(this);
-	m_components.emplace(cmpt->Name(), cmpt);
-	m_cmptUpdateQueue.emplace(cmpt->UpdateOrder(), cmpt);
+    cmpt->SetGameObject(this);
+    m_components.emplace(cmpt->Name(), cmpt);
+    m_cmptUpdateQueue.emplace(cmpt->UpdateOrder(), cmpt);
 }
-
 
 /******************************************************************************
  * ObjectPool::~ObjectPool -- Destructor of the object.                       *
@@ -199,9 +196,8 @@ void GameObject::AddComponent(AbstractComponent* cmpt)
  *============================================================================*/
 ObjectPool::~ObjectPool()
 {
-	Destroy();
+    Destroy();
 }
-
 
 /******************************************************************************
  * ObjectPool::Update -- Update all the objects int the pool.                 *
@@ -219,10 +215,11 @@ ObjectPool::~ObjectPool()
  *============================================================================*/
 void ObjectPool::Update(Event* evnt)
 {
-	for (auto it = m_pool.begin(); it != m_pool.end(); it++)
-		(*it)->Update(evnt);
+    for (auto it = m_pool.begin(); it != m_pool.end(); it++)
+    {
+        (*it)->Update(evnt);
+    }
 }
-
 
 /******************************************************************************
  * ObjectPool::Draw -- Draw all objects in the pool.                          *
@@ -240,16 +237,19 @@ void ObjectPool::Update(Event* evnt)
  *============================================================================*/
 void ObjectPool::Draw()
 {
-	for (auto it = m_pool.begin(); it != m_pool.end(); it++)
-		(*it)->Draw();
+    for (auto it = m_pool.begin(); it != m_pool.end(); it++)
+    {
+        (*it)->Draw();
+    }
 }
 
 void ObjectPool::Draw(Camera* camera)
 {
-	for (auto it = m_pool.begin(); it != m_pool.end(); it++)
-		camera->Capture(*it);
+    for (auto it = m_pool.begin(); it != m_pool.end(); it++)
+    {
+        camera->Capture(*it);
+    }
 }
-
 
 /******************************************************************************
  * ObjectPool::AddObject -- Add object to the pool.                           *
@@ -268,15 +268,16 @@ void ObjectPool::Draw(Camera* camera)
  *============================================================================*/
 void ObjectPool::AddObject(GameObject* object)
 {
-	m_pool.push_back(object);
+    m_pool.push_back(object);
 }
 
 void ObjectPool::AddObjects(std::vector<GameObject*>& pool)
 {
-	for (auto it = pool.begin(); it != pool.end(); it++)
-		AddObject(*it);
+    for (auto it = pool.begin(); it != pool.end(); it++)
+    {
+        AddObject(*it);
+    }
 }
-
 
 /******************************************************************************
  * ObjectPool::RemoveObject -- Remove certain object in the pool.             *
@@ -296,40 +297,47 @@ void ObjectPool::AddObjects(std::vector<GameObject*>& pool)
  *============================================================================*/
 bool ObjectPool::RemoveObject(GameObject* object)
 {
-	auto it = std::find(m_pool.begin(), m_pool.end(), object);
-	if (it != m_pool.end())
-	{
-		_RemoveObject(it);
-		return true;
-	}
-	else
-		return false;
+    auto it = std::find(m_pool.begin(), m_pool.end(), object);
+    if (it != m_pool.end())
+    {
+        _RemoveObject(it);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void ObjectPool::RemoveObjects(std::vector<GameObject*>& pool)
 {
-	for (auto it = pool.begin(); it != pool.end(); it++)
-		RemoveObject(*it);
+    for (auto it = pool.begin(); it != pool.end(); it++)
+    {
+        RemoveObject(*it);
+    }
 }
 
 bool ObjectPool::DeleteObject(GameObject* object)
 {
-	auto it = std::find(m_pool.begin(), m_pool.end(), object);
-	if (it != m_pool.end())
-	{
-		_DeleteObject(it);
-		return true;
-	}
-	else
-		return false;
+    auto it = std::find(m_pool.begin(), m_pool.end(), object);
+    if (it != m_pool.end())
+    {
+        _DeleteObject(it);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void ObjectPool::DeleteObjects(std::vector<GameObject*>& pool)
 {
-	for (auto it = pool.begin(); it != pool.end(); it++)
-		DeleteObject(*it);
+    for (auto it = pool.begin(); it != pool.end(); it++)
+    {
+        DeleteObject(*it);
+    }
 }
-
 
 /******************************************************************************
  * ObjectPool::Clear -- Clear object pool.                                    *
@@ -347,16 +355,17 @@ void ObjectPool::DeleteObjects(std::vector<GameObject*>& pool)
  *============================================================================*/
 void ObjectPool::Clear()
 {
-	m_pool.clear();
+    m_pool.clear();
 }
 
 void ObjectPool::Destroy()
 {
-	for (auto it = m_pool.begin(); it != m_pool.end(); it++)
-		delete (*it);
-	m_pool.clear();
+    for (auto it = m_pool.begin(); it != m_pool.end(); it++)
+    {
+        delete (*it);
+    }
+    m_pool.clear();
 }
-
 
 /******************************************************************************
  * ObjectPool::_RemoveObject -- Remove the object.                            *
@@ -374,13 +383,13 @@ void ObjectPool::Destroy()
  *============================================================================*/
 void ObjectPool::_RemoveObject(std::vector<GameObject*>::iterator it)
 {
-	std::swap(*it, *(m_pool.end() - 1));
-	m_pool.pop_back();
+    std::swap(*it, *(m_pool.end() - 1));
+    m_pool.pop_back();
 }
 
 void ObjectPool::_DeleteObject(std::vector<GameObject*>::iterator it)
 {
-	delete (*it);
-	std::swap(*it, *(m_pool.end() - 1));
-	m_pool.pop_back();
+    delete (*it);
+    std::swap(*it, *(m_pool.end() - 1));
+    m_pool.pop_back();
 }

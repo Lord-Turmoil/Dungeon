@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Widget can use buzzer to make sound.                                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -47,38 +47,37 @@
  *============================================================================*/
 bool Buzzer::Load(XMLElement* node)
 {
-	/*
-	**	<Buzzer src=""></Buzzer>
-	*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<Buzzer src=""></Buzzer>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TAG("Buzzer");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Buzzer");
+    _RETURN_IF_ERROR();
 
-	attr = node->Attribute("src");
-	if (!attr)
-	{
-		LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
-		return false;
-	}
+    attr = node->Attribute("src");
+    if (!attr)
+    {
+        LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
+        return false;
+    }
 
-	AudioResource* res = LoadResource<AudioResource>(attr);
-	if (!res)
-	{
-		LOG_ERROR(INVALID_RESOURCE_ID, attr);
-		return false;
-	}
-	m_pSound = dynamic_cast<MonoSound*>(res->GetResource());
-	if (!m_pSound)
-	{
-		LOG_ERROR(RESOURCE_MISMATCH, attr);
-		return false;
-	}
+    AudioResource* res = LoadResource<AudioResource>(attr);
+    if (!res)
+    {
+        LOG_ERROR(INVALID_RESOURCE_ID, attr);
+        return false;
+    }
+    m_pSound = dynamic_cast<MonoSound*>(res->GetResource());
+    if (!m_pSound)
+    {
+        LOG_ERROR(RESOURCE_MISMATCH, attr);
+        return false;
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Buzzer::Play -- Play the sound.                                            *
@@ -96,10 +95,11 @@ bool Buzzer::Load(XMLElement* node)
  *============================================================================*/
 void Buzzer::Play()
 {
-	if (m_pSound)
-		m_pSound->Play();
+    if (m_pSound)
+    {
+        m_pSound->Play();
+    }
 }
-
 
 /******************************************************************************
  * LoadBuzzer -- Load a buzzer.                                               *
@@ -117,16 +117,18 @@ void Buzzer::Play()
  *============================================================================*/
 Buzzer* LoadBuzzer(XMLElement* node)
 {
-	if (!node)
-		return nullptr;
+    if (!node)
+    {
+        return nullptr;
+    }
 
-	Buzzer* buzzer = new Buzzer();
+    Buzzer* buzzer = new Buzzer();
 
-	if (!buzzer->Load(node))
-	{
-		delete buzzer;
-		return nullptr;
-	}
+    if (!buzzer->Load(node))
+    {
+        delete buzzer;
+        return nullptr;
+    }
 
-	return buzzer;
+    return buzzer;
 }

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide basic game core.                                                 *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,9 +26,8 @@
 
 #include <easyx.h>
 
-#include "GameObject.h"
 #include "Camera.h"
-
+#include "GameObject.h"
 
 class Event;
 
@@ -38,35 +37,43 @@ class Event;
 class Scene
 {
 public:
-	Scene() : m_isUpdating(false) {}
-	virtual ~Scene() {}
+    Scene() : m_isUpdating(false)
+    {
+    }
 
-	virtual void Update() = 0;
-	virtual void Draw() = 0;
+    virtual ~Scene()
+    {
+    }
 
-	void AddObject(GameObject* object);
-	void AddObjects(std::vector<GameObject*>& pool);
-	void RemoveObject(GameObject* object);
-	void RemoveObjects(std::vector<GameObject*>& pool);
+    virtual void Update() = 0;
+    virtual void Draw() = 0;
 
-	// Delete object can't happen during update.
+    void AddObject(GameObject* object);
+    void AddObjects(std::vector<GameObject*>& pool);
+    void RemoveObject(GameObject* object);
+    void RemoveObjects(std::vector<GameObject*>& pool);
+
+    // Delete object can't happen during update.
 protected:
-	void _DeleteObject(GameObject* object);
-	void _DeleteObjects(std::vector<GameObject*>& pool);
+    void _DeleteObject(GameObject* object);
+    void _DeleteObjects(std::vector<GameObject*>& pool);
 
 public:
-	Camera* GetCamera() { return &m_camera; }
+    Camera* GetCamera()
+    {
+        return &m_camera;
+    }
 
 protected:
-	void _UpdateObjectPool();
+    void _UpdateObjectPool();
 
-	ObjectPool m_gameObjects;
-	ObjectPool m_pendingObjects;
-	ObjectPool m_dirtyObjects;	// objects that removed during update
+    ObjectPool m_gameObjects;
+    ObjectPool m_pendingObjects;
+    ObjectPool m_dirtyObjects; // objects that removed during update
 
-	Camera m_camera;
+    Camera m_camera;
 
-	bool m_isUpdating;
+    bool m_isUpdating;
 };
 
 #endif

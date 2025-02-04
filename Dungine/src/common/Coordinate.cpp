@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Some operation on Coordinate.                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,7 +23,6 @@
 
 #include "../../inc/common/Common.h"
 #include "../../inc/utility/Parser.h"
-
 
 /******************************************************************************
  * ParseCoord -- Parse coord from a string.                                   *
@@ -42,12 +41,16 @@
  *============================================================================*/
 bool ParseCoord(void* val, const char* attribute)
 {
-	if (!attribute)
-		return false;
-	Coordinate* coord = (Coordinate*)val;
+    if (!attribute)
+    {
+        return false;
+    }
+    Coordinate* coord = static_cast<Coordinate*>(val);
 
-	if (!ParseInt(&(coord->y), ParseInt(&(coord->x), attribute)))
-		return false;
+    if (!ParseInt(&(coord->y), ParseInt(&(coord->x), attribute)))
+    {
+        return false;
+    }
 
-	return true;
+    return true;
 }

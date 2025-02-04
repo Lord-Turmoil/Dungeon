@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Bullet in the game.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,7 +23,6 @@
 
 #include "../../inc/object/Bullet.h"
 #include "../../inc/object/BulletBehavior.h"
-
 
 /******************************************************************************
  * Bullet::Clone -- Clone Bullet                                              *
@@ -41,25 +40,24 @@
  *============================================================================*/
 Bullet* Bullet::Clone() const
 {
-	Bullet* clone = new Bullet(m_pScene);
-	clone->_MakePrototype(false);
+    Bullet* clone = new Bullet(m_pScene);
+    clone->_MakePrototype(false);
 
-	Object::Clone(clone);
+    Object::Clone(clone);
 
-	clone->m_name = m_name;
-	clone->m_dir = m_dir;
+    clone->m_name = m_name;
+    clone->m_dir = m_dir;
 
-	clone->m_damage = m_damage;
-	clone->m_range = m_range;
-	clone->m_force = m_force;
-	clone->m_AOERadius = m_AOERadius;
-	clone->m_isGood = m_isGood;
-	clone->m_isDirectional = m_isDirectional;
-	clone->m_isPenetrable = m_isPenetrable;
+    clone->m_damage = m_damage;
+    clone->m_range = m_range;
+    clone->m_force = m_force;
+    clone->m_AOERadius = m_AOERadius;
+    clone->m_isGood = m_isGood;
+    clone->m_isDirectional = m_isDirectional;
+    clone->m_isPenetrable = m_isPenetrable;
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * Bullet::Clone -- Clone bullet as super class.                              *
@@ -77,20 +75,19 @@ Bullet* Bullet::Clone() const
  *============================================================================*/
 void Bullet::Clone(Bullet* clone) const
 {
-	Object::Clone(clone);
+    Object::Clone(clone);
 
-	clone->m_name = m_name;
-	clone->m_dir = m_dir;
+    clone->m_name = m_name;
+    clone->m_dir = m_dir;
 
-	clone->m_damage = m_damage;
-	clone->m_range = m_range;
-	clone->m_force = m_force;
-	clone->m_AOERadius = m_AOERadius;
-	clone->m_isGood = m_isGood;
-	clone->m_isDirectional = m_isDirectional;
-	clone->m_isPenetrable = m_isPenetrable;
+    clone->m_damage = m_damage;
+    clone->m_range = m_range;
+    clone->m_force = m_force;
+    clone->m_AOERadius = m_AOERadius;
+    clone->m_isGood = m_isGood;
+    clone->m_isDirectional = m_isDirectional;
+    clone->m_isPenetrable = m_isPenetrable;
 }
-
 
 /******************************************************************************
  * Bullet::Load -- Load bullet.                                               *
@@ -108,31 +105,30 @@ void Bullet::Clone(Bullet* clone) const
  *============================================================================*/
 bool Bullet::Load(XMLElement* node)
 {
-/*
-**	<Bullet name="" damage="" range="" force="" aoe="">
-**		<Components>
-**			...
-**		</Components>
-**	</Bullet>
-*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<Bullet name="" damage="" range="" force="" aoe="">
+    **		<Components>
+    **			...
+    **		</Components>
+    **	</Bullet>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	Object::Load(node);
+    Object::Load(node);
 
-	_PARSE_ESSENTIAL("name", m_name, name, "");
-	_PARSE("damage", m_damage, name, 0);
-	_PARSE("range", m_range, name, MAX_RANGE);
-	_PARSE("force", m_force, name, 0.0);
-	_PARSE("aoe", m_AOERadius, name, 0.0);
-	_PARSE("directional", m_isDirectional, name, false);
-	_PARSE("penetrable", m_isPenetrable, name, false);
+    _PARSE_ESSENTIAL("name", m_name, name, "");
+    _PARSE("damage", m_damage, name, 0);
+    _PARSE("range", m_range, name, MAX_RANGE);
+    _PARSE("force", m_force, name, 0.0);
+    _PARSE("aoe", m_AOERadius, name, 0.0);
+    _PARSE("directional", m_isDirectional, name, false);
+    _PARSE("penetrable", m_isPenetrable, name, false);
 
-	_InitBehavior();
+    _InitBehavior();
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * Bullet::Activate -- Activate bullet.                                       *
@@ -151,9 +147,8 @@ bool Bullet::Load(XMLElement* node)
  *============================================================================*/
 void Bullet::Activate()
 {
-	GetComponent<BehaviorComponent>()->ChangeBehavior("Fly");
+    GetComponent<BehaviorComponent>()->ChangeBehavior("Fly");
 }
-
 
 /******************************************************************************
  * Bullet::Corrupt -- Change to corrupt behavior.                             *
@@ -171,10 +166,11 @@ void Bullet::Activate()
  *============================================================================*/
 void Bullet::Corrupt()
 {
-	if (m_isGood)
-		GetComponent<BehaviorComponent>()->ChangeBehavior("Corrupt");
+    if (m_isGood)
+    {
+        GetComponent<BehaviorComponent>()->ChangeBehavior("Corrupt");
+    }
 }
-
 
 /******************************************************************************
  * Bullet::_InitBehavior -- Initialize behavior of bullet.                    *
@@ -192,13 +188,13 @@ void Bullet::Corrupt()
  *============================================================================*/
 void Bullet::_InitBehavior(XMLElement* node)
 {
-	auto parent = GetComponent<BehaviorComponent>();
+    auto parent = GetComponent<BehaviorComponent>();
 
-	parent->AddBehavior(new BulletNone());
-	parent->AddBehavior(new BulletFly());
-	parent->AddBehavior(new BulletExplode());
-	parent->AddBehavior(new BulletCorrupt());
-	parent->AddBehavior(new BulletPerish());
+    parent->AddBehavior(new BulletNone());
+    parent->AddBehavior(new BulletFly());
+    parent->AddBehavior(new BulletExplode());
+    parent->AddBehavior(new BulletCorrupt());
+    parent->AddBehavior(new BulletPerish());
 
-	parent->ChangeBehavior("None");
+    parent->ChangeBehavior("None");
 }

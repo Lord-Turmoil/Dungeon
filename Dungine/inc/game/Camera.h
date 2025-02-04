@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The camera in game.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,11 +29,9 @@
 #include "../common/Common.h"
 #include "GameObject.h"
 
-
 const double CAM_FAST = 0.1;
 const double CAM_MEDIUM = 0.5;
 const double CAM_SLOW = 0.9;
-
 
 class Device;
 
@@ -44,57 +42,75 @@ class Device;
 class Camera
 {
 public:
-	Camera() : m_lag(CAM_SLOW), m_updated(true), m_device(nullptr) {}
-	~Camera() {}
+    Camera() : m_lag(CAM_SLOW), m_updated(true), m_device(nullptr)
+    {
+    }
 
-	void Initialize(const Rect& rect);
-	
-	void Update();
+    ~Camera()
+    {
+    }
 
-	void Follow(const Coordinate& target);
-	void Focus(const Coordinate& target);
+    void Initialize(const Rect& rect);
 
-	void Capture(GameObject* obj);
-	void Capture(Symbol* symbol);
+    void Update();
 
-	bool InRange(const Rect& rect);
+    void Follow(const Coordinate& target);
+    void Focus(const Coordinate& target);
 
-	Coordinate AbsoluteToRelative(const Coordinate& coord);
-	Coordinate RelativeToAbsolute(const Coordinate& coord);
+    void Capture(GameObject* obj);
+    void Capture(Symbol* symbol);
+
+    bool InRange(const Rect& rect);
+
+    Coordinate AbsoluteToRelative(const Coordinate& coord);
+    Coordinate RelativeToAbsolute(const Coordinate& coord);
 
 public:
-	void Draw() { m_updated = false; }
+    void Draw()
+    {
+        m_updated = false;
+    }
 
-	void SetLag(double lag) { m_lag = lag; }
-	double GetLag() const { return m_lag; }
+    void SetLag(double lag)
+    {
+        m_lag = lag;
+    }
 
-	Rect GetArea() const { return m_area; }
+    double GetLag() const
+    {
+        return m_lag;
+    }
+
+    Rect GetArea() const
+    {
+        return m_area;
+    }
 
 protected:
-	Rect m_filmArea;		// fixed on initialization
-	Rect m_area;			// current area.
-	
-	Coordinate m_center;	// current center of curArea
-	Coordinate m_target;	// current target
+    Rect m_filmArea; // fixed on initialization
+    Rect m_area;     // current area.
 
-	/*
-	** This is determined after Update, and is the same
-	** to all objects.
-	*/
-	Coordinate m_offset;
+    Coordinate m_center; // current center of curArea
+    Coordinate m_target; // current target
 
-	double m_lag;
+    /*
+    ** This is determined after Update, and is the same
+    ** to all objects.
+    */
+    Coordinate m_offset;
 
-	/*
-	** 2022/08/06 TS:
-	** This is to prevent double-capture, which causes the
-	** symbol to be translated multiple times. :(
-	*/
-	bool m_updated;
+    double m_lag;
 
-	std::vector<GameObject*> m_sightedObjects;
+    /*
+    ** 2022/08/06 TS:
+    ** This is to prevent double-capture, which causes the
+    ** symbol to be translated multiple times. :(
+    */
+    bool m_updated;
 
-	Device* m_device;
+    std::vector<GameObject*> m_sightedObjects;
+
+    Device* m_device;
 };
 
 #endif

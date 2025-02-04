@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Bow behavior.                                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,17 +21,15 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Figure.h"
-#include "../../inc/object/Weapon.h"
 #include "../../inc/object/BowBehavior.h"
 #include "../../inc/object/Component.h"
-
+#include "../../inc/object/Figure.h"
+#include "../../inc/object/Weapon.h"
 
 void BowBehavior::Clone(BowBehavior* clone) const
 {
-	WeaponBehavior::Clone(clone);
+    WeaponBehavior::Clone(clone);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -40,29 +38,29 @@ void BowBehavior::Clone(BowBehavior* clone) const
 */
 BowReady* BowReady::Clone() const
 {
-	BowReady* clone = new BowReady();
-	clone->_MakePrototype(false);
+    BowReady* clone = new BowReady();
+    clone->_MakePrototype(false);
 
-	BowBehavior::Clone(clone);
+    BowBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void BowReady::Update(Event* evnt)
 {
-	Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
+    Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
 
-	bow->AdjustPosture();
-	if (bow->IsTriggered())
-		m_parent->ChangeBehavior("Charge");
+    bow->AdjustPosture();
+    if (bow->IsTriggered())
+    {
+        m_parent->ChangeBehavior("Charge");
+    }
 }
 
 void BowReady::OnEnter()
 {
-	m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(WEAPON_ANIM_READY);
+    m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->SetMotion(WEAPON_ANIM_READY);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -71,12 +69,12 @@ void BowReady::OnEnter()
 */
 BowCharge* BowCharge::Clone() const
 {
-	BowCharge* clone = new BowCharge();
-	clone->_MakePrototype(false);
+    BowCharge* clone = new BowCharge();
+    clone->_MakePrototype(false);
 
-	BowBehavior::Clone(clone);
+    BowBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 /********************************************************************
@@ -84,43 +82,42 @@ BowCharge* BowCharge::Clone() const
 */
 void BowCharge::Update(Event* evnt)
 {
-	Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
-	
-	bow->AdjustPosture();
-	bow->GetComponent<SoundComponent>()->Play("charge");
-	if (!bow->IsTriggered())
-	{
-		bow->SetInterrupted(true);
-		m_parent->ChangeBehavior("Discharge");
-	}
-	else
-	{
-		if (bow->GetComponent<AnimComponent>()
-			->GetAnim()->IsOver())
-		{
-			m_parent->ChangeBehavior("Hold");
-		}
-	}
+    Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
+
+    bow->AdjustPosture();
+    bow->GetComponent<SoundComponent>()->Play("charge");
+    if (!bow->IsTriggered())
+    {
+        bow->SetInterrupted(true);
+        m_parent->ChangeBehavior("Discharge");
+    }
+    else
+    {
+        if (bow->GetComponent<AnimComponent>()->GetAnim()->IsOver())
+        {
+            m_parent->ChangeBehavior("Hold");
+        }
+    }
 }
 
 void BowCharge::OnEnter()
 {
-	Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
-	Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim();
+    Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
+    Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
 
-	if (bow->IsInterrupted())
-	{
-		int frameNum = anim->GetTotalFrameNum();
-		int curFrame = anim->GetCurrentFrameID();
-		anim->SetMotion(BOW_ANIM_CHARGE);
-		anim->SetFrame(frameNum - curFrame - 1);
-		bow->SetInterrupted(false);
-	}
-	else
-		anim->SetMotion(BOW_ANIM_CHARGE);
+    if (bow->IsInterrupted())
+    {
+        int frameNum = anim->GetTotalFrameNum();
+        int curFrame = anim->GetCurrentFrameID();
+        anim->SetMotion(BOW_ANIM_CHARGE);
+        anim->SetFrame(frameNum - curFrame - 1);
+        bow->SetInterrupted(false);
+    }
+    else
+    {
+        anim->SetMotion(BOW_ANIM_CHARGE);
+    }
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -129,53 +126,52 @@ void BowCharge::OnEnter()
 */
 BowDischarge* BowDischarge::Clone() const
 {
-	BowDischarge* clone = new BowDischarge();
-	clone->_MakePrototype(false);
+    BowDischarge* clone = new BowDischarge();
+    clone->_MakePrototype(false);
 
-	BowBehavior::Clone(clone);
+    BowBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void BowDischarge::Update(Event* evnt)
 {
-	Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
+    Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
 
-	bow->AdjustPosture();
-	bow->GetComponent<SoundComponent>()->Play("charge");
-	if (bow->IsTriggered())
-	{
-		bow->SetInterrupted(true);
-		m_parent->ChangeBehavior("Charge");
-	}
-	else
-	{
-		if (bow->GetComponent<AnimComponent>()
-			->GetAnim()->IsOver())
-		{
-			m_parent->ChangeBehavior("Ready");
-		}
-	}
+    bow->AdjustPosture();
+    bow->GetComponent<SoundComponent>()->Play("charge");
+    if (bow->IsTriggered())
+    {
+        bow->SetInterrupted(true);
+        m_parent->ChangeBehavior("Charge");
+    }
+    else
+    {
+        if (bow->GetComponent<AnimComponent>()->GetAnim()->IsOver())
+        {
+            m_parent->ChangeBehavior("Ready");
+        }
+    }
 }
 
 void BowDischarge::OnEnter()
 {
-	Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
-	Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim();
+    Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
+    Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
 
-	if (bow->IsInterrupted())
-	{
-		int frameNum = anim->GetTotalFrameNum();
-		int curFrame = anim->GetCurrentFrameID();
-		anim->SetMotion(BOW_ANIM_DISCHARGE);
-		anim->SetFrame(frameNum - curFrame - 1);
-		bow->SetInterrupted(false);
-	}
-	else
-		anim->SetMotion(BOW_ANIM_DISCHARGE);
+    if (bow->IsInterrupted())
+    {
+        int frameNum = anim->GetTotalFrameNum();
+        int curFrame = anim->GetCurrentFrameID();
+        anim->SetMotion(BOW_ANIM_DISCHARGE);
+        anim->SetFrame(frameNum - curFrame - 1);
+        bow->SetInterrupted(false);
+    }
+    else
+    {
+        anim->SetMotion(BOW_ANIM_DISCHARGE);
+    }
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -184,43 +180,45 @@ void BowDischarge::OnEnter()
 */
 BowHold* BowHold::Clone() const
 {
-	BowHold* clone = new BowHold();
-	clone->_MakePrototype(false);
+    BowHold* clone = new BowHold();
+    clone->_MakePrototype(false);
 
-	BowBehavior::Clone(clone);
+    BowBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void BowHold::Update(Event* evnt)
 {
-	Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
+    Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
 
-	bow->AdjustPosture();
-	bow->GetComponent<SoundComponent>()->Play("charge");
-	if (!bow->IsTriggered())
-	{
-		Figure* figure = static_cast<Figure*>(bow->GetSlot()->GetGameObject());
-		if (figure->GetMP() >= bow->GetCost())
-		{
-			figure->CostMP(bow->GetCost());
-			m_parent->ChangeBehavior("Fire");
-		}
-		else
-			m_parent->ChangeBehavior("Discharge");
-	}
+    bow->AdjustPosture();
+    bow->GetComponent<SoundComponent>()->Play("charge");
+    if (!bow->IsTriggered())
+    {
+        Figure* figure = static_cast<Figure*>(bow->GetSlot()->GetGameObject());
+        if (figure->GetMP() >= bow->GetCost())
+        {
+            figure->CostMP(bow->GetCost());
+            m_parent->ChangeBehavior("Fire");
+        }
+        else
+        {
+            m_parent->ChangeBehavior("Discharge");
+        }
+    }
 }
 
 void BowHold::OnEnter()
 {
-	Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
+    Bow* bow = static_cast<Bow*>(m_parent->GetGameObject());
 
-	bow->GetComponent<AnimComponent>()->GetAnim()->SetMotion(BOW_ANIM_HOLD);
+    bow->GetComponent<AnimComponent>()->GetAnim()->SetMotion(BOW_ANIM_HOLD);
 
-	bow->SetCharged(true);
+    bow->SetCharged(true);
 }
 
 void BowHold::OnExit()
 {
-	static_cast<Bow*>(m_parent->GetGameObject())->SetCharged(false);
+    static_cast<Bow*>(m_parent->GetGameObject())->SetCharged(false);
 }

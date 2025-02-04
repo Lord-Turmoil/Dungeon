@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   This file provides the base class of all objects that have an existance  *
  *   on the battlefield. :P                                                   *
  * -------------------------------------------------------------------------- *
@@ -23,7 +23,6 @@
  ******************************************************************************/
 
 #include "../../inc/game/AbstractObject.h"
-
 
 /******************************************************************************
  * AbstractObject::Clone                                                      *
@@ -41,5 +40,5 @@
  *============================================================================*/
 void AbstractObject::Clone(AbstractObject* clone) const
 {
-	clone->m_RTTI = m_RTTI;
+    clone->m_RTTI = m_RTTI;
 }

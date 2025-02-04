@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For base class of brick in game.                                         *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,7 +23,6 @@
 
 #include "../../inc/object/Brick.h"
 #include "../../inc/object/GateBehavior.h"
-
 
 /******************************************************************************
  * Brick::Clone -- Clone brick.                                               *
@@ -41,9 +40,8 @@
  *============================================================================*/
 void Brick::Clone(Brick* clone) const
 {
-	Object::Clone(clone);
+    Object::Clone(clone);
 }
-
 
 /******************************************************************************
  * Brick::Load                                                                *
@@ -61,11 +59,10 @@ void Brick::Clone(Brick* clone) const
  *============================================================================*/
 bool Brick::Load(XMLElement* node)
 {
-	Object::Load(node);
-	
-	_RETURN_STATE();
-}
+    Object::Load(node);
 
+    _RETURN_STATE();
+}
 
 /******************************************************************************
  * Wall::Clone -- Clone a wall.                                               *
@@ -83,14 +80,13 @@ bool Brick::Load(XMLElement* node)
  *============================================================================*/
 Wall* Wall::Clone() const
 {
-	Wall* clone = new Wall(m_pScene);
-	clone->_MakePrototype(false);
+    Wall* clone = new Wall(m_pScene);
+    clone->_MakePrototype(false);
 
-	Brick::Clone(clone);
+    Brick::Clone(clone);
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * Wall::Load -- Load a wall from xml node.                                   *
@@ -108,25 +104,24 @@ Wall* Wall::Clone() const
  *============================================================================*/
 bool Wall::Load(XMLElement* node)
 {
-/*
-**	<Wall>
-**		<Components>
-**			<Anim></Anim>
-**			<CollideBox></collidebox>
-**			<Rigidbody></rigidbody>
-**		</Components>
-**	</Wall>
-*/
-	const char* name = node->Name();
+    /*
+    **	<Wall>
+    **		<Components>
+    **			<Anim></Anim>
+    **			<CollideBox></collidebox>
+    **			<Rigidbody></rigidbody>
+    **		</Components>
+    **	</Wall>
+    */
+    const char* name = node->Name();
 
-	_CHECK_TAG("Wall");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Wall");
+    _RETURN_IF_ERROR();
 
-	Brick::Load(node);
+    Brick::Load(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * Gate::Clone -- Clone gate.                                                 *
@@ -144,14 +139,13 @@ bool Wall::Load(XMLElement* node)
  *============================================================================*/
 Gate* Gate::Clone() const
 {
-	Gate* clone = new Gate(m_pScene);
-	clone->_MakePrototype(false);
+    Gate* clone = new Gate(m_pScene);
+    clone->_MakePrototype(false);
 
-	Brick::Clone(clone);
+    Brick::Clone(clone);
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * Gate::Load -- Load gate.                                                   *
@@ -169,25 +163,24 @@ Gate* Gate::Clone() const
  *============================================================================*/
 bool Gate::Load(XMLElement* node)
 {
-	/*
-	**	<Gate>
-	**		<Anim></Anim>
-	**		<CollideBox></Collidebox>
-	**		<RigidBody></Rigidbody>
-	**	</Gate>
-	*/
-	const char* name = node->Name();
+    /*
+    **	<Gate>
+    **		<Anim></Anim>
+    **		<CollideBox></Collidebox>
+    **		<RigidBody></Rigidbody>
+    **	</Gate>
+    */
+    const char* name = node->Name();
 
-	_CHECK_TAG("Gate");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Gate");
+    _RETURN_IF_ERROR();
 
-	Brick::Load(node);
+    Brick::Load(node);
 
-	_InitBehavior();
+    _InitBehavior();
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * Gate::Open -- Open the gate.                                               *
@@ -205,10 +198,11 @@ bool Gate::Load(XMLElement* node)
  *============================================================================*/
 void Gate::Open()
 {
-	if (!m_isOpen)
-		GetComponent<BehaviorComponent>()->ChangeBehavior("Opening");
+    if (!m_isOpen)
+    {
+        GetComponent<BehaviorComponent>()->ChangeBehavior("Opening");
+    }
 }
-
 
 /******************************************************************************
  * Gate::Close -- Close the gate.                                             *
@@ -226,10 +220,11 @@ void Gate::Open()
  *============================================================================*/
 void Gate::Close()
 {
-	if (!m_isClosed)
-		GetComponent<BehaviorComponent>()->ChangeBehavior("Closing");
+    if (!m_isClosed)
+    {
+        GetComponent<BehaviorComponent>()->ChangeBehavior("Closing");
+    }
 }
-
 
 /******************************************************************************
  * Gate::_InitState -- Initialize state of gate.                              *
@@ -247,12 +242,12 @@ void Gate::Close()
  *============================================================================*/
 void Gate::_InitBehavior(XMLElement* node)
 {
-	auto parent = GetComponent<BehaviorComponent>();
+    auto parent = GetComponent<BehaviorComponent>();
 
-	parent->AddBehavior(new GateOpen());
-	parent->AddBehavior(new GateClosed());
-	parent->AddBehavior(new GateOpening());
-	parent->AddBehavior(new GateClosing());
+    parent->AddBehavior(new GateOpen());
+    parent->AddBehavior(new GateClosed());
+    parent->AddBehavior(new GateOpening());
+    parent->AddBehavior(new GateClosing());
 
-	parent->ChangeBehavior("Open");
+    parent->ChangeBehavior("Open");
 }

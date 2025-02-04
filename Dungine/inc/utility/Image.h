@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide some image operations.                                           *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,42 +26,24 @@
 
 #include <easyx.h>
 
-
 /********************************************************************
 ** Basize resize.
 */
 void ResizeImage(IMAGE* pDestImage, IMAGE* pSrcImage, double scale);
 
-void ResizeImage(
-	IMAGE* pDestImage,
-	IMAGE* pSrcImage,
-	unsigned long destWidth,
-	unsigned long destHeight);
+void ResizeImage(IMAGE* pDestImage, IMAGE* pSrcImage, unsigned long destWidth, unsigned long destHeight);
 
-void ResizeImage(
-	IMAGE* pDestImage,
-	IMAGE* pSrcImage,
-	unsigned long destWidth,
-	unsigned long destHeight,
-	unsigned long srcWidth,
-	unsigned long srcHeight);
-
+void ResizeImage(IMAGE* pDestImage, IMAGE* pSrcImage, unsigned long destWidth, unsigned long destHeight,
+                 unsigned long srcWidth, unsigned long srcHeight);
 
 /********************************************************************
-** Resize and then copy to it self. 
+** Resize and then copy to it self.
 */
 void ResizeImage(IMAGE* pImage, double scale);
 
-void ResizeImage(
-	IMAGE* pImage,
-	unsigned long destWidth,
-	unsigned long destHeight);
+void ResizeImage(IMAGE* pImage, unsigned long destWidth, unsigned long destHeight);
 
-void ResizeImage(
-	IMAGE* pImage,
-	unsigned long destWidth,
-	unsigned long destHeight,
-	unsigned long srcWidth,
-	unsigned long srcHeight);
+void ResizeImage(IMAGE* pImage, unsigned long destWidth, unsigned long destHeight, unsigned long srcWidth,
+                 unsigned long srcHeight);
 
 #endif

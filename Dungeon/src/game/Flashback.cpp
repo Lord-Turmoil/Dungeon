@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For game flashback. Hmm... Save current progress. :)                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,7 +24,6 @@
 #include "../../inc/common/Defines.h"
 
 #include "../../inc/game/Flashback.h"
-
 
 /******************************************************************************
  * Flashback::FlashBack -- Constructor of the object.                         *
@@ -42,159 +41,168 @@
  *============================================================================*/
 Flashback::Flashback() : m_isValid(false)
 {
-	Link(FLASHBACK_XML);
+    Link(FLASHBACK_XML);
 }
 
 /******************************************************************************
-* Flashback::FlashBack -- Load load flashback.                               *
-*                                                                            *
-*    Just the literal meaning.                                               *
-*                                                                            *
-* INPUT:   none                                                              *
-*                                                                            *
-* OUTPUT:  none                                                              *
-*                                                                            *
-* WARNINGS:  none                                                            *
-*                                                                            *
-* HISTORY:                                                                   *
-*   2022/12/08 Tony : Created.                                               *
-*============================================================================*/
+ * Flashback::FlashBack -- Load load flashback.                               *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/08 Tony : Created.                                               *
+ *============================================================================*/
 bool Flashback::Load()
 {
-	XMLFile file;
-	if (!_LoadFile(file))
-		return false;
+    XMLFile file;
+    if (!_LoadFile(file))
+    {
+        return false;
+    }
 
-	try
-	{
-		_LoadEntry(file, &m_isValid, "Valid");
-		if (m_isValid)
-		{
-			_LoadEntry(file, &m_isInfinite, "Infinite");
-			_LoadEntry(file, &m_chapter, "Chapter");
-			_LoadEntry(file, &m_level, "Level");
+    try
+    {
+        _LoadEntry(file, &m_isValid, "Valid");
+        if (m_isValid)
+        {
+            _LoadEntry(file, &m_isInfinite, "Infinite");
+            _LoadEntry(file, &m_chapter, "Chapter");
+            _LoadEntry(file, &m_level, "Level");
 
-			_LoadEntry(file, &m_heroName, "Hero");
-			_LoadEntry(file, &m_hp, "HP");
-			_LoadEntry(file, &m_mp, "MP");
-			_LoadEntry(file, &m_armor, "Armor");
-			_LoadEntry(file, &m_chi, "Chi");
+            _LoadEntry(file, &m_heroName, "Hero");
+            _LoadEntry(file, &m_hp, "HP");
+            _LoadEntry(file, &m_mp, "MP");
+            _LoadEntry(file, &m_armor, "Armor");
+            _LoadEntry(file, &m_chi, "Chi");
 
-			_LoadWeaponList(file);
-		}
-	}
-	catch (EntryError)
-	{
-		Save();
-	}
+            _LoadWeaponList(file);
+        }
+    }
+    catch (EntryError)
+    {
+        Save();
+    }
 
-	return true;
+    return true;
 }
 
-
 /******************************************************************************
-* Flashback::FlashBack -- Save flashback.                                    *
-*                                                                            *
-*    Just the literal meaning.                                               *
-*                                                                            *
-* INPUT:   none                                                              *
-*                                                                            *
-* OUTPUT:  none                                                              *
-*                                                                            *
-* WARNINGS:  none                                                            *
-*                                                                            *
-* HISTORY:                                                                   *
-*   2022/12/08 Tony : Created.                                               *
-*============================================================================*/
+ * Flashback::FlashBack -- Save flashback.                                    *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   none                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/08 Tony : Created.                                               *
+ *============================================================================*/
 bool Flashback::Save()
 {
-	XMLFile file;
-	if (!_LoadFile(file))
-		return false;
+    XMLFile file;
+    if (!_LoadFile(file))
+    {
+        return false;
+    }
 
-	file.Clear();
+    file.Clear();
 
-	_SaveEntry(file, m_isValid, "Valid");
-	if (!m_isValid)
-		return true;
+    _SaveEntry(file, m_isValid, "Valid");
+    if (!m_isValid)
+    {
+        return true;
+    }
 
-	_SaveEntry(file, m_isInfinite, "Infinite");
-	_SaveEntry(file, m_chapter, "Chapter");
-	_SaveEntry(file, m_level, "Level");
+    _SaveEntry(file, m_isInfinite, "Infinite");
+    _SaveEntry(file, m_chapter, "Chapter");
+    _SaveEntry(file, m_level, "Level");
 
-	_SaveEntry(file, m_heroName, "Hero");
-	_SaveEntry(file, m_hp, "HP");
-	_SaveEntry(file, m_mp, "MP");
-	_SaveEntry(file, m_armor, "Armor");
-	_SaveEntry(file, m_chi, "Chi");
+    _SaveEntry(file, m_heroName, "Hero");
+    _SaveEntry(file, m_hp, "HP");
+    _SaveEntry(file, m_mp, "MP");
+    _SaveEntry(file, m_armor, "Armor");
+    _SaveEntry(file, m_chi, "Chi");
 
-	_SaveWeaponList(file);
+    _SaveWeaponList(file);
 
-	file.Save();
+    file.Save();
 
-	return true;
+    return true;
 }
 
-
 /******************************************************************************
-* Flashback::_LoadWeaponList -- Load weapon list.                            *
-*                                                                            *
-*    Just the literal meaning.                                               *
-*                                                                            *
-* INPUT:   file                                                              *
-*                                                                            *
-* OUTPUT:  none                                                              *
-*                                                                            *
-* WARNINGS:  none                                                            *
-*                                                                            *
-* HISTORY:                                                                   *
-*   2022/12/08 Tony : Created.                                               *
-*============================================================================*/
+ * Flashback::_LoadWeaponList -- Load weapon list.                            *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   file                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/08 Tony : Created.                                               *
+ *============================================================================*/
 void Flashback::_LoadWeaponList(XMLFile& file)
 {
-	XMLElement* entry = file.GetElementByTagName("Weapons");
-	if (!entry)
-		throw EntryError("Weapons");
+    XMLElement* entry = file.GetElementByTagName("Weapons");
+    if (!entry)
+    {
+        throw EntryError("Weapons");
+    }
 
-	// Haha... auto. :P
-	auto tagList = GetElementsByTagName(entry, "Weapon");
-	const char* name;
-	m_weaponList.clear();
-	for (auto tag : tagList)
-	{
-		name = tag->GetText();
-		if (!name)
-			throw EntryError("Missing weapon name");
-		m_weaponList.push_back(name);
-	}
+    // Haha... auto. :P
+    auto tagList = GetElementsByTagName(entry, "Weapon");
+    const char* name;
+    m_weaponList.clear();
+    for (auto tag : tagList)
+    {
+        name = tag->GetText();
+        if (!name)
+        {
+            throw EntryError("Missing weapon name");
+        }
+        m_weaponList.push_back(name);
+    }
 }
 
-
 /******************************************************************************
-* Flashback::_SaveWeaponList -- Save weapon list.                            *
-*                                                                            *
-*    Just the literal meaning.                                               *
-*                                                                            *
-* INPUT:   file                                                              *
-*                                                                            *
-* OUTPUT:  none                                                              *
-*                                                                            *
-* WARNINGS:  none                                                            *
-*                                                                            *
-* HISTORY:                                                                   *
-*   2022/12/08 Tony : Created.                                               *
-*============================================================================*/
+ * Flashback::_SaveWeaponList -- Save weapon list.                            *
+ *                                                                            *
+ *    Just the literal meaning.                                               *
+ *                                                                            *
+ * INPUT:   file                                                              *
+ *                                                                            *
+ * OUTPUT:  none                                                              *
+ *                                                                            *
+ * WARNINGS:  none                                                            *
+ *                                                                            *
+ * HISTORY:                                                                   *
+ *   2022/12/08 Tony : Created.                                               *
+ *============================================================================*/
 void Flashback::_SaveWeaponList(XMLFile& file)
 {
-	XMLElement* entry = file.GetElementByTagName("Weapons");
-	if (!entry)
-		entry = file.GetRoot()->InsertNewChildElement("Weapons");
+    XMLElement* entry = file.GetElementByTagName("Weapons");
+    if (!entry)
+    {
+        entry = file.GetRoot()->InsertNewChildElement("Weapons");
+    }
 
-	XMLElement* tag;
-	entry->DeleteChildren();
-	for (auto it = m_weaponList.begin(); it != m_weaponList.end(); it++)
-	{
-		tag = entry->InsertNewChildElement("Weapon");
-		tag->SetText(it->c_str());
-	}
+    XMLElement* tag;
+    entry->DeleteChildren();
+    for (auto it = m_weaponList.begin(); it != m_weaponList.end(); it++)
+    {
+        tag = entry->InsertNewChildElement("Weapon");
+        tag->SetText(it->c_str());
+    }
 }

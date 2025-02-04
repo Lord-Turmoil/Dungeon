@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Hero of the game.                                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,7 +24,6 @@
 #include "../../inc/object/Hero.h"
 #include "../../inc/object/HeroBehavior.h"
 #include "../../inc/object/HeroState.h"
-
 
 /******************************************************************************
  * Hero::Clone -- Clone hero.                                                 *
@@ -42,9 +41,8 @@
  *============================================================================*/
 void Hero::Clone(Hero* clone) const
 {
-	Figure::Clone(clone);
+    Figure::Clone(clone);
 }
-
 
 /******************************************************************************
  * Hero::Load                                                                 *
@@ -62,11 +60,10 @@ void Hero::Clone(Hero* clone) const
  *============================================================================*/
 bool Hero::Load(XMLElement* node)
 {
-	Figure::Load(node);
+    Figure::Load(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * Hero::_InitBehavior -- Initialize behavior of heroes.                      *
@@ -84,17 +81,15 @@ bool Hero::Load(XMLElement* node)
  *============================================================================*/
 void Hero::_InitBehavior(XMLElement* node)
 {
-	auto parent = GetComponent<BehaviorComponent>();
+    auto parent = GetComponent<BehaviorComponent>();
 
-	parent->AddBehavior(new HeroInit());
-	parent->AddBehavior(new HeroMove());
-	parent->AddBehavior(new HeroDead());
-	parent->AddBehavior(new HeroPerish());
+    parent->AddBehavior(new HeroInit());
+    parent->AddBehavior(new HeroMove());
+    parent->AddBehavior(new HeroDead());
+    parent->AddBehavior(new HeroPerish());
 
-	parent->ChangeBehavior("Init");
+    parent->ChangeBehavior("Init");
 }
-
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -103,38 +98,36 @@ void Hero::_InitBehavior(XMLElement* node)
 */
 HYony* HYony::Clone() const
 {
-	HYony* clone = new HYony(m_pScene);
-	clone->_MakePrototype(false);
+    HYony* clone = new HYony(m_pScene);
+    clone->_MakePrototype(false);
 
-	Hero::Clone(clone);
+    Hero::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 bool HYony::Load(XMLElement* node)
 {
-	const char* name = node->Name();
+    const char* name = node->Name();
 
-	_CHECK_TAG("Yony");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Yony");
+    _RETURN_IF_ERROR();
 
-	Hero::Load(node);
+    Hero::Load(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
 
 void HYony::_InitState()
 {
-	StateComponent* parent = GetComponent<StateComponent>();
+    StateComponent* parent = GetComponent<StateComponent>();
 
-	parent->AddState(new HeroNone());
-	parent->AddState(new HeroHurt());
-	parent->AddState(new YonySkill());
+    parent->AddState(new HeroNone());
+    parent->AddState(new HeroHurt());
+    parent->AddState(new YonySkill());
 
-	parent->ChangeState("None");
+    parent->ChangeState("None");
 }
-
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -143,37 +136,36 @@ void HYony::_InitState()
 */
 HSpecter* HSpecter::Clone() const
 {
-	HSpecter* clone = new HSpecter(m_pScene);
-	clone->_MakePrototype(false);
+    HSpecter* clone = new HSpecter(m_pScene);
+    clone->_MakePrototype(false);
 
-	Hero::Clone(clone);
+    Hero::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 bool HSpecter::Load(XMLElement* node)
 {
-	const char* name = node->Name();
+    const char* name = node->Name();
 
-	_CHECK_TAG("Specter");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("Specter");
+    _RETURN_IF_ERROR();
 
-	Hero::Load(node);
+    Hero::Load(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
 
 void HSpecter::_InitState()
 {
-	StateComponent* parent = GetComponent<StateComponent>();
+    StateComponent* parent = GetComponent<StateComponent>();
 
-	parent->AddState(new HeroNone());
-	parent->AddState(new HeroHurt());
-	parent->AddState(new SpecterSkill());
+    parent->AddState(new HeroNone());
+    parent->AddState(new HeroHurt());
+    parent->AddState(new SpecterSkill());
 
-	parent->ChangeState("None");
+    parent->ChangeState("None");
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -182,33 +174,33 @@ void HSpecter::_InitState()
 */
 HBlackHand* HBlackHand::Clone() const
 {
-	HBlackHand* clone = new HBlackHand(m_pScene);
-	clone->_MakePrototype(false);
+    HBlackHand* clone = new HBlackHand(m_pScene);
+    clone->_MakePrototype(false);
 
-	Hero::Clone(clone);
+    Hero::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 bool HBlackHand::Load(XMLElement* node)
 {
-	const char* name = node->Name();
+    const char* name = node->Name();
 
-	_CHECK_TAG("BlackHand");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("BlackHand");
+    _RETURN_IF_ERROR();
 
-	Hero::Load(node);
+    Hero::Load(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
 
 void HBlackHand::_InitState()
 {
-	StateComponent* parent = GetComponent<StateComponent>();
+    StateComponent* parent = GetComponent<StateComponent>();
 
-	parent->AddState(new HeroNone());
-	parent->AddState(new HeroHurt());
-	parent->AddState(new BlackHandSkill());
+    parent->AddState(new HeroNone());
+    parent->AddState(new HeroHurt());
+    parent->AddState(new BlackHandSkill());
 
-	parent->ChangeState("None");
+    parent->ChangeState("None");
 }

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Factory of bullets.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,11 +21,10 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Bullet.h"
 #include "../../inc/object/BulletKit.h"
+#include "../../inc/object/Bullet.h"
 
-
- /******************************************************************************
+/******************************************************************************
  * BulletKit::LoadObject -- Load bullet.                                      *
  *                                                                            *
  *    Just the literal meaning.                                               *
@@ -42,16 +41,22 @@
  *============================================================================*/
 Bullet* BulletKit::LoadObject(XMLElement* node)
 {
-	const char* name = node->Name();
-	Bullet* bullet = nullptr;
+    const char* name = node->Name();
+    Bullet* bullet = nullptr;
 
-	if (_STR_SAME(name, "Bullet"))
-		bullet = new Bullet(nullptr);
+    if (_STR_SAME(name, "Bullet"))
+    {
+        bullet = new Bullet(nullptr);
+    }
 
-	if (bullet)
-		bullet->Load(node);
-	else
-		LOG_ERROR(UNKNOWN_TAG, name);
+    if (bullet)
+    {
+        bullet->Load(node);
+    }
+    else
+    {
+        LOG_ERROR(UNKNOWN_TAG, name);
+    }
 
-	return bullet;
+    return bullet;
 }

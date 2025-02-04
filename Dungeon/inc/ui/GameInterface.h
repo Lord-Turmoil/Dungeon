@@ -12,7 +12,7 @@
  *                    Last Update : November 25, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   In game interface.                                                       *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -31,38 +31,43 @@ class Dungeon;
 class GameInterface final : public PlainInterface
 {
 public:
-	GameInterface() : m_pDungeon(nullptr), m_curTrack(-1) {}
-	virtual ~GameInterface() {}
+    GameInterface() : m_pDungeon(nullptr), m_curTrack(-1)
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~GameInterface() override
+    {
+    }
 
-	virtual void Update(Event* evnt);
-	virtual void Draw();
-	virtual void Draw(IMAGE* pDestImage);
+    bool Load(XMLElement* node) override;
 
-	virtual void AddEvents();
+    void Update(Event* evnt) override;
+    void Draw() override;
+    void Draw(IMAGE* pDestImage) override;
 
-	void PlayTrack(int id);
+    void AddEvents() override;
+
+    void PlayTrack(int id);
 
 protected:
-	virtual void _Initialize();
-	virtual void _Destroy();
+    void _Initialize() override;
+    void _Destroy() override;
 
 private:
-	void _UpdateStatus(ProgressBar* bar, double percent);
-	void _UpdateStatus(ProgressBar* bar, StaticWidget* text, StaticWidget* alert, int curVal, int maxVal);
-	void _UpdateChiStatus(ProgressBar* bar, StaticWidget* text, int curVal, int maxVal);
-	
-	/*
-	** Added prompt for weapon name and cost.
-	*/
-	void _UpdateWeapon(StaticWidget* nameText, StaticWidget* costText, const char* name, int cost);
+    void _UpdateStatus(ProgressBar* bar, double percent);
+    void _UpdateStatus(ProgressBar* bar, StaticWidget* text, StaticWidget* alert, int curVal, int maxVal);
+    void _UpdateChiStatus(ProgressBar* bar, StaticWidget* text, int curVal, int maxVal);
 
-	void _OnPause();
-	void _OnQuit();
+    /*
+    ** Added prompt for weapon name and cost.
+    */
+    void _UpdateWeapon(StaticWidget* nameText, StaticWidget* costText, const char* name, int cost);
 
-	Dungeon* m_pDungeon;
-	int m_curTrack;
+    void _OnPause();
+    void _OnQuit();
+
+    Dungeon* m_pDungeon;
+    int m_curTrack;
 };
 
 #endif

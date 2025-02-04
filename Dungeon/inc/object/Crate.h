@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Crate contains some buff or weapon.                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -38,39 +38,49 @@ class Buff;
 class Crate final : public Object
 {
 public:
-	Crate(Scene* scene) : Object(ObjectType::OBJ_CRATE),
-		m_weapon(nullptr), m_radius(0.0), m_isOpen(false)
-	{
-		m_symbol.SetLayer(LAYER_FIGURE);
-	}
-	virtual ~Crate();
+    Crate(Scene* scene) : Object(OBJ_CRATE), m_weapon(nullptr), m_radius(0.0), m_isOpen(false)
+    {
+        m_symbol.SetLayer(LAYER_FIGURE);
+    }
 
-	virtual Crate* Clone() const;
-	virtual void Clone(Crate* clone) const {}
+    ~Crate() override;
 
-	virtual bool Load(XMLElement* node);
+    Crate* Clone() const override;
+
+    virtual void Clone(Crate* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
 
 public:
-	void Generate();	// Generate contents.
-	void Open();		// Open the crate (When activated).
+    void Generate(); // Generate contents.
+    void Open();     // Open the crate (When activated).
 
-	double GetRadius() const { return m_radius; }
-	bool IsOpen() const { return m_isOpen; }
+    double GetRadius() const
+    {
+        return m_radius;
+    }
+
+    bool IsOpen() const
+    {
+        return m_isOpen;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 
 private:
-	void _GenerateDrug(int hpPercent);
-	bool _GenerateWeapon();
-	void _GenerateEnergyAndCoin();
+    void _GenerateDrug(int hpPercent);
+    bool _GenerateWeapon();
+    void _GenerateEnergyAndCoin();
 
-	std::vector<Buff*> m_buffs;
-	Weapon* m_weapon;
+    std::vector<Buff*> m_buffs;
+    Weapon* m_weapon;
 
-	double m_radius;
+    double m_radius;
 
-	bool m_isOpen;
+    bool m_isOpen;
 };
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Hero library.                                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,10 +21,9 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
+#include "../../inc/object/HeroLibrary.h"
 #include "../../inc/object/Hero.h"
 #include "../../inc/object/HeroKit.h"
-#include "../../inc/object/HeroLibrary.h"
-
 
 /******************************************************************************
  * HeroLibrary::Load -- Load the entire library.                              *
@@ -42,15 +41,15 @@
  *============================================================================*/
 bool HeroLibrary::Load(const char* filename)
 {
-	XMLFile file;
+    XMLFile file;
 
-	file.Load(filename);
+    file.Load(filename);
 
-	Load(file.GetRoot());
+    Load(file.GetRoot());
 
-	file.UnLoad();
+    file.UnLoad();
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
 
 /******************************************************************************
@@ -69,29 +68,28 @@ bool HeroLibrary::Load(const char* filename)
  *============================================================================*/
 bool HeroLibrary::Load(XMLElement* node)
 {
-/*
-**	<HeroLibrary>
-**		<HeroName ...>...</HeroName>
-**		<HeroName ...>...</HeroName>
-**		<HeroName ...>...</HeroName>
-**	</HeroLibrary>
-*/
-	const char* name = node->Name();
+    /*
+    **	<HeroLibrary>
+    **		<HeroName ...>...</HeroName>
+    **		<HeroName ...>...</HeroName>
+    **		<HeroName ...>...</HeroName>
+    **	</HeroLibrary>
+    */
+    const char* name = node->Name();
 
-	_CHECK_TAG("HeroLibrary");
-	_RETURN_IF_ERROR();
+    _CHECK_TAG("HeroLibrary");
+    _RETURN_IF_ERROR();
 
-	HeroKit kit;
-	XMLElement* elem = node->FirstChildElement();
-	while (elem)
-	{
-		AddHero(kit.LoadObject(elem));
-		elem = elem->NextSiblingElement();
-	}
+    HeroKit kit;
+    XMLElement* elem = node->FirstChildElement();
+    while (elem)
+    {
+        AddHero(kit.LoadObject(elem));
+        elem = elem->NextSiblingElement();
+    }
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * HeroLibrary::UnLoad -- Unload the library.                                 *
@@ -109,11 +107,12 @@ bool HeroLibrary::Load(XMLElement* node)
  *============================================================================*/
 void HeroLibrary::UnLoad()
 {
-	for (auto it = m_pool.begin(); it != m_pool.end(); it++)
-		delete it->second;
-	m_pool.clear();
+    for (auto it = m_pool.begin(); it != m_pool.end(); it++)
+    {
+        delete it->second;
+    }
+    m_pool.clear();
 }
-
 
 /******************************************************************************
  * HeroLibrary::AddHero - Add hero to the library.                            *
@@ -131,9 +130,8 @@ void HeroLibrary::UnLoad()
  *============================================================================*/
 Hero* HeroLibrary::AddHero(Hero* hero)
 {
-	return AddItem(hero->Name(), hero);
+    return AddItem(hero->Name(), hero);
 }
-
 
 /******************************************************************************
  * HeroLibrary::GetHeroByName                                                 *
@@ -151,5 +149,5 @@ Hero* HeroLibrary::AddHero(Hero* hero)
  *============================================================================*/
 Hero* HeroLibrary::GetHeroByName(const std::string& name)
 {
-	return GetItem(name);
+    return GetItem(name);
 }

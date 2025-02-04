@@ -12,7 +12,7 @@
  *                    Last Update : December 13, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For boss.                                                                *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,7 +26,6 @@
 
 #include "Genie.h"
 
-
 /********************************************************************
 ** Boss has its specific behavior and state. And it won't be removed
 ** after defeated.
@@ -34,31 +33,47 @@
 class Boss : public Genie
 {
 public:
-	Boss(Scene* pScene) : Genie(pScene), m_isUsingSkill(false) {}
-	virtual ~Boss() {}
+    Boss(Scene* pScene) : Genie(pScene), m_isUsingSkill(false)
+    {
+    }
 
-	virtual Boss* Clone() const = 0;
-	virtual void Clone(Boss* clone) const;
+    ~Boss() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
-	
-	/*
-	** 2022/12/13 TS:
-	** Used to enhance boss in Infinite mode.
-	*/
-	virtual void Enhance(float rate);
+    Boss* Clone() const override = 0;
+    virtual void Clone(Boss* clone) const;
+
+    bool Load(XMLElement* node) override;
+
+    /*
+    ** 2022/12/13 TS:
+    ** Used to enhance boss in Infinite mode.
+    */
+    virtual void Enhance(float rate);
 
 public:
-	void SetUsingSkill(bool isUsingSkill) { m_isUsingSkill = isUsingSkill; }
-	bool IsUsingSkill() const { return m_isUsingSkill; }
+    void SetUsingSkill(bool isUsingSkill)
+    {
+        m_isUsingSkill = isUsingSkill;
+    }
+
+    bool IsUsingSkill() const
+    {
+        return m_isUsingSkill;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr) {}
-	virtual void _InitState() {}
+    void _InitBehavior(XMLElement* node = nullptr) override
+    {
+    }
 
-	bool m_isUsingSkill;
+    void _InitState() override
+    {
+    }
+
+    bool m_isUsingSkill;
 };
-
 
 /********************************************************************
 ** Rock is a giant stone, it can summon small stones. :)
@@ -66,19 +81,26 @@ protected:
 class ERock final : public Boss
 {
 public:
-	ERock(Scene* pScene) : Boss(pScene) {}
-	virtual ~ERock() {}
+    ERock(Scene* pScene) : Boss(pScene)
+    {
+    }
 
-	virtual ERock* Clone() const;
-	virtual void Clone(ERock* clone) const {}
+    ~ERock() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ERock* Clone() const override;
+
+    virtual void Clone(ERock* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
-	virtual void _InitState();
+    void _InitBehavior(XMLElement* node = nullptr) override;
+    void _InitState() override;
 };
-
 
 /********************************************************************
 ** Well, this is Dark Black Hand, the same as the hero Black Hand.
@@ -87,17 +109,25 @@ protected:
 class EBlackHand final : public Boss
 {
 public:
-	EBlackHand(Scene* pScene) : Boss(pScene) {}
-	virtual ~EBlackHand() {}
+    EBlackHand(Scene* pScene) : Boss(pScene)
+    {
+    }
 
-	virtual EBlackHand* Clone() const;
-	virtual void Clone(EBlackHand* clone) const {}
+    ~EBlackHand() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    EBlackHand* Clone() const override;
+
+    virtual void Clone(EBlackHand* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
-	virtual void _InitState();
+    void _InitBehavior(XMLElement* node = nullptr) override;
+    void _InitState() override;
 };
 
 #endif

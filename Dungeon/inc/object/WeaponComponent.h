@@ -12,7 +12,7 @@
  *                    Last Update : December 9, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Weapon slot.                                                             *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,8 +24,8 @@
 #ifndef _WEAPON_COMPONENT_H_
 #define _WEAPON_COMPONENT_H_
 
-#include <vector>
 #include <dungine.h>
+#include <vector>
 
 class Weapon;
 
@@ -36,68 +36,94 @@ class Weapon;
 class WeaponComponent : public AbstractComponent
 {
 public:
-	WeaponComponent(int updateOrder = 0);
-	virtual ~WeaponComponent();
+    WeaponComponent(int updateOrder = 0);
+    ~WeaponComponent() override;
 
-	static const char* StaticName() { return "WeaponSlot"; }
-	virtual const char* Name() { return StaticName(); }
+    static const char* StaticName()
+    {
+        return "WeaponSlot";
+    }
 
-	int UpdateOrder() const { return m_updateOrder; }
+    const char* Name() override
+    {
+        return StaticName();
+    }
 
-	virtual WeaponComponent* Clone() const;
-	virtual void Clone(WeaponComponent* clone) const {}
+    int UpdateOrder() const
+    {
+        return m_updateOrder;
+    }
 
-	virtual bool Load(XMLElement* node);
+    WeaponComponent* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(WeaponComponent* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    void Update(Event* evnt) override;
 
 public:
-	virtual void Translate(const Coordinate& offset);
+    void Translate(const Coordinate& offset) override;
 
-	// This is only valid after Update.
-	Coordinate GetCoord() const { return m_center; }
+    // This is only valid after Update.
+    Coordinate GetCoord() const
+    {
+        return m_center;
+    }
 
-	bool IsEmpty() const { return m_weapons.empty(); }
-	bool IsFull() const { return m_weapons.size() == m_capacity; }
-	bool IsArmed() const { return m_isArmed; }
+    bool IsEmpty() const
+    {
+        return m_weapons.empty();
+    }
 
-	// 2022/12/09 TS: Get the weapon names for flashback.
-	std::vector<std::string> GetWeaponList() const;
+    bool IsFull() const
+    {
+        return m_weapons.size() == m_capacity;
+    }
 
-	/*
-	** Equip the figure with current weapon. Used on figure loaded.
-	*/
-	void Equip();
-	void UnEquip();
+    bool IsArmed() const
+    {
+        return m_isArmed;
+    }
 
-	void PickUpWeapon(Weapon* weapon);
-	void SwitchWeapon();
-	void TrigWeapon();
-	void UnTrigWeapon();
+    // 2022/12/09 TS: Get the weapon names for flashback.
+    std::vector<std::string> GetWeaponList() const;
 
-	Weapon* GetCurrentWeapon();
+    /*
+    ** Equip the figure with current weapon. Used on figure loaded.
+    */
+    void Equip();
+    void UnEquip();
 
-	/*
-	** 2022/12/08 TS:
-	** Clear the weapon slot.
-	*/
-	void Clear();
+    void PickUpWeapon(Weapon* weapon);
+    void SwitchWeapon();
+    void TrigWeapon();
+    void UnTrigWeapon();
+
+    Weapon* GetCurrentWeapon();
+
+    /*
+    ** 2022/12/08 TS:
+    ** Clear the weapon slot.
+    */
+    void Clear();
 
 private:
-	std::vector<Weapon*> m_weapons;
-	std::vector<Weapon*>::iterator m_current;
-	int m_capacity;
+    std::vector<Weapon*> m_weapons;
+    std::vector<Weapon*>::iterator m_current;
+    int m_capacity;
 
-	Coordinate m_center;
+    Coordinate m_center;
 
-	// Offset from figure's center to its center.
-	Coordinate m_offset;
+    // Offset from figure's center to its center.
+    Coordinate m_offset;
 
-	// Target of the weapon. Set by figure.
-	Coordinate m_target;
+    // Target of the weapon. Set by figure.
+    Coordinate m_target;
 
-	bool m_isArmed;
+    bool m_isArmed;
 };
-
 
 #endif

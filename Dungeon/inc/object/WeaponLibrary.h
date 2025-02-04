@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Weapon library of the game.                                              *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -30,25 +30,29 @@ class Weapon;
 
 class WeaponLibrary : private AbstractLibrary<Weapon>, public Singleton<WeaponLibrary>
 {
-	friend class Singleton<WeaponLibrary>;
+    friend class Singleton<WeaponLibrary>;
+
 public:
-	bool Load(const char* filename);
+    bool Load(const char* filename);
 
-	virtual bool Load(XMLElement* node);
-	virtual void UnLoad();
+    bool Load(XMLElement* node) override;
+    void UnLoad() override;
 
-	Weapon* AddWeapon(Weapon* weapon);
-	Weapon* GetWeapon();	// Get a random weapon.
-	Weapon* GetWeaponByName(const std::string& name);
+    Weapon* AddWeapon(Weapon* weapon);
+    Weapon* GetWeapon(); // Get a random weapon.
+    Weapon* GetWeaponByName(const std::string& name);
 
 private:
-	WeaponLibrary() {}
-	virtual ~WeaponLibrary();
+    WeaponLibrary()
+    {
+    }
 
-	void _AcquireWeapons();
+    ~WeaponLibrary() override;
 
-	// To avoid get same weapons repeatively.
-	std::vector<Weapon*> m_unusedPool;
+    void _AcquireWeapons();
+
+    // To avoid get same weapons repeatively.
+    std::vector<Weapon*> m_unusedPool;
 };
 
 #endif

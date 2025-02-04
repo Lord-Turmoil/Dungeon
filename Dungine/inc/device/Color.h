@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide some color definitions and operations.                           *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -41,8 +41,9 @@
 **   d: Color of the destination image.
 **   a: Alpha value.
 */
-#define ARGB(s, d, a) RGB((PR(s) * a + PR(d) * (255 - a)) >> 8, (PG(s) * a + PG(d) * (255 - a)) >> 8, (PB(s) * a + PB(d) * (255 - a)) >> 8)
-
+#define ARGB(s, d, a)                                                                                                  \
+    RGB((PR(s) * a + PR(d) * (255 - a)) >> 8, (PG(s) * a + PG(d) * (255 - a)) >> 8,                                    \
+        (PB(s) * a + PB(d) * (255 - a)) >> 8)
 
 /********************************************************************
 ** Parse color value, used as a callback function.

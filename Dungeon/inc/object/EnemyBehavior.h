@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Behaviors of enemies.                                                    *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -52,141 +52,178 @@ class Dungeon;
 class EnemyBehavior : public Behavior
 {
 public:
-	EnemyBehavior() : m_elapsedTime(0L) {}
-	virtual ~EnemyBehavior() {}
+    EnemyBehavior() : m_elapsedTime(0L)
+    {
+    }
 
-	/*
-	** Get the name of the behavior. I think... C-Style string is
-	** enough.
-	*/
-	virtual const char* Name() const = 0;
+    ~EnemyBehavior() override
+    {
+    }
 
-	virtual EnemyBehavior* Clone() const = 0;
-	virtual void Clone(EnemyBehavior* clone) const;
+    /*
+     ** Get the name of the behavior. I think... C-Style string is
+     ** enough.
+     */
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    EnemyBehavior* Clone() const override = 0;
+    virtual void Clone(EnemyBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
+    bool _Alert();
+    void _Move(const Vector& dir);
+    void _Evade(int level);
 
-	bool _Alert();
-	void _Move(const Vector& dir);
-	void _Evade(int level);
+    virtual void _Collide();
+    virtual void _OnDefeat(Dungeon* dungeon, Enemy* enemy);
 
-	virtual void _Collide();
-	virtual void _OnDefeat(Dungeon* dungeon, Enemy* enemy);
-
-
-	clock_t m_elapsedTime;
+    clock_t m_elapsedTime;
 
 protected:
-	enum EnemyAnimTag
-	{
-		ENEMY_ANIM_INIT = 0,
-		ENEMY_ANIM_IDLE,
-		ENEMY_ANIM_MOVE,
-		ENEMY_ANIM_ATTACK,
-		ENEMY_ANIM_DEAD
-	};
+    enum EnemyAnimTag
+    {
+        ENEMY_ANIM_INIT = 0,
+        ENEMY_ANIM_IDLE,
+        ENEMY_ANIM_MOVE,
+        ENEMY_ANIM_ATTACK,
+        ENEMY_ANIM_DEAD
+    };
 };
 
 class EnemyInit : public EnemyBehavior
 {
 public:
-	virtual const char* Name() const { return "Init"; }
+    const char* Name() const override
+    {
+        return "Init";
+    }
 
-	virtual EnemyInit* Clone() const;
-	virtual void Clone(EnemyInit* clone) const;
+    EnemyInit* Clone() const override;
+    virtual void Clone(EnemyInit* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    void OnEnter() override;
+    void OnExit() override;
 };
 
 class EnemyIdle : public EnemyBehavior
 {
 public:
-	virtual const char* Name() const { return "Idle"; }
+    const char* Name() const override
+    {
+        return "Idle";
+    }
 
-	virtual EnemyIdle* Clone() const;
-	virtual void Clone(EnemyIdle* clone) const;
+    EnemyIdle* Clone() const override;
+    virtual void Clone(EnemyIdle* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 
-	virtual void OnEnter();
+    void OnEnter() override;
 };
 
 class EnemyEngage : public EnemyBehavior
 {
 public:
-	virtual const char* Name() const { return "Engage"; }
+    const char* Name() const override
+    {
+        return "Engage";
+    }
 
-	virtual EnemyEngage* Clone() const;
-	virtual void Clone(EnemyEngage* clone) const;
+    EnemyEngage* Clone() const override;
+    virtual void Clone(EnemyEngage* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 
-	virtual void OnEnter();
+    void OnEnter() override;
 };
 
 class EnemyAttack : public EnemyBehavior
 {
 public:
-	virtual const char* Name() const { return "Attack"; }
+    const char* Name() const override
+    {
+        return "Attack";
+    }
 
-	virtual EnemyAttack* Clone() const;
-	virtual void Clone(EnemyAttack* clone) const;
+    EnemyAttack* Clone() const override;
+    virtual void Clone(EnemyAttack* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 
-	virtual void OnEnter();
+    void OnEnter() override;
 };
 
 class EnemyRest : public EnemyBehavior
 {
 public:
-	virtual const char* Name() const { return "Rest"; }
+    const char* Name() const override
+    {
+        return "Rest";
+    }
 
-	virtual EnemyRest* Clone() const;
-	virtual void Clone(EnemyRest* clone) const;
+    EnemyRest* Clone() const override;
+    virtual void Clone(EnemyRest* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 
-	virtual void OnEnter();
+    void OnEnter() override;
 
 protected:
-	clock_t m_duration;
+    clock_t m_duration;
 };
 
 class EnemyDead : public EnemyBehavior
 {
 public:
-	virtual const char* Name() const { return "Dead"; }
+    const char* Name() const override
+    {
+        return "Dead";
+    }
 
-	virtual EnemyDead* Clone() const;
-	virtual void Clone(EnemyDead* clone) const;
+    EnemyDead* Clone() const override;
+    virtual void Clone(EnemyDead* clone) const;
 
-	virtual void Update(Event* evnt);
+    void Update(Event* evnt) override;
 
-	virtual void OnEnter();
+    void OnEnter() override;
 };
 
 class EnemyPerish : public EnemyBehavior
 {
 public:
-	virtual const char* Name() const { return "Perish"; }
+    const char* Name() const override
+    {
+        return "Perish";
+    }
 
-	virtual EnemyPerish* Clone() const;
-	virtual void Clone(EnemyPerish* clone) const {}
+    EnemyPerish* Clone() const override;
 
-	virtual void Update(Event* evnt) {}
+    virtual void Clone(EnemyPerish* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override
+    {
+    }
+
+    void OnEnter() override;
 };
 
 #endif

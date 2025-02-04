@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   To indicate target direction.                                            *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,13 +26,12 @@
 
 #include <dungine.h>
 
-
 enum IndicatorType
 {
-	IND_CRATE = 0,
-	IND_ENEMY,
+    IND_CRATE = 0,
+    IND_ENEMY,
 
-	IND_NONE
+    IND_NONE
 };
 
 /********************************************************************
@@ -42,37 +41,52 @@ enum IndicatorType
 class IndicatorComponent : public AbstractComponent
 {
 public:
-	IndicatorComponent(int updateOrder = 0) : AbstractComponent(updateOrder),
-		m_type(IND_NONE), m_dist(INF_DOUBLE), m_images{ nullptr, nullptr }
-	{
-		m_symbol.SetStatic(true);
-	}
-	virtual ~IndicatorComponent();
+    IndicatorComponent(int updateOrder = 0)
+        : AbstractComponent(updateOrder), m_type(IND_NONE), m_dist(INF_DOUBLE), m_images{ nullptr, nullptr }
+    {
+        m_symbol.SetStatic(true);
+    }
 
-	static const char* StaticName() { return "Indicator"; }
-	virtual const char* Name() { return StaticName(); }
+    ~IndicatorComponent() override;
 
-	virtual IndicatorComponent* Clone() const;
-	virtual void Clone(IndicatorComponent* clone) const {}
+    static const char* StaticName()
+    {
+        return "Indicator";
+    }
 
-	virtual bool Load(XMLElement* node);
+    const char* Name() override
+    {
+        return StaticName();
+    }
 
-	virtual void Update(Event* evnt);
+    IndicatorComponent* Clone() const override;
+
+    virtual void Clone(IndicatorComponent* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    void Update(Event* evnt) override;
 
 public:
-	void ClearTarget() { m_type = IND_NONE; }
-	void SetTarget(const Coordinate& target, IndicatorType type);
+    void ClearTarget()
+    {
+        m_type = IND_NONE;
+    }
+
+    void SetTarget(const Coordinate& target, IndicatorType type);
 
 private:
-	IndicatorType m_type;	// Indicator's current type.
+    IndicatorType m_type; // Indicator's current type.
 
-	Coordinate m_coord;		// Indicator's center coordinate.
-	Coordinate m_offset;
-	Coordinate m_target;	// The target to point at.
-	double m_dist;			// Current distance to target.
+    Coordinate m_coord; // Indicator's center coordinate.
+    Coordinate m_offset;
+    Coordinate m_target; // The target to point at.
+    double m_dist;       // Current distance to target.
 
-	Symbol m_symbol;
-	ImageObject* m_images[2];	// store two types of indicators
+    Symbol m_symbol;
+    ImageObject* m_images[2]; // store two types of indicators
 };
 
 #endif

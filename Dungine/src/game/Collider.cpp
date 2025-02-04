@@ -12,7 +12,7 @@
  *                    Last Update : November 20, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide some methods to handle collision.                                *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -28,7 +28,6 @@
 #include "../../inc/game/StandardComponent.h"
 
 #include "../../inc/utility/Auxilliary.h"
-
 
 /********************************************************************
 ** Well, for all collision checks, objA is regarded as movable, while
@@ -52,29 +51,30 @@
  *============================================================================*/
 bool Collider::Collide(GameObject* objA, GameObject* objB)
 {
-	RigidBodyComponent* rigidA = objA->GetComponent<RigidBodyComponent>();
-	RigidBodyComponent* rigidB = objB->GetComponent<RigidBodyComponent>();
+    RigidBodyComponent* rigidA = objA->GetComponent<RigidBodyComponent>();
+    RigidBodyComponent* rigidB = objB->GetComponent<RigidBodyComponent>();
 
-	if (!rigidA || !rigidB)
-		return false;
+    if (!rigidA || !rigidB)
+    {
+        return false;
+    }
 
-	CollisionType type = GetCollisionType(rigidA->ID(), rigidB->ID());
-	
-	switch (type)
-	{
-	case CollisionType::COLL_NONE:
-		return false;
-	case CollisionType::COLL_CHECK:
-		return _Check(objA, objB);
-	case CollisionType::COLL_INELASTIC:
-		return _InElastic(objA, objB);
-	case CollisionType::COLL_ELASTIC:
-		return _Elastic(objA, objB);
-	default:
-		return false;
-	};
+    CollisionType type = GetCollisionType(rigidA->ID(), rigidB->ID());
+
+    switch (type)
+    {
+    case COLL_NONE:
+        return false;
+    case COLL_CHECK:
+        return _Check(objA, objB);
+    case COLL_INELASTIC:
+        return _InElastic(objA, objB);
+    case COLL_ELASTIC:
+        return _Elastic(objA, objB);
+    default:
+        return false;
+    }
 }
-
 
 /******************************************************************************
  * Collider::_Check -- Only do check.                                         *
@@ -93,15 +93,16 @@ bool Collider::Collide(GameObject* objA, GameObject* objB)
  *============================================================================*/
 bool Collider::_Check(GameObject* objA, GameObject* objB)
 {
-	ColliderBoxComponent* boxA = objA->GetComponent<ColliderBoxComponent>();
-	ColliderBoxComponent* boxB = objB->GetComponent<ColliderBoxComponent>();
+    ColliderBoxComponent* boxA = objA->GetComponent<ColliderBoxComponent>();
+    ColliderBoxComponent* boxB = objB->GetComponent<ColliderBoxComponent>();
 
-	if (!boxA || !boxB)
-		return false;
+    if (!boxA || !boxB)
+    {
+        return false;
+    }
 
-	return HasIntersect(boxA->GetBox(), boxB->GetBox());
+    return HasIntersect(boxA->GetBox(), boxB->GetBox());
 }
-
 
 /******************************************************************************
  * Collider::Elastic -- Perform elastic collision.                            *
@@ -121,95 +122,110 @@ bool Collider::_Check(GameObject* objA, GameObject* objB)
  *============================================================================*/
 bool Collider::_Elastic(GameObject* objA, GameObject* objB)
 {
-	ColliderBoxComponent* boxCmptA = objA->GetComponent<ColliderBoxComponent>();
-	ColliderBoxComponent* boxCmptB = objB->GetComponent<ColliderBoxComponent>();
-	RigidBodyComponent* rigidCmptA = objA->GetComponent<RigidBodyComponent>();
-	RigidBodyComponent* rigidCmptB = objB->GetComponent<RigidBodyComponent>();
+    ColliderBoxComponent* boxCmptA = objA->GetComponent<ColliderBoxComponent>();
+    ColliderBoxComponent* boxCmptB = objB->GetComponent<ColliderBoxComponent>();
+    RigidBodyComponent* rigidCmptA = objA->GetComponent<RigidBodyComponent>();
+    RigidBodyComponent* rigidCmptB = objB->GetComponent<RigidBodyComponent>();
 
-	if (!boxCmptA || !boxCmptB || !rigidCmptA || !rigidCmptB)
-		return false;
+    if (!boxCmptA || !boxCmptB || !rigidCmptA || !rigidCmptB)
+    {
+        return false;
+    }
 
-	/*
-	** 2022/11/20 TS:
-	** Mass of A must not be zero. Extra check added.
-	*/
-	if (rigidCmptA->GetMass() == 0.0)
-	{
-		if (rigidCmptB->GetMass() == 0.0)	// Nothing should happen.
-			return false;
-		else
-			return _Elastic(objB, objA);
-	}
+    /*
+    ** 2022/11/20 TS:
+    ** Mass of A must not be zero. Extra check added.
+    */
+    if (rigidCmptA->GetMass() == 0.0)
+    {
+        if (rigidCmptB->GetMass() == 0.0) // Nothing should happen.
+        {
+            return false;
+        }
+        else
+        {
+            return _Elastic(objB, objA);
+        }
+    }
 
-	const Rect& boxA = boxCmptA->GetBox();
-	const Rect& boxB = boxCmptB->GetBox();
-	Coordinate overlap = Intersect(boxA, boxB);
+    const Rect& boxA = boxCmptA->GetBox();
+    const Rect& boxB = boxCmptB->GetBox();
+    Coordinate overlap = Intersect(boxA, boxB);
 
-	if (!overlap.Positive())
-		return false;
+    if (!overlap.Positive())
+    {
+        return false;
+    }
 
-	Coordinate centerA = boxA.GetCenter();
-	Coordinate centerB = boxB.GetCenter();
+    Coordinate centerA = boxA.GetCenter();
+    Coordinate centerB = boxB.GetCenter();
 
-	if (overlap.x < overlap.y)
-	{
-		if (centerA.x < centerB.x)
-			overlap.x = -overlap.x;
-		overlap.y = 0;
-	}
-	else
-	{
-		if (centerA.y < centerB.y)
-			overlap.y = -overlap.y;
-		overlap.x = 0;
-	}
+    if (overlap.x < overlap.y)
+    {
+        if (centerA.x < centerB.x)
+        {
+            overlap.x = -overlap.x;
+        }
+        overlap.y = 0;
+    }
+    else
+    {
+        if (centerA.y < centerB.y)
+        {
+            overlap.y = -overlap.y;
+        }
+        overlap.x = 0;
+    }
 
-	objA->Translate(overlap);
+    objA->Translate(overlap);
 
-	const double e = 0.8;
-	if (rigidCmptB->GetMass() != 0.0)
-	{
-		const double m1 = rigidCmptA->GetMass();
-		const double m2 = rigidCmptB->GetMass();
-		double v11, v12, v21, v22;
+    const double e = 0.8;
+    if (rigidCmptB->GetMass() != 0.0)
+    {
+        const double m1 = rigidCmptA->GetMass();
+        const double m2 = rigidCmptB->GetMass();
+        double v11, v12, v21, v22;
 
-		if (overlap.x != 0)
-		{
-			v11 = rigidCmptA->GetVelocity().x;
-			v21 = rigidCmptB->GetVelocity().x;
-		}
-		else
-		{
-			v11 = rigidCmptA->GetVelocity().y;
-			v21 = rigidCmptB->GetVelocity().y;
-		}
-		v12 = (m1 - e * m2) * v11 + (1.0 + e) * m2 * v21;
-		v22 = (m2 - e * m1) * v21 + (1.0 + e) * m1 * v11;
-		v12 /= (m1 + m2);
-		v22 /= (m1 + m2);
-		if (overlap.x != 0)
-		{
-			rigidCmptA->GetVelocity().x = v12;
-			rigidCmptB->GetVelocity().x = v22;
-		}
-		else
-		{
-			rigidCmptA->GetVelocity().y = v12;
-			rigidCmptB->GetVelocity().y = v22;
-		}
-	}
-	else
-	{
-		// if m_b is zero, then v_b is zero, too.
-		if (overlap.x != 0)
-			rigidCmptA->GetVelocity().x = -1.0 * e * rigidCmptA->GetVelocity().x;
-		else
-			rigidCmptA->GetVelocity().y = -1.0 * e * rigidCmptA->GetVelocity().y;
-	}
+        if (overlap.x != 0)
+        {
+            v11 = rigidCmptA->GetVelocity().x;
+            v21 = rigidCmptB->GetVelocity().x;
+        }
+        else
+        {
+            v11 = rigidCmptA->GetVelocity().y;
+            v21 = rigidCmptB->GetVelocity().y;
+        }
+        v12 = (m1 - e * m2) * v11 + (1.0 + e) * m2 * v21;
+        v22 = (m2 - e * m1) * v21 + (1.0 + e) * m1 * v11;
+        v12 /= (m1 + m2);
+        v22 /= (m1 + m2);
+        if (overlap.x != 0)
+        {
+            rigidCmptA->GetVelocity().x = v12;
+            rigidCmptB->GetVelocity().x = v22;
+        }
+        else
+        {
+            rigidCmptA->GetVelocity().y = v12;
+            rigidCmptB->GetVelocity().y = v22;
+        }
+    }
+    else
+    {
+        // if m_b is zero, then v_b is zero, too.
+        if (overlap.x != 0)
+        {
+            rigidCmptA->GetVelocity().x = -1.0 * e * rigidCmptA->GetVelocity().x;
+        }
+        else
+        {
+            rigidCmptA->GetVelocity().y = -1.0 * e * rigidCmptA->GetVelocity().y;
+        }
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * Collider::InElastic -- Perform inelastic collision.                        *
@@ -229,55 +245,67 @@ bool Collider::_Elastic(GameObject* objA, GameObject* objB)
  *============================================================================*/
 bool Collider::_InElastic(GameObject* objA, GameObject* objB)
 {
-	ColliderBoxComponent* boxCmptA = objA->GetComponent<ColliderBoxComponent>();
-	ColliderBoxComponent* boxCmptB = objB->GetComponent<ColliderBoxComponent>();
-	RigidBodyComponent* rigidCmptA = objA->GetComponent<RigidBodyComponent>();
-	RigidBodyComponent* rigidCmptB = objB->GetComponent<RigidBodyComponent>();
+    ColliderBoxComponent* boxCmptA = objA->GetComponent<ColliderBoxComponent>();
+    ColliderBoxComponent* boxCmptB = objB->GetComponent<ColliderBoxComponent>();
+    RigidBodyComponent* rigidCmptA = objA->GetComponent<RigidBodyComponent>();
+    RigidBodyComponent* rigidCmptB = objB->GetComponent<RigidBodyComponent>();
 
-	if (!boxCmptA || !boxCmptB || !rigidCmptA || !rigidCmptB)
-		return false;
+    if (!boxCmptA || !boxCmptB || !rigidCmptA || !rigidCmptB)
+    {
+        return false;
+    }
 
-	/*
-	** 2022/11/20 TS:
-	** Mass of A must not be zero. Extra check added.
-	*/
-	if (rigidCmptA->GetMass() == 0.0)
-	{
-		if (rigidCmptB->GetMass() == 0.0)	// Nothing should happen.
-			return false;
-		else
-			return _InElastic(objB, objA);
-	}
+    /*
+    ** 2022/11/20 TS:
+    ** Mass of A must not be zero. Extra check added.
+    */
+    if (rigidCmptA->GetMass() == 0.0)
+    {
+        if (rigidCmptB->GetMass() == 0.0) // Nothing should happen.
+        {
+            return false;
+        }
+        else
+        {
+            return _InElastic(objB, objA);
+        }
+    }
 
-	Rect& boxA = boxCmptA->GetBox();
-	Rect& boxB = boxCmptB->GetBox();
-	Coordinate overlap = Intersect(boxA, boxB);
+    Rect& boxA = boxCmptA->GetBox();
+    Rect& boxB = boxCmptB->GetBox();
+    Coordinate overlap = Intersect(boxA, boxB);
 
-	if (!overlap.Positive())
-		return false;
+    if (!overlap.Positive())
+    {
+        return false;
+    }
 
-	Coordinate centerA = boxA.GetCenter();
-	Coordinate centerB = boxB.GetCenter();
+    Coordinate centerA = boxA.GetCenter();
+    Coordinate centerB = boxB.GetCenter();
 
-	if (overlap.x < overlap.y)
-	{
-		if (centerA.x < centerB.x)	// A hit B on the left
-			overlap.x = -overlap.x;
-		overlap.y = 0;
-		rigidCmptA->GetVelocity().x = 0.0;
-		rigidCmptA->GetForce().x = 0.0;
-	}
-	else
-	{
-		if (centerA.y < centerB.y)
-			overlap.y = -overlap.y;
-		overlap.x = 0;
-		rigidCmptA->GetVelocity().y = 0.0;
-		rigidCmptA->GetForce().y = 0.0;
-	}
-	
-	boxA.Translate(overlap);
-	objA->Translate(overlap);
+    if (overlap.x < overlap.y)
+    {
+        if (centerA.x < centerB.x) // A hit B on the left
+        {
+            overlap.x = -overlap.x;
+        }
+        overlap.y = 0;
+        rigidCmptA->GetVelocity().x = 0.0;
+        rigidCmptA->GetForce().x = 0.0;
+    }
+    else
+    {
+        if (centerA.y < centerB.y)
+        {
+            overlap.y = -overlap.y;
+        }
+        overlap.x = 0;
+        rigidCmptA->GetVelocity().y = 0.0;
+        rigidCmptA->GetForce().y = 0.0;
+    }
 
-	return true;
+    boxA.Translate(overlap);
+    objA->Translate(overlap);
+
+    return true;
 }

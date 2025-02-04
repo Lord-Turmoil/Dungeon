@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Energy behavior.                                                         *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,75 +29,123 @@
 class EnergyBehavior : public Behavior
 {
 public:
-	EnergyBehavior() {}
-	virtual ~EnergyBehavior() {}
+    EnergyBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~EnergyBehavior() override
+    {
+    }
 
-	virtual EnergyBehavior* Clone() const = 0;
-	virtual void Clone(EnergyBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    EnergyBehavior* Clone() const override = 0;
+    virtual void Clone(EnergyBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	enum EnergyAnimTag
-	{
-		ENERGY_ANIM_FLY,
-		ENERGY_ANIM_ACTIVE
-	};
+    enum EnergyAnimTag
+    {
+        ENERGY_ANIM_FLY,
+        ENERGY_ANIM_ACTIVE
+    };
 };
 
 class EnergyFly final : public EnergyBehavior
 {
 public:
-	EnergyFly() {}
-	virtual ~EnergyFly() {}
+    EnergyFly()
+    {
+    }
 
-	virtual const char* Name() const { return "Fly"; }
+    ~EnergyFly() override
+    {
+    }
 
-	virtual EnergyFly* Clone() const;
-	virtual void Clone(EnergyFly* clone) const {}
+    const char* Name() const override
+    {
+        return "Fly";
+    }
 
-	virtual void Update(Event* evnt);
+    EnergyFly* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(EnergyFly* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class EnergyActive final : public EnergyBehavior
 {
 public:
-	EnergyActive() {}
-	virtual ~EnergyActive() {}
+    EnergyActive()
+    {
+    }
 
-	virtual const char* Name() const { return "Active"; }
+    ~EnergyActive() override
+    {
+    }
 
-	virtual EnergyActive* Clone() const;
-	virtual void Clone(EnergyActive* clone) const {}
+    const char* Name() const override
+    {
+        return "Active";
+    }
 
-	virtual void Update(Event* evnt);
+    EnergyActive* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(EnergyActive* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class EnergyPerish final : public EnergyBehavior
 {
 public:
-	EnergyPerish() {}
-	virtual ~EnergyPerish() {}
+    EnergyPerish()
+    {
+    }
 
-	virtual const char* Name() const { return "Perish"; }
+    ~EnergyPerish() override
+    {
+    }
 
-	virtual EnergyPerish* Clone() const;
-	virtual void Clone(EnergyPerish* clone) const {}
+    const char* Name() const override
+    {
+        return "Perish";
+    }
 
-	virtual void Update(Event* evnt) {}
+    EnergyPerish* Clone() const override;
 
-	virtual void OnEnter();
+    virtual void Clone(EnergyPerish* clone) const
+    {
+    }
+
+    void Update(Event* evnt) override
+    {
+    }
+
+    void OnEnter() override;
 };
 
 #endif

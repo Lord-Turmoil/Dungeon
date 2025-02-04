@@ -12,7 +12,7 @@
  *                    Last Update : December 9, 2022                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Provide all math operations.                                             *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,7 +24,6 @@
 #include <cmath>
 
 #include "../../inc/utility/DMath.h"
-
 
 /******************************************************************************
  * Distance -- Get distance between two coordinate.                           *
@@ -43,12 +42,11 @@
  *============================================================================*/
 double Distance(const Coordinate& p1, const Coordinate& p2)
 {
-	int dx = p1.x - p2.x;
-	int dy = p1.y - p2.y;
+    int dx = p1.x - p2.x;
+    int dy = p1.y - p2.y;
 
-	return sqrt(dx * dx + dy * dy);
+    return sqrt(dx * dx + dy * dy);
 }
-
 
 /******************************************************************************
  * ManhattanDist -- Get Manhatta distance between two coordinate.             *
@@ -67,15 +65,13 @@ double Distance(const Coordinate& p1, const Coordinate& p2)
  *============================================================================*/
 int ManhattanDist(const Coordinate& p1, const Coordinate& p2)
 {
-	return dabs(p1.x - p2.x) + dabs(p1.y - p2.y);
+    return dabs(p1.x - p2.x) + dabs(p1.y - p2.y);
 }
 
 int ManhattanDist(int x1, int y1, int x2, int y2)
 {
-	return dabs(x1 - x2) + dabs(y1 - y2);
+    return dabs(x1 - x2) + dabs(y1 - y2);
 }
-
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -99,15 +95,14 @@ int ManhattanDist(int x1, int y1, int x2, int y2)
  *============================================================================*/
 Vector& Normalize(Vector& vec)
 {
-	vec.Init(vec.y, -vec.x);
-	return vec;
+    vec.Init(vec.y, -vec.x);
+    return vec;
 }
 
 Vector Normal(const Vector& vec)
 {
-	return Vector(vec.y, -vec.x);
+    return Vector(vec.y, -vec.x);
 }
-
 
 /******************************************************************************
  * Unitize -- Unitize a vector.                                               *
@@ -125,26 +120,33 @@ Vector Normal(const Vector& vec)
  *============================================================================*/
 Vector& Unitize(Vector& vec)
 {
-	double mod = Module(vec);
+    double mod = Module(vec);
 
-	if (mod < EPSILON)
-		vec.Init(0.0, 0.0);
-	else
-		vec /= mod;
+    if (mod < EPSILON)
+    {
+        vec.Init(0.0, 0.0);
+    }
+    else
+    {
+        vec /= mod;
+    }
 
-	return vec;
+    return vec;
 }
 
 Vector Unit(const Vector& vec)
 {
-	double mod = Module(vec);
+    double mod = Module(vec);
 
-	if (mod < EPSILON)
-		return VECTOR_ZERO;
-	else
-		return vec / mod;
+    if (mod < EPSILON)
+    {
+        return VECTOR_ZERO;
+    }
+    else
+    {
+        return vec / mod;
+    }
 }
-
 
 /******************************************************************************
  * Module -- Get the module of the vector.                                    *
@@ -162,9 +164,8 @@ Vector Unit(const Vector& vec)
  *============================================================================*/
 double Module(const Vector& vec)
 {
-	return Distance(vec.x, vec.y);
+    return Distance(vec.x, vec.y);
 }
-
 
 /******************************************************************************
  * Rotate -- Rotate a vector.                                                 *
@@ -183,12 +184,11 @@ double Module(const Vector& vec)
  *============================================================================*/
 Vector Rotate(const Vector& vec, double radian)
 {
-	double cosx = cos(radian);
-	double sinx = sin(radian);
+    double cosx = cos(radian);
+    double sinx = sin(radian);
 
-	return { vec.x * cosx - vec.y * sinx, vec.x * sinx + vec.y * cosx };
+    return { vec.x * cosx - vec.y * sinx, vec.x * sinx + vec.y * cosx };
 }
-
 
 /******************************************************************************
  * Rotate -- Rotate... Coord?                                                 *
@@ -207,12 +207,12 @@ Vector Rotate(const Vector& vec, double radian)
  *============================================================================*/
 Coordinate Rotate(const Coordinate& vec, double radian)
 {
-	double cosx = cos(radian);
-	double sinx = sin(radian);
+    double cosx = cos(radian);
+    double sinx = sin(radian);
 
-	return { (int)((double)vec.x * cosx - (double)vec.y * sinx), -(int)((double)vec.x * sinx + (double)vec.y * cosx) };
+    return { static_cast<int>(static_cast<double>(vec.x) * cosx - static_cast<double>(vec.y) * sinx),
+             -static_cast<int>(static_cast<double>(vec.x) * sinx + static_cast<double>(vec.y) * cosx) };
 }
-
 
 /******************************************************************************
  * VectorProjection -- Get the vector projection of vec to base.              *
@@ -231,8 +231,8 @@ Coordinate Rotate(const Coordinate& vec, double radian)
  *============================================================================*/
 Vector VectorProjection(Vector& vec, Vector& base)
 {
-	Vector unit = Unit(base);
-	return vec * unit * unit;
+    Vector unit = Unit(base);
+    return vec * unit * unit;
 }
 
 /******************************************************************************
@@ -252,9 +252,8 @@ Vector VectorProjection(Vector& vec, Vector& base)
  *============================================================================*/
 double ScalarProjection(Vector& vec, Vector& base)
 {
-	return vec * Unit(base);
+    return vec * Unit(base);
 }
-
 
 /******************************************************************************
  * GetDirection -- Get direction from one point to another.                   *
@@ -272,16 +271,17 @@ double ScalarProjection(Vector& vec, Vector& base)
  *============================================================================*/
 Vector GetDirection(const Vector& v1, const Vector& v2)
 {
-	return Unit(v2 - v1);
+    return Unit(v2 - v1);
 }
 
 Vector GetDirection(const Coordinate& v1, const Coordinate& v2)
 {
-	if (v1 == v2)
-		return VECTOR_PX;
-	return Unit({ (double)(v2.x - v1.x), (double)(v2.y - v1.y) });
+    if (v1 == v2)
+    {
+        return VECTOR_PX;
+    }
+    return Unit({ static_cast<double>(v2.x - v1.x), static_cast<double>(v2.y - v1.y) });
 }
-
 
 /******************************************************************************
  * GetDisplacement -- Get displacement from v1 to v2.                         *
@@ -299,14 +299,13 @@ Vector GetDirection(const Coordinate& v1, const Coordinate& v2)
  *============================================================================*/
 Vector GetDisplacement(const Vector& v1, const Vector& v2)
 {
-	return v2 - v1;
+    return v2 - v1;
 }
 
 Vector GetDisplacement(const Coordinate& v1, const Coordinate& v2)
 {
-	return { (double)(v2.x - v1.x), (double)(v2.y - v1.y) };
+    return { static_cast<double>(v2.x - v1.x), static_cast<double>(v2.y - v1.y) };
 }
-
 
 /******************************************************************************
  * GetAngle -- Get angle between two vectors.                                 *
@@ -324,15 +323,19 @@ Vector GetDisplacement(const Coordinate& v1, const Coordinate& v2)
  *============================================================================*/
 double GetAngleCosine(const Vector& v1, const Vector& v2)
 {
-	double m = Module(v1) * Module(v2);
-	
-	if (IsZero(m))
-		return 1.0;
-	else
-		return (v1 * v2) / m;
+    double m = Module(v1) * Module(v2);
+
+    if (IsZero(m))
+    {
+        return 1.0;
+    }
+    else
+    {
+        return (v1 * v2) / m;
+    }
 }
 
 double GetAngle(const Vector& v1, const Vector& v2)
 {
-	return acos(GetAngleCosine(v1, v2));
+    return acos(GetAngleCosine(v1, v2));
 }

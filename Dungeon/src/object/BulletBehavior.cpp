@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Behavior of basic bullets.                                               *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,12 +23,11 @@
 
 #include "../../inc/common/Math.h"
 
-#include "../../inc/object/BulletBehavior.h"
 #include "../../inc/object/Bullet.h"
+#include "../../inc/object/BulletBehavior.h"
 #include "../../inc/object/Figure.h"
 
 #include "../../inc/game/Dungeon.h"
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -37,9 +36,8 @@
 */
 void BulletBehavior::Clone(BulletBehavior* clone) const
 {
-	Behavior::Clone(clone);
+    Behavior::Clone(clone);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -48,14 +46,13 @@ void BulletBehavior::Clone(BulletBehavior* clone) const
 */
 BulletNone* BulletNone::Clone() const
 {
-	BulletNone* clone = new BulletNone();
-	clone->_MakePrototype(false);
+    BulletNone* clone = new BulletNone();
+    clone->_MakePrototype(false);
 
-	BulletBehavior::Clone(clone);
+    BulletBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -64,147 +61,155 @@ BulletNone* BulletNone::Clone() const
 */
 BulletFly* BulletFly::Clone() const
 {
-	BulletFly* clone = new BulletFly();
-	clone->_MakePrototype(false);
+    BulletFly* clone = new BulletFly();
+    clone->_MakePrototype(false);
 
-	BulletBehavior::Clone(clone);
+    BulletBehavior::Clone(clone);
 
-	clone->m_dist = m_dist;
-	// No need to clone candidates.
+    clone->m_dist = m_dist;
+    // No need to clone candidates.
 
-	return clone;
+    return clone;
 }
 
 void BulletFly::Update(Event* evnt)
 {
-	Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
+    Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
 
-	RigidBodyComponent* rigid = bullet->GetComponent<RigidBodyComponent>();
-	m_dist += rigid->GetVelocity().Module();
-	if ((m_dist > bullet->GetRange()) || IsTrivia(rigid->GetVelocity()))
-	{
-		m_parent->ChangeBehavior("Corrupt");
-		return;
-	}
-	
-	Dungeon* dungeon = static_cast<Dungeon*>(bullet->GetScene());
-	QuadTree* tree = dungeon->GetQuadTree();
+    RigidBodyComponent* rigid = bullet->GetComponent<RigidBodyComponent>();
+    m_dist += rigid->GetVelocity().Module();
+    if ((m_dist > bullet->GetRange()) || IsTrivia(rigid->GetVelocity()))
+    {
+        m_parent->ChangeBehavior("Corrupt");
+        return;
+    }
 
-	/*
-	** A little flaw that... Query returns game objects in a rectangle area...
-	*/
-	m_candidates.clear();
-	tree->Query(bullet, m_candidates);
-	for (auto it = m_candidates.begin(); it != m_candidates.end(); it++)
-	{
-		if (Collider::Collide(bullet, *it))
-		{
-			/*
-			** if didn't hit wall (hit enemy) and is penetrable,
-			** then won't go to explode.
-			*/
-			if (!(!_Explode(*it) && bullet->IsPenetrable()))
-				m_parent->ChangeBehavior("Explode");
-			break;
-		}
-	}
+    Dungeon* dungeon = static_cast<Dungeon*>(bullet->GetScene());
+    QuadTree* tree = dungeon->GetQuadTree();
 
-	_AdjustDirection();
+    /*
+    ** A little flaw that... Query returns game objects in a rectangle area...
+    */
+    m_candidates.clear();
+    tree->Query(bullet, m_candidates);
+    for (auto it = m_candidates.begin(); it != m_candidates.end(); it++)
+    {
+        if (Collider::Collide(bullet, *it))
+        {
+            /*
+            ** if didn't hit wall (hit enemy) and is penetrable,
+            ** then won't go to explode.
+            */
+            if (!(!_Explode(*it) && bullet->IsPenetrable()))
+            {
+                m_parent->ChangeBehavior("Explode");
+            }
+            break;
+        }
+    }
+
+    _AdjustDirection();
 }
 
 void BulletFly::OnEnter()
 {
-	Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
+    Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
 
-	bullet->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(BULLET_ANIM_FLY);
+    bullet->GetComponent<AnimComponent>()->GetAnim()->SetMotion(BULLET_ANIM_FLY);
 
-	RigidBodyComponent* rigid = bullet->GetComponent<RigidBodyComponent>();
-	Vector dir = bullet->GetDirection();
-	rigid->SetVelocity(dir * rigid->GetMaxVelocity());
-	if (bullet->IsDirectional())
-	{
-		bullet->GetSymbol()->GetAttribute()->rotationAngle =
-			GetRotationRadian(dir, false);
-	}
+    RigidBodyComponent* rigid = bullet->GetComponent<RigidBodyComponent>();
+    Vector dir = bullet->GetDirection();
+    rigid->SetVelocity(dir * rigid->GetMaxVelocity());
+    if (bullet->IsDirectional())
+    {
+        bullet->GetSymbol()->GetAttribute()->rotationAngle = GetRotationRadian(dir, false);
+    }
 
-	m_dist = 0.0;
+    m_dist = 0.0;
 }
-
 
 /********************************************************************
 ** Return whether hit wall or not.
 */
 bool BulletFly::_Explode(GameObject* obj)
 {
-	Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
-	Object* target = static_cast<Object*>(obj);
-	Figure* victim;
-	bool hitWall = false;
+    Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
+    Object* target = static_cast<Object*>(obj);
+    Figure* victim;
+    bool hitWall = false;
 
-	if (target->Type() & ObjectType::OBJ_FIGURE)
-	{
-		victim = static_cast<Figure*>(target);
-		victim->Hurt(bullet->GetDamage());
-		victim->GetComponent<RigidBodyComponent>()
-			->ApplyForce(GetDirection(bullet->GetCoord(), victim->GetCoord()) * bullet->GetForce());
-	}
-	else
-		hitWall = true;
+    if (target->Type() & OBJ_FIGURE)
+    {
+        victim = static_cast<Figure*>(target);
+        victim->Hurt(bullet->GetDamage());
+        victim->GetComponent<RigidBodyComponent>()->ApplyForce(GetDirection(bullet->GetCoord(), victim->GetCoord()) *
+                                                               bullet->GetForce());
+    }
+    else
+    {
+        hitWall = true;
+    }
 
-	double radius = bullet->GetAOERadius();
-	if (radius < EPSILON)	// no AOE
-		return hitWall;
+    double radius = bullet->GetAOERadius();
+    if (radius < EPSILON) // no AOE
+    {
+        return hitWall;
+    }
 
-	Coordinate src = bullet->GetCoord();
-	Coordinate dest;
-	int damage = bullet->GetDamage();
-	double force = bullet->GetForce();
-	double dist;
-	double ratio;
-	for (auto it = m_candidates.begin(); it != m_candidates.end(); it++)
-	{
-		if (*it == obj)
-			continue;
+    Coordinate src = bullet->GetCoord();
+    Coordinate dest;
+    int damage = bullet->GetDamage();
+    double force = bullet->GetForce();
+    double dist;
+    double ratio;
+    for (auto it = m_candidates.begin(); it != m_candidates.end(); it++)
+    {
+        if (*it == obj)
+        {
+            continue;
+        }
 
-		target = static_cast<Object*>(*it);
-		if (target->Type() & ObjectType::OBJ_FIGURE)
-		{
-			victim = static_cast<Figure*>(target);
-			dest = victim->GetCoord();
-			dist = Distance(src, dest);
-			if (dist > radius)
-				continue;
-			ratio = 1.0 - dist / radius;
+        target = static_cast<Object*>(*it);
+        if (target->Type() & OBJ_FIGURE)
+        {
+            victim = static_cast<Figure*>(target);
+            dest = victim->GetCoord();
+            dist = Distance(src, dest);
+            if (dist > radius)
+            {
+                continue;
+            }
+            ratio = 1.0 - dist / radius;
 
-			victim->Hurt((int)(damage * ratio));
-			victim->GetComponent<RigidBodyComponent>()
-				->ApplyForce(GetDirection(src, dest) * force * ratio);
-		}
-		else if (target->Type() & ObjectType::OBJ_BRICK)
-			hitWall = true;
-	}
+            victim->Hurt(static_cast<int>(damage * ratio));
+            victim->GetComponent<RigidBodyComponent>()->ApplyForce(GetDirection(src, dest) * force * ratio);
+        }
+        else if (target->Type() & OBJ_BRICK)
+        {
+            hitWall = true;
+        }
+    }
 
-	return hitWall;
+    return hitWall;
 }
 
 void BulletFly::_AdjustDirection()
 {
-	Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
-	if (!bullet->IsGood())
-		return;
+    Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
+    if (!bullet->IsGood())
+    {
+        return;
+    }
 
-	RigidBodyComponent* rigid = bullet->GetComponent<RigidBodyComponent>();
-	Vector dir = rigid->GetVelocity().Unit();
+    RigidBodyComponent* rigid = bullet->GetComponent<RigidBodyComponent>();
+    Vector dir = rigid->GetVelocity().Unit();
 
-	bullet->SetDirection(dir);
-	if (bullet->IsDirectional())
-	{
-		bullet->GetSymbol()->GetAttribute()->rotationAngle =
-			GetRotationRadian(dir, false);
-	}
+    bullet->SetDirection(dir);
+    if (bullet->IsDirectional())
+    {
+        bullet->GetSymbol()->GetAttribute()->rotationAngle = GetRotationRadian(dir, false);
+    }
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -213,34 +218,31 @@ void BulletFly::_AdjustDirection()
 */
 BulletExplode* BulletExplode::Clone() const
 {
-	BulletExplode* clone = new BulletExplode();
-	clone->_MakePrototype(false);
+    BulletExplode* clone = new BulletExplode();
+    clone->_MakePrototype(false);
 
-	BulletBehavior::Clone(clone);
+    BulletBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void BulletExplode::Update(Event* evnt)
 {
-	if (m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim()->IsOver())
-	{
-		m_parent->ChangeBehavior("Perish");
-	}
+    if (m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->IsOver())
+    {
+        m_parent->ChangeBehavior("Perish");
+    }
 }
 
 void BulletExplode::OnEnter()
 {
-	Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
+    Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
 
-	bullet->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(BULLET_ANIM_EXPLODE);
-	bullet->GetComponent<RigidBodyComponent>()->Freeze();
+    bullet->GetComponent<AnimComponent>()->GetAnim()->SetMotion(BULLET_ANIM_EXPLODE);
+    bullet->GetComponent<RigidBodyComponent>()->Freeze();
 
-	bullet->SetGood(false);
+    bullet->SetGood(false);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -249,34 +251,31 @@ void BulletExplode::OnEnter()
 */
 BulletCorrupt* BulletCorrupt::Clone() const
 {
-	BulletCorrupt* clone = new BulletCorrupt();
-	clone->_MakePrototype(false);
+    BulletCorrupt* clone = new BulletCorrupt();
+    clone->_MakePrototype(false);
 
-	BulletBehavior::Clone(clone);
+    BulletBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void BulletCorrupt::Update(Event* evnt)
 {
-	if (m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim()->IsOver())
-	{
-		m_parent->ChangeBehavior("Perish");
-	}
+    if (m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->IsOver())
+    {
+        m_parent->ChangeBehavior("Perish");
+    }
 }
 
 void BulletCorrupt::OnEnter()
 {
-	Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
+    Bullet* bullet = static_cast<Bullet*>(m_parent->GetGameObject());
 
-	bullet->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(BULLET_ANIM_CORRUPT);
-	bullet->GetComponent<RigidBodyComponent>()->Freeze();
-	
-	bullet->SetGood(false);
+    bullet->GetComponent<AnimComponent>()->GetAnim()->SetMotion(BULLET_ANIM_CORRUPT);
+    bullet->GetComponent<RigidBodyComponent>()->Freeze();
+
+    bullet->SetGood(false);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -285,12 +284,12 @@ void BulletCorrupt::OnEnter()
 */
 BulletPerish* BulletPerish::Clone() const
 {
-	BulletPerish* clone = new BulletPerish();
-	clone->_MakePrototype(false);
+    BulletPerish* clone = new BulletPerish();
+    clone->_MakePrototype(false);
 
-	BulletBehavior::Clone(clone);
+    BulletBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void BulletPerish::Update(Event* evnt)
@@ -299,5 +298,5 @@ void BulletPerish::Update(Event* evnt)
 
 void BulletPerish::OnEnter()
 {
-	m_parent->GetGameObject()->SetValid(false);
+    m_parent->GetGameObject()->SetValid(false);
 }

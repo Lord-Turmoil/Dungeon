@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Melee behavior.                                                          *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -34,55 +34,80 @@
 class MeleeBehavior : public WeaponBehavior
 {
 public:
-	MeleeBehavior() {}
-	virtual ~MeleeBehavior() {}
+    MeleeBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~MeleeBehavior() override
+    {
+    }
 
-	virtual MeleeBehavior* Clone() const = 0;
-	virtual void Clone(MeleeBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    MeleeBehavior* Clone() const override = 0;
+    virtual void Clone(MeleeBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	virtual void _Slash();
+    virtual void _Slash();
 
-	/*
-	** 2022/11/25 TS:
-	** If melee can slash bullet during the whole fire progress?
-	*/
-	virtual void _SlashBullet();
+    /*
+    ** 2022/11/25 TS:
+    ** If melee can slash bullet during the whole fire progress?
+    */
+    virtual void _SlashBullet();
 };
 
 class MeleeReady : public MeleeBehavior
 {
 public:
-	virtual const char* Name() const { return "Ready"; }
+    const char* Name() const override
+    {
+        return "Ready";
+    }
 
-	virtual MeleeReady* Clone() const;
-	virtual void Clone(MeleeReady* clone) const {}
+    MeleeReady* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(MeleeReady* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 class MeleeFire : public MeleeBehavior
 {
 public:
-	virtual const char* Name() const { return "Fire"; }
+    const char* Name() const override
+    {
+        return "Fire";
+    }
 
-	virtual MeleeFire* Clone() const;
-	virtual void Clone(MeleeFire* clone) const {}
+    MeleeFire* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(MeleeFire* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 #endif

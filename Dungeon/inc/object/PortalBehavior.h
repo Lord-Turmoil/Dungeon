@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Behavior of Portal.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,54 +29,81 @@
 class PortalBehavior : public Behavior
 {
 public:
-	PortalBehavior() {}
-	virtual ~PortalBehavior() {}
+    PortalBehavior()
+    {
+    }
 
-	virtual const char* Name() const = 0;
+    ~PortalBehavior() override
+    {
+    }
 
-	virtual PortalBehavior* Clone() const = 0;
-	virtual void Clone(PortalBehavior* clone) const;
+    const char* Name() const override = 0;
 
-	virtual bool Load(XMLElement* node) { return true; }
+    PortalBehavior* Clone() const override = 0;
+    virtual void Clone(PortalBehavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override
+    {
+        return true;
+    }
 
-	virtual void OnEnter() {}
-	virtual void OnExit() {}
+    void Update(Event* evnt) override = 0;
+
+    void OnEnter() override
+    {
+    }
+
+    void OnExit() override
+    {
+    }
 
 protected:
-	enum PortalAnimTag
-	{
-		PORTAL_ANIM_INIT,
-		PORTAL_ANIM_READY
-	};
+    enum PortalAnimTag
+    {
+        PORTAL_ANIM_INIT,
+        PORTAL_ANIM_READY
+    };
 };
 
 class PortalIdle final : public PortalBehavior
 {
 public:
-	virtual const char* Name() const { return "Idle"; }
+    const char* Name() const override
+    {
+        return "Idle";
+    }
 
-	virtual PortalIdle* Clone() const;
-	virtual void Clone(PortalIdle* clone) const {}
+    PortalIdle* Clone() const override;
 
-	virtual void Update(Event* evnt) {}
+    virtual void Clone(PortalIdle* clone) const
+    {
+    }
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    void Update(Event* evnt) override
+    {
+    }
+
+    void OnEnter() override;
+    void OnExit() override;
 };
 
 class PortalInit final : public PortalBehavior
 {
 public:
-	virtual const char* Name() const { return "Init"; }
+    const char* Name() const override
+    {
+        return "Init";
+    }
 
-	virtual PortalInit* Clone() const;
-	virtual void Clone(PortalInit* clone) const {}
+    PortalInit* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(PortalInit* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 
 private:
 };
@@ -84,14 +111,20 @@ private:
 class PortalReady final : public PortalBehavior
 {
 public:
-	virtual const char* Name() const { return "Ready"; }
+    const char* Name() const override
+    {
+        return "Ready";
+    }
 
-	virtual PortalReady* Clone() const;
-	virtual void Clone(PortalReady* clone) const {}
+    PortalReady* Clone() const override;
 
-	virtual void Update(Event* evnt);
+    virtual void Clone(PortalReady* clone) const
+    {
+    }
 
-	virtual void OnEnter();
+    void Update(Event* evnt) override;
+
+    void OnEnter() override;
 };
 
 #endif

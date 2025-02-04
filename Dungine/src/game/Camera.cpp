@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The camera in game.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,10 +21,9 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/device/Device.h"
 #include "../../inc/game/Camera.h"
+#include "../../inc/device/Device.h"
 #include "../../inc/utility/Auxilliary.h"
-
 
 /******************************************************************************
  * Camera::Initialize -- Initialize camera.                                   *
@@ -42,10 +41,9 @@
  *============================================================================*/
 void Camera::Initialize(const Rect& rect)
 {
-	m_filmArea = m_area = rect;
-	m_device = Device::GetInstance();
+    m_filmArea = m_area = rect;
+    m_device = Device::GetInstance();
 }
-
 
 /******************************************************************************
  * Camera::Update -- Update camera's position.                                *
@@ -63,18 +61,17 @@ void Camera::Initialize(const Rect& rect)
  *============================================================================*/
 void Camera::Update()
 {
-	if (m_target != m_center)
-	{
-		Coordinate offset = BlendValue(m_target, m_center, m_lag) - m_center;
+    if (m_target != m_center)
+    {
+        Coordinate offset = BlendValue(m_target, m_center, m_lag) - m_center;
 
-		m_center += offset;
-		m_area.pos += offset;
-		m_offset -= offset;
-	}
+        m_center += offset;
+        m_area.pos += offset;
+        m_offset -= offset;
+    }
 
-	m_updated = true;
+    m_updated = true;
 }
-
 
 /******************************************************************************
  * Camera::Follow -- Set the target to follow.                                *
@@ -92,9 +89,8 @@ void Camera::Update()
  *============================================================================*/
 void Camera::Follow(const Coordinate& target)
 {
-	m_target = target;
+    m_target = target;
 }
-
 
 /******************************************************************************
  * Camera::Focus -- To fucus the camera immediately.                          *
@@ -112,12 +108,11 @@ void Camera::Follow(const Coordinate& target)
  *============================================================================*/
 void Camera::Focus(const Coordinate& target)
 {
-	m_target = m_center = target;
-	m_area.pos.x = target.x - m_area.width / 2;
-	m_area.pos.y = target.y - m_area.height / 2;
-	m_offset = -m_area.pos;
+    m_target = m_center = target;
+    m_area.pos.x = target.x - m_area.width / 2;
+    m_area.pos.y = target.y - m_area.height / 2;
+    m_offset = -m_area.pos;
 }
-
 
 /******************************************************************************
  * Camera::Capture -- Capture an object.                                      *
@@ -137,23 +132,27 @@ void Camera::Focus(const Coordinate& target)
  *============================================================================*/
 void Camera::Capture(GameObject* obj)
 {
-	if (obj->IsToDisplay())
-	{
-		Symbol* sym = obj->GetSymbol();
+    if (obj->IsToDisplay())
+    {
+        Symbol* sym = obj->GetSymbol();
 
-		if (m_updated)
-			sym->Translate(m_offset);
+        if (m_updated)
+        {
+            sym->Translate(m_offset);
+        }
 
-		m_device->AddSymbol(sym);
-	}
+        m_device->AddSymbol(sym);
+    }
 }
 
 void Camera::Capture(Symbol* symbol)
 {
-	if (m_updated)
-		symbol->Translate(m_offset);
+    if (m_updated)
+    {
+        symbol->Translate(m_offset);
+    }
 
-	m_device->AddSymbol(symbol);
+    m_device->AddSymbol(symbol);
 }
 
 /******************************************************************************
@@ -172,9 +171,8 @@ void Camera::Capture(Symbol* symbol)
  *============================================================================*/
 bool Camera::InRange(const Rect& rect)
 {
-	return HasIntersect(m_area, rect);
+    return HasIntersect(m_area, rect);
 }
-
 
 /******************************************************************************
  * Camera::AbsoluteToRelative -- Convert coordinate.                          *
@@ -192,9 +190,8 @@ bool Camera::InRange(const Rect& rect)
  *============================================================================*/
 Coordinate Camera::AbsoluteToRelative(const Coordinate& coord)
 {
-	return coord - m_offset;
+    return coord - m_offset;
 }
-
 
 /******************************************************************************
  * Camera::RelativeToAbsolute -- Convert coordinate.                          *
@@ -212,5 +209,5 @@ Coordinate Camera::AbsoluteToRelative(const Coordinate& coord)
  *============================================================================*/
 Coordinate Camera::RelativeToAbsolute(const Coordinate& coord)
 {
-	return coord + m_offset;
+    return coord + m_offset;
 }

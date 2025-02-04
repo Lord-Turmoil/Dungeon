@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Manage cursor style.                                                     *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -30,19 +30,23 @@ static HCURSOR hCursor[CUR_NUM];
 
 void LoadCursorStyle()
 {
-	const char* filename;
+    const char* filename;
 
-	for (int i = 0; i < CUR_NUM; i++)
-	{
-		filename = splice(CURSOR_DIR, CURSOR_NAME[i]);
-		if (!IsValidDirectory(filename))
-			hCursor[i] = LoadCursor(NULL, IDC_ARROW);
-		else
-			hCursor[i] = (HCURSOR)LoadImage(NULL, widen(filename), IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE);
-	}
+    for (int i = 0; i < CUR_NUM; i++)
+    {
+        filename = splice(CURSOR_DIR, CURSOR_NAME[i]);
+        if (!IsValidDirectory(filename))
+        {
+            hCursor[i] = LoadCursor(nullptr, IDC_ARROW);
+        }
+        else
+        {
+            hCursor[i] = static_cast<HCURSOR>(LoadImage(nullptr, widen(filename), IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE));
+        }
+    }
 }
 
 void SetCursorStyle(CursorStyle style)
 {
-	SetClassLongPtr(GetHWnd(), GCLP_HCURSOR, (LONG_PTR)hCursor[style]);
+    SetClassLongPtr(GetHWnd(), GCLP_HCURSOR, (LONG_PTR)hCursor[style]);
 }

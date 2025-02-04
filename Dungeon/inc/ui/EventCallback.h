@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Callback functions for those interfaces.                                 *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -23,7 +23,5 @@
 
 #ifndef _EVENT_CALLBACK_H_
 #define _EVENT_CALLBACK_H_
-
-
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Trigger of widgets.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -30,7 +30,6 @@
 #include "../../inc/utility/Parser.h"
 #include "../../inc/utility/Straw.h"
 
-
 /******************************************************************************
  * Trigger::Load -- Load trigger's basic property.                            *
  *                                                                            *
@@ -47,31 +46,36 @@
  *============================================================================*/
 bool Trigger::Load(XMLElement* node)
 {
-	/*
-	**	<trigger type="" vkey="0x41" ...>
-	*/
+    /*
+    **	<trigger type="" vkey="0x41" ...>
+    */
 
-	const char* name = node->Name();
+    const char* name = node->Name();
 
-	_CHECK_TAG("Trigger");
-	if (Logger::Error())
-		return false;
+    _CHECK_TAG("Trigger");
+    if (Logger::Error())
+    {
+        return false;
+    }
 
-	const char* attr;
+    const char* attr;
 
-	m_vKey = VK_NONE;
-	attr = node->Attribute("vkey");
-	if (attr)
-	{
-		if (sscanf_s(attr, "%x", &m_vKey) != 1)
-			LOG_ERROR(INVALID_ATTRIBUTE, "vkey", name);
-	}
-	else
-		LOG_EXTRA_WARNING(MISSING_ATTRIBUTE, "vkey", name);
+    m_vKey = VK_NONE;
+    attr = node->Attribute("vkey");
+    if (attr)
+    {
+        if (sscanf_s(attr, "%x", &m_vKey) != 1)
+        {
+            LOG_ERROR(INVALID_ATTRIBUTE, "vkey", name);
+        }
+    }
+    else
+    {
+        LOG_EXTRA_WARNING(MISSING_ATTRIBUTE, "vkey", name);
+    }
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * KeyboardTrigger::Detect -- Detect keyboard event.                          *
@@ -89,12 +93,15 @@ bool Trigger::Load(XMLElement* node)
  *============================================================================*/
 TriggerValue KeyboardTrigger::Detect(Event& evnt)
 {
-	if ((m_vKey != VK_NONE) && evnt.Sluggish(m_vKey))
-		return TriggerValue::TV_KEYDOWN;
-	else
-		return TriggerValue::TV_NONE;
+    if ((m_vKey != VK_NONE) && evnt.Sluggish(m_vKey))
+    {
+        return TriggerValue::TV_KEYDOWN;
+    }
+    else
+    {
+        return TriggerValue::TV_NONE;
+    }
 }
-
 
 /******************************************************************************
  * KeyboardTrigger::Load -- Load keyboard trigger.                            *
@@ -112,20 +119,19 @@ TriggerValue KeyboardTrigger::Detect(Event& evnt)
  *============================================================================*/
 bool KeyboardTrigger::Load(XMLElement* node)
 {
-	/*
-	**	<trigger type="" vkey="0x41" ...>
-	*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<trigger type="" vkey="0x41" ...>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TYPE("key");
-	_RETURN_IF_ERROR();
+    _CHECK_TYPE("key");
+    _RETURN_IF_ERROR();
 
-	Trigger::Load(node);
+    Trigger::Load(node);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * RectTrigger::Detect -- Detect event.                                       *
@@ -144,29 +150,40 @@ bool KeyboardTrigger::Load(XMLElement* node)
  *============================================================================*/
 TriggerValue RectTrigger::Detect(Event& evnt)
 {
-	if (m_vKey != VK_NONE)
-	{
-		if (evnt.Sluggish(m_vKey))
-			return TriggerValue::TV_KEYDOWN;
-	}
+    if (m_vKey != VK_NONE)
+    {
+        if (evnt.Sluggish(m_vKey))
+        {
+            return TriggerValue::TV_KEYDOWN;
+        }
+    }
 
-	if (InRectangle(m_range, evnt.Mouse()))
-	{
-		if (evnt.MouseUp())
-			return TriggerValue::TV_CLICK;
-		else if (evnt.MouseDown())
-			return TriggerValue::TV_PRESS;
-		else
-			return TriggerValue::TV_HOVER;
-	}
-	if (evnt.MouseUp())
-		return TriggerValue::TV_RELEASE;
-	else if (evnt.MouseDown())
-		return TriggerValue::TV_HOLD;
+    if (InRectangle(m_range, evnt.Mouse()))
+    {
+        if (evnt.MouseUp())
+        {
+            return TriggerValue::TV_CLICK;
+        }
+        else if (evnt.MouseDown())
+        {
+            return TriggerValue::TV_PRESS;
+        }
+        else
+        {
+            return TriggerValue::TV_HOVER;
+        }
+    }
+    if (evnt.MouseUp())
+    {
+        return TriggerValue::TV_RELEASE;
+    }
+    else if (evnt.MouseDown())
+    {
+        return TriggerValue::TV_HOLD;
+    }
 
-	return TriggerValue::TV_MOVE;
+    return TriggerValue::TV_MOVE;
 }
-
 
 /******************************************************************************
  * RectTrigger::Update -- Update rectangle trigger.                           *
@@ -186,15 +203,14 @@ TriggerValue RectTrigger::Detect(Event& evnt)
  *============================================================================*/
 void RectTrigger::Update()
 {
-	m_range.pos = m_coord - m_focus;
-	if (m_cellChanged)
-	{
-		m_range.width = m_width;
-		m_range.height = m_height;
-		m_cellChanged = false;
-	}
+    m_range.pos = m_coord - m_focus;
+    if (m_cellChanged)
+    {
+        m_range.width = m_width;
+        m_range.height = m_height;
+        m_cellChanged = false;
+    }
 }
-
 
 /******************************************************************************
  * RectTrigger::Load -- Load a rectangle trigger.                             *
@@ -212,22 +228,21 @@ void RectTrigger::Update()
  *============================================================================*/
 bool RectTrigger::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TYPE("rect");
-	_RETURN_IF_ERROR();
+    _CHECK_TYPE("rect");
+    _RETURN_IF_ERROR();
 
-	LoadProperty(node);
-	Trigger::Load(node);
+    LoadProperty(node);
+    Trigger::Load(node);
 
-	m_range.width = m_width;
-	m_range.height = m_height;
-	Update();
+    m_range.width = m_width;
+    m_range.height = m_height;
+    Update();
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * RoundRectTrigger::Detect -- Detect event as round rectangle trigger.       *
@@ -245,29 +260,40 @@ bool RectTrigger::Load(XMLElement* node)
  *============================================================================*/
 TriggerValue RoundRectTrigger::Detect(Event& evnt)
 {
-	if (m_vKey != VK_NONE)
-	{
-		if (evnt.Sluggish(m_vKey))
-			return TriggerValue::TV_KEYDOWN;
-	}
+    if (m_vKey != VK_NONE)
+    {
+        if (evnt.Sluggish(m_vKey))
+        {
+            return TriggerValue::TV_KEYDOWN;
+        }
+    }
 
-	if (InRoundRect(m_range, m_radius, evnt.Mouse()))
-	{
-		if (evnt.MouseUp())
-			return TriggerValue::TV_CLICK;
-		else if (evnt.MouseDown())
-			return TriggerValue::TV_PRESS;
-		else
-			return TriggerValue::TV_HOVER;
-	}
-	if (evnt.MouseUp())
-		return TriggerValue::TV_RELEASE;
-	else if (evnt.MouseDown())
-		return TriggerValue::TV_HOLD;
+    if (InRoundRect(m_range, m_radius, evnt.Mouse()))
+    {
+        if (evnt.MouseUp())
+        {
+            return TriggerValue::TV_CLICK;
+        }
+        else if (evnt.MouseDown())
+        {
+            return TriggerValue::TV_PRESS;
+        }
+        else
+        {
+            return TriggerValue::TV_HOVER;
+        }
+    }
+    if (evnt.MouseUp())
+    {
+        return TriggerValue::TV_RELEASE;
+    }
+    else if (evnt.MouseDown())
+    {
+        return TriggerValue::TV_HOLD;
+    }
 
-	return TriggerValue::TV_MOVE;
+    return TriggerValue::TV_MOVE;
 }
-
 
 /******************************************************************************
  * RoundRectTrigger::Update -- update round rectangle trigger.                *
@@ -285,15 +311,14 @@ TriggerValue RoundRectTrigger::Detect(Event& evnt)
  *============================================================================*/
 void RoundRectTrigger::Update()
 {
-	m_range.pos = m_coord - m_focus;
-	if (m_cellChanged)
-	{
-		m_range.width = m_width;
-		m_range.height = m_height;
-		m_cellChanged = false;
-	}
+    m_range.pos = m_coord - m_focus;
+    if (m_cellChanged)
+    {
+        m_range.width = m_width;
+        m_range.height = m_height;
+        m_cellChanged = false;
+    }
 }
-
 
 /******************************************************************************
  * RoundRectTrigger::Load -- Load round rectangle trigger.                    *
@@ -311,22 +336,21 @@ void RoundRectTrigger::Update()
  *============================================================================*/
 bool RoundRectTrigger::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TYPE("roundrect");
-	_RETURN_IF_ERROR();
+    _CHECK_TYPE("roundrect");
+    _RETURN_IF_ERROR();
 
-	LoadProperty(node);
-	Trigger::Load(node);
+    LoadProperty(node);
+    Trigger::Load(node);
 
-	m_range.width = m_width;
-	m_range.height = m_height;
-	Update();
+    m_range.width = m_width;
+    m_range.height = m_height;
+    Update();
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * CircleTrigger::Detect -- Detect event as circle trigger.                   *
@@ -344,29 +368,40 @@ bool RoundRectTrigger::Load(XMLElement* node)
  *============================================================================*/
 TriggerValue CircleTrigger::Detect(Event& evnt)
 {
-	if (m_vKey != VK_NONE)
-	{
-		if (evnt.Sluggish(m_vKey))
-			return TriggerValue::TV_KEYDOWN;
-	}
+    if (m_vKey != VK_NONE)
+    {
+        if (evnt.Sluggish(m_vKey))
+        {
+            return TriggerValue::TV_KEYDOWN;
+        }
+    }
 
-	if (InCircle(m_center, m_radius, evnt.Mouse()))
-	{
-		if (evnt.MouseUp())
-			return TriggerValue::TV_CLICK;
-		else if (evnt.MouseDown())
-			return TriggerValue::TV_PRESS;
-		else
-			return TriggerValue::TV_HOVER;
-	}
-	if (evnt.MouseUp())
-		return TriggerValue::TV_RELEASE;
-	else if (evnt.MouseDown())
-		return TriggerValue::TV_HOLD;
+    if (InCircle(m_center, m_radius, evnt.Mouse()))
+    {
+        if (evnt.MouseUp())
+        {
+            return TriggerValue::TV_CLICK;
+        }
+        else if (evnt.MouseDown())
+        {
+            return TriggerValue::TV_PRESS;
+        }
+        else
+        {
+            return TriggerValue::TV_HOVER;
+        }
+    }
+    if (evnt.MouseUp())
+    {
+        return TriggerValue::TV_RELEASE;
+    }
+    else if (evnt.MouseDown())
+    {
+        return TriggerValue::TV_HOLD;
+    }
 
-	return TriggerValue::TV_MOVE;
+    return TriggerValue::TV_MOVE;
 }
-
 
 /******************************************************************************
  * CircleTrigger::Update -- Update circle tirgger.                            *
@@ -384,11 +419,10 @@ TriggerValue CircleTrigger::Detect(Event& evnt)
  *============================================================================*/
 void CircleTrigger::Update()
 {
-	m_center = m_coord - m_focus;
-	m_center.x += m_radius;
-	m_center.y += m_radius;
+    m_center = m_coord - m_focus;
+    m_center.x += m_radius;
+    m_center.y += m_radius;
 }
-
 
 /******************************************************************************
  * CircleTrigger::Load -- Load circle trigger.                                *
@@ -406,20 +440,19 @@ void CircleTrigger::Update()
  *============================================================================*/
 bool CircleTrigger::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TYPE("circle");
-	_RETURN_IF_ERROR();
+    _CHECK_TYPE("circle");
+    _RETURN_IF_ERROR();
 
-	LoadProperty(node);
-	Trigger::Load(node);
+    LoadProperty(node);
+    Trigger::Load(node);
 
-	Update();
+    Update();
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * MaskTrigger::Detect -- Detect event as mask trigger.                       *
@@ -437,34 +470,45 @@ bool CircleTrigger::Load(XMLElement* node)
  *============================================================================*/
 TriggerValue MaskTrigger::Detect(Event& evnt)
 {
-	if (m_vKey != VK_NONE)
-	{
-		if (evnt.Sluggish(m_vKey))
-			return TriggerValue::TV_KEYDOWN;
-	}
+    if (m_vKey != VK_NONE)
+    {
+        if (evnt.Sluggish(m_vKey))
+        {
+            return TriggerValue::TV_KEYDOWN;
+        }
+    }
 
-	if (InRectangle(m_range, evnt.Mouse()))
-	{
-		DWORD* buffer = GetImageBuffer(&m_mask);
+    if (InRectangle(m_range, evnt.Mouse()))
+    {
+        DWORD* buffer = GetImageBuffer(&m_mask);
 
-		if (buffer[(evnt.MouseY() - m_range.y) * m_width + (evnt.MouseX() - m_range.x)] != TRANSPARENT_COLOR)
-		{
-			if (evnt.MouseUp())
-				return TriggerValue::TV_CLICK;
-			else if (evnt.MouseDown())
-				return TriggerValue::TV_PRESS;
-			else
-				return TriggerValue::TV_HOVER;
-		}
-	}
-	if (evnt.MouseUp())
-		return TriggerValue::TV_RELEASE;
-	else if (evnt.MouseDown())
-		return TriggerValue::TV_HOLD;
+        if (buffer[(evnt.MouseY() - m_range.y) * m_width + (evnt.MouseX() - m_range.x)] != TRANSPARENT_COLOR)
+        {
+            if (evnt.MouseUp())
+            {
+                return TriggerValue::TV_CLICK;
+            }
+            else if (evnt.MouseDown())
+            {
+                return TriggerValue::TV_PRESS;
+            }
+            else
+            {
+                return TriggerValue::TV_HOVER;
+            }
+        }
+    }
+    if (evnt.MouseUp())
+    {
+        return TriggerValue::TV_RELEASE;
+    }
+    else if (evnt.MouseDown())
+    {
+        return TriggerValue::TV_HOLD;
+    }
 
-	return TriggerValue::TV_MOVE;
+    return TriggerValue::TV_MOVE;
 }
-
 
 /******************************************************************************
  * MaskTrigger::Update -- Update mask trigger.                                *
@@ -482,15 +526,14 @@ TriggerValue MaskTrigger::Detect(Event& evnt)
  *============================================================================*/
 void MaskTrigger::Update()
 {
-	m_range.pos = m_coord - m_focus;
-	if (m_cellChanged)
-	{
-		m_range.width = m_width;
-		m_range.height = m_height;
-		m_cellChanged = false;
-	}
+    m_range.pos = m_coord - m_focus;
+    if (m_cellChanged)
+    {
+        m_range.width = m_width;
+        m_range.height = m_height;
+        m_cellChanged = false;
+    }
 }
-
 
 /******************************************************************************
  * MaskTrigger::Load -- Load mask trigger.                                    *
@@ -508,45 +551,43 @@ void MaskTrigger::Update()
  *============================================================================*/
 bool MaskTrigger::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	_CHECK_TYPE("mask");
-	_RETURN_IF_ERROR();
+    _CHECK_TYPE("mask");
+    _RETURN_IF_ERROR();
 
-	LoadProperty(node);
-	Trigger::Load(node);
+    LoadProperty(node);
+    Trigger::Load(node);
 
-	Update();
+    Update();
 
-	// Load mask image.
-	Coordinate origin;
-	Coordinate size;
-	const char* src;
+    // Load mask image.
+    Coordinate origin;
+    Coordinate size;
+    const char* src;
 
-	_PARSE_PRIVATE("origin", origin, name, ParseCoord);
-	_PARSE_PRIVATE("size", size, name, ParseCoord);
+    _PARSE_PRIVATE("origin", origin, name, ParseCoord);
+    _PARSE_PRIVATE("size", size, name, ParseCoord);
 
-	src = node->Attribute("src");
-	if (!src)
-	{
-		LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
-		return false;
-	}
+    src = node->Attribute("src");
+    if (!src)
+    {
+        LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
+        return false;
+    }
 
-	ImageResource* res = LoadResource<ImageResource>(src);
-	if (!res)
-	{
-		LOG_ERROR(INVALID_RESOURCE_ID, src);
-		return false;
-	}
+    ImageResource* res = LoadResource<ImageResource>(src);
+    if (!res)
+    {
+        LOG_ERROR(INVALID_RESOURCE_ID, src);
+        return false;
+    }
 
-	FetchImage(&m_mask, res->GetResource(), m_width, m_height, origin.x, origin.y, size.x, size.y);
+    FetchImage(&m_mask, res->GetResource(), m_width, m_height, origin.x, origin.y, size.x, size.y);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
-
 
 /******************************************************************************
  * LoadTrigger -- Load a trigger.                                             *
@@ -564,40 +605,56 @@ bool MaskTrigger::Load(XMLElement* node)
  *============================================================================*/
 Trigger* LoadTrigger(XMLElement* node)
 {
-	if (!node)
-		return nullptr;
+    if (!node)
+    {
+        return nullptr;
+    }
 
-	const char* name = node->Name();
-	if (_STR_DIFF(name, "Trigger"))
-	{
-		LOG_ERROR(TAG_MISMATCH, name, "Trigger");
-		return nullptr;
-	}
+    const char* name = node->Name();
+    if (_STR_DIFF(name, "Trigger"))
+    {
+        LOG_ERROR(TAG_MISMATCH, name, "Trigger");
+        return nullptr;
+    }
 
-	const char* type;
-	type = node->Attribute("type");
-	if (!type)
-	{
-		LOG_ERROR(MISSING_ATTRIBUTE, "type", name);
-		return nullptr;
-	}
+    const char* type;
+    type = node->Attribute("type");
+    if (!type)
+    {
+        LOG_ERROR(MISSING_ATTRIBUTE, "type", name);
+        return nullptr;
+    }
 
-	Trigger* rv = nullptr;
-	if (_STR_SAME(type, "rect"))
-		rv = new RectTrigger();
-	else if (_STR_SAME(type, "roundrect"))
-		rv = new RoundRectTrigger();
-	else if (_STR_SAME(type, "circle"))
-		rv = new CircleTrigger();
-	else if (_STR_SAME(type, "mask"))
-		rv = new MaskTrigger();
-	else if (_STR_SAME(type, "key"))
-		rv = new KeyboardTrigger();
+    Trigger* rv = nullptr;
+    if (_STR_SAME(type, "rect"))
+    {
+        rv = new RectTrigger();
+    }
+    else if (_STR_SAME(type, "roundrect"))
+    {
+        rv = new RoundRectTrigger();
+    }
+    else if (_STR_SAME(type, "circle"))
+    {
+        rv = new CircleTrigger();
+    }
+    else if (_STR_SAME(type, "mask"))
+    {
+        rv = new MaskTrigger();
+    }
+    else if (_STR_SAME(type, "key"))
+    {
+        rv = new KeyboardTrigger();
+    }
 
-	if (rv)
-		rv->Load(node);
-	else
-		LOG_ERROR(UNKNOWN_TYPE, type);
+    if (rv)
+    {
+        rv->Load(node);
+    }
+    else
+    {
+        LOG_ERROR(UNKNOWN_TYPE, type);
+    }
 
-	return rv;
+    return rv;
 }

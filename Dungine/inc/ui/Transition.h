@@ -12,7 +12,7 @@
  *                    Last Update : November 29, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For the transition effect of the widgets. Similar to the CSS trasform    *
  *   style.                                                                   *
  * -------------------------------------------------------------------------- *
@@ -26,11 +26,9 @@
 #define _TRANSITION_H_
 
 #include "../common/Common.h"
-
+#include "../utility/tinyxml.h"
 
 class VisualWidget;
-class XMLElement;
-
 
 /*
 ** 2022/11/25 TS:
@@ -38,27 +36,26 @@ class XMLElement;
 */
 enum class TransitionType
 {
-	TRANS_ALPHA,
-	TRANS_COORD,
-	TRANS_SCALE,
-	TRANS_ROTATION,
+    TRANS_ALPHA,
+    TRANS_COORD,
+    TRANS_SCALE,
+    TRANS_ROTATION,
 
-	TRANS_NUM
+    TRANS_NUM
 };
 
 /*
-** ease-in-ease-out can be realized by put ease-in and 
+** ease-in-ease-out can be realized by put ease-in and
 ** ease-out together manually. :P
 */
 enum class TransitionStyle
 {
-	TRANS_STYLE_EASE_IN,
-	TRANS_STYLE_EASE_OUT,
-	TRANS_STYLE_LINEAR,
+    TRANS_STYLE_EASE_IN,
+    TRANS_STYLE_EASE_OUT,
+    TRANS_STYLE_LINEAR,
 
-	TRANS_STYLE_NUM
+    TRANS_STYLE_NUM
 };
-
 
 /********************************************************************
 ** The transition style of the widget. For now, it only support
@@ -71,121 +68,143 @@ enum class TransitionStyle
 class Transition
 {
 public:
-	Transition(TransitionType type) : m_type(type), m_style(TransitionStyle::TRANS_STYLE_LINEAR),
-		m_duration(0), m_delay(0), m_elapsedTime(0), m_pWidget(nullptr),
-		m_loop(false), m_reverse(false), m_isReversed(false),
-		m_isWaiting(false), m_isOver(true) {}
-	virtual ~Transition() {}
+    Transition(TransitionType type)
+        : m_type(type), m_style(TransitionStyle::TRANS_STYLE_LINEAR), m_duration(0), m_delay(0), m_elapsedTime(0),
+          m_pWidget(nullptr), m_loop(false), m_reverse(false), m_isReversed(false), m_isWaiting(false), m_isOver(true)
+    {
+    }
 
-	TransitionType Type() const { return m_type; }
+    virtual ~Transition()
+    {
+    }
 
-	void Reset();
-	void Terminate();
-	void Stop();
+    TransitionType Type() const
+    {
+        return m_type;
+    }
 
-	void Update();
-	virtual bool Load(XMLElement* node);
+    void Reset();
+    void Terminate();
+    void Stop();
 
-	Transition* SetWidget(VisualWidget* widget)
-	{
-		m_pWidget = widget;
-		return this;
-	}
-	VisualWidget* GetWidget() const { return m_pWidget; }
+    void Update();
+    virtual bool Load(XMLElement* node);
 
-	Transition* SetDuration(clock_t duration)
-	{
-		m_duration = max(duration, 0);
-		if (m_duration == 0)
-			m_isOver = true;
-		return this;
-	}
-	clock_t GetDuration() const { return m_duration; }
+    Transition* SetWidget(VisualWidget* widget)
+    {
+        m_pWidget = widget;
+        return this;
+    }
 
-	Transition* SetDelay(clock_t delay)
-	{
-		m_delay = max(delay, 0);
-		if (m_delay == 0)
-			m_isWaiting = false;
-		return this;
-	}
-	clock_t GetDelay(clock_t delay) { return m_delay; }
+    VisualWidget* GetWidget() const
+    {
+        return m_pWidget;
+    }
 
-	virtual Transition* SetStyle(TransitionStyle style) = 0;
+    Transition* SetDuration(clock_t duration)
+    {
+        m_duration = max(duration, 0);
+        if (m_duration == 0)
+        {
+            m_isOver = true;
+        }
+        return this;
+    }
 
-	Transition* Loop(bool loop)
-	{
-		m_loop = loop;
-		return this;
-	}
+    clock_t GetDuration() const
+    {
+        return m_duration;
+    }
 
-	Transition* Reverse(bool reverse)
-	{
-		m_reverse = reverse;
-		return this;
-	}
+    Transition* SetDelay(clock_t delay)
+    {
+        m_delay = max(delay, 0);
+        if (m_delay == 0)
+        {
+            m_isWaiting = false;
+        }
+        return this;
+    }
+
+    clock_t GetDelay(clock_t delay)
+    {
+        return m_delay;
+    }
+
+    virtual Transition* SetStyle(TransitionStyle style) = 0;
+
+    Transition* Loop(bool loop)
+    {
+        m_loop = loop;
+        return this;
+    }
+
+    Transition* Reverse(bool reverse)
+    {
+        m_reverse = reverse;
+        return this;
+    }
 
 protected:
-	virtual void _Update() = 0;
-	virtual void _Reset() = 0;
-	virtual void _Terminate() = 0;
-	virtual void _Finalize() = 0;
-	virtual void _AdjustProperty(XMLElement* node) = 0;
+    virtual void _Update() = 0;
+    virtual void _Reset() = 0;
+    virtual void _Terminate() = 0;
+    virtual void _Finalize() = 0;
+    virtual void _AdjustProperty(XMLElement* node) = 0;
 
-	/*
-	** This will reverse the process of the transition.
-	*/
-	virtual void _Reverse();
+    /*
+    ** This will reverse the process of the transition.
+    */
+    virtual void _Reverse();
 
-	TransitionType m_type;
-	TransitionStyle m_style;
+    TransitionType m_type;
+    TransitionStyle m_style;
 
-	/*
-	** The total time of the transition, delay time not included.
-	** All time here is in milliseconds.
-	*/
-	clock_t m_duration;
+    /*
+    ** The total time of the transition, delay time not included.
+    ** All time here is in milliseconds.
+    */
+    clock_t m_duration;
 
-	/*
-	** How many milliseconds there are before start.
-	*/
-	clock_t m_delay;
+    /*
+    ** How many milliseconds there are before start.
+    */
+    clock_t m_delay;
 
-	/*
-	** How much time passed after start. It will be reset to 0
-	** after delay.
-	*/
-	clock_t m_elapsedTime;
+    /*
+    ** How much time passed after start. It will be reset to 0
+    ** after delay.
+    */
+    clock_t m_elapsedTime;
 
-	/*
-	** The widget it attatched to.
-	*/
-	VisualWidget* m_pWidget;
+    /*
+    ** The widget it attatched to.
+    */
+    VisualWidget* m_pWidget;
 
-	/*
-	** Whether this transition should perform again and again.
-	*/
-	bool m_loop : 1;
+    /*
+    ** Whether this transition should perform again and again.
+    */
+    bool m_loop : 1;
 
-	/*
-	** Whether reverse the direction after one time, and if
-	** current is reversed.
-	*/
-	bool m_reverse : 1;
-	bool m_isReversed : 1;
+    /*
+    ** Whether reverse the direction after one time, and if
+    ** current is reversed.
+    */
+    bool m_reverse : 1;
+    bool m_isReversed : 1;
 
-	/*
-	** Since the transition may start after a delay, so it might
-	** be waiting to begin.
-	*/
-	bool m_isWaiting : 1;
+    /*
+    ** Since the transition may start after a delay, so it might
+    ** be waiting to begin.
+    */
+    bool m_isWaiting : 1;
 
-	/*
-	** Whether the transition is over or not.
-	*/
-	bool m_isOver : 1;
+    /*
+    ** Whether the transition is over or not.
+    */
+    bool m_isOver : 1;
 };
-
 
 /********************************************************************
 ** This is for the widget's coordinate transition.
@@ -193,40 +212,52 @@ protected:
 class CoordTransition : public Transition
 {
 public:
-	CoordTransition() : Transition(TransitionType::TRANS_COORD) {}
-	~CoordTransition() {}
+    CoordTransition() : Transition(TransitionType::TRANS_COORD)
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~CoordTransition() override
+    {
+    }
 
-	virtual CoordTransition* SetStyle(TransitionStyle style);
+    bool Load(XMLElement* node) override;
 
-	CoordTransition* SetBeginCoord(const Coordinate& coord)
-	{
-		m_begin = coord;
-		return this;
-	}
-	const Coordinate& GetBeginCoord() const { return m_begin; }
+    CoordTransition* SetStyle(TransitionStyle style) override;
 
-	CoordTransition* SetEndCoord(const Coordinate& coord)
-	{
-		m_end = coord;
-		return this;
-	}
-	const Coordinate& GetEndCoord() const { return m_end; }
+    CoordTransition* SetBeginCoord(const Coordinate& coord)
+    {
+        m_begin = coord;
+        return this;
+    }
+
+    const Coordinate& GetBeginCoord() const
+    {
+        return m_begin;
+    }
+
+    CoordTransition* SetEndCoord(const Coordinate& coord)
+    {
+        m_end = coord;
+        return this;
+    }
+
+    const Coordinate& GetEndCoord() const
+    {
+        return m_end;
+    }
 
 private:
-	virtual void _Update();
-	virtual void _Reset();
-	virtual void _Terminate();
+    void _Update() override;
+    void _Reset() override;
+    void _Terminate() override;
 
-	virtual void _Finalize();
-	virtual void _AdjustProperty(XMLElement* node);
+    void _Finalize() override;
+    void _AdjustProperty(XMLElement* node) override;
 
-	Coordinate m_begin;
-	Coordinate m_end;
-	Coordinate (*m_blender)(Coordinate, Coordinate, double);
+    Coordinate m_begin;
+    Coordinate m_end;
+    Coordinate (*m_blender)(Coordinate, Coordinate, double);
 };
-
 
 /********************************************************************
 ** This is for the widget's alpha transition.
@@ -241,43 +272,58 @@ private:
 class AlphaTransition : public Transition
 {
 public:
-	AlphaTransition() : Transition(TransitionType::TRANS_ALPHA) {}
-	~AlphaTransition() {}
+    AlphaTransition() : Transition(TransitionType::TRANS_ALPHA)
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~AlphaTransition() override
+    {
+    }
 
-	virtual AlphaTransition* SetStyle(TransitionStyle style);
+    bool Load(XMLElement* node) override;
 
-	AlphaTransition* SetBeginAlpha(int alpha)
-	{
-		m_begin = alpha;
-		return this;
-	}
-	int GetBeginAlpha() const { return m_begin; }
+    AlphaTransition* SetStyle(TransitionStyle style) override;
 
-	AlphaTransition* SetEndAlpha(int alpha)
-	{
-		m_end = alpha;
-		return this;
-	}
-	int GetEndAlpha() const { return m_end; }
+    AlphaTransition* SetBeginAlpha(int alpha)
+    {
+        m_begin = alpha;
+        return this;
+    }
+
+    int GetBeginAlpha() const
+    {
+        return m_begin;
+    }
+
+    AlphaTransition* SetEndAlpha(int alpha)
+    {
+        m_end = alpha;
+        return this;
+    }
+
+    int GetEndAlpha() const
+    {
+        return m_end;
+    }
 
 private:
-	virtual void _Update();
-	virtual void _Reset();
-	virtual void _Terminate();
+    void _Update() override;
+    void _Reset() override;
+    void _Terminate() override;
 
-	virtual void _Finalize();
-	virtual void _AdjustProperty(XMLElement* node) {}
+    void _Finalize() override;
 
-	/*
-	** These two are alpha info. :)
-	*/
-	int m_begin;
-	int m_end;
-	int (*m_blender)(int, int, double);
+    void _AdjustProperty(XMLElement* node) override
+    {
+    }
+
+    /*
+    ** These two are alpha info. :)
+    */
+    int m_begin;
+    int m_end;
+    int (*m_blender)(int, int, double);
 };
-
 
 /********************************************************************
 ** This is for the widgets' scale transition.
@@ -287,42 +333,58 @@ private:
 class ScaleTransition : public Transition
 {
 public:
-	ScaleTransition() : Transition(TransitionType::TRANS_SCALE) {}
-	~ScaleTransition() {}
+    ScaleTransition() : Transition(TransitionType::TRANS_SCALE)
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~ScaleTransition() override
+    {
+    }
 
-	virtual ScaleTransition* SetStyle(TransitionStyle style);
+    bool Load(XMLElement* node) override;
 
-	ScaleTransition* SetBeginScale(double scale)
-	{
-		m_begin = scale;
-		return this;
-	}
-	ScaleTransition* SetEndScale(double scale)
-	{
-		m_end = scale;
-		return this;
-	}
-	double GetBeginScale() const { return m_begin; }
-	double GetEndScale() const { return m_end; }
+    ScaleTransition* SetStyle(TransitionStyle style) override;
+
+    ScaleTransition* SetBeginScale(double scale)
+    {
+        m_begin = scale;
+        return this;
+    }
+
+    ScaleTransition* SetEndScale(double scale)
+    {
+        m_end = scale;
+        return this;
+    }
+
+    double GetBeginScale() const
+    {
+        return m_begin;
+    }
+
+    double GetEndScale() const
+    {
+        return m_end;
+    }
 
 private:
-	virtual void _Update();
-	virtual void _Reset();
-	virtual void _Terminate();
+    void _Update() override;
+    void _Reset() override;
+    void _Terminate() override;
 
-	virtual void _Finalize();
-	virtual void _AdjustProperty(XMLElement* node) {}
+    void _Finalize() override;
 
-	/*
-	** These two are alpha info. :)
-	*/
-	double m_begin;
-	double m_end;
-	double (*m_blender)(double, double, double);
+    void _AdjustProperty(XMLElement* node) override
+    {
+    }
+
+    /*
+    ** These two are alpha info. :)
+    */
+    double m_begin;
+    double m_end;
+    double (*m_blender)(double, double, double);
 };
-
 
 /********************************************************************
 ** 2022/11/25 TS:
@@ -331,37 +393,53 @@ private:
 class RotationTransition : public Transition
 {
 public:
-	RotationTransition() : Transition(TransitionType::TRANS_ROTATION) {}
-	~RotationTransition() {}
+    RotationTransition() : Transition(TransitionType::TRANS_ROTATION)
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
-	virtual RotationTransition* SetStyle(TransitionStyle style);
+    ~RotationTransition() override
+    {
+    }
 
-	RotationTransition* SetBeginRotation(double angle)
-	{
-		m_begin = angle;
-		return this;
-	}
-	RotationTransition* SetEndRotation(double angle)
-	{
-		m_end = angle;
-		return this;
-	}
+    bool Load(XMLElement* node) override;
+    RotationTransition* SetStyle(TransitionStyle style) override;
 
-	double GetBeginRotation() const { return m_begin; }
-	double GetEndRotation() const { return m_end; }
+    RotationTransition* SetBeginRotation(double angle)
+    {
+        m_begin = angle;
+        return this;
+    }
+
+    RotationTransition* SetEndRotation(double angle)
+    {
+        m_end = angle;
+        return this;
+    }
+
+    double GetBeginRotation() const
+    {
+        return m_begin;
+    }
+
+    double GetEndRotation() const
+    {
+        return m_end;
+    }
 
 private:
-	virtual void _Update();
-	virtual void _Reset();
-	virtual void _Terminate();
+    void _Update() override;
+    void _Reset() override;
+    void _Terminate() override;
 
-	virtual void _Finalize();
-	virtual void _AdjustProperty(XMLElement* node) {}
+    void _Finalize() override;
 
-	double m_begin;
-	double m_end;
-	double (*m_blender)(double, double, double);
+    void _AdjustProperty(XMLElement* node) override
+    {
+    }
+
+    double m_begin;
+    double m_end;
+    double (*m_blender)(double, double, double);
 };
 
 Transition* LoadTransition(XMLElement* node);

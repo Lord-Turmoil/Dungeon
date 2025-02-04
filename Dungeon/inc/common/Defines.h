@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Some defines...                                                          *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -32,98 +32,93 @@
 
 #define BIT(bit) ((1) << (bit))
 
+// clang-format off
 enum Layer : int
 {
-	LAYER_FLOOR		= LAYER_BACK,
-	LAYER_BRICK		= LAYER_NORMAL,
-	LAYER_FIGURE	= LAYER_NORMAL,
-	LAYER_WEAPON	= LAYER_NORMAL,
-	LAYER_BULLET	= LAYER_MIDDLE,
-	LAYER_BUFF		= LAYER_MIDDLE + 1,
-	LAYER_MINI_MAP	= LAYER_HIGH
+    LAYER_FLOOR		= LAYER_BACK,
+    LAYER_BRICK		= LAYER_NORMAL,
+    LAYER_FIGURE	= LAYER_NORMAL,
+    LAYER_WEAPON	= LAYER_NORMAL,
+    LAYER_BULLET	= LAYER_MIDDLE,
+    LAYER_BUFF		= LAYER_MIDDLE + 1,
+    LAYER_MINI_MAP	= LAYER_HIGH
 };
-
+// clang-format on
 
 enum CollisionID : int
 {
-	COLL_ID_AIR = 0,
-	COLL_ID_WALL,
-	COLL_ID_WALL_OPEN,
-	COLL_ID_HERO_BULLET,
-	COLL_ID_HERO_FLAME,
-	COLL_ID_ENEMY_BULLET,
-	COLL_ID_ENEMY_FLAME,
-	COLL_ID_HERO,
-	COLL_ID_SPECTER,
-	COLL_ID_ENEMY,
-	COLL_ID_STAND,
-	
-	COLL_ID_NUM
+    COLL_ID_AIR = 0,
+    COLL_ID_WALL,
+    COLL_ID_WALL_OPEN,
+    COLL_ID_HERO_BULLET,
+    COLL_ID_HERO_FLAME,
+    COLL_ID_ENEMY_BULLET,
+    COLL_ID_ENEMY_FLAME,
+    COLL_ID_HERO,
+    COLL_ID_SPECTER,
+    COLL_ID_ENEMY,
+    COLL_ID_STAND,
+
+    COLL_ID_NUM
 };
 
+// clang-format off
 const CollisionType COLLISION_MAP[COLL_ID_NUM][COLL_ID_NUM] = {
-	{ COLL_NONE,	COLL_NONE,		COLL_NONE,		COLL_NONE,		COLL_NONE,	COLL_NONE,	COLL_NONE,	COLL_NONE,		COLL_NONE,	COLL_NONE,		COLL_NONE	},
-	{ COLL_NONE,	COLL_NONE,		COLL_NONE,		COLL_NONE,		COLL_NONE,	COLL_NONE,	COLL_NONE,	COLL_NONE,		COLL_NONE,	COLL_NONE,		COLL_NONE	},	
-	{ COLL_NONE,	COLL_NONE,		COLL_NONE,		COLL_NONE,		COLL_NONE,	COLL_NONE,	COLL_NONE,	COLL_NONE,		COLL_NONE,	COLL_NONE,		COLL_NONE	},
-	{ COLL_NONE,	COLL_INELASTIC,	COLL_INELASTIC,	COLL_NONE,		COLL_NONE,	COLL_NONE,	COLL_NONE,	COLL_NONE,		COLL_NONE,	COLL_ELASTIC,	COLL_NONE	},
-	{ COLL_NONE,	COLL_CHECK,		COLL_CHECK,		COLL_NONE,		COLL_NONE,	COLL_NONE,	COLL_NONE,	COLL_NONE,		COLL_NONE,	COLL_CHECK,		COLL_NONE	},
-	{ COLL_NONE,	COLL_INELASTIC,	COLL_INELASTIC,	COLL_NONE,		COLL_NONE,	COLL_NONE,	COLL_NONE,	COLL_ELASTIC,	COLL_NONE,	COLL_NONE,		COLL_NONE	},
-	{ COLL_NONE,	COLL_CHECK,		COLL_CHECK,		COLL_NONE,		COLL_NONE,	COLL_NONE,	COLL_NONE,	COLL_CHECK,		COLL_NONE,	COLL_NONE,		COLL_NONE	},
-	{ COLL_NONE,	COLL_ELASTIC,	COLL_NONE,		COLL_NONE,		COLL_NONE,	COLL_NONE,	COLL_NONE,	COLL_ELASTIC,	COLL_NONE,	COLL_ELASTIC,	COLL_NONE	},
-	{ COLL_NONE,	COLL_INELASTIC,	COLL_NONE,		COLL_NONE,		COLL_NONE,	COLL_NONE,	COLL_NONE,	COLL_NONE,		COLL_NONE,	COLL_NONE,		COLL_NONE	},
-	{ COLL_NONE,	COLL_ELASTIC,	COLL_INELASTIC,	COLL_NONE,		COLL_NONE,	COLL_NONE,	COLL_NONE,	COLL_ELASTIC,	COLL_NONE,	COLL_ELASTIC,	COLL_NONE	},
-	{ COLL_NONE,	COLL_NONE,		COLL_NONE,		COLL_ELASTIC,	COLL_ELASTIC,	COLL_NONE,	COLL_NONE,	COLL_ELASTIC,	COLL_ELASTIC,	COLL_NONE,	COLL_NONE	} };
-
+    { COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE },
+    { COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE },
+    { COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE },
+    { COLL_NONE, COLL_INELASTIC, COLL_INELASTIC, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_ELASTIC, COLL_NONE },
+    { COLL_NONE, COLL_CHECK, COLL_CHECK, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_CHECK, COLL_NONE },
+    { COLL_NONE, COLL_INELASTIC, COLL_INELASTIC, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_ELASTIC, COLL_NONE, COLL_NONE, COLL_NONE },
+    { COLL_NONE, COLL_CHECK, COLL_CHECK, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_CHECK, COLL_NONE, COLL_NONE, COLL_NONE },
+    { COLL_NONE, COLL_ELASTIC, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_ELASTIC, COLL_NONE, COLL_ELASTIC, COLL_NONE },
+    { COLL_NONE, COLL_INELASTIC, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE },
+    { COLL_NONE, COLL_ELASTIC, COLL_INELASTIC, COLL_NONE, COLL_NONE, COLL_NONE, COLL_NONE, COLL_ELASTIC, COLL_NONE, COLL_ELASTIC, COLL_NONE },
+    { COLL_NONE, COLL_NONE, COLL_NONE, COLL_ELASTIC, COLL_ELASTIC, COLL_NONE, COLL_NONE, COLL_ELASTIC, COLL_ELASTIC, COLL_NONE, COLL_NONE }
+};
+// clang-format on
 
 enum DifficultyLevel : int
 {
-	EASY = 0,
-	NORMAL,
-	HARD,
-	INSANE,
+    EASY = 0,
+    NORMAL,
+    HARD,
+    INSANE,
 
-	DIFFICULTY_NUM
+    DIFFICULTY_NUM
 };
 
-const char* const DIFFICULTY_TEXT[DIFFICULTY_NUM] = {
-	"Easy",
-	"Normal",
-	"Hard",
-	"Insane" };
+const char* const DIFFICULTY_TEXT[DIFFICULTY_NUM] = { "Easy", "Normal", "Hard", "Insane" };
 
-const char* const BOOLEAN_TEXT[2] = {
-	"False",
-	"True" };
+const char* const BOOLEAN_TEXT[2] = { "False", "True" };
 
-const char* const YES_NO_TEXT[2] = {
-	"No",
-	"Yes" };
+const char* const YES_NO_TEXT[2] = { "No", "Yes" };
 
 /******************************************************************************
-*                             File Sturcture                                  *
-* --------------------------------------------------------------------------- *
-* res\                      -- Game resources.                                *
-*     images\		        -- Images.                                        *
-*     sounds\		        -- Sounds.                                        *
-*     fonts\                -- Fonts.                                         *
-*     data\				    -- Game data.                                     *
-*         chapter\          -- Chapter info.                                  *
-*             Chapter0.xml                                                    *
-*             ChapterX.xml                                                    *
-*         ui\               -- UI layout.                                     *
-*             Logo.xml      -- Logo interface.                                *
-*             Xxxx.xml      -- Xxxx interface.                                *
-*         lib\              -- Object library reference.                      *
-*             Hero.xml      -- Figure's resource property.                    *
-*             Weapon.xml    -- Weapon's resource property.                    *
-*             Bullet.xml    -- Bullet's resource property.                    *
-*             Misc.xml      -- Miscellaneous objects.                         *
-*         Settings.xml      -- Game settings.                                 *
-*         Resource.xml      -- Resource configuration.                        *
-*         Flashback.xml     -- Store the flashback point.                     *
-* screenshot\               -- Screenshots.                                   *
-* log.txt                   -- Dungine's log info.                            *
-*******************************************************************************/
+ *                             File Sturcture                                 *
+ * ---------------------------------------------------------------------------*
+ * res\                      -- Game resources.                               *
+ *     images\		        -- Images.                                        *
+ *     sounds\		        -- Sounds.                                        *
+ *     fonts\                -- Fonts.                                        *
+ *     data\				    -- Game data.                                 *
+ *         chapter\          -- Chapter info.                                 *
+ *             Chapter0.xml                                                   *
+ *             ChapterX.xml                                                   *
+ *         ui\               -- UI layout.                                    *
+ *             Logo.xml      -- Logo interface.                               *
+ *             Xxxx.xml      -- Xxxx interface.                               *
+ *         lib\              -- Object library reference.                     *
+ *             Hero.xml      -- Figure's resource property.                   *
+ *             Weapon.xml    -- Weapon's resource property.                   *
+ *             Bullet.xml    -- Bullet's resource property.                   *
+ *             Misc.xml      -- Miscellaneous objects.                        *
+ *         Settings.xml      -- Game settings.                                *
+ *         Resource.xml      -- Resource configuration.                       *
+ *         Flashback.xml     -- Store the flashback point.                    *
+ * screenshot\               -- Screenshots.                                  *
+ * log.txt                   -- Dungine's log info.                           *
+ ******************************************************************************/
 const char HERO_XML[]			= R"(res\data\lib\Hero.xml)";
 const char WEAPON_XML[]			= R"(res\data\lib\Weapon.xml)";
 const char BULLET_XML[]			= R"(res\data\lib\Bullet.xml)";

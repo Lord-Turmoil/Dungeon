@@ -9,10 +9,10 @@
  *                                                                            *
  *                     Start Date : July 13, 2022                             *
  *                                                                            *
- *                    Last Update : August 15, 2022                           *
+ *                    Last Update : February 4, 2024                          *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                  *
  *   The core of the game.                                                    *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -27,7 +27,6 @@
 #include <queue>
 
 #include <dungine.h>
-
 
 // each chapter has 5 level
 extern int CHAPTER_NUM;
@@ -54,100 +53,154 @@ class Flashback;
 class Dungeon : public Scene
 {
 public:
-	Dungeon();
-	virtual ~Dungeon();
+    Dungeon();
+    ~Dungeon() override;
 
-	virtual void Update();
-	virtual void Draw();
+    void Update() override;
+    void Draw() override;
 
-	// Initialize before the whole game.
-	bool Initialize();
-
-public:
-	void SetGameInterface(GameInterface* intf) { m_pGameInterface = intf; }
-	Coordinate GetMouse() { return m_target; }
-
-	void SetLevelUp() { m_isToLevelUp = true; }
-
-	int GetChapter() const { return m_chapter; }
-	int GetLevel() const { return m_level; }
-
-	void SetFlashback(Flashback* pFlashback) { m_pFlashback = pFlashback; }
-	
-	void IsInfinite(bool isInfinite)	{ m_isInfinite = isInfinite; }
-	bool IsInfinite() const				{ return m_isInfinite; }
+    // Initialize before the whole game.
+    bool Initialize();
 
 public:
-	bool AddEnemy(Enemy* enemy);
-	bool AddEnemy(Enemy* enemy, const Coordinate& center);
-	void RemoveEnemy() { m_enemyCount--; }
-	void RemoveBoss();
-	void KillAllEnemy();
+    void SetGameInterface(GameInterface* intf)
+    {
+        m_pGameInterface = intf;
+    }
+
+    Coordinate GetMouse()
+    {
+        return m_target;
+    }
+
+    void SetLevelUp()
+    {
+        m_isToLevelUp = true;
+    }
+
+    int GetChapter() const
+    {
+        return m_chapter;
+    }
+
+    int GetLevel() const
+    {
+        return m_level;
+    }
+
+    void SetFlashback(Flashback* pFlashback)
+    {
+        m_pFlashback = pFlashback;
+    }
+
+    void IsInfinite(bool isInfinite)
+    {
+        m_isInfinite = isInfinite;
+    }
+
+    bool IsInfinite() const
+    {
+        return m_isInfinite;
+    }
 
 public:
-	Terrain* GetTerrain() { return m_pTerrain; }
-	Arena* GetArena() { return m_pArena; }
-	Hero* GetHero() { return m_pHero; }
-	Boss* GetBoss() { return m_pBoss; }
-	QuadTree* GetQuadTree() { return &m_quadTree; }
-	int GetEnemyCount() { return m_enemyCount; }
+    bool AddEnemy(Enemy* enemy);
+    bool AddEnemy(Enemy* enemy, const Coordinate& center);
+
+    void RemoveEnemy()
+    {
+        m_enemyCount--;
+    }
+
+    void RemoveBoss();
+    void KillAllEnemy();
+
+public:
+    Terrain* GetTerrain()
+    {
+        return m_pTerrain;
+    }
+
+    Arena* GetArena()
+    {
+        return m_pArena;
+    }
+
+    Hero* GetHero()
+    {
+        return m_pHero;
+    }
+
+    Boss* GetBoss()
+    {
+        return m_pBoss;
+    }
+
+    QuadTree* GetQuadTree()
+    {
+        return &m_quadTree;
+    }
+
+    int GetEnemyCount()
+    {
+        return m_enemyCount;
+    }
 
 protected:
-	bool _Launch();
-	void _LevelUp();
-	void _LevelFlashback();
-	
-	bool _LoadChapter();
-	void _UnLoadChapter();
-	void _InitLevel();
+    bool _Launch();
+    void _LevelUp();
+    void _LevelFlashback();
 
-	void _ClearUp();
+    bool _LoadChapter();
+    void _UnLoadChapter();
+    void _InitLevel();
 
-protected:
-	void _GenerateEnemy();
-	void _GenerateCrate();
-
-	void _AddStand();
+    void _ClearUp();
 
 protected:
-	// Interface transition.
-	void _VictoryTransit();
-	void _LostTransit();
-	void _LevelUpTransit();
+    void _GenerateEnemy();
+    void _GenerateCrate();
 
-	void _OnLevelChange();
-	void _OnComplete();
-	void _OnFinal();
+    void _AddStand();
 
 protected:
-	// The target that hero fires at. (On hold)
-	Coordinate m_target;
+    // Interface transition.
+    void _VictoryTransit();
+    void _LostTransit();
+    void _LevelUpTransit();
 
-	QuadTree m_quadTree;
-	Terrain* m_pTerrain;
-	Space* m_pSpace;
-	Arena* m_pArena;	// current arena, nullptr if is bridge
+    void _OnLevelChange();
+    void _OnComplete();
+    void _OnFinal();
 
-	Hero* m_pHero;
-	Boss* m_pBoss;
-	Portal* m_pPortal;
-	Stand* m_pStand;
+protected:
+    // The target that hero fires at. (On hold)
+    Coordinate m_target;
 
-	int m_enemyCount;
-	
-	int m_chapter;
-	int m_level;
+    QuadTree m_quadTree;
+    Terrain* m_pTerrain;
+    Space* m_pSpace;
+    Arena* m_pArena; // current arena, nullptr if is bridge
 
-	// Indicates if the dungeon is in Infinite mode or not.
-	bool m_isInfinite;
+    Hero* m_pHero;
+    Boss* m_pBoss;
+    Portal* m_pPortal;
+    Stand* m_pStand;
 
-	bool m_isToLoadChapter;	// Denotes whether to load chapter resource.
-	bool m_isToLevelUp;
+    int m_enemyCount;
 
-	Flashback* m_pFlashback;
+    int m_chapter;
+    int m_level;
 
-	GameInterface* m_pGameInterface;
+    // Indicates if the dungeon is in Infinite mode or not.
+    bool m_isInfinite;
+
+    bool m_isToLoadChapter; // Denotes whether to load chapter resource.
+    bool m_isToLevelUp;
+
+    Flashback* m_pFlashback;
+
+    GameInterface* m_pGameInterface;
 };
-
 
 #endif

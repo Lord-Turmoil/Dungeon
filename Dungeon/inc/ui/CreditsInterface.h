@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Credits interface.                                                       *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -30,49 +30,54 @@
 class CreditsInterface : public TimeInterface
 {
 public:
-	CreditsInterface() : m_drawer(nullptr), m_curDrawer(nullptr) {}
-	virtual ~CreditsInterface() {}
+    CreditsInterface() : m_drawer(nullptr), m_curDrawer(nullptr)
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~CreditsInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 
 protected:
-	virtual void _Initialize();
-	virtual void _Destroy();
+    void _Initialize() override;
+    void _Destroy() override;
 
 private:
-	enum CreditsType
-	{
-		CRE_TITLE = 0,
-		CRE_CHAPTER,
-		CRE_SECTION,
-		CRE_ITEM,
-		CRE_COPYRIGHT,
+    enum CreditsType
+    {
+        CRE_TITLE = 0,
+        CRE_CHAPTER,
+        CRE_SECTION,
+        CRE_ITEM,
+        CRE_COPYRIGHT,
 
-		CRE_NUM
-	};
-
-private:
-	bool _LoadCredits(XMLElement* node);
-	void _LoadItem(XMLElement* node, CreditsType type);
-
-	void _InitializeProperty(XMLElement* node);
-	void _InitializeProperty(XMLElement* node, CreditsType type);
-	void _InitializeWidget();
+        CRE_NUM
+    };
 
 private:
-	int m_marginTop[CRE_NUM];
-	int m_lineHeight[CRE_NUM];
-	int m_fontSize[CRE_NUM];
-	COLORREF m_fontColor[CRE_NUM];
-	Coordinate m_size[CRE_NUM];
-	std::string m_fontFace[CRE_NUM];
+    bool _LoadCredits(XMLElement* node);
+    void _LoadItem(XMLElement* node, CreditsType type);
 
-	clock_t m_creditsDuration;
-	Coordinate m_beginPos;
-	Coordinate m_endPos;
-	Coordinate m_curPos;
-	TextDrawer* m_drawer;
-	TextDrawer* m_curDrawer;
+    void _InitializeProperty(XMLElement* node);
+    void _InitializeProperty(XMLElement* node, CreditsType type);
+    void _InitializeWidget();
+
+private:
+    int m_marginTop[CRE_NUM];
+    int m_lineHeight[CRE_NUM];
+    int m_fontSize[CRE_NUM];
+    COLORREF m_fontColor[CRE_NUM];
+    Coordinate m_size[CRE_NUM];
+    std::string m_fontFace[CRE_NUM];
+
+    clock_t m_creditsDuration;
+    Coordinate m_beginPos;
+    Coordinate m_endPos;
+    Coordinate m_curPos;
+    TextDrawer* m_drawer;
+    TextDrawer* m_curDrawer;
 };

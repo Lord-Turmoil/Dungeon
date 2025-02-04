@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For gate component.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,10 +21,8 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Brick.h"
 #include "../../inc/object/GateBehavior.h"
-
-
+#include "../../inc/object/Brick.h"
 
 /******************************************************************************
  * Hmm... Just the name.                                                      *
@@ -43,19 +41,18 @@
 
 void GateBehavior::Clone(GateBehavior* clone) const
 {
-	Behavior::Clone(clone);
+    Behavior::Clone(clone);
 }
-
 
 // GateOpen
 GateOpen* GateOpen::Clone() const
 {
-	GateOpen* clone = new GateOpen();
-	clone->_MakePrototype(false);
-	
-	GateBehavior::Clone(clone);
+    GateOpen* clone = new GateOpen();
+    clone->_MakePrototype(false);
 
-	return clone;
+    GateBehavior::Clone(clone);
+
+    return clone;
 }
 
 void GateOpen::Update(Event* evnt)
@@ -64,27 +61,26 @@ void GateOpen::Update(Event* evnt)
 
 void GateOpen::OnEnter()
 {
-	Gate* gate = static_cast<Gate*>(m_parent->GetGameObject());
-	auto anim = gate->GetComponent<AnimComponent>()->GetAnim();
+    Gate* gate = static_cast<Gate*>(m_parent->GetGameObject());
+    auto anim = gate->GetComponent<AnimComponent>()->GetAnim();
 
-	anim->SetMotion(GATE_ANIM_OPEN);
-	anim->SetFrame(Random(anim->GetTotalFrameNum()));
-	gate->GetComponent<RigidBodyComponent>()->SetID(COLL_ID_WALL_OPEN);
-	gate->GetSymbol()->SetLayer(LAYER_BRICK - 1);
-	
-	gate->SetOpen(true);
+    anim->SetMotion(GATE_ANIM_OPEN);
+    anim->SetFrame(Random(anim->GetTotalFrameNum()));
+    gate->GetComponent<RigidBodyComponent>()->SetID(COLL_ID_WALL_OPEN);
+    gate->GetSymbol()->SetLayer(LAYER_BRICK - 1);
+
+    gate->SetOpen(true);
 }
-
 
 // GateClosed
 GateClosed* GateClosed::Clone() const
 {
-	GateClosed* clone = new GateClosed();
-	clone->_MakePrototype(false);
+    GateClosed* clone = new GateClosed();
+    clone->_MakePrototype(false);
 
-	GateBehavior::Clone(clone);
+    GateBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GateClosed::Update(Event* evnt)
@@ -93,78 +89,72 @@ void GateClosed::Update(Event* evnt)
 
 void GateClosed::OnEnter()
 {
-	Gate* gate = static_cast<Gate*>(m_parent->GetGameObject());
-	auto anim = gate->GetComponent<AnimComponent>()->GetAnim();
+    Gate* gate = static_cast<Gate*>(m_parent->GetGameObject());
+    auto anim = gate->GetComponent<AnimComponent>()->GetAnim();
 
-	anim->SetMotion(GATE_ANIM_CLOSED);
-	anim->SetFrame(Random(anim->GetTotalFrameNum()));
-	gate->GetComponent<RigidBodyComponent>()->SetID(COLL_ID_WALL);
-	gate->GetSymbol()->SetLayer(LAYER_BRICK);
+    anim->SetMotion(GATE_ANIM_CLOSED);
+    anim->SetFrame(Random(anim->GetTotalFrameNum()));
+    gate->GetComponent<RigidBodyComponent>()->SetID(COLL_ID_WALL);
+    gate->GetSymbol()->SetLayer(LAYER_BRICK);
 
-	gate->SetClosed(true);
+    gate->SetClosed(true);
 }
-
 
 // GateOpening
 GateOpening* GateOpening::Clone() const
 {
-	GateOpening* clone = new GateOpening();
-	clone->_MakePrototype(false);
+    GateOpening* clone = new GateOpening();
+    clone->_MakePrototype(false);
 
-	GateBehavior::Clone(clone);
+    GateBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GateOpening::Update(Event* evnt)
 {
-	if (m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim()->IsOver())
-	{
-		m_parent->ChangeBehavior("Open");
-	}
+    if (m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->IsOver())
+    {
+        m_parent->ChangeBehavior("Open");
+    }
 }
 
 void GateOpening::OnEnter()
 {
-	Gate* gate = static_cast<Gate*>(m_parent->GetGameObject());
+    Gate* gate = static_cast<Gate*>(m_parent->GetGameObject());
 
-	gate->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(GATE_ANIM_OPENING);
-	gate->GetSymbol()->SetLayer(LAYER_BRICK);
+    gate->GetComponent<AnimComponent>()->GetAnim()->SetMotion(GATE_ANIM_OPENING);
+    gate->GetSymbol()->SetLayer(LAYER_BRICK);
 
-	gate->SetClosed(false);
+    gate->SetClosed(false);
 }
-
 
 // GateClosing
 GateClosing* GateClosing::Clone() const
 {
-	GateClosing* clone = new GateClosing();
-	clone->_MakePrototype(false);
+    GateClosing* clone = new GateClosing();
+    clone->_MakePrototype(false);
 
-	GateBehavior::Clone(clone);
+    GateBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void GateClosing::Update(Event* evnt)
 {
-	if (m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim()->IsOver())
-	{
-		m_parent->ChangeBehavior("Closed");
-	}
+    if (m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->IsOver())
+    {
+        m_parent->ChangeBehavior("Closed");
+    }
 }
 
 void GateClosing::OnEnter()
 {
-	Gate* gate = static_cast<Gate*>(m_parent->GetGameObject());
+    Gate* gate = static_cast<Gate*>(m_parent->GetGameObject());
 
-	gate->GetComponent<AnimComponent>()
-		->GetAnim()->SetMotion(GATE_ANIM_CLOSING);
-	gate->GetComponent<RigidBodyComponent>()->SetID(COLL_ID_WALL);
-	gate->GetSymbol()->SetLayer(LAYER_BRICK);
+    gate->GetComponent<AnimComponent>()->GetAnim()->SetMotion(GATE_ANIM_CLOSING);
+    gate->GetComponent<RigidBodyComponent>()->SetID(COLL_ID_WALL);
+    gate->GetSymbol()->SetLayer(LAYER_BRICK);
 
-	gate->SetOpen(false);
+    gate->SetOpen(false);
 }

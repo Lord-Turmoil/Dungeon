@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For all game interfaces.                                                 *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -22,11 +22,10 @@
  ******************************************************************************/
 
 #include "../../inc/ui/Interface.h"
-#include "../../inc/ui/MenuInterface.h"
-#include "../../inc/ui/GameInterface.h"
 #include "../../inc/ui/CreditsInterface.h"
+#include "../../inc/ui/GameInterface.h"
+#include "../../inc/ui/MenuInterface.h"
 #include "../../inc/ui/VersionInterface.h"
-
 
 /******************************************************************************
  * PlainInterface::Load -- Load plain interface.                              *
@@ -44,23 +43,22 @@
  *============================================================================*/
 bool PlainInterface::Load(XMLElement* node)
 {
-/*
-**	<PlainInterface name="" in-time="" out-time="">
-**		<Widget>...</Widget>
-**	</PlainInterface>
-*/
-	const char* name = node->Name();
-	const char* attr;
+    /*
+    **	<PlainInterface name="" in-time="" out-time="">
+    **		<Widget>...</Widget>
+    **	</PlainInterface>
+    */
+    const char* name = node->Name();
+    const char* attr;
 
-	AbstractInterface::Load(node);
-	_RETURN_IF_ERROR();
+    AbstractInterface::Load(node);
+    _RETURN_IF_ERROR();
 
-	_PARSE("in-time", m_inTime, name, 0L);
-	_PARSE("out-time", m_outTime, name, 0L);
+    _PARSE("in-time", m_inTime, name, 0L);
+    _PARSE("out-time", m_outTime, name, 0L);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * PlainInterface::Update -- Update plain interface.                          *
@@ -78,16 +76,19 @@ bool PlainInterface::Load(XMLElement* node)
  *============================================================================*/
 void PlainInterface::Update(Event* evnt)
 {
-	if (m_pSubIntf)
-		m_pSubIntf->Update(evnt);
-	else
-	{
-		m_pWidgetManager->Update(evnt);
-		if (evnt)
-			_ProcessInput(*evnt);
-	}
+    if (m_pSubIntf)
+    {
+        m_pSubIntf->Update(evnt);
+    }
+    else
+    {
+        m_pWidgetManager->Update(evnt);
+        if (evnt)
+        {
+            _ProcessInput(*evnt);
+        }
+    }
 }
-
 
 /******************************************************************************
  * PlainInterface::OnEnter -- Default on enter effect.                        *
@@ -105,9 +106,8 @@ void PlainInterface::Update(Event* evnt)
  *============================================================================*/
 void PlainInterface::OnEnter()
 {
-	_TransitIn();
+    _TransitIn();
 }
-
 
 /******************************************************************************
  * PlainInterface::OnExit -- Default on exit effect.                          *
@@ -125,9 +125,8 @@ void PlainInterface::OnEnter()
  *============================================================================*/
 void PlainInterface::OnExit()
 {
-	_TransitOut();
+    _TransitOut();
 }
-
 
 /******************************************************************************
  * PlainInterface::_ProcessInput -- Process input.                            *
@@ -145,10 +144,11 @@ void PlainInterface::OnExit()
  *============================================================================*/
 void PlainInterface::_ProcessInput(Event& evnt)
 {
-	if (evnt.SluggishCtrl(CMD_PRTSC))
-		Device::GetInstance()->PrintScreen();
+    if (evnt.SluggishCtrl(CMD_PRTSC))
+    {
+        Device::GetInstance()->PrintScreen();
+    }
 }
-
 
 /******************************************************************************
  * PlainInterface::_TransitIn -- Transit in effect.                           *
@@ -166,10 +166,11 @@ void PlainInterface::_ProcessInput(Event& evnt)
  *============================================================================*/
 void PlainInterface::_TransitIn()
 {
-	if (m_inTime > 0)
-		Transitor::FadeIn(this, m_inTime);
+    if (m_inTime > 0)
+    {
+        Transitor::FadeIn(this, m_inTime);
+    }
 }
-
 
 /******************************************************************************
  * PlainInterface::_TransitOut -- Transit out effect.                         *
@@ -187,11 +188,11 @@ void PlainInterface::_TransitIn()
  *============================================================================*/
 void PlainInterface::_TransitOut()
 {
-	if (m_outTime > 0)
-		Transitor::FadeOut(this, m_outTime);
+    if (m_outTime > 0)
+    {
+        Transitor::FadeOut(this, m_outTime);
+    }
 }
-
-
 
 /******************************************************************************
  * TimeInterface::Load -- Load time interface.                                *
@@ -209,17 +210,16 @@ void PlainInterface::_TransitOut()
  *============================================================================*/
 bool TimeInterface::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	PlainInterface::Load(node);
-	_RETURN_IF_ERROR();
+    PlainInterface::Load(node);
+    _RETURN_IF_ERROR();
 
-	_PARSE("duration", m_duration, name, 0L);
+    _PARSE("duration", m_duration, name, 0L);
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * TimeInterface::Update -- Update time interface.                            *
@@ -237,19 +237,20 @@ bool TimeInterface::Load(XMLElement* node)
  *============================================================================*/
 void TimeInterface::Update(Event* evnt)
 {
-	m_pWidgetManager->Update(evnt);
-	
-	m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
-	if (m_elapsedTime > m_duration)
-	{
-		_SelfTerminate();
-		return;
-	}
+    m_pWidgetManager->Update(evnt);
 
-	if (evnt)
-		_ProcessInput(*evnt);
+    m_elapsedTime += Timer::GetInstance()->GetDeltaTimestamp();
+    if (m_elapsedTime > m_duration)
+    {
+        _SelfTerminate();
+        return;
+    }
+
+    if (evnt)
+    {
+        _ProcessInput(*evnt);
+    }
 }
-
 
 /******************************************************************************
  * TimeInterface::_Initialize -- Initialize time interface.                   *
@@ -267,9 +268,8 @@ void TimeInterface::Update(Event* evnt)
  *============================================================================*/
 void TimeInterface::_Initialize()
 {
-	m_elapsedTime = 0L;
+    m_elapsedTime = 0L;
 }
-
 
 /******************************************************************************
  * TimeInterface::_SelfTerminate -- Execute self temination.                  *
@@ -287,10 +287,8 @@ void TimeInterface::_Initialize()
  *============================================================================*/
 void TimeInterface::_SelfTerminate()
 {
-	Detach();
+    Detach();
 }
-
-
 
 /******************************************************************************
  * LoadInterface -- Load interface from xml.                                  *
@@ -308,53 +306,81 @@ void TimeInterface::_SelfTerminate()
  *============================================================================*/
 AbstractInterface* LoadInterface(XMLElement* node)
 {
-	/*
-	**	<IntfName name="">
-	**		<Widget>
-	**		</Widget>
-	**	</IntfName>
-	*/
-	const char* name = node->Name();
+    /*
+    **	<IntfName name="">
+    **		<Widget>
+    **		</Widget>
+    **	</IntfName>
+    */
+    const char* name = node->Name();
 
-	AbstractInterface* intf = nullptr;
-	if (_STR_SAME(name, "Logo"))
-		intf = new LogoInterface();
-	else if (_STR_SAME(name, "Main"))
-		intf = new MainInterface();
-	else if (_STR_SAME(name, "Select"))
-		intf = new SelectInterface();
-	else if (_STR_SAME(name, "Setting"))
-		intf = new SettingInterface();
-	else if (_STR_SAME(name, "Help"))
-		intf = new HelpInterface();
-	else if (_STR_SAME(name, "Game"))
-		intf = new GameInterface();
-	else if (_STR_SAME(name, "Pause"))
-		intf = new PauseInterface();
-	else if (_STR_SAME(name, "Quit"))
-		intf = new QuitInterface();
-	else if (_STR_SAME(name, "About"))
-		intf = new AboutInterface();
-	else if (_STR_SAME(name, "Credits"))
-		intf = new CreditsInterface();
-	else if (_STR_SAME(name, "Version"))
-		intf = new VersionInterface();
-	else if (_STR_SAME(name, "Victory"))
-		intf = new VictoryInterface();
-	else if (_STR_SAME(name, "Time"))
-		intf = new TimeInterface();
-	else
-		LOG_ERROR(INVALID_ATTRIBUTE, "type", name);
+    AbstractInterface* intf = nullptr;
+    if (_STR_SAME(name, "Logo"))
+    {
+        intf = new LogoInterface();
+    }
+    else if (_STR_SAME(name, "Main"))
+    {
+        intf = new MainInterface();
+    }
+    else if (_STR_SAME(name, "Select"))
+    {
+        intf = new SelectInterface();
+    }
+    else if (_STR_SAME(name, "Setting"))
+    {
+        intf = new SettingInterface();
+    }
+    else if (_STR_SAME(name, "Help"))
+    {
+        intf = new HelpInterface();
+    }
+    else if (_STR_SAME(name, "Game"))
+    {
+        intf = new GameInterface();
+    }
+    else if (_STR_SAME(name, "Pause"))
+    {
+        intf = new PauseInterface();
+    }
+    else if (_STR_SAME(name, "Quit"))
+    {
+        intf = new QuitInterface();
+    }
+    else if (_STR_SAME(name, "About"))
+    {
+        intf = new AboutInterface();
+    }
+    else if (_STR_SAME(name, "Credits"))
+    {
+        intf = new CreditsInterface();
+    }
+    else if (_STR_SAME(name, "Version"))
+    {
+        intf = new VersionInterface();
+    }
+    else if (_STR_SAME(name, "Victory"))
+    {
+        intf = new VictoryInterface();
+    }
+    else if (_STR_SAME(name, "Time"))
+    {
+        intf = new TimeInterface();
+    }
+    else
+    {
+        LOG_ERROR(INVALID_ATTRIBUTE, "type", name);
+    }
 
-	if (intf)
-	{
-		// intf->SetWidgetManager(new WidgetManager());
-		if (!intf->Load(node))
-		{
-			delete intf;
-			return nullptr;
-		}
-	}
-	
-	return intf;
+    if (intf)
+    {
+        // intf->SetWidgetManager(new WidgetManager());
+        if (!intf->Load(node))
+        {
+            delete intf;
+            return nullptr;
+        }
+    }
+
+    return intf;
 }

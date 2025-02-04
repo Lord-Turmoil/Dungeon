@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   A refactoring of previous widget module.                                 *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -30,7 +30,6 @@
 
 #include "../../inc/utility/Parser.h"
 
-
 /******************************************************************************
  * AbstractWidget::Load -- Load primary info of widgets.                      *
  *                                                                            *
@@ -47,21 +46,22 @@
  *============================================================================*/
 bool AbstractWidget::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	_PARSE_ESSENTIAL("name", m_name, name, "INVALID");
-	_RETURN_IF_ERROR();
+    _PARSE_ESSENTIAL("name", m_name, name, "INVALID");
+    _RETURN_IF_ERROR();
 
-	_RETURN_IF_ERROR();
-	if (Logger::Error())
-		return false;
+    _RETURN_IF_ERROR();
+    if (Logger::Error())
+    {
+        return false;
+    }
 
-	_PARSE("activated", m_isActivated, name, true);
+    _PARSE("activated", m_isActivated, name, true);
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * VisualWidget::~VisualWidget -- Destructor of the object.                   *
@@ -79,10 +79,11 @@ bool AbstractWidget::Load(XMLElement* node)
  *============================================================================*/
 VisualWidget::~VisualWidget()
 {
-	for (auto it = m_transitionList.begin(); it != m_transitionList.end(); it++)
-		delete (*it);
+    for (auto it = m_transitionList.begin(); it != m_transitionList.end(); it++)
+    {
+        delete (*it);
+    }
 }
-
 
 /******************************************************************************
  * VisualWidget::AddTransition -- Add transition to widget.                   *
@@ -100,12 +101,11 @@ VisualWidget::~VisualWidget()
  *============================================================================*/
 Transition* VisualWidget::AddTransition(Transition* transition)
 {
-	transition->SetWidget(this);
-	m_transitionList.push_back(transition);
+    transition->SetWidget(this);
+    m_transitionList.push_back(transition);
 
-	return transition;
+    return transition;
 }
-
 
 /******************************************************************************
  * VisualWidget::ResetTransition -- Reset all transition of widget.           *
@@ -123,12 +123,13 @@ Transition* VisualWidget::AddTransition(Transition* transition)
  *============================================================================*/
 VisualWidget* VisualWidget::ResetTransition()
 {
-	for (auto it = m_transitionList.begin(); it != m_transitionList.end(); it++)
-		(*it)->Reset();
+    for (auto it = m_transitionList.begin(); it != m_transitionList.end(); it++)
+    {
+        (*it)->Reset();
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * VisualWidget::TerminateTransition -- Terminate all transition of widget.   *
@@ -146,12 +147,13 @@ VisualWidget* VisualWidget::ResetTransition()
  *============================================================================*/
 VisualWidget* VisualWidget::TerminateTransition()
 {
-	for (auto it = m_transitionList.begin(); it != m_transitionList.end(); it++)
-		(*it)->Terminate();
+    for (auto it = m_transitionList.begin(); it != m_transitionList.end(); it++)
+    {
+        (*it)->Terminate();
+    }
 
-	return this;
+    return this;
 }
-
 
 /******************************************************************************
  * VisualWidget::StopTransition -- Stop all transition of widget.             *
@@ -169,14 +171,13 @@ VisualWidget* VisualWidget::TerminateTransition()
  *============================================================================*/
 VisualWidget* VisualWidget::StopTransition()
 {
-	for (auto it = m_transitionList.begin(); it != m_transitionList.end(); it++)
-		(*it)->Stop();
+    for (auto it = m_transitionList.begin(); it != m_transitionList.end(); it++)
+    {
+        (*it)->Stop();
+    }
 
-	return this;
+    return this;
 }
-
-
-
 
 /******************************************************************************
  * VisualWidget::_UpdateTransition -- Update all transition of widgets.       *
@@ -194,10 +195,11 @@ VisualWidget* VisualWidget::StopTransition()
  *============================================================================*/
 void VisualWidget::_UpdateTransition()
 {
-	for (auto it = m_transitionList.begin(); it != m_transitionList.end(); it++)
-		(*it)->Update();
+    for (auto it = m_transitionList.begin(); it != m_transitionList.end(); it++)
+    {
+        (*it)->Update();
+    }
 }
-
 
 /******************************************************************************
  * VisualWidget::Load -- Load basic properties of widget.                     *
@@ -215,33 +217,32 @@ void VisualWidget::_UpdateTransition()
  *============================================================================*/
 bool VisualWidget::Load(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
-	XMLElement* tag;
+    const char* name = node->Name();
+    const char* attr;
+    XMLElement* tag;
 
-	AbstractWidget::Load(node);
+    AbstractWidget::Load(node);
 
-	_PARSE_PRIVATE("pos", m_coord, name, ParseCoord);
+    _PARSE_PRIVATE("pos", m_coord, name, ParseCoord);
 
-	_PARSE("layer", m_layer, name, 0);
-	SetLayer(m_layer);
+    _PARSE("layer", m_layer, name, 0);
+    SetLayer(m_layer);
 
-	_AdjustProperty(node);
+    _AdjustProperty(node);
 
-	tag = node->FirstChildElement("Transitions");
-	if (tag)
-	{
-		tag = tag->FirstChildElement();
-		while (tag)
-		{
-			AddTransition(LoadTransition(tag));
-			tag = tag->NextSiblingElement();
-		}
-	}
+    tag = node->FirstChildElement("Transitions");
+    if (tag)
+    {
+        tag = tag->FirstChildElement();
+        while (tag)
+        {
+            AddTransition(LoadTransition(tag));
+            tag = tag->NextSiblingElement();
+        }
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * VisualWidget::LoadAttribute -- Load widget attributes.                     *
@@ -259,28 +260,31 @@ bool VisualWidget::Load(XMLElement* node)
  *============================================================================*/
 bool VisualWidget::LoadAttribute(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
+    const char* name = node->Name();
+    const char* attr;
 
-	int alpha = 255;
-	_PARSE("alpha", alpha, name, 255);
-	if (alpha != 255)
-		SetAlpha(alpha);
+    int alpha = 255;
+    _PARSE("alpha", alpha, name, 255);
+    if (alpha != 255)
+    {
+        SetAlpha(alpha);
+    }
 
-	double scale = 1.0;
-	_PARSE("scale", scale, name, 1.0);
-	if (scale != 1.0)
-		SetScale(scale);
+    double scale = 1.0;
+    _PARSE("scale", scale, name, 1.0);
+    if (scale != 1.0)
+    {
+        SetScale(scale);
+    }
 
-	return true;
+    return true;
 }
-
 
 /******************************************************************************
  * VisualWidget::_AdjustProperty -- Adjust coordinate to fit screen.          *
  *                                                                            *
- *    VisualWidget only needs to adjust its coordinate, others will be adjust by    *
- *    Cell.
+ *    VisualWidget only needs to adjust its coordinate, others will be adjust by
+ ** Cell.
  *                                                                            *
  * INPUT:   node                                                              *
  *                                                                            *
@@ -293,49 +297,55 @@ bool VisualWidget::LoadAttribute(XMLElement* node)
  *============================================================================*/
 void VisualWidget::_AdjustProperty(XMLElement* node)
 {
-	const char* name = node->Name();
-	const char* attr;
-	bool isFloat = false;
+    const char* name = node->Name();
+    const char* attr;
+    bool isFloat = false;
 
-	attr = node->Attribute("float");
-	if (attr)
-	{
-		if (!ParseAttribute(&isFloat, attr, false))
-			LOG_ERROR(INVALID_ATTRIBUTE, "float", name);
-	}
+    attr = node->Attribute("float");
+    if (attr)
+    {
+        if (!ParseAttribute(&isFloat, attr, false))
+        {
+            LOG_ERROR(INVALID_ATTRIBUTE, "float", name);
+        }
+    }
 
-	if (!isFloat)
-	{
-		// adjust position with no float
-		m_coord.x = (int)(m_coord.x * deviceInfo.aspectRatio + deviceInfo.padding.x);
-		m_coord.y = (int)(m_coord.y * deviceInfo.aspectRatio + deviceInfo.padding.y);
+    if (!isFloat)
+    {
+        // adjust position with no float
+        m_coord.x = static_cast<int>(m_coord.x * deviceInfo.aspectRatio + deviceInfo.padding.x);
+        m_coord.y = static_cast<int>(m_coord.y * deviceInfo.aspectRatio + deviceInfo.padding.y);
 
-		return;
-	}
+        return;
+    }
 
-	// adjust with float
-	bool toLeft = true;
-	bool toTop = true;
-	_PARSE("left", toLeft, name, true);
-	_PARSE("top", toTop, name, true);
+    // adjust with float
+    bool toLeft = true;
+    bool toTop = true;
+    _PARSE("left", toLeft, name, true);
+    _PARSE("top", toTop, name, true);
 
-	attr = node->Attribute("pos");
-	if (attr)
-	{
-		if (strchr(attr, '%'))
-		{
-			m_coord.x = deviceInfo.clientWidth * m_coord.x / 100;
-			m_coord.y = deviceInfo.clientHeight * m_coord.y / 100;
-		}
-		else
-		{
-			m_coord.x = (int)(m_coord.x * deviceInfo.aspectRatio);
-			m_coord.y = (int)(m_coord.y * deviceInfo.aspectRatio);
-		}
-	}
+    attr = node->Attribute("pos");
+    if (attr)
+    {
+        if (strchr(attr, '%'))
+        {
+            m_coord.x = deviceInfo.clientWidth * m_coord.x / 100;
+            m_coord.y = deviceInfo.clientHeight * m_coord.y / 100;
+        }
+        else
+        {
+            m_coord.x = static_cast<int>(m_coord.x * deviceInfo.aspectRatio);
+            m_coord.y = static_cast<int>(m_coord.y * deviceInfo.aspectRatio);
+        }
+    }
 
-	if (!toLeft)
-		m_coord.x = deviceInfo.clientWidth - m_coord.x;
-	if (!toTop)
-		m_coord.y = deviceInfo.clientHeight - m_coord.y;
+    if (!toLeft)
+    {
+        m_coord.x = deviceInfo.clientWidth - m_coord.x;
+    }
+    if (!toTop)
+    {
+        m_coord.y = deviceInfo.clientHeight - m_coord.y;
+    }
 }

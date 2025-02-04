@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Error interface.                                                         *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,15 +29,19 @@
 class ErrorInterface : public PlainInterface
 {
 public:
-	ErrorInterface() {}
-	virtual ~ErrorInterface() {}
+    ErrorInterface()
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~ErrorInterface() override
+    {
+    }
 
-	virtual void AddEvents();
+    bool Load(XMLElement* node) override;
+
+    void AddEvents() override;
 
 protected:
-
 };
 
 #endif

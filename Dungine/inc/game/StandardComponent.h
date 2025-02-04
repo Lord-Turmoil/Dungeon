@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Some standard components.                                                *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -32,73 +32,144 @@
 class RigidBodyComponent : public AbstractComponent
 {
 public:
-	RigidBodyComponent(int updateOrder = 0) : AbstractComponent(updateOrder),
-		m_id(0), m_mass(0.0), m_ratio(0.0), m_maxVelocity(0.0), m_strength(0.0) {}
-	virtual ~RigidBodyComponent() {}
+    RigidBodyComponent(int updateOrder = 0)
+        : AbstractComponent(updateOrder), m_id(0), m_mass(0.0), m_ratio(0.0), m_maxVelocity(0.0), m_strength(0.0)
+    {
+    }
 
-	static const char* StaticName() { return "RigidBody"; }
-	virtual const char* Name() { return StaticName(); }
+    ~RigidBodyComponent() override
+    {
+    }
 
-	virtual RigidBodyComponent* Clone() const;
-	virtual void Clone(RigidBodyComponent* clone) const {}
+    static const char* StaticName()
+    {
+        return "RigidBody";
+    }
 
-	virtual bool Load(XMLElement* node);
+    const char* Name() override
+    {
+        return StaticName();
+    }
 
-	virtual void Update(Event* evnt);
+    RigidBodyComponent* Clone() const override;
+
+    virtual void Clone(RigidBodyComponent* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    void Update(Event* evnt) override;
 
 public:
-	void Freeze();
-	void Scatter();
-	void Scatter(double speed);
+    void Freeze();
+    void Scatter();
+    void Scatter(double speed);
 
 public:
-	void SetID(int id) { m_id = id; }
-	int ID() const { return m_id; }
+    void SetID(int id)
+    {
+        m_id = id;
+    }
 
-	void SetMass(double mass) { m_mass = mass; }
-	double GetMass() const { return m_mass; }
+    int ID() const
+    {
+        return m_id;
+    }
 
-	void SetRatio(double ratio) { m_ratio = ratio; }
-	double GetRatio() const { return m_ratio; }
+    void SetMass(double mass)
+    {
+        m_mass = mass;
+    }
 
-	void SetMaxVelocity(double maxVel) { m_maxVelocity = maxVel; }
-	double GetMaxVelocity() const { return m_maxVelocity; }
+    double GetMass() const
+    {
+        return m_mass;
+    }
 
-	void SetStrength(double strength) { m_strength = strength; }
-	double GetStrength() const { return m_strength; }
+    void SetRatio(double ratio)
+    {
+        m_ratio = ratio;
+    }
 
-	void SetForce(const Vector& force) { m_force = force; }
-	void ApplyForce(const Vector& force) { m_force += force; }
-	Vector& GetForce() { return m_force; }
+    double GetRatio() const
+    {
+        return m_ratio;
+    }
 
-	void SetVelocity(const Vector& velocity) { m_velocity = velocity; }
-	void ApplyVelocity(const Vector& velocity) { m_velocity += velocity; }
-	Vector& GetVelocity() { return m_velocity; }
+    void SetMaxVelocity(double maxVel)
+    {
+        m_maxVelocity = maxVel;
+    }
+
+    double GetMaxVelocity() const
+    {
+        return m_maxVelocity;
+    }
+
+    void SetStrength(double strength)
+    {
+        m_strength = strength;
+    }
+
+    double GetStrength() const
+    {
+        return m_strength;
+    }
+
+    void SetForce(const Vector& force)
+    {
+        m_force = force;
+    }
+
+    void ApplyForce(const Vector& force)
+    {
+        m_force += force;
+    }
+
+    Vector& GetForce()
+    {
+        return m_force;
+    }
+
+    void SetVelocity(const Vector& velocity)
+    {
+        m_velocity = velocity;
+    }
+
+    void ApplyVelocity(const Vector& velocity)
+    {
+        m_velocity += velocity;
+    }
+
+    Vector& GetVelocity()
+    {
+        return m_velocity;
+    }
 
 private:
-	/*
-	** Collision ID, to handle collision type.
-	*/
-	int m_id;
+    /*
+    ** Collision ID, to handle collision type.
+    */
+    int m_id;
 
-	/*
-	** 0.0 is infinite. If mass is infinite, then it cannot move,
-	** which means its velocity must be absolute zero.
-	*/
-	double m_mass;
+    /*
+    ** 0.0 is infinite. If mass is infinite, then it cannot move,
+    ** which means its velocity must be absolute zero.
+    */
+    double m_mass;
 
-	// Decrease ratio of velocity if no force applied.
-	double m_ratio;
+    // Decrease ratio of velocity if no force applied.
+    double m_ratio;
 
-	double m_maxVelocity;
+    double m_maxVelocity;
 
-	// Strength of the object. Used when move.
-	double m_strength;
+    // Strength of the object. Used when move.
+    double m_strength;
 
-	Vector m_force;
-	Vector m_velocity;
+    Vector m_force;
+    Vector m_velocity;
 };
-
 
 /********************************************************************
 ** Collide box is... the collide box of the object :P. It contains
@@ -111,53 +182,105 @@ private:
 class ColliderBoxComponent : public AbstractComponent
 {
 public:
-	ColliderBoxComponent(int updateOrder = 0) : AbstractComponent(updateOrder) {}
-	virtual ~ColliderBoxComponent() {}
+    ColliderBoxComponent(int updateOrder = 0) : AbstractComponent(updateOrder)
+    {
+    }
 
-	static const char* StaticName() { return "ColliderBox"; }
-	virtual const char* Name() { return StaticName(); }
+    ~ColliderBoxComponent() override
+    {
+    }
 
-	virtual ColliderBoxComponent* Clone() const;
-	void Clone(ColliderBoxComponent* clone) const {}
+    static const char* StaticName()
+    {
+        return "ColliderBox";
+    }
 
-	virtual bool Load(XMLElement* node);
+    const char* Name() override
+    {
+        return StaticName();
+    }
 
-	virtual void Update(Event* evnt);
+    ColliderBoxComponent* Clone() const override;
+
+    void Clone(ColliderBoxComponent* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    void Update(Event* evnt) override;
 
 public:
-	virtual void Translate(const Coordinate& offset);
+    void Translate(const Coordinate& offset) override;
 
-	void SetOffset(const Coordinate& offset) { m_offset = offset; }
-	Coordinate GetOffset() const { return m_offset; }
+    void SetOffset(const Coordinate& offset)
+    {
+        m_offset = offset;
+    }
 
-	void SetCenter(const Coordinate& center) { m_center = center; }
-	Coordinate GetCenter() const { return m_center; }
+    Coordinate GetOffset() const
+    {
+        return m_offset;
+    }
 
-	void SetBoxSize(int width, int height)
-	{
-		m_box.width = width;
-		m_box.height = height;
-	}
-	void SetBorderSize(int width, int height)
-	{
-		m_border.width = width;
-		m_border.height = height;
-	}
-	int GetBoxWidth() const { return m_box.width; }
-	int GetBoxHeight() const { return m_box.height; }
-	int GetBorderWidth() const { return m_border.width; }
-	int GetBorderHeight() const { return m_border.height; }
+    void SetCenter(const Coordinate& center)
+    {
+        m_center = center;
+    }
 
-	Rect& GetBox() { return m_box; }
-	Rect& GetBorder() { return m_border; }
+    Coordinate GetCenter() const
+    {
+        return m_center;
+    }
+
+    void SetBoxSize(int width, int height)
+    {
+        m_box.width = width;
+        m_box.height = height;
+    }
+
+    void SetBorderSize(int width, int height)
+    {
+        m_border.width = width;
+        m_border.height = height;
+    }
+
+    int GetBoxWidth() const
+    {
+        return m_box.width;
+    }
+
+    int GetBoxHeight() const
+    {
+        return m_box.height;
+    }
+
+    int GetBorderWidth() const
+    {
+        return m_border.width;
+    }
+
+    int GetBorderHeight() const
+    {
+        return m_border.height;
+    }
+
+    Rect& GetBox()
+    {
+        return m_box;
+    }
+
+    Rect& GetBorder()
+    {
+        return m_border;
+    }
 
 private:
-	Coordinate m_offset;	// offset to the center of the gameobject
-	Coordinate m_center;
-	Rect m_box;
-	Rect m_border;
+    Coordinate m_offset; // offset to the center of the gameobject
+    Coordinate m_center;
+    Rect m_box;
+    Rect m_border;
 };
-
 
 /********************************************************************
 ** Move component has to access rigid body for velocity.
@@ -165,23 +288,36 @@ private:
 class MoveComponent : public AbstractComponent
 {
 public:
-	MoveComponent(int updateOrder = 0) : AbstractComponent(updateOrder) {}
-	virtual ~MoveComponent() {}
+    MoveComponent(int updateOrder = 0) : AbstractComponent(updateOrder)
+    {
+    }
 
-	static const char* StaticName() { return "Move"; }
-	virtual const char* Name() { return StaticName(); }
+    ~MoveComponent() override
+    {
+    }
 
-	virtual MoveComponent* Clone() const;
-	virtual void Clone(MoveComponent* clone) const {}
+    static const char* StaticName()
+    {
+        return "Move";
+    }
 
-	virtual bool Load(XMLElement* node);
+    const char* Name() override
+    {
+        return StaticName();
+    }
 
-	virtual void Update(Event* evnt);
+    MoveComponent* Clone() const override;
+
+    virtual void Clone(MoveComponent* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    void Update(Event* evnt) override;
 
 protected:
-
 };
-
 
 /********************************************************************
 ** Game object need anim component to display on the screen.
@@ -191,36 +327,51 @@ class MotionResource;
 class AnimComponent : public AbstractComponent
 {
 public:
-	AnimComponent(int updateOrder = 0) : AbstractComponent(updateOrder), m_pResource(nullptr) {}
-	virtual ~AnimComponent();
+    AnimComponent(int updateOrder = 0) : AbstractComponent(updateOrder), m_pResource(nullptr)
+    {
+    }
 
-	static const char* StaticName() { return "Anim"; }
-	virtual const char* Name() { return StaticName(); }
+    ~AnimComponent() override;
 
-	virtual AnimComponent* Clone() const;
-	virtual void Clone(AnimComponent* clone) const {}
+    static const char* StaticName()
+    {
+        return "Anim";
+    }
 
-	virtual bool Load(XMLElement* node);
+    const char* Name() override
+    {
+        return StaticName();
+    }
 
-	virtual void Update(Event* evnt);
+    AnimComponent* Clone() const override;
+
+    virtual void Clone(AnimComponent* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    void Update(Event* evnt) override;
 
 public:
-	virtual void Translate(const Coordinate& offset);
-	virtual void SetGameObject(GameObject* object);
+    void Translate(const Coordinate& offset) override;
+    void SetGameObject(GameObject* object) override;
 
-	Animation* GetAnim() { return &m_anim; }
+    Animation* GetAnim()
+    {
+        return &m_anim;
+    }
 
 private:
-	Animation m_anim;
+    Animation m_anim;
 
-	/*
-	** The offset to the center of the game object.
-	*/
-	Coordinate m_offset;
+    /*
+    ** The offset to the center of the game object.
+    */
+    Coordinate m_offset;
 
-	MotionResource* m_pResource;
+    MotionResource* m_pResource;
 };
-
 
 /********************************************************************
 ** State component manage the behavior of the game object, and it decide
@@ -234,59 +385,88 @@ class BehaviorComponent;
 class Behavior : public AbstractObject
 {
 public:
-	Behavior() : AbstractObject(RTTIType::RTTI_BEHAVIOR), m_parent(nullptr) {}
-	virtual ~Behavior() {}
+    Behavior() : AbstractObject(RTTIType::RTTI_BEHAVIOR), m_parent(nullptr)
+    {
+    }
 
-	/*
-	** Get the name of the behavior. I think... C-Style string is
-	** enough.
-	*/
-	virtual const char* Name() const = 0;
+    ~Behavior() override
+    {
+    }
 
-	virtual Behavior* Clone() const = 0;
-	virtual void Clone(Behavior* clone) const;
+    /*
+    ** Get the name of the behavior. I think... C-Style string is
+    ** enough.
+    */
+    virtual const char* Name() const = 0;
 
-	virtual bool Load(XMLElement* node);
+    Behavior* Clone() const override = 0;
+    virtual void Clone(Behavior* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
+    bool Load(XMLElement* node) override;
 
-	virtual void OnEnter() {}	// Do something when switch to the behavior.
-	virtual void OnExit() {}	// Do something else when switch to other behavior.
+    virtual void Update(Event* evnt) = 0;
+
+    virtual void OnEnter()
+    {
+    } // Do something when switch to the behavior.
+
+    virtual void OnExit()
+    {
+    } // Do something else when switch to other behavior.
 
 public:
-	void SetParent(BehaviorComponent* parent) { m_parent = parent; }
-	BehaviorComponent* GetParent() { return m_parent; }
+    void SetParent(BehaviorComponent* parent)
+    {
+        m_parent = parent;
+    }
+
+    BehaviorComponent* GetParent()
+    {
+        return m_parent;
+    }
 
 protected:
-	BehaviorComponent* m_parent;
+    BehaviorComponent* m_parent;
 };
 
 class BehaviorComponent : public AbstractComponent
 {
 public:
-	BehaviorComponent(int updateOrder = 0) : AbstractComponent(updateOrder), m_pCurBehavior(nullptr) {}
-	virtual ~BehaviorComponent();
+    BehaviorComponent(int updateOrder = 0) : AbstractComponent(updateOrder), m_pCurBehavior(nullptr)
+    {
+    }
 
-	static const char* StaticName() { return "Behavior"; }
-	virtual const char* Name() { return StaticName(); }
+    ~BehaviorComponent() override;
 
-	virtual BehaviorComponent* Clone() const;
-	virtual void Clone(BehaviorComponent* clone) const {}
+    static const char* StaticName()
+    {
+        return "Behavior";
+    }
 
-	virtual bool Load(XMLElement* node);
+    const char* Name() override
+    {
+        return StaticName();
+    }
 
-	virtual void Update(Event* evnt);
+    BehaviorComponent* Clone() const override;
 
-	void AddBehavior(Behavior* behavior);
-	void ChangeBehavior(const char* name);
+    virtual void Clone(BehaviorComponent* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
+
+    void Update(Event* evnt) override;
+
+    void AddBehavior(Behavior* behavior);
+    void ChangeBehavior(const char* name);
 
 private:
-	Behavior* _GetBehavior(const char* name);
+    Behavior* _GetBehavior(const char* name);
 
-	std::unordered_map<const char*, Behavior*> m_behaviors;
-	Behavior* m_pCurBehavior;
+    std::unordered_map<const char*, Behavior*> m_behaviors;
+    Behavior* m_pCurBehavior;
 };
-
 
 /********************************************************************
 ** State component manage state of the game object. However, it is
@@ -297,64 +477,96 @@ class StateComponent;
 class State : public AbstractObject
 {
 public:
-	State() : AbstractObject(RTTIType::RTTI_BEHAVIOR),
-		m_parent(nullptr), m_duration(0L), m_elapsedTime(0L) {}
-	virtual ~State() {}
+    State() : AbstractObject(RTTIType::RTTI_BEHAVIOR), m_parent(nullptr), m_duration(0L), m_elapsedTime(0L)
+    {
+    }
 
-	/*
-	** Get the name of the state. I think... C-Style string is
-	** enough.
-	*/
-	virtual const char* Name() const = 0;
+    ~State() override
+    {
+    }
 
-	virtual State* Clone() const = 0;
-	virtual void Clone(State* clone) const;
+    /*
+    ** Get the name of the state. I think... C-Style string is
+    ** enough.
+    */
+    virtual const char* Name() const = 0;
 
-	virtual bool Load(XMLElement* node);
+    State* Clone() const override = 0;
+    virtual void Clone(State* clone) const;
 
-	virtual void Update(Event* evnt) = 0;
-	virtual void OnEnter() {}	// Do something when switch to the behavior.
-	virtual void OnExit() {}	// Do something else when switch to other behavior.
+    bool Load(XMLElement* node) override;
+
+    virtual void Update(Event* evnt) = 0;
+
+    virtual void OnEnter()
+    {
+    } // Do something when switch to the behavior.
+
+    virtual void OnExit()
+    {
+    } // Do something else when switch to other behavior.
 
 public:
-	void SetParent(StateComponent* parent) { m_parent = parent; }
-	StateComponent* GetParent() { return m_parent; }
+    void SetParent(StateComponent* parent)
+    {
+        m_parent = parent;
+    }
+
+    StateComponent* GetParent()
+    {
+        return m_parent;
+    }
 
 protected:
-	StateComponent* m_parent;
+    StateComponent* m_parent;
 
-	clock_t m_duration;
-	clock_t m_elapsedTime;
+    clock_t m_duration;
+    clock_t m_elapsedTime;
 };
 
 class StateComponent : public AbstractComponent
 {
 public:
-	StateComponent(int updateOrder = 0) : AbstractComponent(updateOrder), m_pCurState(nullptr) {}
-	virtual ~StateComponent();
+    StateComponent(int updateOrder = 0) : AbstractComponent(updateOrder), m_pCurState(nullptr)
+    {
+    }
 
-	static const char* StaticName() { return "State"; }
-	virtual const char* Name() { return StaticName(); }
+    ~StateComponent() override;
 
-	virtual StateComponent* Clone() const;
-	virtual void Clone(StateComponent* clone) const {}
+    static const char* StaticName()
+    {
+        return "State";
+    }
 
-	virtual bool Load(XMLElement* node);
+    const char* Name() override
+    {
+        return StaticName();
+    }
 
-	virtual void Update(Event* evnt);
+    StateComponent* Clone() const override;
 
-	void AddState(State* behavior);
-	void ChangeState(const char* name);
+    virtual void Clone(StateComponent* clone) const
+    {
+    }
 
-	const char* CurrentStateName() const { return m_pCurState->Name(); }
+    bool Load(XMLElement* node) override;
+
+    void Update(Event* evnt) override;
+
+    void AddState(State* behavior);
+    void ChangeState(const char* name);
+
+    const char* CurrentStateName() const
+    {
+        return m_pCurState->Name();
+    }
 
 private:
-	State* _GetState(const char* name);
+    State* _GetState(const char* name);
 
-	std::unordered_map<const char*, State*> m_states;
-	State* m_pCurState;
+    std::unordered_map<const char*, State*> m_states;
+    State* m_pCurState;
 };
-
 
 /********************************************************************
 ** Since custom component can be defined, so use a class is better.
@@ -362,10 +574,15 @@ private:
 class StandardComponentKit
 {
 public:
-	StandardComponentKit() {}
-	virtual ~StandardComponentKit() {}
+    StandardComponentKit()
+    {
+    }
 
-	virtual AbstractComponent* LoadComponent(XMLElement* node);
+    virtual ~StandardComponentKit()
+    {
+    }
+
+    virtual AbstractComponent* LoadComponent(XMLElement* node);
 };
 
 #endif

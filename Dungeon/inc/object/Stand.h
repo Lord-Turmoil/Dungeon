@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The stand...                                                             *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -31,35 +31,55 @@ class Flashback;
 class Stand : public Object
 {
 public:
-	Stand(Scene* scene);
-	virtual ~Stand();
+    Stand(Scene* scene);
+    ~Stand() override;
 
-	virtual Stand* Clone() const;
-	virtual void Clone(Stand* clone) const {}
+    Stand* Clone() const override;
 
-	virtual bool Load(XMLElement* node);
+    virtual void Clone(Stand* clone) const
+    {
+    }
 
-	void Initialize();
+    bool Load(XMLElement* node) override;
+
+    void Initialize();
 
 public:
-	static const int SaveCost()		{ return 100; }
-	static const int FlashCost()	{ return 200; }
+    static const int SaveCost()
+    {
+        return 100;
+    }
 
-	void IsAvailable(bool isAvailable)	{ m_isAvailable = isAvailable; }
-	bool IsAvailable() const			{ return m_isAvailable; }
+    static const int FlashCost()
+    {
+        return 200;
+    }
 
-	double GetRadius() const { return m_radius; }
+    void IsAvailable(bool isAvailable)
+    {
+        m_isAvailable = isAvailable;
+    }
 
-	Flashback* GetFlashback();
+    bool IsAvailable() const
+    {
+        return m_isAvailable;
+    }
+
+    double GetRadius() const
+    {
+        return m_radius;
+    }
+
+    Flashback* GetFlashback();
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 
 private:
-	bool m_isAvailable;
-	double m_radius;
+    bool m_isAvailable;
+    double m_radius;
 
-	Flashback* m_pFlashback;
+    Flashback* m_pFlashback;
 };
 
 #endif

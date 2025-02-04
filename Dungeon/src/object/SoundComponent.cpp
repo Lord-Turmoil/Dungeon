@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Sound component.                                                         *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -22,7 +22,6 @@
  ******************************************************************************/
 
 #include "../../inc/object/SoundComponent.h"
-
 
 /******************************************************************************
  * SoundComponent::~SoundComponent -- Destructor of the object.               *
@@ -40,13 +39,14 @@
  *============================================================================*/
 SoundComponent::~SoundComponent()
 {
-	if (_IsPrototype())
-	{
-		for (auto it = m_sounds.begin(); it != m_sounds.end(); it++)
-			it->second->Release();
-	}
+    if (_IsPrototype())
+    {
+        for (auto it = m_sounds.begin(); it != m_sounds.end(); it++)
+        {
+            it->second->Release();
+        }
+    }
 }
-
 
 /******************************************************************************
  * SoundComponent::Clone -- Clone sound component.                            *
@@ -64,17 +64,18 @@ SoundComponent::~SoundComponent()
  *============================================================================*/
 SoundComponent* SoundComponent::Clone() const
 {
-	SoundComponent* clone = new SoundComponent(m_updateOrder);
-	clone->_MakePrototype(false);
+    SoundComponent* clone = new SoundComponent(m_updateOrder);
+    clone->_MakePrototype(false);
 
-	AbstractComponent::Clone(clone);
+    AbstractComponent::Clone(clone);
 
-	for (auto it = m_sounds.begin(); it != m_sounds.end(); it++)
-		clone->AddSound(it->first, it->second);
+    for (auto it = m_sounds.begin(); it != m_sounds.end(); it++)
+    {
+        clone->AddSound(it->first, it->second);
+    }
 
-	return clone;
+    return clone;
 }
-
 
 /******************************************************************************
  * SoundComponent::Load -- Load sound component.                              *
@@ -92,51 +93,52 @@ SoundComponent* SoundComponent::Clone() const
  *============================================================================*/
 bool SoundComponent::Load(XMLElement* node)
 {
-/*
-**	<Sound>
-**		<li name="" src=""></li>
-**		<li name="" src=""></li>
-**		...
-**	</Sound>
-*/
-	const char* name = node->Name();
+    /*
+    **	<Sound>
+    **		<li name="" src=""></li>
+    **		<li name="" src=""></li>
+    **		...
+    **	</Sound>
+    */
+    const char* name = node->Name();
 
-	_CHECK_TAG(StaticName());
-	_RETURN_IF_ERROR();
+    _CHECK_TAG(StaticName());
+    _RETURN_IF_ERROR();
 
-	AbstractComponent::Load(node);
+    AbstractComponent::Load(node);
 
-	const char* soundSrc;
-	const char* soundName;
-	AudioResource* sound = nullptr;
-	XMLElement* li = node->FirstChildElement();
-	while (li)
-	{
-		soundName = li->Attribute("name");
-		if (!soundName)
-		{
-			LOG_ERROR(MISSING_ATTRIBUTE, "name", name);
-			return false;
-		}
-		soundSrc = li->Attribute("src");
-		if (!soundSrc)
-		{
-			LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
-			return false;
-		}
-		sound = LoadResource<AudioResource>(soundSrc);
-		if (!sound)		// Error will be logged in LoadResource<>
-			return false;
+    const char* soundSrc;
+    const char* soundName;
+    AudioResource* sound = nullptr;
+    XMLElement* li = node->FirstChildElement();
+    while (li)
+    {
+        soundName = li->Attribute("name");
+        if (!soundName)
+        {
+            LOG_ERROR(MISSING_ATTRIBUTE, "name", name);
+            return false;
+        }
+        soundSrc = li->Attribute("src");
+        if (!soundSrc)
+        {
+            LOG_ERROR(MISSING_ATTRIBUTE, "src", name);
+            return false;
+        }
+        sound = LoadResource<AudioResource>(soundSrc);
+        if (!sound) // Error will be logged in LoadResource<>
+        {
+            return false;
+        }
 
-		sound->Load();
-		AddSound(soundName, sound);
+        sound->Load();
+        AddSound(soundName, sound);
 
-		li = li->NextSiblingElement();
-	}
+        li = li->NextSiblingElement();
+    }
 
-	_RETURN_STATE();
+    _RETURN_STATE();
 }
-
 
 /******************************************************************************
  * SoundComponent::AddSound -- Add sound to the component.                    *
@@ -155,12 +157,13 @@ bool SoundComponent::Load(XMLElement* node)
  *============================================================================*/
 void SoundComponent::AddSound(const std::string& name, AudioResource* sound)
 {
-	auto it = m_sounds.find(name);
+    auto it = m_sounds.find(name);
 
-	if (it == m_sounds.end())
-		m_sounds.emplace(name, sound);
+    if (it == m_sounds.end())
+    {
+        m_sounds.emplace(name, sound);
+    }
 }
-
 
 /******************************************************************************
  * SoundComponent::Play -- Play certain sound.                                *
@@ -178,10 +181,14 @@ void SoundComponent::AddSound(const std::string& name, AudioResource* sound)
  *============================================================================*/
 void SoundComponent::Play(const std::string& name)
 {
-	auto it = m_sounds.find(name);
+    auto it = m_sounds.find(name);
 
-	if (it != m_sounds.end())
-		it->second->GetResource()->Play();
-	else
-		LOG_ERROR(R"(Missing sound "%s")", name.c_str());
+    if (it != m_sounds.end())
+    {
+        it->second->GetResource()->Play();
+    }
+    else
+    {
+        LOG_ERROR(R"(Missing sound "%s")", name.c_str());
+    }
 }

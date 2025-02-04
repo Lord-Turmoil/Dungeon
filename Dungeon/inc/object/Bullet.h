@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Bullet in the game.                                                      *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,11 +24,10 @@
 #ifndef _BULLET_H_
 #define _BULLET_H_
 
-#include <string>
 #include <dungine.h>
+#include <string>
 
 #include "Object.h"
-
 
 const double MAX_RANGE = 10000.0;
 
@@ -38,74 +37,129 @@ const double MAX_RANGE = 10000.0;
 class Bullet : public Object
 {
 public:
-	Bullet(Scene* scene) : Object(ObjectType::OBJ_BULLET, scene),
-		m_damage(0), m_range(MAX_RANGE), m_force(0.0), m_AOERadius(0.0), m_isGood(true)
-	{
-		m_symbol.SetLayer(LAYER_BULLET);
-	}
-	virtual ~Bullet() {}
+    Bullet(Scene* scene)
+        : Object(OBJ_BULLET, scene), m_damage(0), m_range(MAX_RANGE), m_force(0.0), m_AOERadius(0.0), m_isGood(true)
+    {
+        m_symbol.SetLayer(LAYER_BULLET);
+    }
 
-	const std::string& Name() const { return m_name; }
-	
-	virtual Bullet* Clone() const;
-	virtual void Clone(Bullet* clone) const;
+    ~Bullet() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    const std::string& Name() const
+    {
+        return m_name;
+    }
 
-	// Bullet must be activated to switch to fly behavior.
-	void Activate();
-	void Corrupt();
+    Bullet* Clone() const override;
+    virtual void Clone(Bullet* clone) const;
+
+    bool Load(XMLElement* node) override;
+
+    // Bullet must be activated to switch to fly behavior.
+    void Activate();
+    void Corrupt();
 
 public:
-	void SetDirection(const Vector& dir) { m_dir = dir; }
-	const Vector& GetDirection() const { return m_dir; }
+    void SetDirection(const Vector& dir)
+    {
+        m_dir = dir;
+    }
 
-	void SetRange(double range) { m_range = range; }
-	double GetRange() const { return m_range; }
+    const Vector& GetDirection() const
+    {
+        return m_dir;
+    }
 
-	void SetForce(double force) { m_force = force; }
-	double GetForce() const { return m_force; }
+    void SetRange(double range)
+    {
+        m_range = range;
+    }
 
-	void SetAOERadius(double radius) { m_AOERadius = radius; }
-	double GetAOERadius() const { return m_AOERadius; }
+    double GetRange() const
+    {
+        return m_range;
+    }
 
-	void SetDamage(int damage) { m_damage = damage; }
-	int GetDamage() const { return m_damage; }
+    void SetForce(double force)
+    {
+        m_force = force;
+    }
 
-	void SetGood(bool isGood) { m_isGood = isGood; }
-	bool IsGood() const { return m_isGood; }
+    double GetForce() const
+    {
+        return m_force;
+    }
 
-	bool IsDirectional() const { return m_isDirectional; }
-	bool IsPenetrable() const { return m_isPenetrable; }
+    void SetAOERadius(double radius)
+    {
+        m_AOERadius = radius;
+    }
+
+    double GetAOERadius() const
+    {
+        return m_AOERadius;
+    }
+
+    void SetDamage(int damage)
+    {
+        m_damage = damage;
+    }
+
+    int GetDamage() const
+    {
+        return m_damage;
+    }
+
+    void SetGood(bool isGood)
+    {
+        m_isGood = isGood;
+    }
+
+    bool IsGood() const
+    {
+        return m_isGood;
+    }
+
+    bool IsDirectional() const
+    {
+        return m_isDirectional;
+    }
+
+    bool IsPenetrable() const
+    {
+        return m_isPenetrable;
+    }
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
+    void _InitBehavior(XMLElement* node = nullptr) override;
 
-	std::string m_name;
+    std::string m_name;
 
-	int m_damage;
+    int m_damage;
 
-	Vector m_dir;
+    Vector m_dir;
 
-	/*
-	** Range of the object, bullet will "corrupt" - another way
-	** to explode. Default range is infinit.
-	*/
-	double m_range;
+    /*
+    ** Range of the object, bullet will "corrupt" - another way
+    ** to explode. Default range is infinit.
+    */
+    double m_range;
 
-	/*
-	** Force of the bullet, it will affect the hurt object.
-	*/
-	double m_force;
+    /*
+    ** Force of the bullet, it will affect the hurt object.
+    */
+    double m_force;
 
-	double m_AOERadius;	// Area of effect
+    double m_AOERadius; // Area of effect
 
-	/*
-	** If explode or corrupt, the bullet will be not good.
-	*/
-	bool m_isGood;
-	bool m_isDirectional;	// Whether the image need rotate or not.
-	bool m_isPenetrable;	// Whether penetrate enemy or not.
+    /*
+    ** If explode or corrupt, the bullet will be not good.
+    */
+    bool m_isGood;
+    bool m_isDirectional; // Whether the image need rotate or not.
+    bool m_isPenetrable;  // Whether penetrate enemy or not.
 };
 
 #endif

@@ -12,7 +12,7 @@
  *                    Last Update : August 16, 2022                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   The canvas of the game is the screen, on which all symbols are finally   *
  *   rendered. It will automatically fit the user's computer screen, and it   *
  *   will handle the rendering process.                                       *
@@ -57,68 +57,85 @@
  *============================================================================*/
 void Renderer::Render(Symbol* symbol)
 {
-	// This shouldn't happen, but in case critical error occurs.
-	if (!symbol->m_pImage)
-		return;
+    // This shouldn't happen, but in case critical error occurs.
+    if (!symbol->m_pImage)
+    {
+        return;
+    }
 
-	if (symbol->m_pSupSymbol)
-		Render(symbol->m_pSupSymbol);
+    if (symbol->m_pSupSymbol)
+    {
+        Render(symbol->m_pSupSymbol);
+    }
 
-	m_symbol = symbol;
-	m_offset.Init(m_symbol->m_offset);
-	if (m_symbol->m_pAttribute)
-	{
-		SymbolAttribute& attr = *(m_symbol->m_pAttribute);
-		IMAGE* pSrcImage;
+    m_symbol = symbol;
+    m_offset.Init(m_symbol->m_offset);
+    if (m_symbol->m_pAttribute)
+    {
+        SymbolAttribute& attr = *(m_symbol->m_pAttribute);
+        IMAGE* pSrcImage;
 
-		if (attr.alpha != 0)
-		{
-			// Resize?
-			if (dabs(attr.scale - 1.0) < EPSILON)
-			{
-				// Rotate?
-				if (dabs(attr.rotationAngle) < EPSILON)
-					pSrcImage = m_symbol->m_pImage;
-				else	// Just rotate.
-				{
-					rotateimage(&m_alphaImage, m_symbol->m_pImage, attr.rotationAngle, TRANSPARENT_COLOR, false, HIGH_QUALITY);
-					pSrcImage = &m_alphaImage;
-				}
-			}
-			else
-			{
-				// Resize image.
-				int srcWidth = m_symbol->m_pImage->getwidth();
-				int srcHeight = m_symbol->m_pImage->getheight();
-				int destWidth = (int)(srcWidth * attr.scale);
-				int destHeight = (int)(srcHeight * attr.scale);
-				ResizeImage(&m_alphaImage, m_symbol->m_pImage, destWidth, destHeight, srcWidth, srcHeight);
-				m_offset.x += (srcWidth - destWidth) >> 1;
-				m_offset.y += (srcHeight - destHeight) >> 1;
+        if (attr.alpha != 0)
+        {
+            // Resize?
+            if (dabs(attr.scale - 1.0) < EPSILON)
+            {
+                // Rotate?
+                if (dabs(attr.rotationAngle) < EPSILON)
+                {
+                    pSrcImage = m_symbol->m_pImage;
+                }
+                else // Just rotate.
+                {
+                    rotateimage(&m_alphaImage, m_symbol->m_pImage, attr.rotationAngle, TRANSPARENT_COLOR, false,
+                                HIGH_QUALITY);
+                    pSrcImage = &m_alphaImage;
+                }
+            }
+            else
+            {
+                // Resize image.
+                int srcWidth = m_symbol->m_pImage->getwidth();
+                int srcHeight = m_symbol->m_pImage->getheight();
+                int destWidth = static_cast<int>(srcWidth * attr.scale);
+                int destHeight = static_cast<int>(srcHeight * attr.scale);
+                ResizeImage(&m_alphaImage, m_symbol->m_pImage, destWidth, destHeight, srcWidth, srcHeight);
+                m_offset.x += (srcWidth - destWidth) >> 1;
+                m_offset.y += (srcHeight - destHeight) >> 1;
 
-				// Rotate?
-				if (dabs(attr.rotationAngle) < EPSILON)
-					pSrcImage = &m_alphaImage;
-				else
-				{
-					rotateimage(&m_betaImage, &m_alphaImage, attr.rotationAngle, TRANSPARENT_COLOR, false, HIGH_QUALITY);
-					pSrcImage = &m_betaImage;
-				}
-			}
+                // Rotate?
+                if (dabs(attr.rotationAngle) < EPSILON)
+                {
+                    pSrcImage = &m_alphaImage;
+                }
+                else
+                {
+                    rotateimage(&m_betaImage, &m_alphaImage, attr.rotationAngle, TRANSPARENT_COLOR, false,
+                                HIGH_QUALITY);
+                    pSrcImage = &m_betaImage;
+                }
+            }
 
-			if (attr.alpha == 255)
-				_PutImage(pSrcImage);
-			else
-				_PutAlphaImage(pSrcImage);
-		}
-	}
-	else
-		_PutImage(m_symbol->m_pImage);
+            if (attr.alpha == 255)
+            {
+                _PutImage(pSrcImage);
+            }
+            else
+            {
+                _PutAlphaImage(pSrcImage);
+            }
+        }
+    }
+    else
+    {
+        _PutImage(m_symbol->m_pImage);
+    }
 
-	if (symbol->m_pSubSymbol)
-		Render(symbol->m_pSubSymbol);
+    if (symbol->m_pSubSymbol)
+    {
+        Render(symbol->m_pSubSymbol);
+    }
 }
-
 
 /******************************************************************************
  * Renderer::_PutImage -- Draw the symbol to the device.                      *
@@ -137,53 +154,55 @@ void Renderer::Render(Symbol* symbol)
  *============================================================================*/
 void Renderer::_PutImage(IMAGE* pSrcImage)
 {
-	DWORD* pDestBuffer = GetImageBuffer(m_pTargetImage);
-	DWORD* pSrcBuffer = GetImageBuffer(pSrcImage);
-	int srcWidth = pSrcImage->getwidth();
-	int srcHeight = pSrcImage->getheight();
-	int destWidth = m_width;
-	int destHeight = m_height;
+    DWORD* pDestBuffer = GetImageBuffer(m_pTargetImage);
+    DWORD* pSrcBuffer = GetImageBuffer(pSrcImage);
+    int srcWidth = pSrcImage->getwidth();
+    int srcHeight = pSrcImage->getheight();
+    int destWidth = m_width;
+    int destHeight = m_height;
 
-	int destX = m_symbol->m_coord.x + m_offset.x;
-	int destY = m_symbol->m_coord.y + m_offset.y;
+    int destX = m_symbol->m_coord.x + m_offset.x;
+    int destY = m_symbol->m_coord.y + m_offset.y;
 
-	/*
-	** Return if the whole image is out of the buffer
-	*/
-	if ((destX + srcWidth < 0) || (destY + srcHeight < 0) \
-		|| (destX >= destWidth) || (destY >= destHeight))
-		return;
+    /*
+    ** Return if the whole image is out of the buffer
+    */
+    if ((destX + srcWidth < 0) || (destY + srcHeight < 0) || (destX >= destWidth) || (destY >= destHeight))
+    {
+        return;
+    }
 
-	/*
-	** Adjust image size and position.
-	*/
-	int width = dmin(destX + srcWidth, destWidth) - dmax(destX, 0);
-	int height = dmin(destY + srcHeight, destHeight) - dmax(destY, 0);
-	if (destX < 0)
-	{
-		pSrcBuffer -= destX;
-		destX = 0;
-	}
-	if (destY < 0)
-	{
-		pSrcBuffer -= destY * srcWidth;
-		destY = 0;
-	}
-	pDestBuffer += destWidth * destY + destX;
+    /*
+    ** Adjust image size and position.
+    */
+    int width = dmin(destX + srcWidth, destWidth) - dmax(destX, 0);
+    int height = dmin(destY + srcHeight, destHeight) - dmax(destY, 0);
+    if (destX < 0)
+    {
+        pSrcBuffer -= destX;
+        destX = 0;
+    }
+    if (destY < 0)
+    {
+        pSrcBuffer -= destY * srcWidth;
+        destY = 0;
+    }
+    pDestBuffer += destWidth * destY + destX;
 
-	// Put src image to the dest buffer.
-	for (int i = 0; i < height; i++)
-	{
-		for (int j = 0; j < width; j++)
-		{
-			if ((pSrcBuffer[j] & 0x00ffffff) != TRANSPARENT_COLOR)
-				pDestBuffer[j] = pSrcBuffer[j];
-		}
-		pDestBuffer += destWidth;
-		pSrcBuffer += srcWidth;
-	}
+    // Put src image to the dest buffer.
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            if ((pSrcBuffer[j] & 0x00ffffff) != TRANSPARENT_COLOR)
+            {
+                pDestBuffer[j] = pSrcBuffer[j];
+            }
+        }
+        pDestBuffer += destWidth;
+        pSrcBuffer += srcWidth;
+    }
 }
-
 
 /******************************************************************************
  * Renderer::_PutAlphaImage -- Put image with alpha info.                     *
@@ -201,51 +220,52 @@ void Renderer::_PutImage(IMAGE* pSrcImage)
  *============================================================================*/
 void Renderer::_PutAlphaImage(IMAGE* pSrcImage)
 {
-	DWORD* pDestBuffer = GetImageBuffer(m_pTargetImage);
-	DWORD* pSrcBuffer = GetImageBuffer(pSrcImage);
-	int srcWidth = pSrcImage->getwidth();
-	int srcHeight = pSrcImage->getheight();
-	int destWidth = m_width;
-	int destHeight = m_height;
+    DWORD* pDestBuffer = GetImageBuffer(m_pTargetImage);
+    DWORD* pSrcBuffer = GetImageBuffer(pSrcImage);
+    int srcWidth = pSrcImage->getwidth();
+    int srcHeight = pSrcImage->getheight();
+    int destWidth = m_width;
+    int destHeight = m_height;
 
-	int destX = m_symbol->m_coord.x + m_offset.x;
-	int destY = m_symbol->m_coord.y + m_offset.y;
+    int destX = m_symbol->m_coord.x + m_offset.x;
+    int destY = m_symbol->m_coord.y + m_offset.y;
 
-	if ((destX + srcWidth < 0) || (destY + srcHeight < 0) \
-		|| (destX >= destWidth) || (destY >= destHeight))
-		return;
+    if ((destX + srcWidth < 0) || (destY + srcHeight < 0) || (destX >= destWidth) || (destY >= destHeight))
+    {
+        return;
+    }
 
-	int width = min(destX + srcWidth, destWidth) - max(destX, 0);
-	int height = min(destY + srcHeight, destHeight) - max(destY, 0);
-	if (destX < 0)
-	{
-		pSrcBuffer -= destX;
-		destX = 0;
-	}
-	if (destY < 0)
-	{
-		pSrcBuffer -= destY * srcWidth;
-		destY = 0;
-	}
-	pDestBuffer += destWidth * destY + destX;
+    int width = min(destX + srcWidth, destWidth) - max(destX, 0);
+    int height = min(destY + srcHeight, destHeight) - max(destY, 0);
+    if (destX < 0)
+    {
+        pSrcBuffer -= destX;
+        destX = 0;
+    }
+    if (destY < 0)
+    {
+        pSrcBuffer -= destY * srcWidth;
+        destY = 0;
+    }
+    pDestBuffer += destWidth * destY + destX;
 
-	// Put src image to the dest buffer.
-	int alpha = m_symbol->m_pAttribute->alpha;
+    // Put src image to the dest buffer.
+    int alpha = m_symbol->m_pAttribute->alpha;
 
-	for (int i = 0; i < height; i++)
-	{
-		for (int j = 0; j < width; j++)
-		{
-			if ((pSrcBuffer[j] & 0x00ffffff) != TRANSPARENT_COLOR)
-				pDestBuffer[j] = ARGB(pSrcBuffer[j], pDestBuffer[j], alpha);
-		}
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            if ((pSrcBuffer[j] & 0x00ffffff) != TRANSPARENT_COLOR)
+            {
+                pDestBuffer[j] = ARGB(pSrcBuffer[j], pDestBuffer[j], alpha);
+            }
+        }
 
-		pDestBuffer += destWidth;
-		pSrcBuffer += srcWidth;
-	}
+        pDestBuffer += destWidth;
+        pSrcBuffer += srcWidth;
+    }
 }
-
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -254,7 +274,6 @@ void Renderer::_PutAlphaImage(IMAGE* pSrcImage)
 */
 
 DeviceInfo deviceInfo;
-
 
 /******************************************************************************
  * Device::Create -- Initialize the canvas.                                   *
@@ -273,86 +292,88 @@ DeviceInfo deviceInfo;
  *============================================================================*/
 void Device::Create(bool fullscreen)
 {
-	if (m_isOpen)
-		return;
-	m_isOpen = true;
+    if (m_isOpen)
+    {
+        return;
+    }
+    m_isOpen = true;
 
-	// Initialize the window and graph.
-	int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-	int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+    // Initialize the window and graph.
+    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-	if (fullscreen)
-	{
-		m_width = screenWidth;
-		m_height = screenHeight;
-	}
-	else
-	{
-		m_width = DEVICE_WIDTH;
-		m_height = DEVICE_HEIGHT;
-	}
+    if (fullscreen)
+    {
+        m_width = screenWidth;
+        m_height = screenHeight;
+    }
+    else
+    {
+        m_width = DEVICE_WIDTH;
+        m_height = DEVICE_HEIGHT;
+    }
 
-	HWND hWnd;
+    HWND hWnd;
 
-	if (fullscreen)
-	{
-		hWnd = initgraph(m_width, m_height);
-		SetWindowLong(hWnd, GWL_STYLE, GetWindowLong(hWnd, GWL_STYLE) & (~WS_CAPTION));
-	}
-	else
-	{
+    if (fullscreen)
+    {
+        hWnd = initgraph(m_width, m_height);
+        SetWindowLong(hWnd, GWL_STYLE, GetWindowLong(hWnd, GWL_STYLE) & (~WS_CAPTION));
+    }
+    else
+    {
 #ifdef DGE_SHOW_CONSOLE
-#	ifdef DGE_NO_CLOSE
-		hWnd = initgraph(m_width, m_height, EX_SHOWCONSOLE | EX_NOCLOSE);
-#	else
-		hWnd = initgraph(m_width, m_height, EX_SHOWCONSOLE);
-#	endif
+#ifdef DGE_NO_CLOSE
+        hWnd = initgraph(m_width, m_height, EX_SHOWCONSOLE | EX_NOCLOSE);
 #else
-#	ifdef DGE_NO_CLOSE
-		hWnd = initgraph(m_width, m_height, EX_NOCLOSE);
-#	else
-		hWnd = initgraph(m_width, m_height);
-#	endif
+        hWnd = initgraph(m_width, m_height, EX_SHOWCONSOLE);
 #endif
-	}
+#else
+#ifdef DGE_NO_CLOSE
+        hWnd = initgraph(m_width, m_height, EX_NOCLOSE);
+#else
+        hWnd = initgraph(m_width, m_height);
+#endif
+#endif
+    }
 
-	SetWindowPos(hWnd, HWND_TOP, (screenWidth - m_width) >> 1, (screenHeight - m_height) >> 1, m_width, m_height, SWP_SHOWWINDOW);
-	Resize(NULL, m_width, m_height);
+    SetWindowPos(hWnd, HWND_TOP, (screenWidth - m_width) >> 1, (screenHeight - m_height) >> 1, m_width, m_height,
+                 SWP_SHOWWINDOW);
+    Resize(nullptr, m_width, m_height);
 
-	// Initialize device info
-	if (fullscreen)
-	{
-		deviceInfo.clientWidth = screenWidth;
-		deviceInfo.clientHeight = screenHeight;
-		float xAsp = (float)screenWidth / (float)DEVICE_WIDTH;
-		float yAsp = (float)screenHeight / (float)DEVICE_HEIGHT;
-		if (xAsp < yAsp)
-		{
-			deviceInfo.padding.x = 0;
-			deviceInfo.padding.y = (screenHeight - (int)(DEVICE_HEIGHT * xAsp)) >> 1;
-			deviceInfo.aspectRatio = xAsp;
-		}
-		else
-		{
-			deviceInfo.padding.x = (screenWidth - (int)(DEVICE_WIDTH * yAsp)) >> 1;
-			deviceInfo.padding.y = 0;
-			deviceInfo.aspectRatio = yAsp;
-		}
-	}
-	else
-	{
-		deviceInfo.clientWidth = DEVICE_WIDTH;
-		deviceInfo.clientHeight = DEVICE_HEIGHT;
-		deviceInfo.padding = COORD_ZERO;
-		deviceInfo.aspectRatio = 1.0;
-	}
+    // Initialize device info
+    if (fullscreen)
+    {
+        deviceInfo.clientWidth = screenWidth;
+        deviceInfo.clientHeight = screenHeight;
+        float xAsp = static_cast<float>(screenWidth) / static_cast<float>(DEVICE_WIDTH);
+        float yAsp = static_cast<float>(screenHeight) / static_cast<float>(DEVICE_HEIGHT);
+        if (xAsp < yAsp)
+        {
+            deviceInfo.padding.x = 0;
+            deviceInfo.padding.y = (screenHeight - static_cast<int>(DEVICE_HEIGHT * xAsp)) >> 1;
+            deviceInfo.aspectRatio = xAsp;
+        }
+        else
+        {
+            deviceInfo.padding.x = (screenWidth - static_cast<int>(DEVICE_WIDTH * yAsp)) >> 1;
+            deviceInfo.padding.y = 0;
+            deviceInfo.aspectRatio = yAsp;
+        }
+    }
+    else
+    {
+        deviceInfo.clientWidth = DEVICE_WIDTH;
+        deviceInfo.clientHeight = DEVICE_HEIGHT;
+        deviceInfo.padding = COORD_ZERO;
+        deviceInfo.aspectRatio = 1.0;
+    }
 
-	// Initialize renderer.
-	m_renderer.SetSize(m_width, m_height);
+    // Initialize renderer.
+    m_renderer.SetSize(m_width, m_height);
 
-	BeginBatchDraw();
+    BeginBatchDraw();
 }
-
 
 /******************************************************************************
  * Device::Destroy -- Close the drawing graph.                                *
@@ -370,9 +391,8 @@ void Device::Create(bool fullscreen)
  *============================================================================*/
 void Device::Destroy()
 {
-	_Destroy();
+    _Destroy();
 }
-
 
 /******************************************************************************
  * Device::AddSymbol -- Add a symbol to the symbol queue.                     *
@@ -390,9 +410,8 @@ void Device::Destroy()
  *============================================================================*/
 void Device::AddSymbol(Symbol* symbol)
 {
-	m_queue.push(symbol);
+    m_queue.push(symbol);
 }
-
 
 /******************************************************************************
  * Device::RenderSymbol -- Render symbol immediately.                         *
@@ -411,10 +430,9 @@ void Device::AddSymbol(Symbol* symbol)
  *============================================================================*/
 Device* Device::RenderSymbol(Symbol* symbol)
 {
-	m_renderer.Render(symbol);
-	return this;
+    m_renderer.Render(symbol);
+    return this;
 }
-
 
 /******************************************************************************
  * Device::Clear -- Clear the device.                                         *
@@ -432,9 +450,8 @@ Device* Device::RenderSymbol(Symbol* symbol)
  *============================================================================*/
 void Device::Clear()
 {
-	cleardevice();
+    cleardevice();
 }
-
 
 /******************************************************************************
  * Device::Flush -- Clear the symbol queue.                                   *
@@ -452,9 +469,8 @@ void Device::Clear()
  *============================================================================*/
 void Device::Flush()
 {
-	FlushBatchDraw();
+    FlushBatchDraw();
 }
-
 
 /******************************************************************************
  * Device::Render -- Render all symbols.                                      *
@@ -472,51 +488,48 @@ void Device::Flush()
  *============================================================================*/
 void Device::Render()
 {
-	cleardevice();
+    cleardevice();
 
-	while (!m_queue.empty())
-	{
-		m_renderer.Render(m_queue.top());
-		m_queue.pop();
-	}
+    while (!m_queue.empty())
+    {
+        m_renderer.Render(m_queue.top());
+        m_queue.pop();
+    }
 
-	FlushBatchDraw();
+    FlushBatchDraw();
 }
 
 void Device::Render(IMAGE* pDestImage)
 {
-	SetTargetImage(pDestImage);
-	cleardevice();
+    SetTargetImage(pDestImage);
+    cleardevice();
 
-	while (!m_queue.empty())
-	{
-		m_renderer.Render(m_queue.top());
-		m_queue.pop();
-	}
+    while (!m_queue.empty())
+    {
+        m_renderer.Render(m_queue.top());
+        m_queue.pop();
+    }
 
-	SetTargetImage();
+    SetTargetImage();
 }
-
 
 void Device::RenderWithoutFlush()
 {
-	cleardevice();
+    cleardevice();
 
-	while (!m_queue.empty())
-	{
-		m_renderer.Render(m_queue.top());
-		m_queue.pop();
-	}
+    while (!m_queue.empty())
+    {
+        m_renderer.Render(m_queue.top());
+        m_queue.pop();
+    }
 
 #ifndef _NEW_DESIRE_STUDIOS_
-	static RECT rect = {
-		deviceInfo.clientWidth - 200,
-		deviceInfo.clientHeight - 30,
-		deviceInfo.clientWidth,
-		deviceInfo.clientHeight };
-	drawtext(L"MADE WITH DUNGINE", &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
+    static RECT rect = { deviceInfo.clientWidth - 200, deviceInfo.clientHeight - 30, deviceInfo.clientWidth,
+                         deviceInfo.clientHeight };
+    drawtext(L"MADE WITH DUNGINE", &rect, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_NOCLIP);
 #endif
 }
+
 /******************************************************************************
  * Device::Abandon -- Abandon current rendering queue.                        *
  *                                                                            *
@@ -533,11 +546,10 @@ void Device::RenderWithoutFlush()
  *============================================================================*/
 void Device::Abandon()
 {
-	std::priority_queue<Symbol*, std::vector<Symbol*>, CompareSymbol> empty;
+    std::priority_queue<Symbol*, std::vector<Symbol*>, CompareSymbol> empty;
 
-	std::swap(empty, m_queue);
+    std::swap(empty, m_queue);
 }
-
 
 /******************************************************************************
  * Device::PrintScreen -- Take a screen shot.                                 *
@@ -555,33 +567,33 @@ void Device::Abandon()
  *============================================================================*/
 void Device::PrintScreen()
 {
-	SYSTEMTIME sysTime;
-	wchar_t str[32];
-	std::wstring filename;
+    SYSTEMTIME sysTime;
+    wchar_t str[32];
+    std::wstring filename;
 
-	GetLocalTime(&sysTime);
+    GetLocalTime(&sysTime);
 
-	//YYYYMMDDHHMMSS
-	swprintf_s(str, L"%4hu%02hu%02hu%02hu%02hu%02hu.png", \
-		sysTime.wYear, sysTime.wMonth, sysTime.wDay, \
-		sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
-	filename = L"screenshots\\";
-	if (!IsValidDirectory(filename.c_str()))
-	{
-		if (!CreateNewDirectory(filename.c_str()))
-			return;
-	}
+    // YYYYMMDDHHMMSS
+    swprintf_s(str, L"%4hu%02hu%02hu%02hu%02hu%02hu.png", sysTime.wYear, sysTime.wMonth, sysTime.wDay, sysTime.wHour,
+               sysTime.wMinute, sysTime.wSecond);
+    filename = L"screenshots\\";
+    if (!IsValidDirectory(filename.c_str()))
+    {
+        if (!CreateNewDirectory(filename.c_str()))
+        {
+            return;
+        }
+    }
 
-	filename += str;
+    filename += str;
 
-	// Here, the device should be the screen.
-	saveimage(filename.c_str(), NULL);
+    // Here, the device should be the screen.
+    saveimage(filename.c_str(), nullptr);
 
 #ifdef DUNGINE_DEBUG
-	LOG_MESSAGE("Screenshot captured");
+    LOG_MESSAGE("Screenshot captured");
 #endif
 }
-
 
 /******************************************************************************
  * Device::GetImage -- Get the current working image.                         *
@@ -599,9 +611,8 @@ void Device::PrintScreen()
  *============================================================================*/
 IMAGE* Device::GetImage()
 {
-	return GetWorkingImage();
+    return GetWorkingImage();
 }
-
 
 /******************************************************************************
  * Device::SetTargetImage -- Set working image.                               *
@@ -619,10 +630,9 @@ IMAGE* Device::GetImage()
  *============================================================================*/
 void Device::SetTargetImage(IMAGE* pDestImage)
 {
-	SetWorkingImage(pDestImage);
-	m_renderer.SetTargetImage(pDestImage);
+    SetWorkingImage(pDestImage);
+    m_renderer.SetTargetImage(pDestImage);
 }
-
 
 /******************************************************************************
  * Device::~Device -- Destructor of the class.                                *
@@ -640,9 +650,8 @@ void Device::SetTargetImage(IMAGE* pDestImage)
  *============================================================================*/
 Device::~Device()
 {
-	_Destroy();
+    _Destroy();
 }
-
 
 /******************************************************************************
  * Device::_Destroy -- Destroy the canvas.                                    *
@@ -660,11 +669,11 @@ Device::~Device()
  *============================================================================*/
 void Device::_Destroy()
 {
-	if (m_isOpen)
-	{
-		EndBatchDraw();
-		closegraph();
+    if (m_isOpen)
+    {
+        EndBatchDraw();
+        closegraph();
 
-		m_isOpen = false;
-	}
+        m_isOpen = false;
+    }
 }

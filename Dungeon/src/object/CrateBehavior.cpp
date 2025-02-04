@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Crate behavior.                                                          *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -21,11 +21,10 @@
  *   EasyX 20220901                                                           *
  ******************************************************************************/
 
-#include "../../inc/object/Crate.h"
 #include "../../inc/object/CrateBehavior.h"
-#include "../../inc/object/Hero.h"
 #include "../../inc/game/Dungeon.h"
-
+#include "../../inc/object/Crate.h"
+#include "../../inc/object/Hero.h"
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -34,9 +33,8 @@
 */
 void CrateBehavior::Clone(CrateBehavior* clone) const
 {
-	Behavior::Clone(clone);
+    Behavior::Clone(clone);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -45,31 +43,29 @@ void CrateBehavior::Clone(CrateBehavior* clone) const
 */
 CrateInit* CrateInit::Clone() const
 {
-	CrateInit* clone = new CrateInit();
-	clone->_MakePrototype(false);
+    CrateInit* clone = new CrateInit();
+    clone->_MakePrototype(false);
 
-	CrateBehavior::Clone(clone);
+    CrateBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void CrateInit::Update(Event* evnt)
 {
-	if (m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim()->IsOver())
-	{
-		m_parent->ChangeBehavior("Idle");
-	}
+    if (m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->IsOver())
+    {
+        m_parent->ChangeBehavior("Idle");
+    }
 }
 
 void CrateInit::OnEnter()
 {
-	Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
+    Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
 
-	anim->SetMotion(CRATE_ANIM_INIT);
-	anim->SetDir(ANIM_LEFT);
+    anim->SetMotion(CRATE_ANIM_INIT);
+    anim->SetDir(ANIM_LEFT);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -78,43 +74,42 @@ void CrateInit::OnEnter()
 */
 CrateIdle* CrateIdle::Clone() const
 {
-	CrateIdle* clone = new CrateIdle();
-	clone->_MakePrototype(false);
+    CrateIdle* clone = new CrateIdle();
+    clone->_MakePrototype(false);
 
-	CrateBehavior::Clone(clone);
+    CrateBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void CrateIdle::Update(Event* evnt)
 {
-	Crate* crate = static_cast<Crate*>(m_parent->GetGameObject());
-	Dungeon* dungeon = static_cast<Dungeon*>(crate->GetScene());
-	Hero* hero = dungeon->GetHero();
-	double dist = Distance(hero->GetCoord(), crate->GetCoord());
+    Crate* crate = static_cast<Crate*>(m_parent->GetGameObject());
+    Dungeon* dungeon = static_cast<Dungeon*>(crate->GetScene());
+    Hero* hero = dungeon->GetHero();
+    double dist = Distance(hero->GetCoord(), crate->GetCoord());
 
-	if (dist < crate->GetRadius())
-	{
-		m_parent->GetGameObject()->GetComponent<AnimComponent>()
-			->GetAnim()->SetDir(ANIM_RIGHT);
-		if (evnt->Sluggish(CMD_ACTIVATE))
-			m_parent->ChangeBehavior("Opening");
-	}
-	else
-	{
-		m_parent->GetGameObject()->GetComponent<AnimComponent>()
-			->GetAnim()->SetDir(ANIM_LEFT);
-	}
+    if (dist < crate->GetRadius())
+    {
+        m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->SetDir(ANIM_RIGHT);
+        if (evnt->Sluggish(CMD_ACTIVATE))
+        {
+            m_parent->ChangeBehavior("Opening");
+        }
+    }
+    else
+    {
+        m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->SetDir(ANIM_LEFT);
+    }
 }
 
 void CrateIdle::OnEnter()
 {
-	Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
+    Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
 
-	anim->SetMotion(CRATE_ANIM_IDLE);
-	anim->SetDir(ANIM_LEFT);
+    anim->SetMotion(CRATE_ANIM_IDLE);
+    anim->SetDir(ANIM_LEFT);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -123,31 +118,29 @@ void CrateIdle::OnEnter()
 */
 CrateOpening* CrateOpening::Clone() const
 {
-	CrateOpening* clone = new CrateOpening();
-	clone->_MakePrototype(false);
+    CrateOpening* clone = new CrateOpening();
+    clone->_MakePrototype(false);
 
-	CrateBehavior::Clone(clone);
+    CrateBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void CrateOpening::Update(Event* evnt)
 {
-	if (m_parent->GetGameObject()->GetComponent<AnimComponent>()
-		->GetAnim()->IsOver())
-	{
-		m_parent->ChangeBehavior("Open");
-	}
+    if (m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim()->IsOver())
+    {
+        m_parent->ChangeBehavior("Open");
+    }
 }
 
 void CrateOpening::OnEnter()
 {
-	Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
+    Animation* anim = m_parent->GetGameObject()->GetComponent<AnimComponent>()->GetAnim();
 
-	anim->SetMotion(CRATE_ANIM_OPENING);
-	anim->SetDir(ANIM_LEFT);
+    anim->SetMotion(CRATE_ANIM_OPENING);
+    anim->SetDir(ANIM_LEFT);
 }
-
 
 /*
 **+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -156,21 +149,21 @@ void CrateOpening::OnEnter()
 */
 CrateOpen* CrateOpen::Clone() const
 {
-	CrateOpen* clone = new CrateOpen();
-	clone->_MakePrototype(false);
+    CrateOpen* clone = new CrateOpen();
+    clone->_MakePrototype(false);
 
-	CrateBehavior::Clone(clone);
+    CrateBehavior::Clone(clone);
 
-	return clone;
+    return clone;
 }
 
 void CrateOpen::OnEnter()
 {
-	Crate* crate = static_cast<Crate*>(m_parent->GetGameObject());
-	Animation* anim = crate->GetComponent<AnimComponent>()->GetAnim();
+    Crate* crate = static_cast<Crate*>(m_parent->GetGameObject());
+    Animation* anim = crate->GetComponent<AnimComponent>()->GetAnim();
 
-	crate->Open();
+    crate->Open();
 
-	anim->SetMotion(CRATE_ANIM_OPEN);
-	anim->SetDir(ANIM_LEFT);
+    anim->SetMotion(CRATE_ANIM_OPEN);
+    anim->SetDir(ANIM_LEFT);
 }

@@ -12,7 +12,7 @@
  *                    Last Update : November 22, 2022                         *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   For all game interfaces.                                                 *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -24,9 +24,7 @@
 #ifndef _INTERFACE_H_
 #define _INTERFACE_H_
 
-
 #include <dungine.h>
-
 
 /********************************************************************
 ** All interfaces are:
@@ -44,16 +42,8 @@
 **   About                        -- Plain
 **   Help                         -- Plain
 */
-const char* const UI_XML[] = {
-	"Logo.xml",
-	"Main.xml",
-	"Setting.xml",
-	"Help.xml",
-	"Version.xml",
-	"About.xml",
-	"Credits.xml",
-	"Game.xml",
-	"Victory.xml" };
+const char* const UI_XML[] = { "Logo.xml",  "Main.xml",    "Setting.xml", "Help.xml",   "Version.xml",
+                               "About.xml", "Credits.xml", "Game.xml",    "Victory.xml" };
 
 /********************************************************************
 ** Plain interface has nothing special. It is also the base interface
@@ -62,57 +52,83 @@ const char* const UI_XML[] = {
 class PlainInterface : public AbstractInterface
 {
 public:
-	PlainInterface() : m_inTime(0L), m_outTime(0L) {}
-	virtual ~PlainInterface() {}
+    PlainInterface() : m_inTime(0L), m_outTime(0L)
+    {
+    }
 
-	/*
-	** These remain no change.
-	** virtual void Launch();
-	** virtual void Attach();
-	** virtual void Terminate();
-	** virtual void Detatch();
-	*/
+    ~PlainInterface() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    /*
+     ** These remain no change.
+     ** virtual void Launch();
+     ** virtual void Attach();
+     ** virtual void Terminate();
+     ** virtual void Detatch();
+     */
 
-	virtual void Update(Event* evnt);
+    bool Load(XMLElement* node) override;
 
-	virtual void OnEnter();
-	virtual void OnExit();
+    void Update(Event* evnt) override;
 
-	/*
-	** These remain no change.
-	** virtual void Draw();
-	** virtual void Draw(IMAGE* pDestImage);
-	*/
+    void OnEnter() override;
+    void OnExit() override;
 
-	/*
-	** This will hook all event handler to the widgets.
-	*/
-	virtual void AddEvents() {}
-	
-	/*
-	** 2022/11/22 TS:
-	** Added control over in and out time.
-	*/
-	void SetInTime(clock_t inTime) { m_inTime = inTime; }
-	void SetOutTime(clock_t outTime) { m_outTime = outTime; }
-	clock_t GetInTime() { return m_inTime; }
-	clock_t GetOutTime() { return m_outTime; }
+    /*
+    ** These remain no change.
+    ** virtual void Draw();
+    ** virtual void Draw(IMAGE* pDestImage);
+    */
+
+    /*
+    ** This will hook all event handler to the widgets.
+    */
+    virtual void AddEvents()
+    {
+    }
+
+    /*
+    ** 2022/11/22 TS:
+    ** Added control over in and out time.
+    */
+    void SetInTime(clock_t inTime)
+    {
+        m_inTime = inTime;
+    }
+
+    void SetOutTime(clock_t outTime)
+    {
+        m_outTime = outTime;
+    }
+
+    clock_t GetInTime()
+    {
+        return m_inTime;
+    }
+
+    clock_t GetOutTime()
+    {
+        return m_outTime;
+    }
 
 protected:
-	virtual void _ProcessInput(Event& evnt);
+    virtual void _ProcessInput(Event& evnt);
 
-	virtual void _TransitIn();
-	virtual void _TransitOut();
+    void _TransitIn() override;
+    void _TransitOut() override;
 
-	virtual void _Initialize() {}
-	virtual void _Destroy() {}
+    void _Initialize() override
+    {
+    }
 
-	clock_t m_inTime;
-	clock_t m_outTime;
+    void _Destroy() override
+    {
+    }
+
+    clock_t m_inTime;
+    clock_t m_outTime;
 };
-
 
 /********************************************************************
 ** Time interface will terminate after certain time.
@@ -120,23 +136,27 @@ protected:
 class TimeInterface : public PlainInterface
 {
 public:
-	TimeInterface() : m_duration(0L), m_elapsedTime(0L) {}
-	virtual ~TimeInterface() {}
+    TimeInterface() : m_duration(0L), m_elapsedTime(0L)
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    ~TimeInterface() override
+    {
+    }
 
-	// Self-terminate in update when time's up.
-	virtual void Update(Event* evnt);
+    bool Load(XMLElement* node) override;
+
+    // Self-terminate in update when time's up.
+    void Update(Event* evnt) override;
 
 protected:
-	virtual void _Initialize();
+    void _Initialize() override;
 
-	virtual void _SelfTerminate();
+    virtual void _SelfTerminate();
 
-	clock_t m_duration;
-	clock_t m_elapsedTime;
+    clock_t m_duration;
+    clock_t m_elapsedTime;
 };
-
 
 extern AbstractInterface* LoadInterface(XMLElement* node);
 

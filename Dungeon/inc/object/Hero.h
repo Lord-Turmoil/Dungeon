@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Hero of the game.                                                        *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -29,19 +29,23 @@
 class Hero : public Figure
 {
 public:
-	Hero(Scene* pScene) : Figure(ObjectType::OBJ_HERO, pScene) {}
-	virtual ~Hero() {}
+    Hero(Scene* pScene) : Figure(OBJ_HERO, pScene)
+    {
+    }
 
-	virtual Hero* Clone() const = 0;
-	virtual void Clone(Hero* clone) const;
+    ~Hero() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    Hero* Clone() const override = 0;
+    virtual void Clone(Hero* clone) const;
+
+    bool Load(XMLElement* node) override;
 
 protected:
-	virtual void _InitBehavior(XMLElement* node = nullptr);
-	virtual void _InitState() = 0;
+    void _InitBehavior(XMLElement* node = nullptr) override;
+    void _InitState() override = 0;
 };
-
 
 /********************************************************************
 ** Specific heroes just differ in skill states and some components'
@@ -56,21 +60,27 @@ protected:
 class HYony final : public Hero
 {
 public:
-	HYony(Scene* pScene) : Hero(pScene) {}
-	virtual ~HYony() {}
+    HYony(Scene* pScene) : Hero(pScene)
+    {
+    }
 
-	virtual HYony* Clone() const;
-	virtual void Clone(HYony* clone) const {}
+    ~HYony() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    HYony* Clone() const override;
+
+    virtual void Clone(HYony* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
 
 protected:
-	virtual void _InitState();
+    void _InitState() override;
 
 private:
-
 };
-
 
 /********************************************************************
 ** Specter is an original character of this game. Just like its name,
@@ -79,18 +89,25 @@ private:
 class HSpecter final : public Hero
 {
 public:
-	HSpecter(Scene* pScene) : Hero(pScene) {}
-	virtual ~HSpecter() {}
+    HSpecter(Scene* pScene) : Hero(pScene)
+    {
+    }
 
-	virtual HSpecter* Clone() const;
-	virtual void Clone(HSpecter* clone) const {}
+    ~HSpecter() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    HSpecter* Clone() const override;
+
+    virtual void Clone(HSpecter* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
 
 protected:
-	virtual void _InitState();
+    void _InitState() override;
 };
-
 
 /********************************************************************
 ** Hmm... Idea comes from Command & Conquer 3. Blackhand, the elite
@@ -99,19 +116,26 @@ protected:
 class HBlackHand final : public Hero
 {
 public:
-	HBlackHand(Scene* pScene) : Hero(pScene) {}
-	virtual ~HBlackHand() {}
+    HBlackHand(Scene* pScene) : Hero(pScene)
+    {
+    }
 
-	virtual HBlackHand* Clone() const;
-	virtual void Clone(HBlackHand* clone) const {}
+    ~HBlackHand() override
+    {
+    }
 
-	virtual bool Load(XMLElement* node);
+    HBlackHand* Clone() const override;
+
+    virtual void Clone(HBlackHand* clone) const
+    {
+    }
+
+    bool Load(XMLElement* node) override;
 
 protected:
-	virtual void _InitState();
+    void _InitState() override;
 
 private:
-
 };
 
 #endif

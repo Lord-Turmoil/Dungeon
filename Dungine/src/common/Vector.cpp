@@ -12,7 +12,7 @@
  *                    Last Update :                                           *
  *                                                                            *
  * -------------------------------------------------------------------------- *
- * Over View:                                                                 *
+ * Overview:                                                                 *
  *   Vector's member functions.                                               *
  * -------------------------------------------------------------------------- *
  * Build Environment:                                                         *
@@ -26,15 +26,15 @@
 
 double Vector::Module() const
 {
-	return ::Module(*this);
+    return ::Module(*this);
 }
 
 Vector Vector::Unit() const
 {
-	return ::Unit(*this);
+    return ::Unit(*this);
 }
 
 void Vector::Rotate(double radian)
 {
-	*this = ::Rotate(*this, radian);
+    *this = ::Rotate(*this, radian);
 }
